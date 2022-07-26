@@ -9,7 +9,8 @@
 #' set_attrs(mtcars, name = "Motor Trend Cars", year = "1974")
 #' set_col_attrs(mtcars, mpg, name = "MPG", description = "Miles Per Gallon")
 set_attrs <- function(.x, ...) {
-  attrs <- rlang::dots_list(...)
+  ## attrs <- rlang::dots_list(...)
+  attrs <- rlang::list2(...)
   attributes(.x) <- c(attributes(.x), attrs)
   .x
 }
@@ -18,9 +19,7 @@ set_attrs <- function(.x, ...) {
 #'
 #' @rdname set_attrs
 set_col_attrs <- function(.x, var, ...) {
-  .x[[rlang::enexpr(var)]] <-
-    set_attrs(dplyr::pull(.x, {{ var }}), ...)
-  .x
+  dplyr::mutate(.x, "{{var}}" := set_attrs(dplyr::pull(.x, {{ var }}), ...))
 }
 
 class_type_cw <- c(
