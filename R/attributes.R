@@ -57,7 +57,7 @@ add_type_attrs <- function(.x) {
 
   out <- out |>
     dplyr::mutate(dplyr::across(
-      tidyselect:::where(is.factor),
+      where(is.factor),
       ~ add_attrs(., constraints = list(enum = attr(., "levels")))
     ))
 

@@ -8,6 +8,8 @@ write_metadata(.x, file = "tabular-data-resource.yaml")
 }
 \arguments{
 \item{.x}{a data.frame or tibble}
+
+\item{file}{name of yaml file to write metadata to}
 }
 \value{
 .x (invisibly)

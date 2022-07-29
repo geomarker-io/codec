@@ -19,6 +19,7 @@ make_metadata_from_attr <- function(.x) {
 #' extract (table- and column-specific) metadata from a data frame and save it to a file
 #'
 #' @param .x a data.frame or tibble
+#' @param file name of yaml file to write metadata to
 #' @return .x (invisibly)
 #' @examples
 #' \dontrun{
