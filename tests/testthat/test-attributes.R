@@ -4,11 +4,17 @@ test_that("set_attrs() works", {
   expect_equal(attr(my_mtcars, "year"), "1974")
 })
 
-test_that("set_col_attrs() works", {
+test_that("set_col_attrs() works with one col", {
   my_mtcars <- set_col_attrs(mtcars, mpg, name = "MPG", description = "Miles Per Gallon")
   expect_equal(attr(my_mtcars$mpg, "name"), "MPG")
   expect_equal(attr(my_mtcars$mpg, "description"), "Miles Per Gallon")
 })
+
+# test_that("set_col_attrs() works with multiple cols at once", {
+#   my_mtcars <- set_col_attrs(mtcars, c(mpg, cyl), description = "car stuff", foo = "bar")
+#   expect_equal(attr(my_mtcars$mpg, "description"), "car stuff")
+#   expect_equal(attr(my_mtcars$cyl, "description"), "car stuff")
+# })
 
 test_that("add_type_attrs() works", {
   classy <- tibble::tibble(
@@ -34,8 +40,12 @@ test_that("add_type_attrs() works", {
     )
   )
 
+  # doesn't add enum constraints for non-factor column
+  expect_equal(attr(classy_attrs$id, "constraints"), NULL)
+
+  # does add enum constraints for factor column
   expect_equal(
-    attributes(classy_attrs$rating)$constraints,
+    attr(classy_attrs$rating, "constraints"),
     list(enum = c("good", "better", "best"))
   )
 })

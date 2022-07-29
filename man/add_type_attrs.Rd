@@ -2,10 +2,23 @@
 % Please edit documentation in R/attributes.R
 \name{add_type_attrs}
 \alias{add_type_attrs}
-\title{automatically add "type" attributes for all columns in a data.frame based on their class}
+\title{add type attributes
+Given a data.frame (or tibble), this function returns data.frame after adding on Frictionless
+"type" attributes based on the class of each column; levels of factor columns are also captured
+in the "enum" item of the "constraints" attribute list}
 \usage{
-add_type_attrs(.x)
+add_type_attrs(.data)
+}
+\arguments{
+\item{.data}{a data.frame or tibble}
+}
+\value{
+an object of the same type as .data, with updated frictionless attributes for factor columns
+input data frame attributes are preserved
 }
 \description{
-automatically add "type" attributes for all columns in a data.frame based on their class
+add type attributes
+Given a data.frame (or tibble), this function returns data.frame after adding on Frictionless
+"type" attributes based on the class of each column; levels of factor columns are also captured
+in the "enum" item of the "constraints" attribute list
 }

@@ -1,0 +1,29 @@
+profile: tabular-data-resource
+name: Motor Trend Cars
+year: '1974'
+schema:
+  fields:
+    mpg:
+      name: MPG
+      description: Miles Per Gallon
+      type: number
+    cyl:
+      type: number
+    disp:
+      type: number
+    hp:
+      type: number
+    drat:
+      type: number
+    wt:
+      type: number
+    qsec:
+      type: number
+    vs:
+      type: number
+    am:
+      type: number
+    gear:
+      type: number
+    carb:
+      type: number

@@ -11,7 +11,7 @@
 set_attrs <- function(.x, ...) {
   ## attrs <- rlang::dots_list(...)
   attrs <- rlang::list2(...)
-  attributes(.x) <- c(attributes(.x), attrs)
+  attributes(.x) <- c(attrs, attributes(.x))
   .x
 }
 
@@ -20,8 +20,11 @@ set_attrs <- function(.x, ...) {
 #' @rdname set_attrs
 set_col_attrs <- function(.x, var, ...) {
   dplyr::mutate(.x, "{{var}}" := set_attrs(dplyr::pull(.x, {{ var }}), ...))
+  # dplyr::mutate(.x, {{ var }}, ~ set_attrs(., ...))
+  # TODO add ability to use tidyselect::across() to set attributes on more than one column at once
 }
 
+# TODO link this somehow or explain the mappings somewhere?
 class_type_cw <- c(
   "character" = "string",
   "Date" = "date",
@@ -35,28 +38,28 @@ class_type_cw <- c(
   # TODO support for spatial columns?
 )
 
-#' automatically add "type" attributes for all columns in a data.frame based on their class
-add_type_attrs <- function(.x) {
-  col_classes <- purrr::map_chr(.x, ~ paste(class(.), collapse = ","))
+#' add type attributes
+#' Given a data.frame (or tibble), this function returns data.frame after adding on Frictionless
+#' "type" attributes based on the class of each column; levels of factor columns are also captured
+#' in the "enum" item of the "constraints" attribute list
+#' @param .data a data.frame or tibble
+#' @return an object of the same type as .data, with updated frictionless attributes for factor columns
+#' input data frame attributes are preserved
+add_type_attrs <- function(.data) {
+
+  col_classes <- purrr::map_chr(.data, ~ paste(class(.), collapse = ","))
   col_frictionless_classes <- class_type_cw[col_classes]
 
-  out <-
-    purrr::map2_dfc(
-      .x, col_frictionless_classes,
-      ~ set_attrs(..1, type = ..2)
-    )
+  out <- purrr::map2_dfc(.data, col_frictionless_classes, ~ set_attrs(..1, type = ..2))
 
-  out_levels <- lapply(out, levels)
-  # also lives in attr(out, "levels")
-
-  out <-
-    purrr::map2_dfc(
-      out, out_levels,
-      ~ set_attrs(..1, constraints = list(enum = ..2))
-    )
+  out <- out |>
+    dplyr::mutate(dplyr::across(
+      tidyselect:::where(is.factor),
+      ~ set_attrs(., constraints = list(enum = attr(., "levels")))
+    ))
 
   ## TODO what to do with columns that are not supported here? (sfc, others?)
 
-  attributes(out) <- attributes(.x)
+  attributes(out) <- attributes(.data)
   return(out)
 }
