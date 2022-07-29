@@ -1,10 +1,10 @@
 Package: CODECtools
-Title: What the Package Does (One Line, Title Case)
+Title: Support CODEC data infrastructure
 Version: 0.1
 Authors@R: 
     person("Cole", "Brokamp", , "cole.brokamp@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0289-3151"))
-Description: What the package does (one paragraph).
+Description: CODECtools provides tools for working with metadata in R and storing it alongside data in a YAML file. This package serves as the definition of the CODEC data specifications and provides helpers to contribute and validate CODEC data.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -14,3 +14,9 @@ Suggests:
 Config/testthat/edition: 3
 URL: https://github.com/geomarker-io/CODECtools
 BugReports: https://github.com/geomarker-io/CODECtools/issues
+Imports: 
+    dplyr,
+    purrr,
+    rlang,
+    tidyselect,
+    yaml

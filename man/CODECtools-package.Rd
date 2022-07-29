@@ -4,9 +4,9 @@
 \name{CODECtools-package}
 \alias{CODECtools}
 \alias{CODECtools-package}
-\title{CODECtools: What the Package Does (One Line, Title Case)}
+\title{CODECtools: Support CODEC data infrastructure}
 \description{
-What the package does (one paragraph).
+CODECtools provides tools for working with metadata in R and storing it alongside data in a YAML file. This package serves as the definition of the CODEC data specifications and provides helpers to contribute and validate CODEC data.
 }
 \seealso{
 Useful links:

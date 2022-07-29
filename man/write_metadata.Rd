@@ -2,10 +2,25 @@
 % Please edit documentation in R/metadata.R
 \name{write_metadata}
 \alias{write_metadata}
-\title{save (table- and column-specific) metadata to a file}
+\title{extract (table- and column-specific) metadata from a data frame and save it to a file}
 \usage{
 write_metadata(.x, file = "tabular-data-resource.yaml")
 }
+\arguments{
+\item{.x}{a data.frame or tibble}
+}
+\value{
+.x (invisibly)
+}
 \description{
-save (table- and column-specific) metadata to a file
+extract (table- and column-specific) metadata from a data frame and save it to a file
+}
+\examples{
+\dontrun{
+mtcars |>
+ add_attrs(name = "Motor Trend Cars", year = "1974") |>
+ add_type_attrs() |>
+ add_col_attrs(mpg, name = "MPG", description = "Miles Per Gallon") |>
+ write_metadata(my_mtcars, "my_mtcars_tabular-data-resource.yaml")
+}
 }

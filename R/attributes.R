@@ -1,27 +1,28 @@
-#' set attributes for an object
+#' add attributes
 #'
-#' attributes are added onto existing attributes
+#' - Use `add_attr` to add attributes to an R object
+#' - Use `add_col_attr` to add attributes to a column inside of a data frame
 #' @param .x an object to add attributes to
 #' @param var name of variable in .x to add attributes to
 #' @param ... additional arguments with name and value corresponding to metadata name and value
 #' @return .x with the updated attributes
 #' @examples
-#' set_attrs(mtcars, name = "Motor Trend Cars", year = "1974")
-#' set_col_attrs(mtcars, mpg, name = "MPG", description = "Miles Per Gallon")
-set_attrs <- function(.x, ...) {
+#' add_attrs(mtcars, name = "Motor Trend Cars", year = "1974")
+#' add_col_attrs(mtcars, mpg, name = "MPG", description = "Miles Per Gallon")
+#' @export
+add_attrs <- function(.x, ...) {
   ## attrs <- rlang::dots_list(...)
   attrs <- rlang::list2(...)
   attributes(.x) <- c(attrs, attributes(.x))
   .x
 }
 
-#' set attributes for a column in a data.frame
-#'
-#' @rdname set_attrs
-set_col_attrs <- function(.x, var, ...) {
-  dplyr::mutate(.x, "{{var}}" := set_attrs(dplyr::pull(.x, {{ var }}), ...))
-  # dplyr::mutate(.x, {{ var }}, ~ set_attrs(., ...))
-  # TODO add ability to use tidyselect::across() to set attributes on more than one column at once
+#' @rdname add_attrs
+#' @export
+add_col_attrs <- function(.x, var, ...) {
+  dplyr::mutate(.x, "{{var}}" := add_attrs(dplyr::pull(.x, {{ var }}), ...))
+  # dplyr::mutate(.x, {{ var }}, ~ add_attrs(., ...))
+  # TODO add ability to use tidyselect::across() to add attributes on more than one column at once
 }
 
 # TODO link this somehow or explain the mappings somewhere?
@@ -38,28 +39,30 @@ class_type_cw <- c(
   # TODO support for spatial columns?
 )
 
-#' add type attributes
+#' automatically add "type" attributes to columns in a data frame
+#' 
 #' Given a data.frame (or tibble), this function returns data.frame after adding on Frictionless
 #' "type" attributes based on the class of each column; levels of factor columns are also captured
-#' in the "enum" item of the "constraints" attribute list
-#' @param .data a data.frame or tibble
-#' @return an object of the same type as .data, with updated frictionless attributes for factor columns
+#' in the "enum" item of the "constraints" attribute list.
+#' @param .x a data.frame or tibble
+#' @return an object of the same type as .x, with updated frictionless attributes for factor columns
 #' input data frame attributes are preserved
-add_type_attrs <- function(.data) {
+#' @export
+add_type_attrs <- function(.x) {
 
-  col_classes <- purrr::map_chr(.data, ~ paste(class(.), collapse = ","))
+  col_classes <- purrr::map_chr(.x, ~ paste(class(.), collapse = ","))
   col_frictionless_classes <- class_type_cw[col_classes]
 
-  out <- purrr::map2_dfc(.data, col_frictionless_classes, ~ set_attrs(..1, type = ..2))
+  out <- purrr::map2_dfc(.x, col_frictionless_classes, ~ add_attrs(..1, type = ..2))
 
   out <- out |>
     dplyr::mutate(dplyr::across(
       tidyselect:::where(is.factor),
-      ~ set_attrs(., constraints = list(enum = attr(., "levels")))
+      ~ add_attrs(., constraints = list(enum = attr(., "levels")))
     ))
 
   ## TODO what to do with columns that are not supported here? (sfc, others?)
 
-  attributes(out) <- attributes(.data)
+  attributes(out) <- attributes(.x)
   return(out)
 }

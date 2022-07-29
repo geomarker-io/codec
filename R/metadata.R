@@ -1,4 +1,10 @@
-#' make metadata list based on attributes of data.frame (including schema based on attributes of columns)
+#' make metadata list from attributes of data.frame
+#'
+#' This also includes schema based on the attributes of columns.
+#' This function is largely for use in `write_metadata()` and
+#' should normally not need to be used directly.
+#' @param .x a data.frame or tibble
+#' @return a list of metadata generated using the attributes of .x
 make_metadata_from_attr <- function(.x) {
   metad <- as.list(attributes(.x))
   # TODO only keep frictionless-relevant attributes?
@@ -10,16 +16,28 @@ make_metadata_from_attr <- function(.x) {
   return(metad)
 }
 
-#' save (table- and column-specific) metadata to a file
+#' extract (table- and column-specific) metadata from a data frame and save it to a file
+#'
+#' @param .x a data.frame or tibble
+#' @return .x (invisibly)
+#' @examples
+#' \dontrun{
+#' mtcars |>
+#'  add_attrs(name = "Motor Trend Cars", year = "1974") |>
+#'  add_type_attrs() |>
+#'  add_col_attrs(mpg, name = "MPG", description = "Miles Per Gallon") |>
+#'  write_metadata(my_mtcars, "my_mtcars_tabular-data-resource.yaml")
+#' }
+#' @export
 write_metadata <- function(.x, file = "tabular-data-resource.yaml") {
   # TODO automatically make schema metadata from col classes if it doesn't already exist
   .x |>
-    set_attrs(profile = "tabular-data-resource") |>
+    add_attrs(profile = "tabular-data-resource") |>
     make_metadata_from_attr() |>
     yaml::as.yaml() |>
     cat(file = file)
 
-  return(invisible(file))
+  return(invisible(.x))
 }
 
 # TODO wrapper save function that extracts metadata from attributes and then saves the data as a CSV file and the metadata as a datapackage.json
@@ -28,3 +46,5 @@ write_metadata <- function(.x, file = "tabular-data-resource.yaml") {
 # or with codec variable names?
 
 # TODO add function to read metadata (and schema) and create a 'pretty' data dictionary / readme / about file
+
+## read_metadata

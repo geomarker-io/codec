@@ -2,10 +2,18 @@
 % Please edit documentation in R/metadata.R
 \name{make_metadata_from_attr}
 \alias{make_metadata_from_attr}
-\title{make metadata list based on attributes of data.frame (including schema based on attributes of columns)}
+\title{make metadata list from attributes of data.frame}
 \usage{
 make_metadata_from_attr(.x)
 }
+\arguments{
+\item{.x}{a data.frame or tibble}
+}
+\value{
+a list of metadata generated using the attributes of .x
+}
 \description{
-make metadata list based on attributes of data.frame (including schema based on attributes of columns)
+This also includes schema based on the attributes of columns.
+This function is largely for use in \code{write_metadata()} and
+should normally not need to be used directly.
 }

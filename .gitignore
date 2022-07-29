@@ -5,3 +5,5 @@
 .DS_Store
 .Rproj
 CODECtools.Rproj
+docs
+/my_mtcars_tabular-data-resource.yaml
