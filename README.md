@@ -4,6 +4,8 @@
 # CODECtools
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/geomarker-io/CODECtools/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/geomarker-io/CODECtools/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of CODECtools is to support CODEC data infrastructure through:
