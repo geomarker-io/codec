@@ -1,7 +1,7 @@
-# can create metadata from attributes
+# can create data resource metadata from attributes
 
     Code
-      make_metadata_from_attr(make_my_mtcars())
+      make_data_resource_from_attr(my_mtcars)
     Output
       $name
       [1] "Motor Trend Cars"
@@ -70,6 +70,54 @@
       $schema$fields$carb
       $schema$fields$carb$type
       [1] "number"
+      
+      
+      
+      
+
+---
+
+    Code
+      make_data_resource_from_attr(classy)
+    Output
+      $schema
+      $schema$fields
+      $schema$fields$id
+      NULL
+      
+      $schema$fields$date
+      $schema$fields$date$class
+      [1] "Date"
+      
+      
+      $schema$fields$measure
+      NULL
+      
+      $schema$fields$rating
+      $schema$fields$rating$levels
+      [1] "good"   "better" "best"  
+      
+      $schema$fields$rating$class
+      [1] "factor"
+      
+      
+      $schema$fields$ranking
+      NULL
+      
+      $schema$fields$awesomeness
+      NULL
+      
+      $schema$fields$datetime
+      $schema$fields$datetime$class
+      [1] "POSIXct" "POSIXt" 
+      
+      
+      $schema$fields$timesince
+      $schema$fields$timesince$class
+      [1] "difftime"
+      
+      $schema$fields$timesince$units
+      [1] "secs"
       
       
       

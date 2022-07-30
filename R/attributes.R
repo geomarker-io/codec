@@ -22,7 +22,6 @@ add_attrs <- function(.x, ...) {
 add_col_attrs <- function(.x, var, ...) {
   dplyr::mutate(.x, "{{var}}" := add_attrs(dplyr::pull(.x, {{ var }}), ...))
   # dplyr::mutate(.x, {{ var }}, ~ add_attrs(., ...))
-  # TODO add ability to use tidyselect::across() to add attributes on more than one column at once
 }
 
 # TODO link this somehow or explain the mappings somewhere?
@@ -36,11 +35,10 @@ class_type_cw <- c(
   "logical" = "boolean",
   "POSIXct,POSIXt" = "datetime",
   "difftime" = "number"
-  # TODO support for spatial columns?
 )
 
 #' automatically add "type" attributes to columns in a data frame
-#' 
+#'
 #' Given a data.frame (or tibble), this function returns data.frame after adding on Frictionless
 #' "type" attributes based on the class of each column; levels of factor columns are also captured
 #' in the "enum" item of the "constraints" attribute list.
@@ -49,7 +47,6 @@ class_type_cw <- c(
 #' input data frame attributes are preserved
 #' @export
 add_type_attrs <- function(.x) {
-
   col_classes <- purrr::map_chr(.x, ~ paste(class(.), collapse = ","))
   col_frictionless_classes <- class_type_cw[col_classes]
 
@@ -61,8 +58,23 @@ add_type_attrs <- function(.x) {
       ~ add_attrs(., constraints = list(enum = attr(., "levels")))
     ))
 
-  ## TODO what to do with columns that are not supported here? (sfc, others?)
-
   attributes(out) <- attributes(.x)
   return(out)
+}
+
+#' get descriptors from attributes of data frame
+#'
+#' `get_descriptors()` looks for attributes with a value of
+#' a single character string and returns them in a tibble.
+#' Other attributes will not be returned.
+#' To get complete data resource metadata in a list,
+#' use `make_data_resource_from_attr()`
+
+#' @param .x data frame or tibble
+#' @return a tibble with `name` and `value` columns for each attribute
+get_descriptors <- function(.x) {
+  attributes(.x) |>
+    purrr::keep(~ length(.) == 1) |>
+    tibble::enframe() |>
+    dplyr::mutate(value = as.character(value))
 }
