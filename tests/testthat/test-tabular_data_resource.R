@@ -25,19 +25,11 @@ test_that("get_descriptors works", {
     get_descriptors() |>
     expect_identical(
       tibble::tibble(
-        name = c("name", "year", "class"),
-        value = c("Motor Trend Cars", "1974", "data.frame")
+        name = c("name"),
+        value = c("Motor Trend Cars")
       )
     )
-})
-
-test_that("get_schema works", {
   my_mtcars |>
-    get_schema() |>
-    expect_identical(
-      tibble::tibble(
-        name = c("name", "year", "class"),
-        value = c("Motor Trend Cars", "1974", "data.frame")
-      )
-    )
+    get_descriptors(codec = FALSE) |>
+    expect_snapshot()
 })

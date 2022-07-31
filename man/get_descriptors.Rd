@@ -2,20 +2,37 @@
 % Please edit documentation in R/attributes.R
 \name{get_descriptors}
 \alias{get_descriptors}
-\title{get descriptors from attributes of data frame}
+\alias{get_col_descriptors}
+\alias{get_schema}
+\title{get CODEC descriptors and schema}
 \usage{
-get_descriptors(.x)
+get_descriptors(.x, codec = TRUE)
+
+get_col_descriptors(.x, codec = TRUE)
+
+get_schema(.x, codec = TRUE)
 }
 \arguments{
 \item{.x}{data frame or tibble}
+
+\item{codec}{logical; return only CODEC descriptors or schema?}
 }
 \value{
-a tibble with \code{name} and \code{value} columns for each attribute
+a tibble (or list of tibbles for \code{get_schema()})
+with \code{name} and \code{value} columns for each descriptor
 }
 \description{
-\code{get_descriptors()} looks for attributes with a value of
-a single character string and returns them in a tibble.
-Other attributes will not be returned.
-To get complete data resource metadata in a list,
-use \code{make_data_resource_from_attr()}
+These functions are designed to provide a simple way to extract
+tibbles of descriptors and schema for data frames and columns with attributes:
+}
+\details{
+\itemize{
+\item \code{get_descriptors()} gets all descriptors from a data frame
+\item \code{get_col_descriptors()} gets all field-specific descriptors from a single column inside of a data frame
+\item \code{get_schema()} gets all field-specific descriptors from all columns inside
+of a data frame as well as additional schema descriptors (e.g., \code{missingValues})
+}
+
+To instead get the complete data resource metadata (descriptors & schema)
+in a list, use \code{make_data_resource_from_attr()}
 }

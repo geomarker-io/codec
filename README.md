@@ -42,13 +42,67 @@ my_mtcars <-
     add_type_attrs() |>
     add_col_attrs(mpg, name = "MPG", description = "Miles Per Gallon")
 
-get_descriptors(my_mtcars)
-#> # A tibble: 3 × 2
-#>   name  value           
-#>   <chr> <chr>           
-#> 1 name  Motor Trend Cars
-#> 2 year  1974            
-#> 3 class data.frame
+get_descriptors(my_mtcars) |>
+  knitr::kable()
+```
+
+| name | value            |
+|:-----|:-----------------|
+| name | Motor Trend Cars |
+
+``` r
+
+get_schema(my_mtcars) |>
+  knitr::kable()
+```
+
+| name        | value            |
+|:------------|:-----------------|
+| name        | MPG              |
+| description | Miles Per Gallon |
+| type        | number           |
+
+| name | value  |
+|:-----|:-------|
+| type | number |
+
+| name | value  |
+|:-----|:-------|
+| type | number |
+
+| name | value  |
+|:-----|:-------|
+| type | number |
+
+| name | value  |
+|:-----|:-------|
+| type | number |
+
+| name | value  |
+|:-----|:-------|
+| type | number |
+
+| name | value  |
+|:-----|:-------|
+| type | number |
+
+| name | value  |
+|:-----|:-------|
+| type | number |
+
+| name | value  |
+|:-----|:-------|
+| type | number |
+
+| name | value  |
+|:-----|:-------|
+| type | number |
+
+| name | value  |
+|:-----|:-------|
+| type | number |
+
+``` r
 
 save_tabular_data_resource(my_mtcars)
 

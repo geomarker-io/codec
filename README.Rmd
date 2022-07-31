@@ -49,7 +49,11 @@ my_mtcars <-
     add_type_attrs() |>
     add_col_attrs(mpg, name = "MPG", description = "Miles Per Gallon")
 
-get_descriptors(my_mtcars)
+get_descriptors(my_mtcars) |>
+  knitr::kable()
+
+get_schema(my_mtcars) |>
+  knitr::kable()
 
 save_tabular_data_resource(my_mtcars)
 

@@ -62,20 +62,69 @@ add_type_attrs <- function(.x) {
   return(out)
 }
 
-#' get descriptors from attributes of data frame
+## codec_data_resource definition
+cdr <-
+  list(
+    "name",
+    "path",
+    "title",
+    "description",
+    "url",
+    "license",
+    "schema" = list(
+      "missingValues",
+      "primaryKey",
+      "foreignKeys",
+      "fields" = list(
+        "name", "title", "description",
+        "type", "example", "format", "constraints"
+      )
+    )
+  )
+
+#' get CODEC descriptors and schema
 #'
-#' `get_descriptors()` looks for attributes with a value of
-#' a single character string and returns them in a tibble.
-#' Other attributes will not be returned.
-#' To get complete data resource metadata in a list,
-#' use `make_data_resource_from_attr()`
+#' These functions are designed to provide a simple way to extract
+#' tibbles of descriptors and schema for data frames and columns with attributes:
+#'
+#' - `get_descriptors()` gets all descriptors from a data frame
+#' - `get_col_descriptors()` gets all field-specific descriptors from a single column inside of a data frame
+#' - `get_schema()` gets all field-specific descriptors from all columns inside
+#' of a data frame as well as additional schema descriptors (e.g., `missingValues`)
+#'
+#' To instead get the complete data resource metadata (descriptors & schema)
+#' in a list, use `make_data_resource_from_attr()`
 
 #' @param .x data frame or tibble
-#' @return a tibble with `name` and `value` columns for each attribute
+#' @param codec logical; return only CODEC descriptors or schema?
+#' @return a tibble (or list of tibbles for `get_schema()`)
+#' with `name` and `value` columns for each descriptor
 #' @export
-get_descriptors <- function(.x) {
-  attributes(.x) |>
-    purrr::keep(~ length(.) == 1) |>
+get_descriptors <- function(.x, codec = TRUE) {
+
+  out <-
+    attributes(.x) |>
     tibble::enframe() |>
-    dplyr::mutate(value = as.character(.data$value))
+    dplyr::mutate(value = purrr::map_chr(value, ~ paste(., collapse = ", ")))
+
+  if (codec) out <- dplyr::filter(out, .data$name %in% cdr)
+  return(out)
+}
+
+#' @rdname get_descriptors
+#' @export
+get_col_descriptors <- function(.x, codec = TRUE) {
+  out <-
+    attributes(.x) |>
+    tibble::enframe() |>
+    dplyr::mutate(value = purrr::map_chr(value, ~ paste(., collapse = ", ")))
+  if (codec) out <- dplyr::filter(out, .data$name %in% cdr$schema$fields)
+  return(out)
+}
+
+#' @rdname get_descriptors
+#' @export
+get_schema <- function(.x, codec = TRUE) {
+  out <- purrr::map(.x, get_col_descriptors, codec = codec)
+  return(out)
 }

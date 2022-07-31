@@ -123,3 +123,17 @@
       
       
 
+# get_descriptors works
+
+    Code
+      get_descriptors(my_mtcars, codec = FALSE)
+    Output
+      # A tibble: 5 x 2
+        name      value                                                               
+        <chr>     <chr>                                                               
+      1 name      Motor Trend Cars                                                    
+      2 year      1974                                                                
+      3 names     mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb              
+      4 row.names Mazda RX4, Mazda RX4 Wag, Datsun 710, Hornet 4 Drive, Hornet Sporta~
+      5 class     data.frame                                                          
+
