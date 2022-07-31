@@ -30,8 +30,7 @@ make_data_resource_from_attr <- function(.x) {
 #'   write_metadata(my_mtcars, "my_mtcars_tabular-data-resource.yaml")
 #' }
 #' @export
-# save_data_resource() ??
-write_metadata <- function(.x, file = "tabular-data-resource.yaml") {
+save_tabular_data_resource <- function(.x, file = "tabular-data-resource.yaml") {
   .x |>
     add_attrs(profile = "tabular-data-resource") |>
     make_data_resource_from_attr() |>

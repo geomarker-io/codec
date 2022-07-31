@@ -72,9 +72,10 @@ add_type_attrs <- function(.x) {
 
 #' @param .x data frame or tibble
 #' @return a tibble with `name` and `value` columns for each attribute
+#' @export
 get_descriptors <- function(.x) {
   attributes(.x) |>
     purrr::keep(~ length(.) == 1) |>
     tibble::enframe() |>
-    dplyr::mutate(value = as.character(value))
+    dplyr::mutate(value = as.character(.data$value))
 }

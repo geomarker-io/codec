@@ -49,12 +49,11 @@ my_mtcars <-
     add_type_attrs() |>
     add_col_attrs(mpg, name = "MPG", description = "Miles Per Gallon")
 
-attributes(my_mtcars)
-sapply(my_mtcars, attributes)
-	
-write_metadata(my_mtcars, "my_mtcars_tabular-data-resource.yaml")
+get_descriptors(my_mtcars)
 
-yaml::yaml.load_file("my_mtcars_tabular-data-resource.yaml")
+save_tabular_data_resource(my_mtcars)
+
+## yaml::yaml.load_file("tabular-data-resource.yaml")
 
 ```
 

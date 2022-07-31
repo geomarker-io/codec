@@ -27,7 +27,6 @@ test_that("add_type_attrs() works", {
       description = "A toy data frame with many different column classes."
     )
 
-
   expect_equal(
     sapply(classy_attrs, attr, "type"),
     c(

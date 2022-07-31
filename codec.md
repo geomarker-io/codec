@@ -230,7 +230,7 @@ Using these functions to set attributes in R means we can do so reproducibly and
   - use this for merging geomarkers to patient-level data already with frictionless metadata
   - `purrr::list_merge()`
 
-# Resources That Helped Write This
+## Resources That Helped Write This
 
 - [4TU.ResearchData Workshop](https://4turesearchdata-carpentries.github.io/frictionless-data-workshop/data-organisation.html)
 - [Frictionless framework guides](https://framework.frictionlessdata.io/docs/guides/introduction) 
