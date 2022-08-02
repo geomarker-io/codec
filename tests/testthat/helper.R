@@ -15,3 +15,13 @@ classy <-
     datetime = as.POSIXct(Sys.time(), "America/New_York") + c(1:3),
     timesince = datetime - Sys.time()
   )
+
+d <-
+  tibble::tibble(
+    id = c("A01", "A02", "A03"),
+    date = as.Date(c("2022-07-25", "2018-07-10", "2013-08-15")),
+    measure = c(12.8, 13.9, 15.6),
+    rating = factor(c("good", "best", "best"), levels = c("good", "better", "best")),
+    ranking = as.integer(c(14, 17, 19)),
+    impt = c(FALSE, TRUE, TRUE)
+  )

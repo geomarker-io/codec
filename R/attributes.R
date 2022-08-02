@@ -13,7 +13,7 @@
 add_attrs <- function(.x, ...) {
   ## attrs <- rlang::dots_list(...)
   attrs <- rlang::list2(...)
-  attributes(.x) <- c(attrs, attributes(.x))
+  attributes(.x) <- c(attributes(.x), attrs)
   .x
 }
 
@@ -50,13 +50,14 @@ add_type_attrs <- function(.x) {
   col_classes <- purrr::map_chr(.x, ~ paste(class(.), collapse = ","))
   col_frictionless_classes <- class_type_cw[col_classes]
 
-  out <- purrr::map2_dfc(.x, col_frictionless_classes, ~ add_attrs(..1, type = ..2))
-
-  out <- out |>
+  # add enum constraints first so it shows up after type
+  out <- .x |>
     dplyr::mutate(dplyr::across(
       where(is.factor),
       ~ add_attrs(., constraints = list(enum = attr(., "levels")))
     ))
+
+  out <- purrr::map2_dfc(out, col_frictionless_classes, ~ add_attrs(..1, type = ..2))
 
   attributes(out) <- attributes(.x)
   return(out)
@@ -101,7 +102,6 @@ cdr <-
 #' with `name` and `value` columns for each descriptor
 #' @export
 get_descriptors <- function(.x, codec = TRUE) {
-
   out <-
     attributes(.x) |>
     tibble::enframe() |>
@@ -118,6 +118,7 @@ get_col_descriptors <- function(.x, codec = TRUE) {
     attributes(.x) |>
     tibble::enframe() |>
     dplyr::mutate(value = purrr::map_chr(value, ~ paste(., collapse = ", ")))
+
   if (codec) out <- dplyr::filter(out, .data$name %in% cdr$schema$fields)
   return(out)
 }

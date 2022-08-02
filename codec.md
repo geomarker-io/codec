@@ -25,11 +25,13 @@ Traditional databases and domain-specific solutions usually don't consider shari
 
 ### Metadata
 
-A CSV file, on its own, cannot tell R (or other software) anything about its metadata including 
+A CSV file, on its own, cannot tell R (or other software) anything about itself including:
 
-- metadata about the general dataset (e.g., title, description, version, file path)
-- metadata about the formatting of the CSV file (e.g. delimiter, encoding, quoting)
-- metadata about the columns in the dataset (i.e. "schema"; e.g., "this column is a factor and has possible levels x, y, and z")
+- information about the general dataset like its name, path, title, description, license, or a related URL
+- information about the formatting of the CSV file needed to read it (e.g. delimiter, encoding, quoting)
+- how missing values are denoted
+- which, if any, columns are unique identifiers or can be used to link to other datasets
+- information about the columns in the dataset like their name, title, type, format, and any constraints
 
 
 ### Achieve Data Harmonization Upstream of Storage
@@ -130,7 +132,7 @@ A CSV file, on its own, cannot tell R (or other software) anything about its met
 - [Frictionless Validation](https://repository.frictionlessdata.io/) are github actions for validation, visual reports, and markdown badges
 
 
-## creating a frictionless data package for CODEC
+## creating a frictionless CODEC data resource
 
 > The essence of a Data Resource is a locator for the data it describes.
 
@@ -138,45 +140,6 @@ A CSV file, on its own, cannot tell R (or other software) anything about its met
   - **[property](https://specs.frictionlessdata.io/data-resource/#metadata-properties)**: a named value stored as a string; used to describe data resource (e.g. name, path, description, version)
   - **[schema](https://specs.frictionlessdata.io/table-schema/)**: information about each of the "fields" or "columns" within a tabular data frame
   
-```mermaid
-
-flowchart TB
-
-  classDef I fill:#76BC44,stroke:#333,stroke-width:2px;
-  classDef II fill:#02AAC8,stroke:#,stroke-width:0px;
-  classDef III fill:#9E4679,stroke:#333,stroke-width:2px;
-  classDef IIII fill:#D9D9D9,stroke:#333,stroke-width:2px;
-
-  tdr(tabular_data_resource.yaml):::I
-  schema(schema):::II
-
-subgraph descriptors [descriptors]
-    name[name]:::II
-    path[path]:::II
-    title[title]:::II
-    description[description]:::II
-    url[url]:::II
-    license:::II
-end
-
-tdr ---- schema
-
-tdr ---- name
-tdr ---- path
-tdr ---- title
-tdr ---- description
-tdr ---- url
-tdr --- license
-
-schema --- fields:::III
-schema --- missingValues:::III
-schema --- primaryKey:::III
-schema --- foreignKeys:::III
-
-fields --- field_name_1(name \n title \n description \n type):::IIII
-fields --- field_name_2(name \n title \n description \n type):::IIII
-fields --- field_name_3(name \n title \n description \n type):::IIII
-```
 
 ### 1. add metadata using attributes inside R
 

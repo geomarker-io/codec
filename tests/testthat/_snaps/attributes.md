@@ -7,12 +7,12 @@
       
       |name        |value                                                                |
       |:-----------|:--------------------------------------------------------------------|
-      |name        |The Classiest Data Set                                               |
-      |year        |2022                                                                 |
-      |description |A toy data frame with many different column classes.                 |
       |class       |tbl_df, tbl, data.frame                                              |
       |row.names   |1, 2, 3                                                              |
       |names       |id, date, measure, rating, ranking, awesomeness, datetime, timesince |
+      |name        |The Classiest Data Set                                               |
+      |year        |2022                                                                 |
+      |description |A toy data frame with many different column classes.                 |
 
 ---
 

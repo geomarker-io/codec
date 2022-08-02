@@ -12,14 +12,14 @@
       $schema
       $schema$fields
       $schema$fields$mpg
+      $schema$fields$mpg$type
+      [1] "number"
+      
       $schema$fields$mpg$name
       [1] "MPG"
       
       $schema$fields$mpg$description
       [1] "Miles Per Gallon"
-      
-      $schema$fields$mpg$type
-      [1] "number"
       
       
       $schema$fields$cyl
@@ -131,9 +131,9 @@
       # A tibble: 5 x 2
         name      value                                                               
         <chr>     <chr>                                                               
-      1 name      Motor Trend Cars                                                    
-      2 year      1974                                                                
-      3 names     mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb              
-      4 row.names Mazda RX4, Mazda RX4 Wag, Datsun 710, Hornet 4 Drive, Hornet Sporta~
-      5 class     data.frame                                                          
+      1 names     mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb              
+      2 row.names Mazda RX4, Mazda RX4 Wag, Datsun 710, Hornet 4 Drive, Hornet Sporta~
+      3 class     data.frame                                                          
+      4 name      Motor Trend Cars                                                    
+      5 year      1974                                                                
 

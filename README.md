@@ -28,83 +28,139 @@ You can install the development version of CODECtools from
 devtools::install_github("geomarker-io/CODECtools")
 ```
 
-## Metadata Example
-
-Here is a basic example of adding metadata to data in R, saving it to
-disk, and reading it back into R with the metadata:
+## A Simple Metadata Example
 
 ``` r
 library(CODECtools)
+```
 
-my_mtcars <-
-  mtcars |>
-    add_attrs(name = "Motor Trend Cars", year = "1974") |>
-    add_type_attrs() |>
-    add_col_attrs(mpg, name = "MPG", description = "Miles Per Gallon")
+We will create a simple dataset here for this example:
 
-get_descriptors(my_mtcars) |>
+``` r
+d <-
+  tibble::tibble(
+    id = c("A01", "A02", "A03"),
+    date = as.Date(c("2022-07-25", "2018-07-10", "2013-08-15")),
+    measure = c(12.8, 13.9, 15.6),
+    rating = factor(c("good", "best", "best"), levels = c("good", "better", "best")),
+    ranking = as.integer(c(14, 17, 19)),
+    impt = c(FALSE, TRUE, TRUE)
+  )
+```
+
+When creating a tabular dataset in R, data-specific metadata (i.e.,
+“descriptors”) can be stored in the attributes of the R object (e.g., a
+data.frame or tibble).
+
+``` r
+d <- add_attrs(d, name = "mydata", title = "My Data", license = "MIT", url = "https://geomarker.io/CODECtools")
+```
+
+Note that this doesn’t change any of the data values. In R, an object’s
+attributes are stored with it as a list. Some attributes (`?attributes`)
+are treated specially by R (e.g., `class`, `names`, `row.names`,
+`comment`) and usually shouldn’t be modified. Although *all* attributes
+(including the ones we added above) are available as a list
+(`?attributes`), we can use a function to extract only the attributes
+that represent metadata descriptors as a tibble.
+
+``` r
+get_descriptors(d) |>
   knitr::kable()
 ```
 
-| name | value            |
-|:-----|:-----------------|
-| name | Motor Trend Cars |
+| name    | value                             |
+|:--------|:----------------------------------|
+| name    | mydata                            |
+| title   | My Data                           |
+| license | MIT                               |
+| url     | <https://geomarker.io/CODECtools> |
+
+Similarly, we can add column-specific attributes (i.e., “schema”). These
+metadata functions follow the tidy design principles, making it simple
+to expressively and concisely add metadata using pipes:
 
 ``` r
+d <-
+  d |>
+  add_col_attrs(id, name = "Identifier", description = "unique identifier") |>
+  add_col_attrs(date, name = "Date", description = "date of observation") |>
+  add_col_attrs(measure, name = "Measure", description = "measured quantity") |>
+  add_col_attrs(rating, name = "Rating", description = "ordered ranking of observation") |>
+  add_col_attrs(ranking, name = "Ranking", description = "rank of the observation") |>
+  add_col_attrs(impt, name = "Important", description = "true if this observation is important")
+```
 
-get_schema(my_mtcars) |>
+Automagically add `name`, `type` and `enum` schema to each column in the
+data [based on their
+class](link%20to%20where%20this%20is%20documented%20--%20vignette?)
+
+``` r
+d <- add_type_attrs(d)
+```
+
+Like for descriptors, there is a helper function to retrieve schema as a
+tibble. This is returned as a list with a separate tibble for each
+column:
+
+``` r
+get_schema(d) |>
   knitr::kable()
 ```
 
-| name        | value            |
-|:------------|:-----------------|
-| name        | MPG              |
-| description | Miles Per Gallon |
-| type        | number           |
+| name        | value             |
+|:------------|:------------------|
+| name        | Identifier        |
+| description | unique identifier |
+| type        | string            |
 
-| name | value  |
-|:-----|:-------|
-| type | number |
+| name        | value               |
+|:------------|:--------------------|
+| name        | Date                |
+| description | date of observation |
+| type        | date                |
 
-| name | value  |
-|:-----|:-------|
-| type | number |
+| name        | value             |
+|:------------|:------------------|
+| name        | Measure           |
+| description | measured quantity |
+| type        | number            |
 
-| name | value  |
-|:-----|:-------|
-| type | number |
+| name        | value                          |
+|:------------|:-------------------------------|
+| name        | Rating                         |
+| description | ordered ranking of observation |
+| constraints | c(“good”, “better”, “best”)    |
+| type        | string                         |
 
-| name | value  |
-|:-----|:-------|
-| type | number |
+| name        | value                   |
+|:------------|:------------------------|
+| name        | Ranking                 |
+| description | rank of the observation |
+| type        | integer                 |
 
-| name | value  |
-|:-----|:-------|
-| type | number |
+| name        | value                                 |
+|:------------|:--------------------------------------|
+| name        | Important                             |
+| description | true if this observation is important |
+| type        | boolean                               |
 
-| name | value  |
-|:-----|:-------|
-| type | number |
+Once our metadata is set correctly, we can save our tabular data
+resource as a YAML file:
 
-| name | value  |
-|:-----|:-------|
-| type | number |
-
-| name | value  |
-|:-----|:-------|
-| type | number |
-
-| name | value  |
-|:-----|:-------|
-| type | number |
-
-| name | value  |
-|:-----|:-------|
-| type | number |
+But still need to add path….
 
 ``` r
-
-save_tabular_data_resource(my_mtcars)
+save_tabular_data_resource(d)
 
 ## yaml::yaml.load_file("tabular-data-resource.yaml")
 ```
+
+We also need to save our CSV file using `readr::write_csv()` since it
+takes care of all of the CSV defaults for us?? (so we don’t have to
+specify those in the schema – just assume the defaults always)
+
+This allows others to read in a CSV file in R and use the metadata file
+to properly define the classes (and levels) of the columns:
+
+, saving it to disk, and reading it back into R with the metadata:
