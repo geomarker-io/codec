@@ -24,10 +24,11 @@ add_col_attrs <- function(.x, var, ...) {
   # dplyr::mutate(.x, {{ var }}, ~ add_attrs(., ...))
 }
 
-#' automatically add "type" attributes to columns in a data frame
+#' automatically add "name" and "type" attributes to columns in a data frame
 #'
-#' Given a data.frame (or tibble), this function returns the data.frame after adding on Frictionless
-#' "type" attributes based on the class of each column in R:
+#' Given a data.frame (or tibble), this function returns the
+#' data.frame after adding on Frictionless "name" and
+#' "type" attributes based on the name and class of each column in R:
 #'
 #' |   **R class**  | **TDR type** |
 #' |:--------------:|:------------:|
@@ -40,9 +41,9 @@ add_col_attrs <- function(.x, var, ...) {
 #' |     logical    |    boolean   |
 #' | POSIXct,POSIXt |   datetime   |
 #' |    difftime    |    number    |
-#' 
+#'
 #' *Levels of factor columns are also captured in the "enum" item of the "constraints" attribute list.
-#' 
+#'
 #' @param .x a data.frame or tibble
 #' @return an object of the same type as .x, with updated frictionless attributes for factor columns
 #' input data frame attributes are preserved
@@ -61,7 +62,7 @@ add_type_attrs <- function(.x) {
     "POSIXct,POSIXt" = "datetime",
     "difftime" = "number"
   )
-  
+
   col_frictionless_classes <- class_type_cw[col_classes]
 
   # add enum constraints first so it shows up after type
@@ -71,6 +72,8 @@ add_type_attrs <- function(.x) {
       ~ add_attrs(., constraints = list(enum = attr(., "levels")))
     ))
 
+  out <- purrr::map2_dfc(out, names(out), ~ add_attrs(..1, name = ..2))
+
   out <- purrr::map2_dfc(out, col_frictionless_classes, ~ add_attrs(..1, type = ..2))
 
   attributes(out) <- attributes(.x)
@@ -78,6 +81,10 @@ add_type_attrs <- function(.x) {
 }
 
 #' return a list representing valid CODEC-specific metadata names
+#'
+#' @export
+#' @examples
+#' codec_cdr()
 codec_cdr <- function() {
   list(
     "name",

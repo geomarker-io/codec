@@ -10,7 +10,8 @@
       |class       |tbl_df, tbl, data.frame                                              |
       |row.names   |1, 2, 3                                                              |
       |names       |id, date, measure, rating, ranking, awesomeness, datetime, timesince |
-      |name        |The Classiest Data Set                                               |
+      |name        |classy                                                               |
+      |title       |The Classiest Data Set                                               |
       |year        |2022                                                                 |
       |description |A toy data frame with many different column classes.                 |
 
@@ -24,6 +25,7 @@
       
       |name |value  |
       |:----|:------|
+      |name |id     |
       |type |string |
       
       $date
@@ -31,14 +33,16 @@
       
       |name |value |
       |:----|:-----|
+      |name |date  |
       |type |date  |
       
       $measure
       
       
-      |name |value  |
-      |:----|:------|
-      |type |number |
+      |name |value   |
+      |:----|:-------|
+      |name |measure |
+      |type |number  |
       
       $rating
       
@@ -46,6 +50,7 @@
       |name        |value                       |
       |:-----------|:---------------------------|
       |constraints |c("good", "better", "best") |
+      |name        |rating                      |
       |type        |string                      |
       
       $ranking
@@ -53,27 +58,31 @@
       
       |name |value   |
       |:----|:-------|
+      |name |ranking |
       |type |integer |
       
       $awesomeness
       
       
-      |name |value   |
-      |:----|:-------|
-      |type |boolean |
+      |name |value       |
+      |:----|:-----------|
+      |name |awesomeness |
+      |type |boolean     |
       
       $datetime
       
       
       |name |value    |
       |:----|:--------|
+      |name |datetime |
       |type |datetime |
       
       $timesince
       
       
-      |name |value  |
-      |:----|:------|
-      |type |number |
+      |name |value     |
+      |:----|:---------|
+      |name |timesince |
+      |type |number    |
       
 

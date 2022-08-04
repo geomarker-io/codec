@@ -2,7 +2,7 @@
 % Please edit documentation in R/attributes.R
 \name{add_type_attrs}
 \alias{add_type_attrs}
-\title{automatically add "type" attributes to columns in a data frame}
+\title{automatically add "name" and "type" attributes to columns in a data frame}
 \usage{
 add_type_attrs(.x)
 }
@@ -14,8 +14,9 @@ an object of the same type as .x, with updated frictionless attributes for facto
 input data frame attributes are preserved
 }
 \description{
-Given a data.frame (or tibble), this function returns the data.frame after adding on Frictionless
-"type" attributes based on the class of each column in R:
+Given a data.frame (or tibble), this function returns the
+data.frame after adding on Frictionless "name" and
+"type" attributes based on the name and class of each column in R:
 }
 \details{
 \tabular{cc}{

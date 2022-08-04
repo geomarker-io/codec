@@ -32,62 +32,92 @@
       $schema
       $schema$fields
       $schema$fields$mpg
-      $schema$fields$mpg$type
-      [1] "number"
-      
       $schema$fields$mpg$name
       [1] "MPG"
+      
+      $schema$fields$mpg$type
+      [1] "number"
       
       $schema$fields$mpg$description
       [1] "Miles Per Gallon"
       
       
       $schema$fields$cyl
+      $schema$fields$cyl$name
+      [1] "cyl"
+      
       $schema$fields$cyl$type
       [1] "number"
       
       
       $schema$fields$disp
+      $schema$fields$disp$name
+      [1] "disp"
+      
       $schema$fields$disp$type
       [1] "number"
       
       
       $schema$fields$hp
+      $schema$fields$hp$name
+      [1] "hp"
+      
       $schema$fields$hp$type
       [1] "number"
       
       
       $schema$fields$drat
+      $schema$fields$drat$name
+      [1] "drat"
+      
       $schema$fields$drat$type
       [1] "number"
       
       
       $schema$fields$wt
+      $schema$fields$wt$name
+      [1] "wt"
+      
       $schema$fields$wt$type
       [1] "number"
       
       
       $schema$fields$qsec
+      $schema$fields$qsec$name
+      [1] "qsec"
+      
       $schema$fields$qsec$type
       [1] "number"
       
       
       $schema$fields$vs
+      $schema$fields$vs$name
+      [1] "vs"
+      
       $schema$fields$vs$type
       [1] "number"
       
       
       $schema$fields$am
+      $schema$fields$am$name
+      [1] "am"
+      
       $schema$fields$am$type
       [1] "number"
       
       
       $schema$fields$gear
+      $schema$fields$gear$name
+      [1] "gear"
+      
       $schema$fields$gear$type
       [1] "number"
       
       
       $schema$fields$carb
+      $schema$fields$carb$name
+      [1] "carb"
+      
       $schema$fields$carb$type
       [1] "number"
       

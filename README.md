@@ -83,12 +83,12 @@ to expressively and concisely add metadata using pipes:
 ``` r
 d <-
   d |>
-  add_col_attrs(id, name = "Identifier", description = "unique identifier") |>
-  add_col_attrs(date, name = "Date", description = "date of observation") |>
-  add_col_attrs(measure, name = "Measure", description = "measured quantity") |>
-  add_col_attrs(rating, name = "Rating", description = "ordered ranking of observation") |>
-  add_col_attrs(ranking, name = "Ranking", description = "rank of the observation") |>
-  add_col_attrs(impt, name = "Important", description = "true if this observation is important")
+  add_col_attrs(id, title = "Identifier", description = "unique identifier") |>
+  add_col_attrs(date, title = "Date", description = "date of observation") |>
+  add_col_attrs(measure, title = "Measure", description = "measured quantity") |>
+  add_col_attrs(rating, title = "Rating", description = "ordered ranking of observation") |>
+  add_col_attrs(ranking, title = "Ranking", description = "rank of the observation") |>
+  add_col_attrs(impt, title = "Important", description = "true if this observation is important")
 ```
 
 Automagically add `name`, `type` and `enum` schema to each column in the
@@ -110,38 +110,38 @@ get_schema(d) |>
 
 | name        | value             |
 |:------------|:------------------|
-| name        | Identifier        |
+| title       | Identifier        |
 | description | unique identifier |
 | type        | string            |
 
 | name        | value               |
 |:------------|:--------------------|
-| name        | Date                |
+| title       | Date                |
 | description | date of observation |
 | type        | date                |
 
 | name        | value             |
 |:------------|:------------------|
-| name        | Measure           |
+| title       | Measure           |
 | description | measured quantity |
 | type        | number            |
 
 | name        | value                          |
 |:------------|:-------------------------------|
-| name        | Rating                         |
+| title       | Rating                         |
 | description | ordered ranking of observation |
 | constraints | c(“good”, “better”, “best”)    |
 | type        | string                         |
 
 | name        | value                   |
 |:------------|:------------------------|
-| name        | Ranking                 |
+| title       | Ranking                 |
 | description | rank of the observation |
 | type        | integer                 |
 
 | name        | value                                 |
 |:------------|:--------------------------------------|
-| name        | Important                             |
+| title       | Important                             |
 | description | true if this observation is important |
 | type        | boolean                               |
 
@@ -151,7 +151,7 @@ resource as a YAML file:
 But still need to add path….
 
 ``` r
-save_tabular_data_resource(d)
+save_tdr(d)
 
 ## yaml::yaml.load_file("tabular-data-resource.yaml")
 ```
