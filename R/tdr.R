@@ -17,8 +17,8 @@ make_tdr_from_attr <- function(.x) {
 #' \dontrun{
 #' mtcars |>
 #'   add_attrs(name = "Motor Trend Cars", year = "1974") |>
+#'   add_col_attrs(mpg, title = "MPG", description = "Miles Per Gallon") |>
 #'   add_type_attrs() |>
-#'   add_col_attrs(mpg, name = "MPG", description = "Miles Per Gallon") |>
 #'   save_tdr(my_mtcars, "my_mtcars_tabular-data-resource.yaml")
 #' }
 #' @export
@@ -46,14 +46,15 @@ read_tdr <- function(file = "tabular-data-resource.yaml") {
 #' add attributes in a metadata list to a data.frame
 #'
 #' @param .x a data.frame or tibble
-#' @return frictionless metadata as a list
+#' @param metadata a list containing frictionless metadata (usually created with `read_tdr()`)
+#' @return .x with added frictionless metadata attributes
 make_attr_from_tdr <- function(.x, metadata) {
 
   descriptors <-
     metadata |>
     ## TODO better way to filter list based on name??
     tibble::enframe() |>
-    dplyr::filter(name %in% cdr) |>
+    dplyr::filter(.data$name %in% codec_cdr()) |>
     tibble::deframe()
 
   out <- add_attrs(.x, !!!descriptors)
@@ -63,44 +64,44 @@ make_attr_from_tdr <- function(.x, metadata) {
 }
 
 #' read a CSV file and frictionless metadata into R
-read_tdr_csv <- function(file = "tabular-data-resource.yaml") {
+## read_tdr_csv <- function(file = "tabular-data-resource.yaml") {
 
-  metadata <- read_tdr(file)
+##   metadata <- read_tdr(file)
 
-  descriptors <-
-    metadata |>
-    tibble::enframe() |>
-    dplyr::filter(name %in% cdr) |>
-    tibble::deframe()
+##   descriptors <-
+##     metadata |>
+##     tibble::enframe() |>
+##     dplyr::filter(name %in% cdr) |>
+##     tibble::deframe()
 
-  col_names <- names(metadata$schema$fields)
+##   col_names <- names(metadata$schema$fields)
 
-  col_types <- purrr::map(metadata$schema$fields, "type")
+##   col_types <- purrr::map(metadata$schema$fields, "type")
 
-  col_classes <- purrr::map(col_types, ~ type_class_cw[.])
+##   col_classes <- purrr::map(col_types, ~ type_class_cw[.])
 
-  # TODO change strings that have enum to factors
-  levels <- purrr::map(metadata$schema$fields, "constraints", "enum")
+##   # TODO change strings that have enum to factors
+##   levels <- purrr::map(metadata$schema$fields, "constraints", "enum")
 
-  data_path <- metadata$path
+##   data_path <- metadata$path
 
-  # read the CSV
-  # TODO use dplyr::col_guess for any columns not specified in the metadata?  warning? or error?
-  # or a `strict = TRUE` argument
+##   # read the CSV
+##   # TODO use dplyr::col_guess for any columns not specified in the metadata?  warning? or error?
+##   # or a `strict = TRUE` argument
 
-  out <- make_attr_from_tdr(out, metadata)
-}
+##   out <- make_attr_from_tdr(out, metadata)
+## }
 
-type_class_cw <- c(
-  "string" = readr::col_character,
-  "date" = readr::col_date,
-  "number" = readr::col_double,
-  ## "string" FACTOR ,
-  "time" = readr::col_time,
-  "integer" = readr::col_integer,
-  "boolean" = readr::col_logical,
-  "datetime" = readr::col_datetime
-)
+## type_class_cw <- c(
+##   "string" = readr::col_character,
+##   "date" = readr::col_date,
+##   "number" = readr::col_double,
+##   ## "string" FACTOR ,
+##   "time" = readr::col_time,
+##   "integer" = readr::col_integer,
+##   "boolean" = readr::col_logical,
+##   "datetime" = readr::col_datetime
+## )
 
 ## write_tdr_csv <- function() {
 

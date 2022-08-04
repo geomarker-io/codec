@@ -112,18 +112,21 @@ get_schema(d) |>
 |:------------|:------------------|
 | title       | Identifier        |
 | description | unique identifier |
+| name        | id                |
 | type        | string            |
 
 | name        | value               |
 |:------------|:--------------------|
 | title       | Date                |
 | description | date of observation |
+| name        | date                |
 | type        | date                |
 
 | name        | value             |
 |:------------|:------------------|
 | title       | Measure           |
 | description | measured quantity |
+| name        | measure           |
 | type        | number            |
 
 | name        | value                          |
@@ -131,18 +134,21 @@ get_schema(d) |>
 | title       | Rating                         |
 | description | ordered ranking of observation |
 | constraints | c(“good”, “better”, “best”)    |
+| name        | rating                         |
 | type        | string                         |
 
 | name        | value                   |
 |:------------|:------------------------|
 | title       | Ranking                 |
 | description | rank of the observation |
+| name        | ranking                 |
 | type        | integer                 |
 
 | name        | value                                 |
 |:------------|:--------------------------------------|
 | title       | Important                             |
 | description | true if this observation is important |
+| name        | impt                                  |
 | type        | boolean                               |
 
 Once our metadata is set correctly, we can save our tabular data
