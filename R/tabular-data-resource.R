@@ -1,17 +1,9 @@
 #' make metadata list from attributes of data.frame
 #'
-#' This also includes schema based on the attributes of columns.
-#' This function is largely for use in `write_metadata()` and
-#' should normally not need to be used directly.
 #' @param .x a data.frame or tibble
-#' @return a list of metadata generated using the attributes of .x
-make_data_resource_from_attr <- function(.x) {
+#' @return frictionless metadata as a list
+make_tdr_from_attr <- function(.x) {
   metad <- as.list(attributes(.x))
-  # TODO only keep frictionless-relevant attributes?
-  metad$names <- NULL
-  metad$row.names <- NULL
-  metad$class <- NULL
-  metad$tigris <- NULL
   metad$schema <- list(fields = purrr::map(.x, attributes))
   return(metad)
 }
@@ -27,16 +19,129 @@ make_data_resource_from_attr <- function(.x) {
 #'   add_attrs(name = "Motor Trend Cars", year = "1974") |>
 #'   add_type_attrs() |>
 #'   add_col_attrs(mpg, name = "MPG", description = "Miles Per Gallon") |>
-#'   write_metadata(my_mtcars, "my_mtcars_tabular-data-resource.yaml")
+#'   save_tdr(my_mtcars, "my_mtcars_tabular-data-resource.yaml")
 #' }
 #' @export
-save_tabular_data_resource <- function(.x, file = "tabular-data-resource.yaml") {
+save_tdr <- function(.x, file = "tabular-data-resource.yaml") {
   .x |>
     add_attrs(profile = "tabular-data-resource") |>
-    make_data_resource_from_attr() |>
+    make_tdr_from_attr() |>
     yaml::as.yaml() |>
     cat(file = file)
 
   return(invisible(.x))
 }
+
+#' read metadata in from a tabular-data-resource.yaml file
+#'
+#' @param file name of yaml file to write metadata to
+#' @return a list of frictionless metadata
+#' @export
+read_tdr <- function(file = "tabular-data-resource.yaml") {
+  # TODO if file is a folder, look for "tabular-data-resource.yaml" there
+  metadata <- yaml::yaml.load_file(file)
+  return(metadata)
+}
+
+#' add attributes in a metadata list to a data.frame
+#'
+#' @param .x a data.frame or tibble
+#' @return frictionless metadata as a list
+make_attr_from_tdr <- function(.x, metadata) {
+
+  descriptors <-
+    metadata |>
+    ## TODO better way to filter list based on name??
+    tibble::enframe() |>
+    dplyr::filter(name %in% cdr) |>
+    tibble::deframe()
+
+  out <- add_attrs(.x, !!!descriptors)
+
+  out <- purrr::map2_dfc(.x, metadata$schema$fields, ~ add_attrs(..1, !!!..2))
+  attributes(out) <- attributes(.x)
+}
+
+#' read a CSV file and frictionless metadata into R
+read_tdr_csv <- function(file = "tabular-data-resource.yaml") {
+
+  metadata <- read_tdr(file)
+
+  descriptors <-
+    metadata |>
+    tibble::enframe() |>
+    dplyr::filter(name %in% cdr) |>
+    tibble::deframe()
+
+  col_names <- names(metadata$schema$fields)
+
+  col_types <- purrr::map(metadata$schema$fields, "type")
+
+  col_classes <- purrr::map(col_types, ~ type_class_cw[.])
+
+  # TODO change strings that have enum to factors
+  levels <- purrr::map(metadata$schema$fields, "constraints", "enum")
+
+  data_path <- metadata$path
+
+  # read the CSV
+  # TODO use dplyr::col_guess for any columns not specified in the metadata?  warning? or error?
+  # or a `strict = TRUE` argument
+
+  out <- make_attr_from_tdr(out, metadata)
+}
+
+type_class_cw <- c(
+  "string" = readr::col_character,
+  "date" = readr::col_date,
+  "number" = readr::col_double,
+  ## "string" FACTOR ,
+  "time" = readr::col_time,
+  "integer" = readr::col_integer,
+  "boolean" = readr::col_logical,
+  "datetime" = readr::col_datetime
+)
+
+## write_tdr_csv <- function() {
+
+## }
+
+  
+## read_codec_csv <- function(file) {
+
+##   col_logical(),
+##   col_integer(),
+##   col_double(),
+##   col_character(),
+##   col_factor(levels),
+##   col_date(),
+##   col_datetime(),
+##   col_number(),
+##   col_guess()
+
+##   col_types
+##   na
+
+##   readr::read_csv(
+##     file,
+##     col_names = TRUE,
+##     col_types = cols(),
+##     col_select = NULL,
+##     locale = readr::locale(
+##       encoding = "UTF-8",
+##       decimal_mark = ".",
+##       grouping_mark = ""
+##     ),
+##     na = na,
+##     quoted_na = TRUE,
+##     quote = "\"",
+##     name_repair = "check_unique",
+##     num_threads = readr_threads(),
+##     progress = show_progress(),
+##     show_col_types = should_show_types(),
+##     lazy = FALSE
+##   )
+
+  
+## }
 

@@ -1,9 +1,9 @@
 test_that("can create data resource metadata from attributes", {
   my_mtcars |>
-    make_data_resource_from_attr() |>
+    make_tdr_from_attr() |>
     expect_snapshot()
   classy |>
-    make_data_resource_from_attr() |>
+    make_tdr_from_attr() |>
     expect_snapshot()
 })
 
@@ -15,7 +15,7 @@ test_that("can save tabular-data-resource file", {
       year = "2022",
       description = "A toy data frame with many different column classes."
     ) |>
-  save_tabular_data_resource()
+  save_tdr()
   expect_snapshot_file("tabular-data-resource.yaml")
   fs::file_delete("tabular-data-resource.yaml")
 })

@@ -34,5 +34,5 @@ of a data frame as well as additional schema descriptors (e.g., \code{missingVal
 }
 
 To instead get the complete data resource metadata (descriptors & schema)
-in a list, use \code{make_data_resource_from_attr()}
+in a list, use \code{make_tdr_from_attr()}
 }

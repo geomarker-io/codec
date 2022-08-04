@@ -24,30 +24,44 @@ add_col_attrs <- function(.x, var, ...) {
   # dplyr::mutate(.x, {{ var }}, ~ add_attrs(., ...))
 }
 
-# TODO link this somehow or explain the mappings somewhere?
-class_type_cw <- c(
-  "character" = "string",
-  "Date" = "date",
-  "numeric" = "number",
-  "factor" = "string",
-  "hms,difftime" = "time",
-  "integer" = "integer",
-  "logical" = "boolean",
-  "POSIXct,POSIXt" = "datetime",
-  "difftime" = "number"
-)
-
 #' automatically add "type" attributes to columns in a data frame
 #'
-#' Given a data.frame (or tibble), this function returns data.frame after adding on Frictionless
-#' "type" attributes based on the class of each column; levels of factor columns are also captured
-#' in the "enum" item of the "constraints" attribute list.
+#' Given a data.frame (or tibble), this function returns the data.frame after adding on Frictionless
+#' "type" attributes based on the class of each column in R:
+#'
+#' |   **R class**  | **TDR type** |
+#' |:--------------:|:------------:|
+#' |    character   |    string    |
+#' |      Date      |     date     |
+#' |     numeric    |    number    |
+#' |     factor*     |    string    |
+#' |  hms,difftime  |     time     |
+#' |     integer    |    integer   |
+#' |     logical    |    boolean   |
+#' | POSIXct,POSIXt |   datetime   |
+#' |    difftime    |    number    |
+#' 
+#' *Levels of factor columns are also captured in the "enum" item of the "constraints" attribute list.
+#' 
 #' @param .x a data.frame or tibble
 #' @return an object of the same type as .x, with updated frictionless attributes for factor columns
 #' input data frame attributes are preserved
 #' @export
 add_type_attrs <- function(.x) {
   col_classes <- purrr::map_chr(.x, ~ paste(class(.), collapse = ","))
+
+  class_type_cw <- c(
+    "character" = "string",
+    "Date" = "date",
+    "numeric" = "number",
+    "factor" = "string",
+    "hms,difftime" = "time",
+    "integer" = "integer",
+    "logical" = "boolean",
+    "POSIXct,POSIXt" = "datetime",
+    "difftime" = "number"
+  )
+  
   col_frictionless_classes <- class_type_cw[col_classes]
 
   # add enum constraints first so it shows up after type
@@ -63,8 +77,8 @@ add_type_attrs <- function(.x) {
   return(out)
 }
 
-## codec_data_resource definition
-cdr <-
+#' return a list representing valid CODEC-specific metadata names
+codec_cdr <- function() {
   list(
     "name",
     "path",
@@ -82,6 +96,7 @@ cdr <-
       )
     )
   )
+}
 
 #' get CODEC descriptors and schema
 #'
@@ -94,7 +109,7 @@ cdr <-
 #' of a data frame as well as additional schema descriptors (e.g., `missingValues`)
 #'
 #' To instead get the complete data resource metadata (descriptors & schema)
-#' in a list, use `make_data_resource_from_attr()`
+#' in a list, use `make_tdr_from_attr()`
 
 #' @param .x data frame or tibble
 #' @param codec logical; return only CODEC descriptors or schema?
@@ -107,7 +122,7 @@ get_descriptors <- function(.x, codec = TRUE) {
     tibble::enframe() |>
     dplyr::mutate(value = purrr::map_chr(value, ~ paste(., collapse = ", ")))
 
-  if (codec) out <- dplyr::filter(out, .data$name %in% cdr)
+  if (codec) out <- dplyr::filter(out, .data$name %in% codec_cdr())
   return(out)
 }
 
@@ -119,7 +134,7 @@ get_col_descriptors <- function(.x, codec = TRUE) {
     tibble::enframe() |>
     dplyr::mutate(value = purrr::map_chr(value, ~ paste(., collapse = ", ")))
 
-  if (codec) out <- dplyr::filter(out, .data$name %in% cdr$schema$fields)
+  if (codec) out <- dplyr::filter(out, .data$name %in% codec_cdr()$schema$fields)
   return(out)
 }
 

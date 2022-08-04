@@ -14,7 +14,23 @@ an object of the same type as .x, with updated frictionless attributes for facto
 input data frame attributes are preserved
 }
 \description{
-Given a data.frame (or tibble), this function returns data.frame after adding on Frictionless
-"type" attributes based on the class of each column; levels of factor columns are also captured
-in the "enum" item of the "constraints" attribute list.
+Given a data.frame (or tibble), this function returns the data.frame after adding on Frictionless
+"type" attributes based on the class of each column in R:
+}
+\details{
+\tabular{cc}{
+   \strong{R class} \tab \strong{TDR type} \cr
+   character \tab string \cr
+   Date \tab date \cr
+   numeric \tab number \cr
+   factor* \tab string \cr
+   hms,difftime \tab time \cr
+   integer \tab integer \cr
+   logical \tab boolean \cr
+   POSIXct,POSIXt \tab datetime \cr
+   difftime \tab number \cr
+}
+
+
+*Levels of factor columns are also captured in the "enum" item of the "constraints" attribute list.
 }
