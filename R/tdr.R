@@ -1,17 +1,126 @@
-#' make metadata list from attributes of data.frame
+#' return a list representing a valid CODEC-specific tabular-data-resource structure
+#'
+#' @export
+#' @examples
+#' codec_tdr()
+codec_tdr <- function() {
+  list(
+    "name",
+    "path",
+    "title",
+    "description",
+    "url",
+    "license",
+    "schema" = list(
+      "missingValues",
+      "primaryKey",
+      "foreignKeys",
+      "fields" = list(
+        "name", "title", "description",
+        "type", "example", "format", "constraints"
+      )
+    )
+  )
+}
+
+#' get CODEC descriptors and schema
+#'
+#' These functions are designed to provide a simple way to extract
+#' tibbles of descriptors and schema for data frames and columns with attributes:
+#'
+#' - `get_descriptors()` gets all descriptors from a data frame
+#' - `get_col_descriptors()` gets all field-specific descriptors from a single column inside of a data frame
+#' - `get_schema()` gets all field-specific descriptors from all columns inside
+#' of a data frame
+#'
+#' To instead get the complete data resource metadata (descriptors & schema)
+#' in a list, use `make_tdr_from_attr()`
+
+#' @param .x data frame or tibble
+#' @param codec logical; return only CODEC descriptors or schema?
+#' @return a tibble (or list of tibbles for `get_schema()`)
+#' with `name` and `value` columns for each descriptor
+#' @export
+get_descriptors <- function(.x, codec = TRUE) {
+  out <-
+    attributes(.x) |>
+    tibble::enframe() |>
+    dplyr::mutate(value = purrr::map_chr(.data$value, ~ paste(., collapse = ", ")))
+
+  if (codec) out <- dplyr::filter(out, .data$name %in% codec_tdr())
+  return(out)
+}
+
+#' @rdname get_descriptors
+#' @export
+get_col_descriptors <- function(.x, codec = TRUE) {
+  out <-
+    attributes(.x) |>
+    tibble::enframe() |>
+    dplyr::mutate(value = purrr::map_chr(.data$value, ~ paste(., collapse = ", ")))
+
+  if (codec) out <- dplyr::filter(out, .data$name %in% codec_tdr()$schema$fields)
+  return(out)
+}
+
+#' @rdname get_descriptors
+#' @export
+get_schema <- function(.x, codec = TRUE) {
+  out <- purrr::map(.x, get_col_descriptors, codec = codec)
+  return(out)
+}
+
+#' make a tabular-data-resource list from the attributes of a data.frame
 #'
 #' @param .x a data.frame or tibble
-#' @return frictionless metadata as a list
-make_tdr_from_attr <- function(.x) {
-  metad <- as.list(attributes(.x))
-  metad$schema <- list(fields = purrr::map(.x, attributes))
-  return(metad)
+#' @param codec logical; include only CODEC descriptors or schema? (see `?codec_cdr` for details)
+#' @return a list of tabular-data-resource metadata
+make_tdr_from_attr <- function(.x, codec = TRUE) {
+
+  tdr <-
+    get_descriptors(.x, codec = codec) |>
+    tibble::deframe() |>
+    as.list()
+
+  schm <-
+    get_schema(.x, codec = codec) |>
+    purrr::modify(tibble::deframe) |>
+    purrr::modify(as.list)
+  tdr$schema <- list(fields = schm)
+
+  return(tdr)
 }
+
+## #' add attributes to a data.frame based on a tabular-data-resource list
+## #'
+## #' @param .x a data.frame or tibble
+## #' @param tdr a tabular-data-resource list (usually created with `read_tdr()`)
+## #' @param codec logical; include only CODEC descriptors or schema? (see `?codec_cdr` for details)
+## #' @return .x with added tabular-data-resource attributes
+## add_attr_from_tdr <- function(.x, tdr, codec = TRUE) {
+##   descriptors <- tdr
+
+##   if (codec) {
+##     tdr <- tdr |>
+##     ## TODO better way to filter list based on name??
+##     tibble::enframe() |>
+##     dplyr::filter(.data$name %in% codec_cdr()) |>
+##     tibble::deframe()
+##   }
+
+
+##   out <- add_attrs(.x, !!!descriptors)
+
+##   out <- purrr::map2_dfc(.x, tdr$schema$fields, ~ add_attrs(..1, !!!..2))
+##   attributes(out) <- attributes(.x)
+## }
+
 
 #' extract data resource metadata from a data frame and save it to a file
 #'
 #' @param .x a data.frame or tibble
 #' @param file name of yaml file to write metadata to
+#' @param codec logical; include only CODEC descriptors or schema? (see `?codec_cdr` for details)
 #' @return .x (invisibly)
 #' @examples
 #' \dontrun{
@@ -22,10 +131,10 @@ make_tdr_from_attr <- function(.x) {
 #'   save_tdr(my_mtcars, "my_mtcars_tabular-data-resource.yaml")
 #' }
 #' @export
-save_tdr <- function(.x, file = "tabular-data-resource.yaml") {
+save_tdr <- function(.x, file = "tabular-data-resource.yaml", codec = TRUE) {
   .x |>
     add_attrs(profile = "tabular-data-resource") |>
-    make_tdr_from_attr() |>
+    make_tdr_from_attr(codec = codec) |>
     yaml::as.yaml() |>
     cat(file = file)
 
@@ -41,26 +150,6 @@ read_tdr <- function(file = "tabular-data-resource.yaml") {
   # TODO if file is a folder, look for "tabular-data-resource.yaml" there
   metadata <- yaml::yaml.load_file(file)
   return(metadata)
-}
-
-#' add attributes in a metadata list to a data.frame
-#'
-#' @param .x a data.frame or tibble
-#' @param metadata a list containing frictionless metadata (usually created with `read_tdr()`)
-#' @return .x with added frictionless metadata attributes
-make_attr_from_tdr <- function(.x, metadata) {
-
-  descriptors <-
-    metadata |>
-    ## TODO better way to filter list based on name??
-    tibble::enframe() |>
-    dplyr::filter(.data$name %in% codec_cdr()) |>
-    tibble::deframe()
-
-  out <- add_attrs(.x, !!!descriptors)
-
-  out <- purrr::map2_dfc(.x, metadata$schema$fields, ~ add_attrs(..1, !!!..2))
-  attributes(out) <- attributes(.x)
 }
 
 #' read a CSV file and frictionless metadata into R

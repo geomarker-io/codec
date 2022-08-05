@@ -24,4 +24,11 @@ d <-
     rating = factor(c("good", "best", "best"), levels = c("good", "better", "best")),
     ranking = as.integer(c(14, 17, 19)),
     impt = c(FALSE, TRUE, TRUE)
-  )
+  ) |>
+  add_attrs(
+    name = "example",
+    title = "Example Data Set",
+    path = "./inst/example_data.csv",
+    license = "MIT"
+  ) |>
+  add_type_attrs()

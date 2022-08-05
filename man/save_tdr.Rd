@@ -4,12 +4,14 @@
 \alias{save_tdr}
 \title{extract data resource metadata from a data frame and save it to a file}
 \usage{
-save_tdr(.x, file = "tabular-data-resource.yaml")
+save_tdr(.x, file = "tabular-data-resource.yaml", codec = TRUE)
 }
 \arguments{
 \item{.x}{a data.frame or tibble}
 
 \item{file}{name of yaml file to write metadata to}
+
+\item{codec}{logical; include only CODEC descriptors or schema? (see \code{?codec_cdr} for details)}
 }
 \value{
 .x (invisibly)

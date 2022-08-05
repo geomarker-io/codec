@@ -2,16 +2,18 @@
 % Please edit documentation in R/tdr.R
 \name{make_tdr_from_attr}
 \alias{make_tdr_from_attr}
-\title{make metadata list from attributes of data.frame}
+\title{make a tabular-data-resource list from the attributes of a data.frame}
 \usage{
-make_tdr_from_attr(.x)
+make_tdr_from_attr(.x, codec = TRUE)
 }
 \arguments{
 \item{.x}{a data.frame or tibble}
+
+\item{codec}{logical; include only CODEC descriptors or schema? (see \code{?codec_cdr} for details)}
 }
 \value{
-frictionless metadata as a list
+a list of tabular-data-resource metadata
 }
 \description{
-make metadata list from attributes of data.frame
+make a tabular-data-resource list from the attributes of a data.frame
 }

@@ -1,33 +1,171 @@
+# can translate between tdr and attributes
+
+    Code
+      make_tdr_from_attr(d)
+    Output
+      $name
+      [1] "example"
+      
+      $title
+      [1] "Example Data Set"
+      
+      $path
+      [1] "./inst/example_data.csv"
+      
+      $license
+      [1] "MIT"
+      
+      $schema
+      $schema$fields
+      $schema$fields$id
+      $schema$fields$id$name
+      [1] "id"
+      
+      $schema$fields$id$type
+      [1] "string"
+      
+      
+      $schema$fields$date
+      $schema$fields$date$name
+      [1] "date"
+      
+      $schema$fields$date$type
+      [1] "date"
+      
+      
+      $schema$fields$measure
+      $schema$fields$measure$name
+      [1] "measure"
+      
+      $schema$fields$measure$type
+      [1] "number"
+      
+      
+      $schema$fields$rating
+      $schema$fields$rating$constraints
+      [1] "c(\"good\", \"better\", \"best\")"
+      
+      $schema$fields$rating$name
+      [1] "rating"
+      
+      $schema$fields$rating$type
+      [1] "string"
+      
+      
+      $schema$fields$ranking
+      $schema$fields$ranking$name
+      [1] "ranking"
+      
+      $schema$fields$ranking$type
+      [1] "integer"
+      
+      
+      $schema$fields$impt
+      $schema$fields$impt$name
+      [1] "impt"
+      
+      $schema$fields$impt$type
+      [1] "boolean"
+      
+      
+      
+      
+
+# get_descriptors() and get_schema()
+
+    Code
+      knitr::kable(get_descriptors(classy_attrs, codec = FALSE))
+    Output
+      
+      
+      |name        |value                                                                |
+      |:-----------|:--------------------------------------------------------------------|
+      |class       |tbl_df, tbl, data.frame                                              |
+      |row.names   |1, 2, 3                                                              |
+      |names       |id, date, measure, rating, ranking, awesomeness, datetime, timesince |
+      |name        |classy                                                               |
+      |title       |The Classiest Data Set                                               |
+      |year        |2022                                                                 |
+      |description |A toy data frame with many different column classes.                 |
+
+---
+
+    Code
+      purrr::map(get_schema(classy_attrs), knitr::kable)
+    Output
+      $id
+      
+      
+      |name |value  |
+      |:----|:------|
+      |name |id     |
+      |type |string |
+      
+      $date
+      
+      
+      |name |value |
+      |:----|:-----|
+      |name |date  |
+      |type |date  |
+      
+      $measure
+      
+      
+      |name |value   |
+      |:----|:-------|
+      |name |measure |
+      |type |number  |
+      
+      $rating
+      
+      
+      |name        |value                       |
+      |:-----------|:---------------------------|
+      |constraints |c("good", "better", "best") |
+      |name        |rating                      |
+      |type        |string                      |
+      
+      $ranking
+      
+      
+      |name |value   |
+      |:----|:-------|
+      |name |ranking |
+      |type |integer |
+      
+      $awesomeness
+      
+      
+      |name |value       |
+      |:----|:-----------|
+      |name |awesomeness |
+      |type |boolean     |
+      
+      $datetime
+      
+      
+      |name |value    |
+      |:----|:--------|
+      |name |datetime |
+      |type |datetime |
+      
+      $timesince
+      
+      
+      |name |value     |
+      |:----|:---------|
+      |name |timesince |
+      |type |number    |
+      
+
 # can create data resource metadata from attributes
 
     Code
       make_tdr_from_attr(my_mtcars)
     Output
-      $names
-       [1] "mpg"  "cyl"  "disp" "hp"   "drat" "wt"   "qsec" "vs"   "am"   "gear"
-      [11] "carb"
-      
-      $row.names
-       [1] "Mazda RX4"           "Mazda RX4 Wag"       "Datsun 710"         
-       [4] "Hornet 4 Drive"      "Hornet Sportabout"   "Valiant"            
-       [7] "Duster 360"          "Merc 240D"           "Merc 230"           
-      [10] "Merc 280"            "Merc 280C"           "Merc 450SE"         
-      [13] "Merc 450SL"          "Merc 450SLC"         "Cadillac Fleetwood" 
-      [16] "Lincoln Continental" "Chrysler Imperial"   "Fiat 128"           
-      [19] "Honda Civic"         "Toyota Corolla"      "Toyota Corona"      
-      [22] "Dodge Challenger"    "AMC Javelin"         "Camaro Z28"         
-      [25] "Pontiac Firebird"    "Fiat X1-9"           "Porsche 914-2"      
-      [28] "Lotus Europa"        "Ford Pantera L"      "Ferrari Dino"       
-      [31] "Maserati Bora"       "Volvo 142E"         
-      
-      $class
-      [1] "data.frame"
-      
       $name
       [1] "Motor Trend Cars"
-      
-      $year
-      [1] "1974"
       
       $schema
       $schema$fields
@@ -130,70 +268,32 @@
     Code
       make_tdr_from_attr(classy)
     Output
-      $class
-      [1] "tbl_df"     "tbl"        "data.frame"
-      
-      $row.names
-      [1] 1 2 3
-      
-      $names
-      [1] "id"          "date"        "measure"     "rating"      "ranking"    
-      [6] "awesomeness" "datetime"    "timesince"  
-      
       $schema
       $schema$fields
       $schema$fields$id
-      NULL
+      named list()
       
       $schema$fields$date
-      $schema$fields$date$class
-      [1] "Date"
-      
+      named list()
       
       $schema$fields$measure
-      NULL
+      named list()
       
       $schema$fields$rating
-      $schema$fields$rating$levels
-      [1] "good"   "better" "best"  
-      
-      $schema$fields$rating$class
-      [1] "factor"
-      
+      named list()
       
       $schema$fields$ranking
-      NULL
+      named list()
       
       $schema$fields$awesomeness
-      NULL
+      named list()
       
       $schema$fields$datetime
-      $schema$fields$datetime$class
-      [1] "POSIXct" "POSIXt" 
-      
+      named list()
       
       $schema$fields$timesince
-      $schema$fields$timesince$class
-      [1] "difftime"
-      
-      $schema$fields$timesince$units
-      [1] "secs"
+      named list()
       
       
       
-      
-
-# get_descriptors works
-
-    Code
-      get_descriptors(my_mtcars, codec = FALSE)
-    Output
-      # A tibble: 5 x 2
-        name      value                                                               
-        <chr>     <chr>                                                               
-      1 names     mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb              
-      2 row.names Mazda RX4, Mazda RX4 Wag, Datsun 710, Hornet 4 Drive, Hornet Sporta~
-      3 class     data.frame                                                          
-      4 name      Motor Trend Cars                                                    
-      5 year      1974                                                                
 
