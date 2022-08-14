@@ -27,18 +27,17 @@ codec_tdr <- function() {
 #'
 #' These functions are designed to provide a simple way to extract
 #' tibbles of descriptors and schema for data frames and columns with attributes:
-#'
 #' - `get_descriptors()` gets all descriptors from a data frame
 #' - `get_col_descriptors()` gets all field-specific descriptors from a single column inside of a data frame
 #' - `get_schema()` gets all field-specific descriptors from all columns inside
 #' of a data frame
-#'
+#' 
 #' To instead get the complete data resource metadata (descriptors & schema)
 #' in a list, use `make_tdr_from_attr()`
-
 #' @param .x data frame or tibble
 #' @param codec logical; return only CODEC descriptors or schema?
-#' @return a tibble (or list of tibbles for `get_schema()`)
+#' @param bind logical; bind schema together into one wide data frame?
+#' @return a tibble (or list of tibbles for `get_schema()` if `bind = FALSE`)
 #' with `name` and `value` columns for each descriptor
 #' @export
 get_descriptors <- function(.x, codec = TRUE) {
@@ -65,8 +64,13 @@ get_col_descriptors <- function(.x, codec = TRUE) {
 
 #' @rdname get_descriptors
 #' @export
-get_schema <- function(.x, codec = TRUE) {
+get_schema <- function(.x, bind = TRUE, codec = TRUE) {
   out <- purrr::map(.x, get_col_descriptors, codec = codec)
+  if (bind) {
+    out <- out |>
+      purrr::modify(tidyr::pivot_wider) |>
+      dplyr::bind_rows(.id = "col")
+  }
   return(out)
 }
 
@@ -83,7 +87,7 @@ make_tdr_from_attr <- function(.x, codec = TRUE) {
     as.list()
 
   schm <-
-    get_schema(.x, codec = codec) |>
+    get_schema(.x, bind = FALSE, codec = codec) |>
     purrr::modify(tibble::deframe) |>
     purrr::modify(as.list)
   tdr$schema <- list(fields = schm)
@@ -95,7 +99,7 @@ make_tdr_from_attr <- function(.x, codec = TRUE) {
 ## #'
 ## #' @param .x a data.frame or tibble
 ## #' @param tdr a tabular-data-resource list (usually created with `read_tdr()`)
-## #' @param codec logical; include only CODEC descriptors or schema? (see `?codec_cdr` for details)
+## #' @param codec logical; include only CODEC descriptors or schema? (see `?codec_tdr` for details)
 ## #' @return .x with added tabular-data-resource attributes
 ## add_attr_from_tdr <- function(.x, tdr, codec = TRUE) {
 ##   descriptors <- tdr

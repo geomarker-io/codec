@@ -53,7 +53,13 @@ When creating a tabular dataset in R, data-specific metadata (i.e.,
 data.frame or tibble).
 
 ``` r
-d <- add_attrs(d, name = "mydata", title = "My Data", license = "MIT", url = "https://geomarker.io/CODECtools")
+d <- d |>
+  add_attrs(
+    name = "mydata",
+    title = "My Data",
+    license = "MIT",
+    url = "https://geomarker.io/CODECtools"
+  )
 ```
 
 Note that this doesn’t change any of the data values. In R, an object’s
@@ -100,56 +106,22 @@ d <- add_type_attrs(d)
 ```
 
 Like for descriptors, there is a helper function to retrieve schema as a
-tibble. This is returned as a list with a separate tibble for each
-column:
+tibble. Specify `bind = TRUE` to combine the list of column-specific
+attribute data frames for each column into one wider data frame:
 
 ``` r
-get_schema(d) |>
+get_schema(d, bind = TRUE) |>
   knitr::kable()
 ```
 
-| name        | value             |
-|:------------|:------------------|
-| title       | Identifier        |
-| description | unique identifier |
-| name        | id                |
-| type        | string            |
-
-| name        | value               |
-|:------------|:--------------------|
-| title       | Date                |
-| description | date of observation |
-| name        | date                |
-| type        | date                |
-
-| name        | value             |
-|:------------|:------------------|
-| title       | Measure           |
-| description | measured quantity |
-| name        | measure           |
-| type        | number            |
-
-| name        | value                          |
-|:------------|:-------------------------------|
-| title       | Rating                         |
-| description | ordered ranking of observation |
-| constraints | c(“good”, “better”, “best”)    |
-| name        | rating                         |
-| type        | string                         |
-
-| name        | value                   |
-|:------------|:------------------------|
-| title       | Ranking                 |
-| description | rank of the observation |
-| name        | ranking                 |
-| type        | integer                 |
-
-| name        | value                                 |
-|:------------|:--------------------------------------|
-| title       | Important                             |
-| description | true if this observation is important |
-| name        | impt                                  |
-| type        | boolean                               |
+| col     | title      | description                           | name    | type    | constraints                 |
+|:--------|:-----------|:--------------------------------------|:--------|:--------|:----------------------------|
+| id      | Identifier | unique identifier                     | id      | string  | NA                          |
+| date    | Date       | date of observation                   | date    | date    | NA                          |
+| measure | Measure    | measured quantity                     | measure | number  | NA                          |
+| rating  | Rating     | ordered ranking of observation        | rating  | string  | c(“good”, “better”, “best”) |
+| ranking | Ranking    | rank of the observation               | ranking | integer | NA                          |
+| impt    | Important  | true if this observation is important | impt    | boolean | NA                          |
 
 Once our metadata is set correctly, we can save our tabular data
 resource as a YAML file:

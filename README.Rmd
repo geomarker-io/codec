@@ -59,7 +59,13 @@ d <-
 When creating a tabular dataset in R, data-specific metadata (i.e., "descriptors") can be stored in the attributes of the R object (e.g., a data.frame or tibble).
 
 ```{r}
-d <- add_attrs(d, name = "mydata", title = "My Data", license = "MIT", url = "https://geomarker.io/CODECtools")
+d <- d |>
+  add_attrs(
+    name = "mydata",
+    title = "My Data",
+    license = "MIT",
+    url = "https://geomarker.io/CODECtools"
+  )
 ```
 
 Note that this doesn't change any of the data values. In R, an object's attributes are stored with it as a list. Some attributes (`?attributes`) are treated specially by R (e.g., `class`, `names`, `row.names`, `comment`) and usually shouldn't be modified.  Although *all* attributes (including the ones we added above) are available as a list (`?attributes`), we can use a function to extract only the attributes that represent metadata descriptors as a tibble.
@@ -88,11 +94,10 @@ Automagically add `name`, `type` and `enum` schema to each column in the data [b
 d <- add_type_attrs(d)
 ```
 
-Like for descriptors, there is a helper function to retrieve schema as a tibble.  This is returned as a list with a separate tibble for each column:
-
+Like for descriptors, there is a helper function to retrieve schema as a tibble.  Specify `bind = TRUE` to combine the list of column-specific attribute data frames for each column into one wider data frame:
 
 ```{r}
-get_schema(d) |>
+get_schema(d, bind = TRUE) |>
   knitr::kable()
 ```
 

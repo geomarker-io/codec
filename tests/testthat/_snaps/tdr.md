@@ -91,7 +91,7 @@
 ---
 
     Code
-      purrr::map(get_schema(classy_attrs), knitr::kable)
+      purrr::map(get_schema(classy_attrs, bind = FALSE), knitr::kable)
     Output
       $id
       
@@ -158,6 +158,23 @@
       |name |timesince |
       |type |number    |
       
+
+---
+
+    Code
+      get_schema(classy_attrs)
+    Output
+      # A tibble: 8 x 4
+        col         name        type     constraints                        
+        <chr>       <chr>       <chr>    <chr>                              
+      1 id          id          string    <NA>                              
+      2 date        date        date      <NA>                              
+      3 measure     measure     number    <NA>                              
+      4 rating      rating      string   "c(\"good\", \"better\", \"best\")"
+      5 ranking     ranking     integer   <NA>                              
+      6 awesomeness awesomeness boolean   <NA>                              
+      7 datetime    datetime    datetime  <NA>                              
+      8 timesince   timesince   number    <NA>                              
 
 # can create data resource metadata from attributes
 

@@ -10,29 +10,30 @@ get_descriptors(.x, codec = TRUE)
 
 get_col_descriptors(.x, codec = TRUE)
 
-get_schema(.x, codec = TRUE)
+get_schema(.x, bind = TRUE, codec = TRUE)
 }
 \arguments{
 \item{.x}{data frame or tibble}
 
 \item{codec}{logical; return only CODEC descriptors or schema?}
+
+\item{bind}{logical; bind schema together into one wide data frame?}
 }
 \value{
-a tibble (or list of tibbles for \code{get_schema()})
+a tibble (or list of tibbles for \code{get_schema()} if \code{bind = FALSE})
 with \code{name} and \code{value} columns for each descriptor
 }
 \description{
 These functions are designed to provide a simple way to extract
 tibbles of descriptors and schema for data frames and columns with attributes:
-}
-\details{
 \itemize{
 \item \code{get_descriptors()} gets all descriptors from a data frame
 \item \code{get_col_descriptors()} gets all field-specific descriptors from a single column inside of a data frame
 \item \code{get_schema()} gets all field-specific descriptors from all columns inside
 of a data frame
 }
-
+}
+\details{
 To instead get the complete data resource metadata (descriptors & schema)
 in a list, use \code{make_tdr_from_attr()}
 }

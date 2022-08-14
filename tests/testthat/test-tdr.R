@@ -41,10 +41,13 @@ test_that("get_descriptors() and get_schema()", {
     )
 
     expect_snapshot(
-      get_schema(classy_attrs) |>
+      get_schema(classy_attrs, bind = FALSE) |>
         purrr::map(knitr::kable)
     )
 
+    expect_snapshot(
+      get_schema(classy_attrs)
+    )
 
 })
 
@@ -61,5 +64,9 @@ test_that("can save tabular-data-resource file", {
   save_tdr(d)
   expect_snapshot_file("tabular-data-resource.yaml")
   fs::file_delete("tabular-data-resource.yaml")
+})
+
+test_that("can read example tdr file", {
+  fs::path_join(c(fs::path_package("dht"), "tabular-data-resource.yaml"))
 })
 
