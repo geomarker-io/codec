@@ -77,7 +77,7 @@ get_schema <- function(.x, bind = TRUE, codec = TRUE) {
 #' make a tabular-data-resource list from the attributes of a data.frame
 #'
 #' @param .x a data.frame or tibble
-#' @param codec logical; include only CODEC descriptors or schema? (see `?codec_cdr` for details)
+#' @param codec logical; include only CODEC descriptors or schema? (see `?codec_tdr` for details)
 #' @return a list of tabular-data-resource metadata
 make_tdr_from_attr <- function(.x, codec = TRUE) {
 
@@ -95,36 +95,32 @@ make_tdr_from_attr <- function(.x, codec = TRUE) {
   return(tdr)
 }
 
-## #' add attributes to a data.frame based on a tabular-data-resource list
-## #'
-## #' @param .x a data.frame or tibble
-## #' @param tdr a tabular-data-resource list (usually created with `read_tdr()`)
-## #' @param codec logical; include only CODEC descriptors or schema? (see `?codec_tdr` for details)
-## #' @return .x with added tabular-data-resource attributes
-## add_attr_from_tdr <- function(.x, tdr, codec = TRUE) {
-##   descriptors <- tdr
+#' add CODEC attributes to a data.frame based on a tabular-data-resource list
+#'
+#' @param .x a data.frame or tibble
+#' @param tdr a tabular-data-resource list (usually created with `read_tdr()`)
+#' @return .x with added tabular-data-resource attributes
+add_attr_from_tdr <- function(.x, tdr) {
 
-##   if (codec) {
-##     tdr <- tdr |>
-##     ## TODO better way to filter list based on name??
-##     tibble::enframe() |>
-##     dplyr::filter(.data$name %in% codec_cdr()) |>
-##     tibble::deframe()
-##   }
+  descriptors <-
+    tdr |>
+    ## TODO better way to filter list based on name??
+    tibble::enframe() |>
+    dplyr::filter(.data$name %in% codec_tdr()) |>
+    tibble::deframe()
 
+  out <- purrr::map2_dfc(.x, tdr$schema$fields, ~ add_attrs(..1, !!!..2))
+  out <- add_attrs(out, !!!descriptors)
 
-##   out <- add_attrs(.x, !!!descriptors)
-
-##   out <- purrr::map2_dfc(.x, tdr$schema$fields, ~ add_attrs(..1, !!!..2))
-##   attributes(out) <- attributes(.x)
-## }
+  return(out)
+}
 
 
 #' extract data resource metadata from a data frame and save it to a file
 #'
 #' @param .x a data.frame or tibble
 #' @param file name of yaml file to write metadata to
-#' @param codec logical; include only CODEC descriptors or schema? (see `?codec_cdr` for details)
+#' @param codec logical; include only CODEC descriptors or schema? (see `?codec_tdr` for details)
 #' @return .x (invisibly)
 #' @examples
 #' \dontrun{

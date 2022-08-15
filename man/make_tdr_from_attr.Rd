@@ -9,7 +9,7 @@ make_tdr_from_attr(.x, codec = TRUE)
 \arguments{
 \item{.x}{a data.frame or tibble}
 
-\item{codec}{logical; include only CODEC descriptors or schema? (see \code{?codec_cdr} for details)}
+\item{codec}{logical; include only CODEC descriptors or schema? (see \code{?codec_tdr} for details)}
 }
 \value{
 a list of tabular-data-resource metadata

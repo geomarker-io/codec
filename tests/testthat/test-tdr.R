@@ -1,5 +1,5 @@
 test_that("can translate between tdr and attributes", {
-  expect_snapshot(make_tdr_from_attr(d))
+  expect_snapshot(make_tdr_from_attr(d_attrs))
 
 })
 
@@ -61,12 +61,22 @@ test_that("can create data resource metadata from attributes", {
 })
 
 test_that("can save tabular-data-resource file", {
-  save_tdr(d)
-  expect_snapshot_file("tabular-data-resource.yaml")
-  fs::file_delete("tabular-data-resource.yaml")
+  save_tdr(d_attrs, "test.yaml")
+  expect_snapshot_file("test.yaml")
+  fs::file_delete("test.yaml")
 })
 
 test_that("can read example tdr file", {
-  fs::path_join(c(fs::path_package("dht"), "tabular-data-resource.yaml"))
+  test_path("tabular-data-resource.yaml") |>
+    read_tdr() |>
+    expect_snapshot()
+})
+
+test_that("add_attr_from_tdr", {
+  my_tdr <-
+    test_path("tabular-data-resource.yaml") |>
+    read_tdr()
+  d_my_attrs <- add_attr_from_tdr(d, my_tdr)
+  expect_identical(get_descriptors(d_my_attrs), get_descriptors(d_attrs))
 })
 

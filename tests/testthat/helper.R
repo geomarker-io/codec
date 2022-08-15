@@ -24,7 +24,10 @@ d <-
     rating = factor(c("good", "best", "best"), levels = c("good", "better", "best")),
     ranking = as.integer(c(14, 17, 19)),
     impt = c(FALSE, TRUE, TRUE)
-  ) |>
+  ) 
+
+d_attrs <-
+  d |>
   add_attrs(
     name = "example",
     title = "Example Data Set",
