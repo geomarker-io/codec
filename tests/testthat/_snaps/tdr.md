@@ -10,7 +10,7 @@
       [1] "Example Data Set"
       
       $path
-      [1] "./inst/example_data.csv"
+      [1] "d.csv"
       
       $license
       [1] "MIT"
@@ -326,7 +326,7 @@
       [1] "Example Data Set"
       
       $path
-      [1] "./inst/example_data.csv"
+      [1] "d.csv"
       
       $license
       [1] "MIT"
@@ -359,7 +359,7 @@
       
       $schema$fields$rating
       $schema$fields$rating$constraints
-      [1] "c(\"good\", \"better\", \"best\")"
+      [1] "good"   "better" "best"  
       
       $schema$fields$rating$name
       [1] "rating"
@@ -386,4 +386,32 @@
       
       
       
+
+# read_tdr_csv
+
+    Code
+      get_schema(d_tdr)
+    Output
+      # A tibble: 6 x 4
+        col     name    type    constraints       
+        <chr>   <chr>   <chr>   <chr>             
+      1 id      id      string  <NA>              
+      2 date    date    date    <NA>              
+      3 measure measure number  <NA>              
+      4 rating  rating  string  good, better, best
+      5 ranking ranking integer <NA>              
+      6 impt    impt    boolean <NA>              
+
+---
+
+    Code
+      get_descriptors(d_tdr)
+    Output
+      # A tibble: 4 x 2
+        name    value           
+        <chr>   <chr>           
+      1 name    example         
+      2 title   Example Data Set
+      3 path    d.csv           
+      4 license MIT             
 

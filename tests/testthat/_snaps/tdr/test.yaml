@@ -1,6 +1,6 @@
 name: example
 title: Example Data Set
-path: ./inst/example_data.csv
+path: d.csv
 license: MIT
 schema:
   fields:

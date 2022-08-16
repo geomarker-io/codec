@@ -7,7 +7,7 @@
 read_tdr(file = "tabular-data-resource.yaml")
 }
 \arguments{
-\item{file}{name of yaml file to write metadata to}
+\item{file}{filename (or connection) of yaml file to read metadata from}
 }
 \value{
 a list of frictionless metadata

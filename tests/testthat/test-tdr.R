@@ -80,3 +80,10 @@ test_that("add_attr_from_tdr", {
   expect_identical(get_descriptors(d_my_attrs), get_descriptors(d_attrs))
 })
 
+test_that("read_tdr_csv", {
+  d_tdr <- read_tdr_csv(test_path("tabular-data-resource.yaml"))
+  expect_identical(levels(d_tdr$rating), c("good", "best", "better"))
+  expect_snapshot(get_schema(d_tdr))
+  expect_snapshot(get_descriptors(d_tdr))
+})
+
