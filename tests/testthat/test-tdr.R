@@ -86,4 +86,3 @@ test_that("read_tdr_csv", {
   expect_snapshot(get_schema(d_tdr))
   expect_snapshot(get_descriptors(d_tdr))
 })
-

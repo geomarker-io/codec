@@ -137,7 +137,7 @@ A CSV file, on its own, cannot tell R (or other software) anything about itself 
 > The essence of a Data Resource is a locator for the data it describes.
 
 - **[data_resource](https://specs.frictionlessdata.io/data-resource/)**: a hierarchical list in a specific format used in attributes of R data frames *and* saved on disk in metadata files; made up of *properties* and a *schema* 
-  - **[property](https://specs.frictionlessdata.io/data-resource/#metadata-properties)**: a named value stored as a string; used to describe data resource (e.g. name, path, description, version)
+  - **[descriptor](https://specs.frictionlessdata.io/data-resource/#metadata-properties)**: a named value stored as a string; used to describe data resource (e.g. name, path, description, version)
   - **[schema](https://specs.frictionlessdata.io/table-schema/)**: information about each of the "fields" or "columns" within a tabular data frame
   
 

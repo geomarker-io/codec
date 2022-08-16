@@ -12,9 +12,8 @@ codec_tdr <- function() {
     "url",
     "license",
     "schema" = list(
-      "missingValues",
-      "primaryKey",
-      "foreignKeys",
+      "missingValues", # "", "NA" ???
+      "primaryKey", # field(s) that uniquely identify each row ??
       "fields" = list(
         "name", "title", "description",
         "type", "example", "format", "constraints"
@@ -115,7 +114,6 @@ add_attr_from_tdr <- function(.x, tdr) {
   return(out)
 }
 
-
 #' extract data resource metadata from a data frame and save it to a file
 #'
 #' @param .x a data.frame or tibble
@@ -143,7 +141,7 @@ save_tdr <- function(.x, file = "tabular-data-resource.yaml", codec = TRUE) {
 
 #' read metadata in from a tabular-data-resource.yaml file
 #'
-#' @param file name of yaml file to write metadata to
+#' @param file filename (or connection) of yaml file to read metadata from
 #' @return a list of frictionless metadata
 #' @export
 read_tdr <- function(file = "tabular-data-resource.yaml") {
@@ -152,86 +150,75 @@ read_tdr <- function(file = "tabular-data-resource.yaml") {
   return(metadata)
 }
 
-#' read a CSV file and frictionless metadata into R
-## read_tdr_csv <- function(file = "tabular-data-resource.yaml") {
+#' read a CSV tabular data resource into R
+#'
+#' The CSV file defined in a tabular-data-resource yaml file
+#' will be read into R using `readr::read_csv`. Columns to
+#' read and their types are set using metadata. Metadata
+#' (descriptors and schema) are stored as attributes
+#' of the returned tibble.
+#'
+#' *Note:*
+#' - the `path` descriptor is always relative to the tabular-data-resource file
+#' - descriptors will always be restricted to those in `codec_tdr()`
+#' @param file path to tabular-data-resource yaml file
+#' @return tibble with added tabular-data-resource attributes
+#' @export
+read_tdr_csv <- function(file = "tabular-data-resource.yaml") {
 
-##   metadata <- read_tdr(file)
+  metadata <- read_tdr(file)
 
-##   descriptors <-
-##     metadata |>
-##     tibble::enframe() |>
-##     dplyr::filter(name %in% cdr) |>
-##     tibble::deframe()
+  descriptors <-
+    metadata |>
+    tibble::enframe() |>
+    dplyr::filter(.data$name %in% codec_tdr()) |>
+    tibble::deframe()
 
-##   col_names <- names(metadata$schema$fields)
+  type_class_cw <- c(
+    "string" = "c",
+    "date" = "D",
+    "number" = "n",
+    "time" = "t",
+    "integer" = "i",
+    "boolean" = "l",
+    "datetime" = "T"
+  )
 
-##   col_types <- purrr::map(metadata$schema$fields, "type")
+  col_names <- names(metadata$schema$fields)
+  col_types <- purrr::map_chr(metadata$schema$fields, "type")
+  col_classes <- purrr::map_chr(col_types, ~ type_class_cw[.])
+  lvls <-
+    purrr::map(metadata$schema$fields, "constraints", "enum") |>
+    purrr::compact()
 
-##   col_classes <- purrr::map(col_types, ~ type_class_cw[.])
+  col_classes[[names(lvls)]] <- "f"
 
-##   # TODO change strings that have enum to factors
-##   levels <- purrr::map(metadata$schema$fields, "constraints", "enum")
+  data_path <- fs::path(fs::path_dir(file), metadata$path)
 
-##   data_path <- metadata$path
+  out <-
+    readr::read_csv(
+      file = data_path,
+      col_types = paste(col_classes, collapse = ""),
+      col_select = all_of({{ col_names }}),
+      locale = readr::locale(
+        encoding = "UTF-8",
+        decimal_mark = ".",
+        grouping_mark = ""
+      ),
+      ## na = c("", "NA"),
+      ## quote = "\"",
+      name_repair = "check_unique",
+      lazy = FALSE
+    )
 
-##   # read the CSV
-##   # TODO use dplyr::col_guess for any columns not specified in the metadata?  warning? or error?
-##   # or a `strict = TRUE` argument
+  for (lvl in names(lvls)) {
+    out <- dplyr::mutate(out, {{ lvl }} := forcats::fct_expand(dplyr::pull(out, {{ lvl }}), lvls[[lvl]]))
+  }
 
-##   out <- make_attr_from_tdr(out, metadata)
-## }
-
-## type_class_cw <- c(
-##   "string" = readr::col_character,
-##   "date" = readr::col_date,
-##   "number" = readr::col_double,
-##   ## "string" FACTOR ,
-##   "time" = readr::col_time,
-##   "integer" = readr::col_integer,
-##   "boolean" = readr::col_logical,
-##   "datetime" = readr::col_datetime
-## )
+  out <- add_attr_from_tdr(out, metadata)
+  return(out)
+}
 
 ## write_tdr_csv <- function() {
 
 ## }
-
-  
-## read_codec_csv <- function(file) {
-
-##   col_logical(),
-##   col_integer(),
-##   col_double(),
-##   col_character(),
-##   col_factor(levels),
-##   col_date(),
-##   col_datetime(),
-##   col_number(),
-##   col_guess()
-
-##   col_types
-##   na
-
-##   readr::read_csv(
-##     file,
-##     col_names = TRUE,
-##     col_types = cols(),
-##     col_select = NULL,
-##     locale = readr::locale(
-##       encoding = "UTF-8",
-##       decimal_mark = ".",
-##       grouping_mark = ""
-##     ),
-##     na = na,
-##     quoted_na = TRUE,
-##     quote = "\"",
-##     name_repair = "check_unique",
-##     num_threads = readr_threads(),
-##     progress = show_progress(),
-##     show_col_types = should_show_types(),
-##     lazy = FALSE
-##   )
-
-  
-## }
-

@@ -72,7 +72,7 @@ add_type_attrs <- function(.x) {
       ~ add_attrs(., constraints = list(enum = attr(., "levels")))
     ))
 
-  out <- purrr::map2_dfc(out, names(out), ~ add_attrs(..1, name = ..2))
+  out <- purrr::imap_dfc(out, ~ add_attrs(..1, name = ..2))
 
   out <- purrr::map2_dfc(out, col_frictionless_classes, ~ add_attrs(..1, type = ..2))
 

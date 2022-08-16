@@ -108,3 +108,4 @@ NULL
 
 
 utils::globalVariables("where")
+utils::globalVariables("all_of")
