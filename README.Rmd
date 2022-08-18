@@ -88,7 +88,7 @@ d <-
   add_col_attrs(impt, title = "Important", description = "true if this observation is important")
 ```
 
-Automagically add `name`, `type` and `enum` schema to each column in the data [based on their class](link to where this is documented -- vignette?)
+Automagically add `name`, `type` and `enum` schema to each column in the data:
 
 ```{r}
 d <- add_type_attrs(d)
@@ -101,19 +101,23 @@ get_schema(d, bind = TRUE) |>
   knitr::kable()
 ```
 
-Once our metadata is set correctly, we can save our tabular data resource as a YAML file:
-
-But still need to add path....
+Once metadata is set in the tibble's attributes, we can save the tabular data resource as a CSV file with an accompanying tabular-data-resource.yaml:
 
 ```{r}
-save_tdr(d)
-
-## yaml::yaml.load_file("tabular-data-resource.yaml")
+write_tdr_csv(d)
 
 ``` 
 
-We also need to save our CSV file using `readr::write_csv()` since it takes care of all of the CSV defaults for us?? (so we don't have to specify those in the schema -- just assume the defaults always)
+This creates (1) creates a new folder based on the `name` attribute of our tibble, (2) writes the tabular data into a CSV file named based on the `name` attribute, and (3) extracts the metadata from the tibble's attributes and saves it in the frictionless tabular-data-resource specification as a yaml file:
 
-This allows others to read in a CSV file in R and use the metadata file to properly define the classes (and levels) of the columns:
+```{r}
+fs::dir_tree("mydata")
 
-, saving it to disk, and reading it back into R with the metadata:
+```
+
+
+We can then read this tabular-data-package back into R and restore its attributes, as well as its column classes:
+
+```r
+read_tdr_csv("mydata/tabular-data-resource.yaml")
+```

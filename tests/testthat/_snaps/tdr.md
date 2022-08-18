@@ -73,7 +73,7 @@
       
       
 
-# can read example tdr file
+# read_tdr
 
     Code
       read_tdr(test_path("tabular-data-resource.yaml"))

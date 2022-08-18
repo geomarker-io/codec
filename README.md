@@ -79,8 +79,8 @@ get_descriptors(d) |>
 |:--------|:----------------------------------|
 | name    | mydata                            |
 | title   | My Data                           |
-| license | MIT                               |
 | url     | <https://geomarker.io/CODECtools> |
+| license | MIT                               |
 
 Similarly, we can add column-specific attributes (i.e., “schema”). These
 metadata functions follow the tidy design principles, making it simple
@@ -98,8 +98,7 @@ d <-
 ```
 
 Automagically add `name`, `type` and `enum` schema to each column in the
-data [based on their
-class](link%20to%20where%20this%20is%20documented%20--%20vignette?)
+data:
 
 ``` r
 d <- add_type_attrs(d)
@@ -114,31 +113,42 @@ get_schema(d, bind = TRUE) |>
   knitr::kable()
 ```
 
-| col     | title      | description                           | name    | type    | constraints                 |
-|:--------|:-----------|:--------------------------------------|:--------|:--------|:----------------------------|
-| id      | Identifier | unique identifier                     | id      | string  | NA                          |
-| date    | Date       | date of observation                   | date    | date    | NA                          |
-| measure | Measure    | measured quantity                     | measure | number  | NA                          |
-| rating  | Rating     | ordered ranking of observation        | rating  | string  | c(“good”, “better”, “best”) |
-| ranking | Ranking    | rank of the observation               | ranking | integer | NA                          |
-| impt    | Important  | true if this observation is important | impt    | boolean | NA                          |
+| col     | name    | title      | description                           | type    | constraints         |
+|:--------|:--------|:-----------|:--------------------------------------|:--------|:--------------------|
+| id      | id      | Identifier | unique identifier                     | string  | NULL                |
+| date    | date    | Date       | date of observation                   | date    | NULL                |
+| measure | measure | Measure    | measured quantity                     | number  | NULL                |
+| rating  | rating  | Rating     | ordered ranking of observation        | string  | good , better, best |
+| ranking | ranking | Ranking    | rank of the observation               | integer | NULL                |
+| impt    | impt    | Important  | true if this observation is important | boolean | NULL                |
 
-Once our metadata is set correctly, we can save our tabular data
-resource as a YAML file:
-
-But still need to add path….
+Once metadata is set in the tibble’s attributes, we can save the tabular
+data resource as a CSV file with an accompanying
+tabular-data-resource.yaml:
 
 ``` r
-save_tdr(d)
-
-## yaml::yaml.load_file("tabular-data-resource.yaml")
+write_tdr_csv(d)
+#> ✔ created '/Users/broeg1/code/CODECtools/mydata'/
+#> ✔ wrote data to '/Users/broeg1/code/CODECtools/mydata/mydata.csv'
+#> ✔ wrote metadata to '/Users/broeg1/code/CODECtools/mydata/tabular-data-resource.yaml'
 ```
 
-We also need to save our CSV file using `readr::write_csv()` since it
-takes care of all of the CSV defaults for us?? (so we don’t have to
-specify those in the schema – just assume the defaults always)
+This creates (1) creates a new folder based on the `name` attribute of
+our tibble, (2) writes the tabular data into a CSV file named based on
+the `name` attribute, and (3) extracts the metadata from the tibble’s
+attributes and saves it in the frictionless tabular-data-resource
+specification as a yaml file:
 
-This allows others to read in a CSV file in R and use the metadata file
-to properly define the classes (and levels) of the columns:
+``` r
+fs::dir_tree("mydata")
+#> mydata
+#> ├── mydata.csv
+#> └── tabular-data-resource.yaml
+```
 
-, saving it to disk, and reading it back into R with the metadata:
+We can then read this tabular-data-package back into R and restore its
+attributes, as well as its column classes:
+
+``` r
+read_tdr_csv("mydata/tabular-data-resource.yaml")
+```

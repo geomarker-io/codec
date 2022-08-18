@@ -84,7 +84,7 @@ add_attr_from_tdr <- function(.x, tdr, codec = TRUE) {
 #'   save_tdr(my_mtcars, "my_mtcars_tabular-data-resource.yaml")
 #' }
 #' @export
-save_tdr <- function(.x, file = "tabular-data-resource.yaml", codec = TRUE) {
+write_tdr <- function(.x, file = "tabular-data-resource.yaml", codec = TRUE) {
   .x |>
     add_attrs(profile = "tabular-data-resource") |>
     make_tdr_from_attr(codec = codec) |>
@@ -174,6 +174,35 @@ read_tdr_csv <- function(file = "tabular-data-resource.yaml") {
   return(out)
 }
 
-## write_tdr_csv <- function() {
+#' write a tabular-data-resource yaml file and data csv file based on a data.frame or tibble
+#'
+#' The `path` argument specifies where the folder containing
+#' the codec-tdr will be created.  Within this path, the folder
+#' for the codec-tdr will be named based on the name attribute
+#' of the data.frame or tibble. The CSV data file will be named
+#' based on the name attribute of the data.frame or tibble
+#' and a "tabular-data-resource.yaml" file will also be created.
+#' @param .x data.frame or tibble
+#' @param path path to directory where tdr will be created; see details
+#' @param codec logical; use only CODEC descriptors?
+#' @export
+write_tdr_csv <- function(.x, dir = getwd(), codec = TRUE) {
 
-## }
+  tdr_name <- attr(.x, "name")
+  # TODO make paths in yaml file relative to `dir`
+
+  tdr_dir <- fs::path(dir, tdr_name)
+  tdr_csv <- fs::path(tdr_dir, paste0(tdr_name, ".csv"))
+  tdr_yml <- fs::path(tdr_dir, "tabular-data-resource.yaml")
+
+  fs::dir_create(tdr_dir)
+  cli::cli_alert_success("created {tdr_dir}/")
+
+  readr::write_csv(.x, tdr_csv)
+  cli::cli_alert_success("wrote data to {tdr_csv}")
+
+  .x |>
+    add_attrs(path = tdr_csv) |>
+    write_tdr(file = tdr_yml, codec = codec)
+  cli::cli_alert_success("wrote metadata to {tdr_yml}")
+}

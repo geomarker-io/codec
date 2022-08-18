@@ -1,0 +1,4 @@
+id,date,measure,rating,ranking,impt
+A01,2022-07-25,12.8,good,14,FALSE
+A02,2018-07-10,13.9,best,17,TRUE
+A03,2013-08-15,15.6,best,19,TRUE
