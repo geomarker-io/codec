@@ -1,0 +1,29 @@
+name: example
+path: d.csv
+title: Example Data Set
+license: MIT
+schema:
+  fields:
+    id:
+      name: id
+      type: string
+    date:
+      name: date
+      type: date
+    measure:
+      name: measure
+      type: number
+    rating:
+      name: rating
+      type: string
+      constraints:
+        enum:
+        - good
+        - better
+        - best
+    ranking:
+      name: ranking
+      type: integer
+    impt:
+      name: impt
+      type: boolean

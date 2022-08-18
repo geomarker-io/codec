@@ -2,18 +2,20 @@
 % Please edit documentation in R/tdr.R
 \name{add_attr_from_tdr}
 \alias{add_attr_from_tdr}
-\title{add CODEC attributes to a data.frame based on a tabular-data-resource list}
+\title{add attributes to a data.frame based on a tabular-data-resource list}
 \usage{
-add_attr_from_tdr(.x, tdr)
+add_attr_from_tdr(.x, tdr, codec = TRUE)
 }
 \arguments{
 \item{.x}{a data.frame or tibble}
 
-\item{tdr}{a tabular-data-resource list (usually created with \code{read_tdr()})}
+\item{tdr}{a tabular-data-resource list (usually created with \code{read_tdr()} or \code{make_tdr_from_attr()})}
+
+\item{codec}{logical; use only CODEC descriptors?}
 }
 \value{
 .x with added tabular-data-resource attributes
 }
 \description{
-add CODEC attributes to a data.frame based on a tabular-data-resource list
+add attributes to a data.frame based on a tabular-data-resource list
 }

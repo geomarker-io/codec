@@ -23,7 +23,9 @@ test_that("can read example tdr file", {
     expect_snapshot()
 })
 
-## test_that("read_tdr_csv", {
-##   d_tdr <- read_tdr_csv(test_path("tabular-data-resource.yaml"))
-##   expect_identical(levels(d_tdr$rating), c("good", "best", "better"))
-## })
+test_that("read_tdr_csv", {
+  d_tdr <- read_tdr_csv(test_path("tabular-data-resource.yaml"))
+  expect_identical(levels(d_tdr$rating), c("good", "best", "better"))
+  expect_identical(attr(d_tdr, "name"), "example")
+  expect_identical(attr(d_tdr, "path"), "d.csv")
+})
