@@ -11,17 +11,17 @@ test_that("add_attr_from_tdr", {
 })
 
 
-## test_that("can save tabular-data-resource file", {
-##   save_tdr(d_attrs, "test.yaml")
-##   expect_snapshot_file("test.yaml")
-##   fs::file_delete("test.yaml")
-## })
+test_that("can save tabular-data-resource file", {
+  save_tdr(d_attrs, "test.yaml")
+  expect_snapshot_file("test.yaml")
+  fs::file_delete("test.yaml")
+})
 
-## test_that("can read example tdr file", {
-##   test_path("tabular-data-resource.yaml") |>
-##     read_tdr() |>
-##     expect_snapshot()
-## })
+test_that("can read example tdr file", {
+  test_path("tabular-data-resource.yaml") |>
+    read_tdr() |>
+    expect_snapshot()
+})
 
 ## test_that("read_tdr_csv", {
 ##   d_tdr <- read_tdr_csv(test_path("tabular-data-resource.yaml"))
