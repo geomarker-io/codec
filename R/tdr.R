@@ -1,115 +1,70 @@
-#' return a list representing a valid CODEC-specific tabular-data-resource structure
-#'
-#' @export
-#' @examples
-#' codec_tdr()
-codec_tdr <- function() {
+codec_names <-
   list(
-    "name",
-    "path",
-    "title",
-    "description",
-    "url",
-    "license",
-    "schema" = list(
-      "missingValues", # "", "NA" ???
-      "primaryKey", # field(s) that uniquely identify each row ??
-      "fields" = list(
-        "name", "title", "description",
-        "type", "example", "format", "constraints"
-      )
+    descriptor = c(
+      "name",
+      "path",
+      "title",
+      "description",
+      "url",
+      "license",
+      "schema"
+    ),
+    schema = c(
+      "fields",
+      "missingValues",
+      "primaryKey"
+    ),
+    fields = c(
+      "name",
+      "title",
+      "description",
+      "type",
+      "constraints"
     )
   )
-}
-
-#' get CODEC descriptors and schema
-#'
-#' These functions are designed to provide a simple way to extract
-#' tibbles of descriptors and schema for data frames and columns with attributes:
-#' - `get_descriptors()` gets all descriptors from a data frame
-#' - `get_col_descriptors()` gets all field-specific descriptors from a single column inside of a data frame
-#' - `get_schema()` gets all field-specific descriptors from all columns inside
-#' of a data frame
-#' 
-#' To instead get the complete data resource metadata (descriptors & schema)
-#' in a list, use `make_tdr_from_attr()`
-#' @param .x data frame or tibble
-#' @param codec logical; return only CODEC descriptors or schema?
-#' @param bind logical; bind schema together into one wide data frame?
-#' @return a tibble (or list of tibbles for `get_schema()` if `bind = FALSE`)
-#' with `name` and `value` columns for each descriptor
-#' @export
-get_descriptors <- function(.x, codec = TRUE) {
-  out <-
-    attributes(.x) |>
-    tibble::enframe() |>
-    dplyr::mutate(value = purrr::map_chr(.data$value, ~ paste(., collapse = ", ")))
-
-  if (codec) out <- dplyr::filter(out, .data$name %in% codec_tdr())
-  return(out)
-}
-
-#' @rdname get_descriptors
-#' @export
-get_col_descriptors <- function(.x, codec = TRUE) {
-  out <-
-    attributes(.x) |>
-    tibble::enframe() |>
-    dplyr::mutate(value = purrr::map_chr(.data$value, ~ paste(., collapse = ", ")))
-
-  if (codec) out <- dplyr::filter(out, .data$name %in% codec_tdr()$schema$fields)
-  return(out)
-}
-
-#' @rdname get_descriptors
-#' @export
-get_schema <- function(.x, bind = TRUE, codec = TRUE) {
-  out <- purrr::map(.x, get_col_descriptors, codec = codec)
-  if (bind) {
-    out <- out |>
-      purrr::modify(tidyr::pivot_wider) |>
-      dplyr::bind_rows(.id = "col")
-  }
-  return(out)
-}
 
 #' make a tabular-data-resource list from the attributes of a data.frame
 #'
 #' @param .x a data.frame or tibble
-#' @param codec logical; include only CODEC descriptors or schema? (see `?codec_tdr` for details)
+#' @param codec logical; use only CODEC descriptors?
 #' @return a list of tabular-data-resource metadata
 make_tdr_from_attr <- function(.x, codec = TRUE) {
+  desc <- attributes(.x)
+  flds <- purrr::map(.x, attributes)
 
-  tdr <-
-    get_descriptors(.x, codec = codec) |>
-    tibble::deframe() |>
-    as.list()
+  if (codec) {
+    desc <- purrr::compact(desc[codec_names$descriptor])
+    flds <- purrr::modify(flds, ~ purrr::compact(.[codec_names$fields]))
+  }
 
-  schm <-
-    get_schema(.x, bind = FALSE, codec = codec) |>
-    purrr::modify(tibble::deframe) |>
-    purrr::modify(as.list)
-  tdr$schema <- list(fields = schm)
+  tdr <- desc
+  tdr$schema <- list(fields = flds)
 
   return(tdr)
 }
 
-#' add CODEC attributes to a data.frame based on a tabular-data-resource list
+#' add attributes to a data.frame based on a tabular-data-resource list
 #'
 #' @param .x a data.frame or tibble
-#' @param tdr a tabular-data-resource list (usually created with `read_tdr()`)
+#' @param tdr a tabular-data-resource list (usually created with `read_tdr()` or `make_tdr_from_attr()`)
+#' @param codec logical; use only CODEC descriptors?
 #' @return .x with added tabular-data-resource attributes
-add_attr_from_tdr <- function(.x, tdr) {
+add_attr_from_tdr <- function(.x, tdr, codec = TRUE) {
 
-  descriptors <-
-    tdr |>
-    ## TODO better way to filter list based on name??
-    tibble::enframe() |>
-    dplyr::filter(.data$name %in% codec_tdr()) |>
-    tibble::deframe()
+  desc <- tdr
+  flds <- purrr::pluck(tdr, "schema", "fields")
+  purrr::pluck(desc, "schema") <- NULL
 
-  out <- purrr::map2_dfc(.x, tdr$schema$fields, ~ add_attrs(..1, !!!..2))
-  out <- add_attrs(out, !!!descriptors)
+  if (codec) {
+    desc <- purrr::compact(desc[codec_names$descriptor])
+    flds <- purrr::modify(flds, ~ purrr::compact(.[codec_names$fields]))
+  }
+
+  out <- add_attrs(.x, !!!desc)
+
+  for (field in names(flds)) {
+    out <- add_col_attrs(out, field, !!! tdr$schema$fields[field])
+  }
 
   return(out)
 }

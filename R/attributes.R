@@ -11,9 +11,8 @@
 #' add_col_attrs(mtcars, mpg, name = "MPG", description = "Miles Per Gallon")
 #' @export
 add_attrs <- function(.x, ...) {
-  ## attrs <- rlang::dots_list(...)
   attrs <- rlang::list2(...)
-  attributes(.x) <- c(attributes(.x), attrs)
+  attributes(.x) <- append(attributes(.x), attrs)
   .x
 }
 

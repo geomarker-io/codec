@@ -30,8 +30,8 @@ d_attrs <-
   d |>
   add_attrs(
     name = "example",
-    title = "Example Data Set",
     path = "d.csv",
+    title = "Example Data Set",
     license = "MIT"
   ) |>
   add_type_attrs()
