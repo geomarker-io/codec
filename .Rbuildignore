@@ -6,7 +6,6 @@
 ^docs$
 ^pkgdown$
 ^\.github$
-tabular-data-resource.yaml
 codec.md
 codec.png
 codec_metadata.mmd
