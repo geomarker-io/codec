@@ -33,6 +33,7 @@ test_that("read_tdr_csv", {
 })
 
 test_that("write_tdr_csv", {
+  skip_on_os("windows")
   write_tdr_csv(d_attrs, test_path())
   expect_snapshot_file(fs::path(test_path(), "example", "example.csv"))
   expect_snapshot_file(fs::path(
