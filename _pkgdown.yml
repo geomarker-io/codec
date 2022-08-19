@@ -1,4 +1,25 @@
-url: geomarker.io/CODECtools
+url: http://geomarker.io/CODECtools/
 template:
   bootstrap: 5
+reference:
+- title: Reading/writing a tabular-data-resource to/from disk
+  contents:
+  - write_tdr_csv
+  - read_tdr_csv
+  - write_tdr
+  - read_tdr
+- title: Adding metadata to objects in R using attributes
+  contents:
+  - add_attrs
+  - add_col_attrs
+  - add_type_attrs
+- title: Converting metadata between attributes and list representations
+  contents:
+  - make_tdr_from_attr
+  - add_attr_from_tdr
+- title: Getting metadata from attributes as tabular data
+  contents:
+  - get_descriptors
+  - get_col_descriptors
+  - get_schema
 
