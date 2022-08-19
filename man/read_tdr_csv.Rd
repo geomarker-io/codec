@@ -4,25 +4,23 @@
 \alias{read_tdr_csv}
 \title{read a CSV tabular data resource into R}
 \usage{
-read_tdr_csv(file = "tabular-data-resource.yaml")
+read_tdr_csv(path = getwd(), codec = TRUE, ...)
 }
 \arguments{
-\item{file}{path to tabular-data-resource yaml file}
+\item{path}{path or connection to folder that contains a
+tabular-data-resource.yaml file}
+
+\item{codec}{logical; use only CODEC descriptors?}
+
+\item{...}{additional options passed onto \code{readr::read_csv()}}
 }
 \value{
 tibble with added tabular-data-resource attributes
 }
 \description{
 The CSV file defined in a tabular-data-resource yaml file
-will be read into R using \code{readr::read_csv}. Columns to
-read and their types are set using metadata. Metadata
+are read into R using \code{readr::read_csv()}. Metadata
 (descriptors and schema) are stored as attributes
-of the returned tibble.
-}
-\details{
-\emph{Note:}
-\itemize{
-\item the \code{path} descriptor is always relative to the tabular-data-resource file
-\item descriptors will always be restricted to those in \code{codec_tdr()}
-}
+of the returned tibble and are also used to set
+the column classes of the returned data.frame or tibble.
 }

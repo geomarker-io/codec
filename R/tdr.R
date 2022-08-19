@@ -49,6 +49,7 @@ make_tdr_from_attr <- function(.x, codec = TRUE) {
 #' @param tdr a tabular-data-resource list (usually created with `read_tdr()` or `make_tdr_from_attr()`)
 #' @param codec logical; use only CODEC descriptors?
 #' @return .x with added tabular-data-resource attributes
+#' @export
 add_attr_from_tdr <- function(.x, tdr, codec = TRUE) {
 
   desc <- tdr
@@ -108,26 +109,24 @@ read_tdr <- function(file = "tabular-data-resource.yaml") {
 #' read a CSV tabular data resource into R
 #'
 #' The CSV file defined in a tabular-data-resource yaml file
-#' will be read into R using `readr::read_csv`. Columns to
-#' read and their types are set using metadata. Metadata
+#' are read into R using `readr::read_csv()`. Metadata
 #' (descriptors and schema) are stored as attributes
-#' of the returned tibble.
+#' of the returned tibble and are also used to set
+#' the column classes of the returned data.frame or tibble.
 #'
-#' *Note:*
-#' - the `path` descriptor is always relative to the tabular-data-resource file
-#' - descriptors will always be restricted to those in `codec_tdr()`
-#' @param file path to tabular-data-resource yaml file
+#' @param path path or connection to folder that contains a
+#' tabular-data-resource.yaml file
+#' @param codec logical; use only CODEC descriptors?
+#' @param ... additional options passed onto `readr::read_csv()`
 #' @return tibble with added tabular-data-resource attributes
 #' @export
-read_tdr_csv <- function(file = "tabular-data-resource.yaml") {
+read_tdr_csv <- function(path = getwd(), codec = TRUE, ...) {
 
-  metadata <- read_tdr(file)
+  tdr <- read_tdr(fs::path(path, "tabular-data-resource.yaml"))
 
-  descriptors <-
-    metadata |>
-    tibble::enframe() |>
-    dplyr::filter(.data$name %in% codec_tdr()) |>
-    tibble::deframe()
+  desc <- tdr
+  flds <- purrr::pluck(tdr, "schema", "fields")
+  purrr::pluck(desc, "schema") <- NULL
 
   type_class_cw <- c(
     "string" = "c",
@@ -139,16 +138,16 @@ read_tdr_csv <- function(file = "tabular-data-resource.yaml") {
     "datetime" = "T"
   )
 
-  col_names <- names(metadata$schema$fields)
-  col_types <- purrr::map_chr(metadata$schema$fields, "type")
-  col_classes <- purrr::map_chr(col_types, ~ type_class_cw[.])
+  col_names <- names(flds)
+  col_classes <- type_class_cw[purrr::map_chr(flds, "type")]
+
   lvls <-
-    purrr::map(metadata$schema$fields, "constraints", "enum") |>
+    purrr::map(flds, "constraints", "enum") |>
     purrr::compact()
 
   col_classes[[names(lvls)]] <- "f"
 
-  data_path <- fs::path(fs::path_dir(file), metadata$path)
+  data_path <- fs::path(path, desc$path)
 
   out <-
     readr::read_csv(
@@ -160,17 +159,17 @@ read_tdr_csv <- function(file = "tabular-data-resource.yaml") {
         decimal_mark = ".",
         grouping_mark = ""
       ),
-      ## na = c("", "NA"),
-      ## quote = "\"",
       name_repair = "check_unique",
-      lazy = FALSE
+      ...,
     )
+
+  cli::cli_alert_success("read in data from {.path {fs::path(data_path)}}")
 
   for (lvl in names(lvls)) {
     out <- dplyr::mutate(out, {{ lvl }} := forcats::fct_expand(dplyr::pull(out, {{ lvl }}), lvls[[lvl]]))
   }
 
-  out <- add_attr_from_tdr(out, metadata)
+  out <- add_attr_from_tdr(out, tdr, codec = codec)
   return(out)
 }
 
@@ -192,7 +191,7 @@ write_tdr_csv <- function(.x, dir = getwd(), codec = TRUE) {
   # TODO make paths in yaml file relative to `dir`
 
   tdr_dir <- fs::path(dir, tdr_name)
-  tdr_csv <- fs::path(tdr_dir, paste0(tdr_name, ".csv"))
+  tdr_csv <- fs::path(tdr_dir, tdr_name, ext = "csv")
   tdr_yml <- fs::path(tdr_dir, "tabular-data-resource.yaml")
 
   fs::dir_create(tdr_dir)
@@ -202,7 +201,7 @@ write_tdr_csv <- function(.x, dir = getwd(), codec = TRUE) {
   cli::cli_alert_success("wrote data to {tdr_csv}")
 
   .x |>
-    add_attrs(path = tdr_csv) |>
+    add_attrs(path = fs::path_rel(tdr_csv, start = tdr_dir)) |>
     write_tdr(file = tdr_yml, codec = codec)
   cli::cli_alert_success("wrote metadata to {tdr_yml}")
 }

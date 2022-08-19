@@ -97,8 +97,8 @@ d <-
   add_col_attrs(impt, title = "Important", description = "true if this observation is important")
 ```
 
-Automagically add `name`, `type` and `enum` schema to each column in the
-data:
+Automatically add `name`, `type` and `enum` schema to each column in the
+data based on their class:
 
 ``` r
 d <- add_type_attrs(d)
@@ -133,11 +133,11 @@ write_tdr_csv(d)
 #> ✔ wrote metadata to '/Users/broeg1/code/CODECtools/mydata/tabular-data-resource.yaml'
 ```
 
-This creates (1) creates a new folder based on the `name` attribute of
-our tibble, (2) writes the tabular data into a CSV file named based on
-the `name` attribute, and (3) extracts the metadata from the tibble’s
-attributes and saves it in the frictionless tabular-data-resource
-specification as a yaml file:
+The `name` attribute of the supplied tibble is used as the name of a
+newly created folder *and* CSV file containing the data. Metadata
+extracted from the supplied tibble’s attributes is saved in a
+`tabular-data-resource.yaml` file that lives alongside the data file in
+the newly created directory:
 
 ``` r
 fs::dir_tree("mydata")
@@ -150,5 +150,14 @@ We can then read this tabular-data-package back into R and restore its
 attributes, as well as its column classes:
 
 ``` r
-read_tdr_csv("mydata/tabular-data-resource.yaml")
+mydata <- read_tdr_csv("mydata")
+#> ✔ read in data from 'mydata/mydata.csv'
+#> Warning: Outer names are only allowed for unnamed scalar atomic inputs
+mydata
+#> # A tibble: 3 × 7
+#>   id    date       measure rating ranking impt  field
+#>   <chr> <date>       <dbl> <fct>    <int> <lgl> <chr>
+#> 1 A01   2022-07-25    12.8 good        14 FALSE A01  
+#> 2 A02   2018-07-10    13.9 best        17 TRUE  A02  
+#> 3 A03   2013-08-15    15.6 best        19 TRUE  A03
 ```

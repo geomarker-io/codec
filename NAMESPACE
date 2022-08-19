@@ -2,6 +2,7 @@
 
 export(":=")
 export(.data)
+export(add_attr_from_tdr)
 export(add_attrs)
 export(add_col_attrs)
 export(add_type_attrs)
