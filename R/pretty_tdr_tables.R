@@ -1,8 +1,3 @@
-#' return a list representing a valid CODEC-specific tabular-data-resource structure
-#'
-#' @export
-#' @examples
-#' codec_tdr()
 codec_tdr <- function() {
   list(
     "name",
@@ -40,6 +35,7 @@ codec_tdr <- function() {
 #' with `name` and `value` columns for each descriptor
 #' @export
 get_descriptors <- function(.x, codec = TRUE) {
+  # TODO rename to make descriptor table?
   .x_attrs <- attributes(.x)
   if (codec) .x_attrs <- .x_attrs[unique(unlist(codec_tdr()))] |> purrr::compact()
   .x_attrs |>
