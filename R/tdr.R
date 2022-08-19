@@ -114,15 +114,15 @@ read_tdr <- function(file = "tabular-data-resource.yaml") {
 #' of the returned tibble and are also used to set
 #' the column classes of the returned data.frame or tibble.
 #'
-#' @param path path or connection to folder that contains a
+#' @param dir path or connection to folder that contains a
 #' tabular-data-resource.yaml file
 #' @param codec logical; use only CODEC descriptors?
 #' @param ... additional options passed onto `readr::read_csv()`
 #' @return tibble with added tabular-data-resource attributes
 #' @export
-read_tdr_csv <- function(path = getwd(), codec = TRUE, ...) {
+read_tdr_csv <- function(dir = getwd(), codec = TRUE, ...) {
 
-  tdr <- read_tdr(fs::path(path, "tabular-data-resource.yaml"))
+  tdr <- read_tdr(fs::path(dir, "tabular-data-resource.yaml"))
 
   desc <- tdr
   flds <- purrr::pluck(tdr, "schema", "fields")
@@ -147,7 +147,7 @@ read_tdr_csv <- function(path = getwd(), codec = TRUE, ...) {
 
   col_classes[[names(lvls)]] <- "f"
 
-  data_path <- fs::path(path, desc$path)
+  data_path <- fs::path(dir, desc$path)
 
   out <-
     readr::read_csv(
@@ -182,7 +182,7 @@ read_tdr_csv <- function(path = getwd(), codec = TRUE, ...) {
 #' based on the name attribute of the data.frame or tibble
 #' and a "tabular-data-resource.yaml" file will also be created.
 #' @param .x data.frame or tibble
-#' @param path path to directory where tdr will be created; see details
+#' @param dir path to directory where tdr will be created; see details
 #' @param codec logical; use only CODEC descriptors?
 #' @export
 write_tdr_csv <- function(.x, dir = getwd(), codec = TRUE) {

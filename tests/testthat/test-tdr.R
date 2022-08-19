@@ -18,12 +18,14 @@ test_that("write_tdr", {
 })
 
 test_that("read_tdr", {
+  skip_on_ci()
   test_path("tabular-data-resource.yaml") |>
     read_tdr() |>
     expect_snapshot()
 })
 
 test_that("read_tdr_csv", {
+  skip_on_ci()
   d_tdr <- read_tdr_csv(test_path())
   expect_identical(levels(d_tdr$rating), c("best", "good", "better"))
   expect_identical(attr(d_tdr, "name"), "example")

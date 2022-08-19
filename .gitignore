@@ -9,3 +9,4 @@ docs
 /my_mtcars_tabular-data-resource.yaml
 tabular-data-resource.yaml
 /mydata/
+inst/doc

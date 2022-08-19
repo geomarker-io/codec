@@ -1,46 +1,24 @@
 ---
-output: github_document
+title: "Working with a Tabular Data Resource in R"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{tabular-data-resource}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
+  comment = "#>"
 )
 ```
 
-# CODECtools
-
-<!-- badges: start -->
-[![R-CMD-check](https://github.com/geomarker-io/CODECtools/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/geomarker-io/CODECtools/actions/workflows/R-CMD-check.yaml)
-<!-- badges: end -->
-
-The goal of CODECtools is to support CODEC data infrastructure through:
-
-- capturing, creating, and accessing metadata for tabular data in R
-- importing and exporting tabular data resources (CSV file) with metadata (YAML file)
-- defining CODEC data format specifications (as vignette in package)
-- providing tools and workflows to validate CODEC data and contribute it to CODECdata repository
-- creation of online data catalog
-
-## Installation
-
-You can install the development version of CODECtools from [GitHub](https://github.com/) with:
-
-```{r, eval = FALSE}
-# install.packages("devtools")
-devtools::install_github("geomarker-io/CODECtools")
-```
-
-## A Simple Metadata Example
-
-```{r}
+```{r setup}
 library(CODECtools)
 ```
+
+## Creating Data
 
 We will create a simple dataset here for this example:
 
@@ -55,6 +33,8 @@ d <-
     impt = c(FALSE, TRUE, TRUE)
   )
 ```
+
+## Adding Metadata
 
 When creating a tabular dataset in R, data-specific metadata (i.e., "descriptors") can be stored in the attributes of the R object (e.g., a data.frame or tibble).
 
@@ -101,6 +81,8 @@ get_schema(d, bind = TRUE) |>
   knitr::kable()
 ```
 
+## Writing a tabular-data-resource to disk
+
 Once metadata is set in the tibble's attributes, we can save the tabular data resource as a CSV file with an accompanying tabular-data-resource.yaml:
 
 ```{r}
@@ -113,6 +95,8 @@ The `name` attribute of the supplied tibble is used as the name of a newly creat
 fs::dir_tree("mydata")
 
 ```
+
+## Reading a tabular-data-resource from disk
 
 We can then read this tabular-data-package back into R and restore its attributes, as well as its column classes:
 

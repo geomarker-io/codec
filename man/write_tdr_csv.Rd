@@ -9,9 +9,9 @@ write_tdr_csv(.x, dir = getwd(), codec = TRUE)
 \arguments{
 \item{.x}{data.frame or tibble}
 
-\item{codec}{logical; use only CODEC descriptors?}
+\item{dir}{path to directory where tdr will be created; see details}
 
-\item{path}{path to directory where tdr will be created; see details}
+\item{codec}{logical; use only CODEC descriptors?}
 }
 \description{
 The \code{path} argument specifies where the folder containing
