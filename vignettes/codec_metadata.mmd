@@ -1,0 +1,36 @@
+flowchart TB
+
+  classDef I fill:#76BC44,stroke:#333,stroke-width:2px;
+  classDef II fill:#02AAC8,stroke:#,stroke-width:0px;
+  classDef III fill:#9E4679,stroke:#333,stroke-width:2px;
+  classDef IIII fill:#D9D9D9,stroke:#333,stroke-width:2px;
+
+  tdr(tabular-data-resource):::I
+  schema(schema):::II
+
+subgraph properties [descriptor]
+    name[name]:::II
+    path[path]:::II
+    title[title]:::II
+    description[description]:::II
+    url[url]:::II
+    license:::II
+end
+
+tdr ---- schema
+
+tdr ---- name
+tdr ---- path
+tdr ---- title
+tdr ---- description
+tdr ---- url
+tdr --- license
+
+schema --- fields:::III
+schema --- missingValues:::III
+schema --- primaryKey:::III
+schema --- foreignKey:::III
+
+fields --- field_name_1(name \n title \n description \n type):::IIII
+fields --- field_name_2(name \n title \n type \n constraints):::IIII
+fields --- field_name_3(name \n title \n description \n type \n constraints):::IIII

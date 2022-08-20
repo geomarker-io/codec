@@ -1,6 +1,11 @@
 url: http://geomarker.io/CODECtools/
 template:
   bootstrap: 5
+  theme: atom-one-light
+  bslib:
+    bg: "#FFFFFF"
+    fg: "#072B67"
+    primary: "#C2326B"
 reference:
 - title: Reading/writing a tabular-data-resource to/from disk
   contents:

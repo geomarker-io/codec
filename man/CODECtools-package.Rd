@@ -12,6 +12,7 @@ CODECtools provides tools for working with metadata in R and storing it alongsid
 Useful links:
 \itemize{
   \item \url{https://github.com/geomarker-io/CODECtools}
+  \item \url{http://geomarker.io/CODECtools/}
   \item Report bugs at \url{https://github.com/geomarker-io/CODECtools/issues}
 }
 
