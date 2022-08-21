@@ -2,7 +2,7 @@
 title: "Working with a Tabular Data Resource in R"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{tabular-data-resource}
+  %\VignetteIndexEntry{Working with a Tabular Data Resource in R}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

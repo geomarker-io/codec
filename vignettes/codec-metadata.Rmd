@@ -1,0 +1,56 @@
+---
+title: "CODEC Metadata"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{CODEC Metadata}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Metadata
+
+Metadata is information *about* data, but does not contain the data itself. For example, a CSV file cannot tell R (or other software) anything about itself including:
+
+- general information like a name, title, description, license, or related URL
+- how missing values are denoted
+- column names, titles, types, formats, and constraints
+- specific CSV "dialect" characteristics required to read it (e.g. delimiter, encoding, quoting)
+
+CODEC utilizes a specific set of standards to store community-level data in an effort to make them more interoperable and reusable.
+
+## Frictionless Standards
+
+[Frictionless](https://frictionlessdata.io/) standards are a set of [patterns](https://specs.frictionlessdata.io/) for describing data, including datasets, files, and tables. These metadata are contained in a specific file (separate from the data file), usually written in JSON or YAML, that describes something specific to each Frictionless Standard.
+
+The CODEC metadata specifications are based on the [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/) (often written as 'tabular-data-resource' and abbreviated throughout the package as `tdr`). A tabular-data-resource is made up of three Frictionless Standards:
+
+1. [Data Resource](https://specs.frictionlessdata.io/data-resource/): describes an *exact* tabular file providing a path to the file and details like name, title, description, and others
+2. [Table Schema](https://specs.frictionlessdata.io/table-schema/): describes a tabular file by providing its dimension, field data types, relations, and constraints
+3. [CSV dialect](https://specs.frictionlessdata.io/csv-dialect/): describes the various dialects of CSV files, including terminator strings, quoting rules, escape rules, etc.
+
+A tabular-data-resource consists of (1) a *single* table of data in a CSV file and (2) its metadata, represented as a hierarchical list in a specific format.  On disk, this metadata is stored as a YAML file and in R, it is stored in the attributes of a data.frame (or tibble).
+^[This is a good place to note that although not used here, the [Data Package](https://specs.frictionlessdata.io/data-package/) & [Tabular Data Package](https://specs.frictionlessdata.io/tabular-data-package/) are similar to the Data Resource and Tabular Data Resource, except for that they describe a *collection* of tabular files.]
+
+Within the context of CODEC, tabular-data-resouce metadata consists of **descriptors**, **schema**, and **fields**:
+
+![](codec_metadata.png)
+
+- a **descriptor** (or ["metadata property"](https://specs.frictionlessdata.io/data-resource/#metadata-properties)) is a named value stored as a string used to describe the data resource
+- the **schema** (or ["table schema"](https://specs.frictionlessdata.io/table-schema/)) contains information about each of the **fields** (or "columns") within a tabular-data-resource
+  - **schema** may optionally contain the value used to denote missingness and which fields are primary keys and foreign keys
+
+## CODEC Metadata Specifications
+
+CODEC specifications are versioned according to the {CODECtools} package, so this vignette describes version `r packageVersion("CODECtools")`.  To see older versions of the specification, install an older version of {CODECtools}.
+
+Descriptor, schema, and field values supported by the CODEC metadata specification must be named:
+
+```{r}
+CODECtools::codec_names()
+```
+
+CSV files use the defaults for `readr::read_csv()` and `readr::write_csv()`, namely:
+
+- encoding
+- missing values
+

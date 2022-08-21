@@ -1,28 +1,3 @@
-codec_names <-
-  list(
-    descriptor = c(
-      "name",
-      "path",
-      "title",
-      "description",
-      "url",
-      "license",
-      "schema"
-    ),
-    schema = c(
-      "fields",
-      "missingValues",
-      "primaryKey"
-    ),
-    fields = c(
-      "name",
-      "title",
-      "description",
-      "type",
-      "constraints"
-    )
-  )
-
 #' make a tabular-data-resource list from the attributes of a data.frame
 #'
 #' @param .x a data.frame or tibble
@@ -33,8 +8,8 @@ make_tdr_from_attr <- function(.x, codec = TRUE) {
   flds <- purrr::map(.x, attributes)
 
   if (codec) {
-    desc <- purrr::compact(desc[codec_names$descriptor])
-    flds <- purrr::modify(flds, ~ purrr::compact(.[codec_names$fields]))
+    desc <- purrr::compact(desc[codec_names()$descriptor])
+    flds <- purrr::modify(flds, ~ purrr::compact(.[codec_names()$fields]))
   }
 
   tdr <- desc
@@ -57,8 +32,8 @@ add_attr_from_tdr <- function(.x, tdr, codec = TRUE) {
   purrr::pluck(desc, "schema") <- NULL
 
   if (codec) {
-    desc <- purrr::compact(desc[codec_names$descriptor])
-    flds <- purrr::modify(flds, ~ purrr::compact(.[codec_names$fields]))
+    desc <- purrr::compact(desc[codec_names()$descriptor])
+    flds <- purrr::modify(flds, ~ purrr::compact(.[codec_names()$fields]))
   }
 
   out <- add_attrs(.x, !!!desc)

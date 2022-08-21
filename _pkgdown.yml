@@ -22,9 +22,11 @@ reference:
   contents:
   - make_tdr_from_attr
   - add_attr_from_tdr
+- title: CODEC (meta)data specifications
+  contents:
+  - codec_names
 - title: Getting metadata from attributes as tabular data
   contents:
   - get_descriptors
   - get_col_descriptors
   - get_schema
-
