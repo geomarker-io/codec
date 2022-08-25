@@ -17,7 +17,8 @@ codec_names <- function() {
     schema = c(
       "fields",
       "missingValues",
-      "primaryKey"
+      "primaryKey",
+      "foreignKey"
     ),
     fields = c(
       "name",

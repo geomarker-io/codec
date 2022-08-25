@@ -7,6 +7,61 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-## CODEC Data Specifications
+## CODEC Data Specification
 
-- a [census tract](https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf) column must be specified in metadata and named `census_tract_id_{year}`, where `{year}` is replaced with the decennial vintage of the census tract geographies used to create the dataset (e.g., `census_tract_id_2010` or `census_tract_id_2020`)
+### Language
+
+The keywords “MUST”, “MUST NOT”, “SHOULD”, “SHOULD NOT”, and “MAY”
+in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
+
+### File Formats
+
+A CODEC `tabular-data-resource` (i.e., `tdr`) consists of a directory that MUST contain exactly one data (CSV) file and exactly one metadata file (`tabular-data-resource.yaml`). For example,
+
+    mydata
+    ├── mydata.csv
+    └── tabular-data-resource.yaml
+
+The metadata file MUST be a valid YAML file named `tabular-data-resource.yaml`.
+
+The name of the directory and the name of the CSV file containing the data MUST match the `name` *descriptor* in the metadata.
+
+For both files,  
+  - the file encoding MUST be UTF-8  
+  - newlines MUST be encoded with either `\n` or `\r\n`  
+  - the newline style SHOULD be consistent within a file  
+  - there SHOULD be a newline at the end of the file
+  
+### Missing Values
+
+If a value is missing, it MUST be represented by either `NA` or an empty string (``) in the CSV data file.
+
+### Census Tract Geography
+
+A [census tract](https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf) column MUST be specified in metadata and named `census_tract_id_{year}`, where `{year}` is replaced with the decennial vintage of the census tract geographies used to create the dataset (e.g., `census_tract_id_2010` or `census_tract_id_2020`).
+
+The census tract identifier column MUST contain 11-digit [GEOID](https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html) identifiers for *all* census tracts in Hamilton County (GEOID: 39061). A list of required census tract identifiers for 2000, 2010, and 2020 are available in the {{[cincy](https://github.com/geomarker-io/cincy)}} R package, e.g. 
+
+```{r}
+cincy::tract_tigris_2010 |>
+  sf::st_drop_geometry() |>
+  head()
+```
+
+A CODEC `tdr` that was *not* created at a census tract level SHOULD link to a URL that contains code and a descriptive README file about how the data was harmonized (e.g., areal interpolation) with census tract geographies.
+
+
+### Timing
+
+## Notes
+
+### Why CSV?
+
+Although the CSV file format is relatively inefficient, it is an open, well-known, widely supported, text-based, universal format ideal for interoperability.
+
+### Data Location
+
+- AWS Simple Storage Service (S3) is a cloud-based centralized storage area and CODEC data are located in a public bucket: [`s3://codec-data/`](https://codec-data.s3.amazonaws.com/)
+  - [bucket versioning](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Versioning.html)
+
+
