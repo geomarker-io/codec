@@ -8,7 +8,7 @@
       [6] "license"     "schema"     
       
       $schema
-      [1] "fields"        "missingValues" "primaryKey"   
+      [1] "fields"        "missingValues" "primaryKey"    "foreignKey"   
       
       $fields
       [1] "name"        "title"       "description" "type"        "constraints"

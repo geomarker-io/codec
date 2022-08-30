@@ -3,13 +3,14 @@ test_that("make_tdr_from_attr", {
 })
 
 test_that("add_attr_from_tdr", {
-  d_tdr <- add_attr_from_tdr(d, make_tdr_from_attr(d_attrs))
+  d_tdr <- add_attr_from_tdr(.x = d, tdr = make_tdr_from_attr(d_attrs, codec = TRUE), codec = TRUE)
+  expect_identical(names(d_tdr), names(d_attrs))
   expect_identical(attr(d_tdr, "name"), attr(d_attrs, "name"))
   expect_identical(attr(d_tdr, "path"), attr(d_attrs, "path"))
   expect_identical(attr(d_tdr, "title"), attr(d_attrs, "title"))
   expect_identical(attr(d_tdr, "license"), attr(d_attrs, "license"))
+  expect_identical(attr(d_tdr$rating, "constraints"), attr(d_attrs$rating, "constraints"))
 })
-
 
 test_that("write_tdr", {
   write_tdr(d_attrs, "test.yaml")
@@ -30,6 +31,10 @@ test_that("read_tdr_csv", {
   expect_identical(levels(d_tdr$rating), c("best", "good", "better"))
   expect_identical(attr(d_tdr, "name"), "example")
   expect_identical(attr(d_tdr, "path"), "d.csv")
+
+  # reads simple file with no factors
+  expect_snapshot(read_tdr_csv(test_path("simple_data")))
+
 })
 
 test_that("write_tdr_csv", {

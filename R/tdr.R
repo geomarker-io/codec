@@ -38,8 +38,9 @@ add_attr_from_tdr <- function(.x, tdr, codec = TRUE) {
 
   out <- add_attrs(.x, !!!desc)
 
-  for (field in names(flds)) {
-    out <- add_col_attrs(out, field, !!! tdr$schema$fields[field])
+  for (the_field in names(flds)) {
+    out[[the_field]] <-
+      add_attrs(out[[the_field]], !!!flds[[the_field]])
   }
 
   return(out)
@@ -120,7 +121,7 @@ read_tdr_csv <- function(dir = getwd(), codec = TRUE, ...) {
     purrr::map(flds, "constraints", "enum") |>
     purrr::compact()
 
-  col_classes[[names(lvls)]] <- "f"
+  if (length(lvls) > 0) col_classes[[names(lvls)]] <- "f"
 
   data_path <- fs::path(dir, desc$path)
 
@@ -140,8 +141,10 @@ read_tdr_csv <- function(dir = getwd(), codec = TRUE, ...) {
 
   cli::cli_alert_success("read in data from {.path {fs::path(data_path)}}")
 
-  for (lvl in names(lvls)) {
-    out <- dplyr::mutate(out, {{ lvl }} := forcats::fct_expand(dplyr::pull(out, {{ lvl }}), lvls[[lvl]]))
+  if (length(lvls) > 0) {
+    for (lvl in names(lvls)) {
+      out <- dplyr::mutate(out, {{ lvl }} := forcats::fct_expand(dplyr::pull(out, {{ lvl }}), lvls[[lvl]]))
+    }
   }
 
   out <- add_attr_from_tdr(out, tdr, codec = codec)

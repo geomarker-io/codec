@@ -4,7 +4,7 @@ test_that("add_attrs() works", {
   expect_equal(attr(my_mtcars, "year"), "1974")
 })
 
-test_that("add_col_attrs() works with one col", {
+test_that("add_col_attrs() works", {
   my_mtcars <- add_col_attrs(mtcars, mpg, title = "MPG", description = "Miles Per Gallon")
   expect_equal(attr(my_mtcars$mpg, "title"), "MPG")
   expect_equal(attr(my_mtcars$mpg, "description"), "Miles Per Gallon")

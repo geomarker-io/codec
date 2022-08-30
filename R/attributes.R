@@ -20,7 +20,6 @@ add_attrs <- function(.x, ...) {
 #' @export
 add_col_attrs <- function(.x, var, ...) {
   dplyr::mutate(.x, "{{var}}" := add_attrs(dplyr::pull(.x, {{ var }}), ...))
-  # dplyr::mutate(.x, {{ var }}, ~ add_attrs(., ...))
 }
 
 #' automatically add "name" and "type" attributes to columns in a data frame

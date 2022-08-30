@@ -146,3 +146,17 @@
       
       
 
+# read_tdr_csv
+
+    Code
+      read_tdr_csv(test_path("simple_data"))
+    Message
+      v read in data from 'simple_data/simple_data.csv'
+    Output
+      # A tibble: 3 x 3
+            a     b     c
+        <dbl> <dbl> <dbl>
+      1     1     2     3
+      2     4     5     6
+      3     7     8     9
+
