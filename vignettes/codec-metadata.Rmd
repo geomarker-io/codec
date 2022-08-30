@@ -52,7 +52,7 @@ Within the context of CODEC, tabular-data-resouce metadata consists of **descrip
 - the **schema** (or ["table schema"](https://specs.frictionlessdata.io/table-schema/)) contains information about each of the **fields** (or "columns") within a tabular-data-resource
   - **schema** may optionally contain the value used to denote missingness and which fields are foreign or primary keys
 
-Names of descriptor, schema, and field values MUST be:
+The names of any **descriptor** **schema** and **field** values MUST be one of:
 
 ```{r}
 CODECtools::codec_names()
@@ -84,5 +84,5 @@ the table
 - `title`: human-friendly name of field/column
 - `description`: any additional notes about the field/column
 - `type`: [Frictionless type](https://specs.frictionlessdata.io/table-schema/#types-and-formats) of the field/column (e.g., string, number, boolean)
-- `constraints`: [Frictionless constraints](https://specs.frictionlessdata.io/table-schema/#constraints) , including `enum`, an array of possible values or factor levels
+- `constraints`: [Frictionless constraints](https://specs.frictionlessdata.io/table-schema/#constraints), including `enum`, an array of possible values or factor levels
 
