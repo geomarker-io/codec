@@ -11,7 +11,6 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Suggests: 
     testthat (>= 3.0.0),
-    fs,
     roxygen2,
     knitr,
     rmarkdown,
@@ -26,6 +25,7 @@ Imports:
     cli,
     dplyr,
     forcats,
+    fs,
     purrr,
     readr,
     rlang (>= 0.4.11),
