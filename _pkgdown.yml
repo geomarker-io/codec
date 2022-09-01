@@ -18,15 +18,12 @@ reference:
   - add_attrs
   - add_col_attrs
   - add_type_attrs
-- title: Converting metadata between attributes and list representations
+- title: Converting metadata between attributes and list/tabular representations
   contents:
   - make_tdr_from_attr
   - add_attr_from_tdr
+  - glimpse_attr
+  - glimpse_schema
 - title: CODEC (meta)data specifications
   contents:
   - codec_names
-- title: Getting metadata from attributes as tabular data
-  contents:
-  - get_descriptors
-  - get_col_descriptors
-  - get_schema

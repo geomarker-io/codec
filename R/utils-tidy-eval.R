@@ -109,3 +109,6 @@ NULL
 
 utils::globalVariables("where")
 utils::globalVariables("all_of")
+utils::globalVariables("name")
+utils::globalVariables("value")
+utils::globalVariables("constraints")

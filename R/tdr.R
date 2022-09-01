@@ -9,7 +9,11 @@ make_tdr_from_attr <- function(.x, codec = TRUE) {
 
   if (codec) {
     desc <- purrr::compact(desc[codec_names()$descriptor])
-    flds <- purrr::modify(flds, ~ purrr::compact(.[codec_names()$fields]))
+    flds <-
+      purrr::map(flds, ~ .[codec_names()$fields]) |>
+      purrr::map(purrr::compact)
+    flds[purrr::map_lgl(flds, ~ is.list(.) & length(.) == 0)] <- NULL
+    flds <- purrr::compact(flds)
   }
 
   tdr <- desc
@@ -182,4 +186,41 @@ write_tdr_csv <- function(.x, dir = getwd(), codec = TRUE) {
     add_attrs(path = fs::path_rel(tdr_csv, start = tdr_dir)) |>
     write_tdr(file = tdr_yml, codec = codec)
   cli::cli_alert_success("wrote metadata to {tdr_yml}")
+}
+
+
+#' glimpse attributes of a data.frame
+#' @param .x data frame or tibble
+#' @param codec logical; include only CODEC descriptors? (see `?codec_tdr` for details)
+#' @return a tibble with `name` and `value` columns of attributes
+#' @details values are collapsed using `,`
+#' @export
+glimpse_attr <- function(.x, codec = TRUE) {
+  tdr <- make_tdr_from_attr(.x, codec = codec)
+  purrr::pluck(tdr, "schema") <- NULL
+
+  tdr |>
+    tibble::enframe() |>
+    dplyr::rowwise(name) |>
+    dplyr::mutate(value = paste(value, collapse = ",")) |>
+    dplyr::ungroup()
+    ## dplyr::filter(!name == "schema")
+}
+
+#' glimpse CODEC schema
+#' @param .x data frame or tibble
+#' @return a tibble with attributes for each column in `.x`
+#' @details constraints are collapsed using `,`
+#' @export
+glimpse_schema <- function(.x) {
+  tdr <- make_tdr_from_attr(.x, codec = TRUE)
+  flds <- purrr::pluck(tdr, "schema", "fields")
+
+  flds |>
+    purrr::modify(tibble::as_tibble) |>
+    dplyr::bind_rows() |>
+    dplyr::rowwise() |>
+    dplyr::mutate(constraints = paste(constraints, collapse = ", ")) |>
+    dplyr::mutate(constraints = ifelse(constraints == "", NA, constraints)) |>
+    dplyr::ungroup()
 }

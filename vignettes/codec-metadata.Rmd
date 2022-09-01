@@ -33,10 +33,7 @@ A tabular-data-resource consists of (1) a *single* table of data in a CSV file a
 
 ## CODEC Metadata Specifications
 
-### Language
-
-The keywords “MUST”, “MUST NOT”, “SHOULD”, “SHOULD NOT”, and “MAY”
-in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
+> *Language:* The keywords “MUST”, “MUST NOT”, “SHOULD”, “SHOULD NOT”, and “MAY” in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
 ### Version
 

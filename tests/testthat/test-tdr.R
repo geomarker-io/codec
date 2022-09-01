@@ -48,3 +48,39 @@ test_that("write_tdr_csv", {
   ))
   fs::dir_delete(fs::path(test_path(), "example"))
 })
+
+test_that("glimpse_attr()", {
+
+  classy_attrs <-
+    classy |>
+    add_type_attrs() |>
+    add_attrs(
+      name = "classy",
+      title = "The Classiest Data Set",
+      year = "2022",
+      description = "A toy data frame with many different column classes."
+    )
+
+    glimpse_attr(classy_attrs) |>
+      knitr::kable() |>
+      expect_snapshot()
+
+})
+
+test_that("glimpse_schema()", {
+
+  classy_attrs <-
+    classy |>
+    add_type_attrs() |>
+    add_attrs(
+      name = "classy",
+      title = "The Classiest Data Set",
+      year = "2022",
+      description = "A toy data frame with many different column classes."
+    )
+
+    glimpse_schema(classy_attrs) |>
+      knitr::kable() |>
+      expect_snapshot()
+
+})

@@ -30,6 +30,5 @@ Imports:
     readr,
     rlang (>= 0.4.11),
     tibble,
-    tidyr,
     yaml
 VignetteBuilder: knitr

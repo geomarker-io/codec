@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r}
 library(CODECtools)
 ```
 
@@ -53,8 +53,8 @@ d <- d |>
 Note that this doesn't change any of the data values. In R, an object's attributes are stored with it as a list. Some attributes (`?attributes`) are treated specially by R (e.g., `class`, `names`, `row.names`, `comment`) and usually shouldn't be modified.  Although *all* attributes (including the ones we added above) are available as a list (`?attributes`), we can use a function to extract only the attributes that represent metadata descriptors as a tibble.
 
 ```{r}
-## get_descriptors(d) |>
-  ## knitr::kable()
+glimpse_attr(d) |>
+ knitr::kable()
 ```
 
 Similarly, we can add column-specific attributes (i.e., "schema"). These metadata functions follow the tidy design principles, making it simple to expressively and concisely add metadata using pipes:
@@ -76,11 +76,11 @@ Automatically add `name`, `type` and `enum` schema to each column in the data ba
 d <- add_type_attrs(d)
 ```
 
-Like for descriptors, there is a helper function to retrieve schema as a tibble.  Specify `bind = TRUE` to combine the list of column-specific attribute data frames for each column into one wider data frame:
+Like for descriptors, there is a helper function to retrieve schema as a tibble: 
 
 ```{r}
-## get_schema(d, bind = TRUE) |>
-  ## knitr::kable()
+glimpse_schema(d) |>
+  knitr::kable()
 ```
 
 ## Writing a tabular-data-resource to disk
@@ -95,7 +95,6 @@ The `name` attribute of the supplied tibble is used as the name of a newly creat
 
 ```{r}
 fs::dir_tree("mydata")
-
 ```
 
 ## Reading a tabular-data-resource from disk

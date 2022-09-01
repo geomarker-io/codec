@@ -160,3 +160,34 @@
       2     4     5     6
       3     7     8     9
 
+# glimpse_attr()
+
+    Code
+      knitr::kable(glimpse_attr(classy_attrs))
+    Output
+      
+      
+      |name        |value                                                |
+      |:-----------|:----------------------------------------------------|
+      |name        |classy                                               |
+      |title       |The Classiest Data Set                               |
+      |description |A toy data frame with many different column classes. |
+
+# glimpse_schema()
+
+    Code
+      knitr::kable(glimpse_schema(classy_attrs))
+    Output
+      
+      
+      |name        |type     |constraints        |
+      |:-----------|:--------|:------------------|
+      |id          |string   |NA                 |
+      |date        |date     |NA                 |
+      |measure     |number   |NA                 |
+      |rating      |string   |good, better, best |
+      |ranking     |integer  |NA                 |
+      |awesomeness |boolean  |NA                 |
+      |datetime    |datetime |NA                 |
+      |timesince   |number   |NA                 |
+
