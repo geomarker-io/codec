@@ -216,11 +216,18 @@ glimpse_schema <- function(.x) {
   tdr <- make_tdr_from_attr(.x, codec = TRUE)
   flds <- purrr::pluck(tdr, "schema", "fields")
 
-  flds |>
+  flds <- flds |>
     purrr::modify(tibble::as_tibble) |>
-    dplyr::bind_rows() |>
-    dplyr::rowwise() |>
-    dplyr::mutate(constraints = paste(constraints, collapse = ", ")) |>
-    dplyr::mutate(constraints = ifelse(constraints == "", NA, constraints)) |>
-    dplyr::ungroup()
+    dplyr::bind_rows()
+
+  if ("constraints" %in% names(flds)) {
+    flds <-
+      flds |>
+      dplyr::rowwise() |>
+      dplyr::mutate(constraints = paste(constraints, collapse = ", ")) |>
+      dplyr::mutate(constraints = ifelse(constraints == "", NA, constraints)) |>
+      dplyr::ungroup()
+  }
+
+  return(flds)
 }

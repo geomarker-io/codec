@@ -84,3 +84,19 @@ test_that("glimpse_schema()", {
       expect_snapshot()
 
 })
+
+test_that("glimpse_schema() works without constraints", {
+
+  mtcars_schema <-
+    mtcars |>
+    add_type_attrs() |>
+    glimpse_schema()
+  
+    expect_equal(
+      mtcars_schema,
+      tibble::tibble(
+        name = names(mtcars),
+        type = "number"
+      )
+    )
+})
