@@ -23,11 +23,12 @@ The metadata file MUST be a valid YAML file named `tabular-data-resource.yaml`.
 
 The name of the directory and the name of the CSV file containing the data MUST match the `name` [*descriptor*](codec-metadata.html#descriptor) in the [metadata](codec-metadata.html#codec-metadata-specifications).
 
-For both files,  
-  - the file encoding MUST be UTF-8
-  - newlines MUST be encoded with either `\n` or `\r\n`
-  - the newline style SHOULD be consistent within a file
-  - there SHOULD be a newline at the end of the file
+For both files,
+
+- the file encoding MUST be UTF-8
+- newlines MUST be encoded with either `\n` or `\r\n`
+- the newline style SHOULD be consistent within a file
+- there SHOULD be a newline at the end of the file
   
 ### Missing Values
 

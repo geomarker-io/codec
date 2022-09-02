@@ -1,21 +1,20 @@
 flowchart TB
 
-  classDef I fill:#76BC44,stroke:#333,stroke-width:2px;
-  classDef II fill:#02AAC8,stroke:#,stroke-width:0px;
-  classDef III fill:#9E4679,stroke:#333,stroke-width:2px;
-  classDef IIII fill:#D9D9D9,stroke:#333,stroke-width:2px;
+classDef I fill:#E49865,stroke:#333,stroke-width:2px;
+classDef II fill:#EACEC5,stroke:#,stroke-width:2px;
+classDef III fill:#CBD6D5,stroke:#333,stroke-width:2px;
+classDef IIII fill:#8CB4C3,stroke:#333,stroke-width:2px;
+classDef IV fill:#F6EDDE,stroke:#333,stroke-width:2px;
 
-  tdr(tabular-data-resource):::I
-  schema(schema):::II
+tdr([tabular-data-resource \n descriptors]):::I
 
-subgraph properties [descriptor]
-    name[name]:::II
-    path[path]:::II
-    title[title]:::II
-    description[description]:::II
-    url[url]:::II
-    license:::II
-end
+name(name):::II
+path(path):::II
+title(title):::II
+description(description):::II
+url(url):::II
+license(license):::II
+schema(schema):::II
 
 tdr ---- schema
 
@@ -24,13 +23,13 @@ tdr ---- path
 tdr ---- title
 tdr ---- description
 tdr ---- url
-tdr --- license
+tdr ---- license
 
-schema --- fields:::III
-schema --- missingValues:::III
-schema --- primaryKey:::III
-schema --- foreignKey:::III
+schema --- fields(fields):::III
+schema --- missingValues(missingValues):::III
+schema --- primaryKey(primaryKey):::III
+schema --- foreignKey(foreignKey):::III
 
-fields --- field_name_1(name \n title \n description \n type):::IIII
-fields --- field_name_2(name \n title \n type \n constraints):::IIII
-fields --- field_name_3(name \n title \n description \n type \n constraints):::IIII
+fields --- field_name_1{{**field_1** \n name \n title \n description \n type}}:::IIII
+fields --- field_name_2{{name \n title \n type \n constraints}}:::IIII
+fields --- field_name_3{{name \n title \n description \n type \n constraints}}:::IIII

@@ -41,21 +41,15 @@ CODEC specifications are versioned according to the {CODECtools} package, so thi
 
 ### Tabular-Data-Resource Metadata
 
-Within the context of CODEC, tabular-data-resouce metadata consists of **descriptors**, **schema**, and **fields**:
+A **descriptor** (or ["metadata property"](https://specs.frictionlessdata.io/data-resource/#metadata-properties)) is a named value used to describe the data resource. The value of most *descriptors* are a single character string (e.g., `name = "my_data_set"`, `path = "my_data_set.csv"`).
+
+**schema** (or ["table schema"](https://specs.frictionlessdata.io/table-schema/)) is a special *descriptor* that stores information about the **fields** (or columns) within a tabular-data-resource. *schema* includes a list of *descriptors* for each *field* as well as the value used to denote missingness and which *fields* are primary or foreign keys.
+
+A tabular-data-resource (with all possible *descriptors*, *schema*, and *fields*) is hierarchically organized and can be represented in the attributes of an R tibble *or* in YAML.
 
 ![](codec_metadata.png)
 
-- a **descriptor** (or ["metadata property"](https://specs.frictionlessdata.io/data-resource/#metadata-properties)) is a named value stored as a string used to describe the data resource
-- the **schema** (or ["table schema"](https://specs.frictionlessdata.io/table-schema/)) contains information about each of the **fields** (or "columns") within a tabular-data-resource
-  - **schema** may optionally contain the value used to denote missingness and which fields are foreign or primary keys
-
-The names of any **descriptor** **schema** and **field** values MUST be one of:
-
-```{r}
-CODECtools::codec_names()
-```
-
-A CODEC `tdr` MUST contain `name` and `path` descriptors. All other descriptors, schema, and fields MAY be present.
+A CODEC tabular-data-resource MUST contain `name` and `path` descriptors. All other descriptors, schema, and fields MAY be present, but MUST be one of:
 
 #### descriptor
 
@@ -83,3 +77,8 @@ the table
 - `type`: [Frictionless type](https://specs.frictionlessdata.io/table-schema/#types-and-formats) of the field/column (e.g., string, number, boolean)
 - `constraints`: [Frictionless constraints](https://specs.frictionlessdata.io/table-schema/#constraints), including `enum`, an array of possible values or factor levels
 
+Valid names for descriptors, schema, and metadata can be found within CODECtools in R by using:
+
+```{r}
+CODECtools::codec_names()
+```
