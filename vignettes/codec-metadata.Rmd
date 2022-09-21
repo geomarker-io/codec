@@ -29,7 +29,7 @@ The CODEC metadata specifications are based on the [Tabular Data Resource](https
 3. [CSV dialect](https://specs.frictionlessdata.io/csv-dialect/): describes the various dialects of CSV files, including terminator strings, quoting rules, escape rules, etc.
 
 A tabular-data-resource consists of (1) a *single* table of data in a CSV file and (2) its metadata, represented as a hierarchical list in a specific format.  On disk, this metadata is stored as a YAML file and in R, it is stored in the attributes of a data.frame (or tibble).
-^[This is a good place to note that although not used here, the [Data Package](https://specs.frictionlessdata.io/data-package/) & [Tabular Data Package](https://specs.frictionlessdata.io/tabular-data-package/) are similar to the Data Resource and Tabular Data Resource, except for that they describe a *collection* of tabular files.]
+^[This is a good place to note that although not used here, the [Data Package](https://specs.frictionlessdata.io/data-package/) & [Tabular Data Package](https://specs.frictionlessdata.io/tabular-data-package/) are similar to the Data Resource and Tabular Data Resource, except that they describe a *collection* of tabular files.]
 
 ## CODEC Metadata Specifications
 
