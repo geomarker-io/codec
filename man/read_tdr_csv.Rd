@@ -7,7 +7,7 @@
 read_tdr_csv(dir = getwd(), codec = TRUE, ...)
 }
 \arguments{
-\item{dir}{path or connection to folder that contains a
+\item{dir}{path to folder that contains a
 tabular-data-resource.yaml file}
 
 \item{codec}{logical; use only CODEC descriptors?}

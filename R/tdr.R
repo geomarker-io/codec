@@ -86,6 +86,27 @@ read_tdr <- function(file = "tabular-data-resource.yaml") {
   return(metadata)
 }
 
+#' read a CSV tabular data resource from CODEC
+#'
+#' If not available locally, the CODEC tabular-data-resource will be
+#' downloaded from `s3://codec-data/`.
+#' @param name name of CODEC tabular data resource
+#' @param force ignore existing data and redownload data?
+#' @return tibble with added tabular-data-resource attributes
+#' @export
+read_codec <- function(name, force = FALSE) {
+  if (force | (!fs::dir_exists(fs::path("codec-data", name)))) {
+    cli::cli_alert_info("{name} not found locally; downloading...")
+    fs::dir_create(fs::path("codec-data", name))
+    utils::download.file(glue::glue("https://codec-data.s3.amazonaws.com/{name}/tabular-data-resource.yaml"),
+                         fs::path(getwd(), "codec-data", name, "tabular-data-resource.yaml"))
+    utils::download.file(glue::glue("https://codec-data.s3.amazonaws.com/{name}/{name}.csv"),
+                         fs::path(getwd(), "codec-data", name, glue::glue("{name}.csv")))
+    cli::cli_alert_success("downloaded CODEC tabular-data-resource")
+  }
+  read_tdr_csv(fs::path(getwd(), "codec-data", name))
+}
+
 #' read a CSV tabular data resource into R
 #'
 #' The CSV file defined in a tabular-data-resource yaml file
@@ -94,7 +115,7 @@ read_tdr <- function(file = "tabular-data-resource.yaml") {
 #' of the returned tibble and are also used to set
 #' the column classes of the returned data.frame or tibble.
 #'
-#' @param dir path or connection to folder that contains a
+#' @param dir path to folder that contains a
 #' tabular-data-resource.yaml file
 #' @param codec logical; use only CODEC descriptors?
 #' @param ... additional options passed onto `readr::read_csv()`
