@@ -6,11 +6,14 @@
 codec_names <- function() {
   list(
     descriptor = c(
+      "profile",
       "name",
       "path",
       "title",
+      "version",
       "description",
       "url",
+      "id",
       "license",
       "schema"
     ),

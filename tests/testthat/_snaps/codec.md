@@ -4,8 +4,8 @@
       codec_names()
     Output
       $descriptor
-      [1] "name"        "path"        "title"       "description" "url"        
-      [6] "license"     "schema"     
+       [1] "profile"     "name"        "path"        "title"       "version"    
+       [6] "description" "url"         "id"          "license"     "schema"     
       
       $schema
       [1] "fields"        "missingValues" "primaryKey"    "foreignKey"   
