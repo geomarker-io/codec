@@ -10,3 +10,4 @@ docs
 tabular-data-resource.yaml
 /mydata/
 inst/doc
+/tests/testthat/codec-data/

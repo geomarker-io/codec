@@ -191,7 +191,6 @@ read_tdr_csv <- function(dir = getwd(), codec = TRUE, ...) {
 write_tdr_csv <- function(.x, dir = getwd(), codec = TRUE) {
 
   tdr_name <- attr(.x, "name")
-  # TODO make paths in yaml file relative to `dir`
 
   tdr_dir <- fs::path(dir, tdr_name)
   tdr_csv <- fs::path(tdr_dir, tdr_name, ext = "csv")
@@ -209,6 +208,90 @@ write_tdr_csv <- function(.x, dir = getwd(), codec = TRUE) {
   cli::cli_alert_success("wrote metadata to {tdr_yml}")
 }
 
+## make_metadata_md <- function(.x, file_name = "metadata.md") {
+##   options(knitr.kable.NA = "")
+##   cat("#### Metadata\n\n", file = file_name, append = FALSE)
+##   CODECtools::glimpse_attr(d) |>
+##     knitr::kable() |>
+##     cat(file = file_name, sep = "\n", append = TRUE)
+##   cat("\n#### Schema\n\n", file = file_name, append = TRUE)
+##   d |>
+##     dplyr::select(-ends_with("moe")) |>
+##     CODECtools::glimpse_schema() |>
+##     knitr::kable() |>
+##     cat(file = file_name, sep = "\n", append = TRUE)
+## }
+
+#' experimental!
+release_codec_tdr <- function(.x, version = "0.1.0", gh = TRUE) {
+
+  # TODO check schema!
+
+  tdr_name <- attr(.x, "name")
+  d <- add_attrs(.x, version = version)
+  tf_csv <- tempfile(tdr_name, fileext = ".csv")
+  tf_tdr <- tempfile("tabular-data-resource", fileext = ".yaml")
+  readr::write_csv(d, tf_csv)
+
+  # TODO check CSV + yaml files
+  # TODO: make someone answer a question to be sure they are going to upload XXXX as version XXX to S3
+
+  # upload CSV file
+  system2("aws",
+          c("s3", "cp",
+            "--acl public-read",
+            glue::glue("--metadata version={version}"),
+            "--only-show-errors",
+            tf_csv,
+            glue::glue("s3://codec-data/{tdr_name}/{tdr_name}.csv")))
+
+  # get s3 version id and save with tdr.yaml file
+  Sys.sleep(1)
+  s3_version_id <- 
+    system2("aws", c("s3api", "list-object-versions",
+                     "--bucket codec-data",
+                     glue::glue("--prefix {tdr_name}/{tdr_name}.csv")),
+            stdout = TRUE, stderr = TRUE) |>
+    paste(collapse = "\n") |>
+    jsonlite::fromJSON() |>
+    purrr::pluck("Versions") |>
+    dplyr::filter(IsLatest) |>
+    dplyr::pull(VersionId)
+
+  d |>
+    add_attrs(id = s3_version_id) |>
+    write_tdr(tf_tdr)
+
+  # upload tdr.yaml file
+  system2("aws",
+          c("s3", "cp",
+            "--acl public-read",
+            glue::glue("--metadata version={version}"),
+            "--only-show-errors",
+            tf_tdr,
+            glue::glue("s3://codec-data/{tdr_name}/tabular-data-resource.yaml")))
+
+  # TODO use {gh} to create release and upload tdr artifacts
+}
+
+## # get AWS S3 metdata on object
+## system2("aws", c("s3api", "head-object",
+##                  "--bucket codec-data",
+##                  glue::glue("--key {tdr_name}/{tdr_name}.csv")),
+##         stdout = TRUE, stderr = TRUE) |>
+##   paste(collapse = "\n") |>
+##   jsonlite::fromJSON()
+
+## versions <-
+##   system2("aws", c("s3api", "list-object-versions",
+##                    "--bucket codec-data",
+##                    glue::glue("--prefix {tdr_name}/{tdr_name}.csv")),
+##           stdout = TRUE, stderr = TRUE) |>
+##   paste(collapse = "\n") |>
+##   jsonlite::fromJSON()
+# could write code to get all `VersionID`s of a CODEC tdr and
+# then lookup associated versions in the metadata of each file
+# in order to download older versions
 
 #' glimpse attributes of a data.frame
 #' @param .x data frame or tibble

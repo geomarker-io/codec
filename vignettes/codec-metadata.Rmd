@@ -53,13 +53,16 @@ A CODEC tabular-data-resource MUST contain `name` and `path` descriptors. All ot
 
 #### descriptor
 
-- `name`: machine-friendly name of dataset; must consist of letters, numbers, and underscores (`_`)
+- `profile`: always set to `tabular-data-resource`
+- `name`: machine-friendly name of data resource; must consist of letters, numbers, and underscores (`_`)
 - `path`: path to the data CSV file *relative to the `tabular-data-resource.yaml` file*
-- `title`: human-friendly name of dataset
+- `schema`: a list object containing items described in the next subsection
+- `title`: human-friendly name of data resource
+- `version`: semantic version of the data resource
 - `description`: any additional notes about the data
 - `url`: link to repository with code and description about how the data was harmonized to census tract geographies
-- `license`:
-- `schema`: a list object containing the following
+- `id`: unique identifier for CSV data file; e.g. AWS S3's VersionId
+- `license`: 
 
 #### schema
 
