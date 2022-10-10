@@ -223,6 +223,10 @@ write_tdr_csv <- function(.x, dir = getwd(), codec = TRUE) {
 ## }
 
 #' experimental!
+#'
+#' @param .x a CODEC tdr
+#' @param version the version number to be used for the release
+#' @param gh logical; also create and upload CODEC tdr to a new GitHub release?
 release_codec_tdr <- function(.x, version = "0.1.0", gh = TRUE) {
 
   # TODO check schema!

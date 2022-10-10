@@ -27,6 +27,7 @@ Imports:
     forcats,
     fs,
     glue,
+    jsonlite,
     purrr,
     readr,
     rlang (>= 0.4.11),
