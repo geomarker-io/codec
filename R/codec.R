@@ -9,19 +9,18 @@ codec_names <- function() {
       "profile",
       "name",
       "path",
-      "title",
       "version",
+      "title",
+      "homepage",
       "description",
-      "url",
-      "id",
-      "license",
-      "schema"
+      "schema",
+      "_s3VersionId"
     ),
     schema = c(
       "fields",
-      "missingValues",
       "primaryKey",
-      "foreignKey"
+      "foreignKey",
+      "missingValues"
     ),
     fields = c(
       "name",

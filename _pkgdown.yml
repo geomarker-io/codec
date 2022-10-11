@@ -28,3 +28,6 @@ reference:
 - title: CODEC (meta)data specifications
   contents:
   - codec_names
+- title: internal
+  contents:
+  - release_codec_tdr

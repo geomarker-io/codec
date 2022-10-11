@@ -12,8 +12,8 @@
       $title
       [1] "Example Data Set"
       
-      $license
-      [1] "MIT"
+      $homepage
+      [1] "https://example.com"
       
       $schema
       $schema$fields

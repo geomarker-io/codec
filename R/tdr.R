@@ -222,7 +222,7 @@ write_tdr_csv <- function(.x, dir = getwd(), codec = TRUE) {
 ##     cat(file = file_name, sep = "\n", append = TRUE)
 ## }
 
-#' experimental!
+#' experimental!: release a CODEC tdr
 #'
 #' @param .x a CODEC tdr
 #' @param version the version number to be used for the release

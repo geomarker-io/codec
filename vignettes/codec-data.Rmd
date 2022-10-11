@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-## CODEC Data Specification
+## CODEC Data Standards
 
 > *Language:* The keywords “MUST”, “MUST NOT”, “SHOULD”, “SHOULD NOT”, and “MAY” in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 

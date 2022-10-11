@@ -4,38 +4,30 @@ classDef I fill:#E49865,stroke:#333,stroke-width:2px;
 classDef II fill:#EACEC5,stroke:#333,stroke-width:2px;
 classDef III fill:#CBD6D5,stroke:#333,stroke-width:2px;
 classDef IIII fill:#8CB4C3,stroke:#333,stroke-width:2px;
-classDef IV fill:#F6EDDE,stroke:#333,stroke-width:2px;
 
-tdr([tabular-data-resource \n descriptors]):::I
-
-profile(profile):::II   
+tdr([tabular-data-resource]):::I
 
 name(name):::II
 path(path):::II
-schema(schema):::II
-title(title):::II
 version(version):::II   
+schema([schema]):::II
+title(title):::II
+homepage(homepage):::II
 description(description):::II
-url(url):::II
-id(id):::II   
-license(license):::II
 
-tdr ---- profile   
-tdr ---- name
-tdr ---- path
-tdr ---- schema
-tdr ---- title
-tdr ---- version   
-tdr ---- description
-tdr ---- url
-tdr ---- id   
-tdr ---- license
+tdr --- name
+tdr --- path
+tdr --- version   
+tdr --- title
+tdr --- description
+tdr --- homepage
+tdr --- schema
 
+schema --- fields([fields]):::III
 schema --- missingValues(missingValues):::III
 schema --- primaryKey(primaryKey):::III
 schema --- foreignKey(foreignKey):::III
-schema --- fields(fields):::III
 
-fields --- field_name_1{{name \n title \n description \n type}}:::IIII
-fields --- field_name_2{{name \n title \n type \n constraints}}:::IIII
-fields --- field_name_3{{name \n title \n description \n type \n constraints}}:::IIII
+fields --- field_name_1(field_1:\nname \n title \n description \n type):::IIII
+fields --- field_name_2(field_2:\nname \n title \n type \n constraints):::IIII
+fields --- field_name_3(field_3:\nname \n title \n description \n type \n constraints):::IIII
