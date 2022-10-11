@@ -32,6 +32,6 @@ d_attrs <-
     name = "example",
     path = "d.csv",
     title = "Example Data Set",
-    license = "MIT"
+    homepage = "https://example.com"
   ) |>
   add_type_attrs()

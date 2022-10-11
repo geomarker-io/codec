@@ -8,7 +8,7 @@ test_that("add_attr_from_tdr", {
   expect_identical(attr(d_tdr, "name"), attr(d_attrs, "name"))
   expect_identical(attr(d_tdr, "path"), attr(d_attrs, "path"))
   expect_identical(attr(d_tdr, "title"), attr(d_attrs, "title"))
-  expect_identical(attr(d_tdr, "license"), attr(d_attrs, "license"))
+  expect_identical(attr(d_tdr, "homepage"), attr(d_attrs, "homepage"))
   expect_identical(attr(d_tdr$rating, "constraints"), attr(d_attrs$rating, "constraints"))
 })
 
@@ -38,6 +38,7 @@ test_that("read_tdr_csv", {
 })
 
 test_that("read_codec", {
+  skip("don't download this every time!")
   d <- read_codec("hh_acs_measures")
   expect_identical(attr(d, "name"), "hh_acs_measures")
   expect_true("census_tract_id" %in% names(d))

@@ -7,7 +7,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-## Metadata
+## Introduction
+
+### Metadata
 
 Metadata is information *about* data, but does not contain the data itself. For example, a CSV file cannot tell R (or other software) anything about itself including:
 
@@ -18,67 +20,99 @@ Metadata is information *about* data, but does not contain the data itself. For 
 
 CODEC utilizes a specific set of standards to store community-level data in an effort to make them more interoperable and reusable.
 
-## Frictionless Standards
+### Frictionless Standards
 
 [Frictionless](https://frictionlessdata.io/) standards are a set of [patterns](https://specs.frictionlessdata.io/) for describing data, including datasets, files, and tables. These metadata are contained in a specific file (separate from the data file), usually written in JSON or YAML, that describes something specific to each Frictionless Standard.
 
-The CODEC metadata specifications are based on the [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/) (often written as 'tabular-data-resource' and abbreviated throughout the package as `tdr`). A tabular-data-resource is made up of three Frictionless Standards:
+The CODEC metadata standards are based on the Frictionless [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/) standards (often written as 'tabular-data-resource' and abbreviated throughout the package as `tdr`), which is composed of three Frictionless standards:
 
-1. [Data Resource](https://specs.frictionlessdata.io/data-resource/): describes an *exact* tabular file providing a path to the file and details like name, title, description, and others
+1. [Data Resource](https://specs.frictionlessdata.io/data-resource/): describes an exact tabular file providing a path to the file and details like name, title, description, and more
 2. [Table Schema](https://specs.frictionlessdata.io/table-schema/): describes a tabular file by providing its dimension, field data types, relations, and constraints
 3. [CSV dialect](https://specs.frictionlessdata.io/csv-dialect/): describes the various dialects of CSV files, including terminator strings, quoting rules, escape rules, etc.
 
 A tabular-data-resource consists of (1) a *single* table of data in a CSV file and (2) its metadata, represented as a hierarchical list in a specific format.  On disk, this metadata is stored as a YAML file and in R, it is stored in the attributes of a data.frame (or tibble).
 ^[This is a good place to note that although not used here, the [Data Package](https://specs.frictionlessdata.io/data-package/) & [Tabular Data Package](https://specs.frictionlessdata.io/tabular-data-package/) are similar to the Data Resource and Tabular Data Resource, except that they describe a *collection* of tabular files.]
 
-## CODEC Metadata Specifications
+## CODEC Metadata Standards
 
 > *Language:* The keywords “MUST”, “MUST NOT”, “SHOULD”, “SHOULD NOT”, and “MAY” in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
 ### Version
 
-CODEC specifications are versioned according to the {CODECtools} package, so this vignette describes version `r packageVersion("CODECtools")`.  To see older versions of the specification, install an older version of {CODECtools}.
+CODEC standards are versioned according to the {CODECtools} package, so this vignette describes version `r packageVersion("CODECtools")`.  To see older versions of the specification, install an older version of {CODECtools}.
+
+### Examples
+
+An example CODEC tabular-data-resource looks like:
+
+```yaml
+name: tract_poverty
+path: tract_poverty.csv
+title: Fraction of Census Tract Households in Poverty
+version: 1.2.1
+description: measures derived from 5-yr 2019 American Community Survey
+schema:
+  fields:
+    census_tract_id:
+      name: census_tract_id
+      title: Census Tract
+      description: 2010 vintage census tract identifier
+      type: string
+    fraction_poverty:
+      name: fraction_poverty
+      title: Fraction of Households in Poverty
+      description: Fraction of households with income below poverty level within the past 12 months
+      type: number
+```
 
 ### Tabular-Data-Resource Metadata
 
-A **descriptor** (or ["metadata property"](https://specs.frictionlessdata.io/data-resource/#metadata-properties)) is a named value used to describe the data resource. The value of most *descriptors* are a single character string (e.g., `name = "my_data_set"`, `path = "my_data_set.csv"`).
+A CODEC tabular-data-resource is hierarchically organized.
 
-**schema** (or ["table schema"](https://specs.frictionlessdata.io/table-schema/)) is a special *descriptor* that stores information about the **fields** (or columns) within a tabular-data-resource. *schema* includes a list of *descriptors* for each *field* as well as the value used to denote missingness and which *fields* are primary or foreign keys.
+A **descriptor** (or ["metadata property"](https://specs.frictionlessdata.io/data-resource/#metadata-properties)) is a named value used to describe the data resource. The value of most *descriptors* are a single character string (e.g., `name = "my_data"`).
 
-A tabular-data-resource (with all possible *descriptors*, *schema*, and *fields*) is hierarchically organized and can be represented in the attributes of an R tibble *or* in YAML.
+**schema** (or ["table schema"](https://specs.frictionlessdata.io/table-schema/)) is a special *descriptor* that stores information about the **fields** (or columns) within a tabular-data-resource. *schema* includes a list of *descriptors* for each *field*.
+
+**dialect** (or ["CSV dialect"](https://specs.frictionlessdata.io/csv-dialect/)) is another special *descriptor* that stores information about the formatting of the data CSV file. The [CODEC data standards](./codec-data#codec-data-standards) specify that data CSV files must follow the [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) standard for CSV files. Thus, the `dialect` descriptor is omitted from the CODEC tabular-data-resource.
 
 ![](codec_metadata.png)
+
 
 A CODEC tabular-data-resource MUST contain `name` and `path` descriptors. All other descriptors, schema, and fields MAY be present, but MUST be one of:
 
 #### descriptor
 
-- `profile`: always set to `tabular-data-resource`
-- `name`: machine-friendly name of data resource; must consist of letters, numbers, and underscores (`_`)
-- `path`: path to the data CSV file *relative to the `tabular-data-resource.yaml` file*
-- `schema`: a list object containing items described in the next subsection
-- `title`: human-friendly name of data resource
-- `version`: semantic version of the data resource
-- `description`: any additional notes about the data
-- `url`: link to repository with code and description about how the data was harmonized to census tract geographies
-- `id`: unique identifier for CSV data file; e.g. AWS S3's VersionId
-- `license`: 
+| descriptor | description |
+|:------------:|:-------------|
+|`profile`| the profile of this descriptor (always set to `tabular-data-resource` here)|
+|`name`| an identifier string composed of lower case alphanumeric characters, `_`, `-`, and `.`|
+|`path`| location of data associated with resource as a [POSIX path](https://en.wikipedia.org/wiki/Path_%28computing%29#POSIX_pathname_definition) relative to the `tabular-data-resource.yaml` file or a fully qualified URL|
+|`version`| semantic [version](https://specs.frictionlessdata.io/patterns/#data-package-version) of the data resource|
+|`title`| human-friendly title of the resource|
+|`homepage`| homepage on the web related to the data; ideally a code repository used to create the data|
+|`description`| additional notes about the resource|
+|`_s3VersionId`| the VersionId of the file stored on AWS S3; private, not user-generated|
+|`schema`| a list object containing items the following|
 
 #### schema
 
-- `missingValues`: denotes which string values should be treated as missing; default: `NA` or empty string (``)
-- `primaryKey`: a field or set of fields that uniquely identifies each row in
+| schema | description |
+|:------------:|:-------------|
+|`missingValues`| denotes which string values should be treated as missing; default: `NA` or empty string (``)|
+|`primaryKey`| a field or set of fields that uniquely identifies each row in|
 the table 
-- `foreignKey`: a field or set of fields that connect to a separate table
-- `fields`: a list object, one for each column, containing the following
+|`foreignKey`| a field or set of fields that connect to a separate table|
+|`fields`| a list object, one for each column, containing the following|
 
 #### fields
 
-- `name`: machine-friendly name of field/column; must be identical to name of column in data CSV file
-- `title`: human-friendly name of field/column
-- `description`: any additional notes about the field/column
-- `type`: [Frictionless type](https://specs.frictionlessdata.io/table-schema/#types-and-formats) of the field/column (e.g., string, number, boolean)
-- `constraints`: [Frictionless constraints](https://specs.frictionlessdata.io/table-schema/#constraints), including `enum`, an array of possible values or factor levels
+| fields | description |
+|:------------:|:-------------|
+|`name`| machine-friendly name of field/column; must be identical to name of column in data CSV file|
+|`title`| human-friendly name of field/column|
+|`description`| any additional notes about the field/column|
+|`type`| [Frictionless type](https://specs.frictionlessdata.io/table-schema/#types-and-formats) of the field/column (e.g., string, number, boolean)|
+|`constraints`| [Frictionless constraints](https://specs.frictionlessdata.io/table-schema/#constraints), including `enum`, an array of possible values or factor levels|
 
 Valid names for descriptors, schema, and metadata can be found within CODECtools in R by using:
 

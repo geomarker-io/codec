@@ -2,7 +2,7 @@
 % Please edit documentation in R/tdr.R
 \name{release_codec_tdr}
 \alias{release_codec_tdr}
-\title{experimental!}
+\title{experimental!: release a CODEC tdr}
 \usage{
 release_codec_tdr(.x, version = "0.1.0", gh = TRUE)
 }
@@ -14,5 +14,5 @@ release_codec_tdr(.x, version = "0.1.0", gh = TRUE)
 \item{gh}{logical; also create and upload CODEC tdr to a new GitHub release?}
 }
 \description{
-experimental!
+experimental!: release a CODEC tdr
 }

@@ -2,7 +2,7 @@ profile: tabular-data-resource
 name: example
 path: d.csv
 title: Example Data Set
-license: MIT
+homepage: https://example.com
 schema:
   fields:
     id:
