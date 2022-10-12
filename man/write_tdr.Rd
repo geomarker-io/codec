@@ -11,7 +11,7 @@ write_tdr(.x, file = "tabular-data-resource.yaml", codec = TRUE)
 
 \item{file}{name of yaml file to write metadata to}
 
-\item{codec}{logical; include only CODEC descriptors or schema? (see \code{?codec_tdr} for details)}
+\item{codec}{logical; include only CODEC properties or schema? (see \code{?codec_tdr} for details)}
 }
 \value{
 .x (invisibly)

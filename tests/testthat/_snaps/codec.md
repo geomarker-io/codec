@@ -3,7 +3,7 @@
     Code
       codec_tdr()
     Output
-      $descriptor
+      $property
                                                                                                                                                                                                                      profile 
                                                                                                                                                    "profile of this descriptor (always set to `tabular-data-resource` here)" 
                                                                                                                                                                                                                         name 
