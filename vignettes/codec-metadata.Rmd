@@ -37,9 +37,32 @@ A tabular-data-resource consists of (1) a *single* table of data in a CSV file a
 
 > *Language:* The keywords “MUST”, “MUST NOT”, “SHOULD”, “SHOULD NOT”, and “MAY” in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
-### Version
+> CODEC standards are versioned with {CODECtools}, so this vignette describes version `r packageVersion("CODECtools")`.
 
-CODEC standards are versioned according to the {CODECtools} package, so this vignette describes version `r packageVersion("CODECtools")`.  To see older versions of the specification, install an older version of {CODECtools}.
+### Tabular-Data-Resource Metadata
+
+The metadata of a CODEC tabular-data-resource is hierarchically composed of different **descriptors** :
+
+![](codec_metadata.png)
+
+- **property** (or ["metadata property"](https://specs.frictionlessdata.io/data-resource/#metadata-properties)) are named values used to describe the data resource. The value of most *properties* are a single character string (e.g., `name = "my_data"`), but some are lists.
+
+- **schema** (or ["table schema"](https://specs.frictionlessdata.io/table-schema/)) is a special *property* that is a list of information about the **fields** (or columns) in a tabular-data-resource. *schema* includes a list of *fields*, as well as the value used to denote missingness and which *fields* are primary or foreign keys.
+
+- **fields** (or ["field descriptors"](https://specs.frictionlessdata.io/table-schema/#field-descriptors)) are a special *schema descriptor* that is a list of each the *fields* in a tabular-data-resource, each with different *descriptors* containing *field*-specific information.
+
+- **dialect** (or ["CSV dialect"](https://specs.frictionlessdata.io/csv-dialect/)) is another special *property* that stores information about the formatting of the data CSV file. The [CODEC data standards](./codec-data#codec-data-standards) specify that data CSV files must follow the [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) standard for CSV files. Thus, the `dialect` descriptor is omitted from the CODEC tabular-data-resource standards.
+
+A CODEC tabular-data-resource MUST contain `name` and `path` descriptors. All other properties, schema, and fields MAY be present, but MUST be one of:
+
+```{r as.is = T, echo = F}
+CODECtools::codec_tdr() |>
+  purrr::map(tibble::enframe) |>
+  tibble::enframe(name = "type", value = "data") |>
+  dplyr::rowwise(type) |>
+  dplyr::summarize(data) |>
+  knitr::kable()
+```
 
 ### Examples
 
@@ -61,29 +84,5 @@ schema:
     fraction_poverty:
       name: fraction_poverty
       title: Fraction of Households in Poverty
-      description: Fraction of households with income below poverty level within the past 12 months
       type: number
-```
-
-### Tabular-Data-Resource Metadata
-
-A CODEC tabular-data-resource is hierarchically organized.
-
-A **descriptor** (or ["metadata property"](https://specs.frictionlessdata.io/data-resource/#metadata-properties)) is a named value used to describe the data resource. The value of most *descriptors* are a single character string (e.g., `name = "my_data"`).
-
-**schema** (or ["table schema"](https://specs.frictionlessdata.io/table-schema/)) is a special *descriptor* that stores information about the **fields** (or columns) within a tabular-data-resource. *schema* includes a list of *descriptors* for each *field*.
-
-**dialect** (or ["CSV dialect"](https://specs.frictionlessdata.io/csv-dialect/)) is another special *descriptor* that stores information about the formatting of the data CSV file. The [CODEC data standards](./codec-data#codec-data-standards) specify that data CSV files must follow the [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) standard for CSV files. Thus, the `dialect` descriptor is omitted from the CODEC tabular-data-resource.
-
-![](codec_metadata.png)
-
-A CODEC tabular-data-resource MUST contain `name` and `path` descriptors. All other descriptors, schema, and fields MAY be present, but MUST be one of:
-
-```{r as.is = T, echo = F}
-CODECtools::codec_tdr() |>
-  purrr::map(tibble::enframe) |>
-  tibble::enframe(name = "type", value = "data") |>
-  dplyr::rowwise(type) |>
-  dplyr::summarize(data) |>
-  knitr::kable()
 ```

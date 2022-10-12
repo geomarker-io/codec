@@ -1,14 +1,14 @@
 #' make a tabular-data-resource list from the attributes of a data.frame
 #'
 #' @param .x a data.frame or tibble
-#' @param codec logical; use only CODEC descriptors?
+#' @param codec logical; use only CODEC properties?
 #' @return a list of tabular-data-resource metadata
 make_tdr_from_attr <- function(.x, codec = TRUE) {
   desc <- attributes(.x)
   flds <- purrr::map(.x, attributes)
 
   if (codec) {
-    desc <- purrr::compact(desc[names(codec_tdr()$descriptor)])
+    desc <- purrr::compact(desc[names(codec_tdr()$property)])
     flds <-
       purrr::map(flds, ~ .[names(codec_tdr()$fields)]) |>
       purrr::map(purrr::compact)
@@ -26,7 +26,7 @@ make_tdr_from_attr <- function(.x, codec = TRUE) {
 #'
 #' @param .x a data.frame or tibble
 #' @param tdr a tabular-data-resource list (usually created with `read_tdr()` or `make_tdr_from_attr()`)
-#' @param codec logical; use only CODEC descriptors?
+#' @param codec logical; use only CODEC properties?
 #' @return .x with added tabular-data-resource attributes
 #' @export
 add_attr_from_tdr <- function(.x, tdr, codec = TRUE) {
@@ -36,7 +36,7 @@ add_attr_from_tdr <- function(.x, tdr, codec = TRUE) {
   purrr::pluck(desc, "schema") <- NULL
 
   if (codec) {
-    desc <- purrr::compact(desc[names(codec_tdr()$descriptor)])
+    desc <- purrr::compact(desc[names(codec_tdr()$property)])
     flds <- purrr::modify(flds, ~ purrr::compact(.[names(codec_tdr()$fields)]))
   }
 
@@ -54,7 +54,7 @@ add_attr_from_tdr <- function(.x, tdr, codec = TRUE) {
 #'
 #' @param .x a data.frame or tibble
 #' @param file name of yaml file to write metadata to
-#' @param codec logical; include only CODEC descriptors or schema? (see `?codec_tdr` for details)
+#' @param codec logical; include only CODEC properties or schema? (see `?codec_tdr` for details)
 #' @return .x (invisibly)
 #' @examples
 #' \dontrun{
@@ -111,13 +111,13 @@ read_codec <- function(name, force = FALSE) {
 #'
 #' The CSV file defined in a tabular-data-resource yaml file
 #' are read into R using `readr::read_csv()`. Metadata
-#' (descriptors and schema) are stored as attributes
+#' (properties and schema) are stored as attributes
 #' of the returned tibble and are also used to set
 #' the column classes of the returned data.frame or tibble.
 #'
 #' @param dir path to folder that contains a
 #' tabular-data-resource.yaml file
-#' @param codec logical; use only CODEC descriptors?
+#' @param codec logical; use only CODEC properties?
 #' @param ... additional options passed onto `readr::read_csv()`
 #' @return tibble with added tabular-data-resource attributes
 #' @export
@@ -186,7 +186,7 @@ read_tdr_csv <- function(dir = getwd(), codec = TRUE, ...) {
 #' and a "tabular-data-resource.yaml" file will also be created.
 #' @param .x data.frame or tibble
 #' @param dir path to directory where tdr will be created; see details
-#' @param codec logical; use only CODEC descriptors?
+#' @param codec logical; use only CODEC properties?
 #' @export
 write_tdr_csv <- function(.x, dir = getwd(), codec = TRUE) {
 
@@ -299,7 +299,7 @@ release_codec_tdr <- function(.x, version = "0.1.0", gh = TRUE) {
 
 #' glimpse attributes of a data.frame
 #' @param .x data frame or tibble
-#' @param codec logical; include only CODEC descriptors? (see `?codec_tdr` for details)
+#' @param codec logical; include only CODEC properties? (see `?codec_tdr` for details)
 #' @return a tibble with `name` and `value` columns of attributes
 #' @details values are collapsed using `,`
 #' @export

@@ -11,7 +11,7 @@ add_attr_from_tdr(.x, tdr, codec = TRUE)
 
 \item{tdr}{a tabular-data-resource list (usually created with \code{read_tdr()} or \code{make_tdr_from_attr()})}
 
-\item{codec}{logical; use only CODEC descriptors?}
+\item{codec}{logical; use only CODEC properties?}
 }
 \value{
 .x with added tabular-data-resource attributes

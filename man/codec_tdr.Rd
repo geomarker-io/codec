@@ -7,10 +7,10 @@
 codec_tdr()
 }
 \value{
-a list of named character vectors, one for each of "descriptor", "schema", and "fields"
+a list of named character vectors, one for each of "property", "schema", and "fields"
 }
 \description{
-Defines the list of names (and descriptions) of valid CODEC descriptor, schema, and fields
+Defines the list of names (and descriptions) of valid CODEC \emph{property}, \emph{schema}, and \emph{fields} descriptors
 }
 \examples{
 names(codec_tdr())

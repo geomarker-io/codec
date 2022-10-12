@@ -1,13 +1,13 @@
 #' codec_tdr
 #' 
-#' Defines the list of names (and descriptions) of valid CODEC descriptor, schema, and fields
-#' @return a list of named character vectors, one for each of "descriptor", "schema", and "fields"
+#' Defines the list of names (and descriptions) of valid CODEC *property*, *schema*, and *fields* descriptors
+#' @return a list of named character vectors, one for each of "property", "schema", and "fields"
 #' @examples
 #' names(codec_tdr())
 #' @export
 codec_tdr <- function() {
   list(
-    descriptor = c(
+    property = c(
       "profile" = "profile of this descriptor (always set to `tabular-data-resource` here)",
       "name" = "an identifier string composed of lower case alphanumeric characters, `_`, `-`, and `.`",
       "path" = "location of data associated with resource as a [POSIX path](https://en.wikipedia.org/wiki/Path_%28computing%29#POSIX_pathname_definition) relative to the `tabular-data-resource.yaml` file or a fully qualified URL",
