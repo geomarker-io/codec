@@ -38,15 +38,15 @@ d <-
 
 ## Adding Metadata
 
-When creating a tabular dataset in R, data-specific metadata (i.e., "descriptors") can be stored in the attributes of the R object (e.g., a data.frame or tibble).
+When creating a tabular dataset in R, data-specific metadata (i.e., "properties") can be stored in the attributes of the R object (e.g., a data.frame or tibble).
 
 ```{r}
 d <- d |>
   add_attrs(
     name = "mydata",
     title = "My Data",
-    license = "MIT",
-    url = "https://geomarker.io/CODECtools"
+    version = "0.1.0",
+    homepage = "https://geomarker.io/CODECtools"
   )
 ```
 
@@ -79,6 +79,7 @@ d <- add_type_attrs(d)
 Like for descriptors, there is a helper function to retrieve schema as a tibble: 
 
 ```{r}
+options(knitr.kable.NA = "")
 glimpse_schema(d) |>
   knitr::kable()
 ```
