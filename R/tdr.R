@@ -8,9 +8,9 @@ make_tdr_from_attr <- function(.x, codec = TRUE) {
   flds <- purrr::map(.x, attributes)
 
   if (codec) {
-    desc <- purrr::compact(desc[codec_names()$descriptor])
+    desc <- purrr::compact(desc[names(codec_tdr()$descriptor)])
     flds <-
-      purrr::map(flds, ~ .[codec_names()$fields]) |>
+      purrr::map(flds, ~ .[names(codec_tdr()$fields)]) |>
       purrr::map(purrr::compact)
     flds[purrr::map_lgl(flds, ~ is.list(.) & length(.) == 0)] <- NULL
     flds <- purrr::compact(flds)
@@ -36,8 +36,8 @@ add_attr_from_tdr <- function(.x, tdr, codec = TRUE) {
   purrr::pluck(desc, "schema") <- NULL
 
   if (codec) {
-    desc <- purrr::compact(desc[codec_names()$descriptor])
-    flds <- purrr::modify(flds, ~ purrr::compact(.[codec_names()$fields]))
+    desc <- purrr::compact(desc[names(codec_tdr()$descriptor)])
+    flds <- purrr::modify(flds, ~ purrr::compact(.[names(codec_tdr()$fields)]))
   }
 
   out <- add_attrs(.x, !!!desc)
