@@ -1,3 +1,3 @@
-test_that("codec_names()", {
-  expect_snapshot(codec_names())
+test_that("codec_tdr", {
+  expect_snapshot(codec_tdr())
 })

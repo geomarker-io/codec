@@ -27,7 +27,7 @@ reference:
   - glimpse_schema
 - title: CODEC (meta)data specifications
   contents:
-  - codec_names
+  - codec_tdr
 - title: internal
   contents:
   - release_codec_tdr
