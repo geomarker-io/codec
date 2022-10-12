@@ -37,16 +37,6 @@ test_that("read_tdr_csv", {
 
 })
 
-test_that("read_codec", {
-  skip("don't download this every time!")
-  d <- read_codec("hh_acs_measures")
-  expect_identical(attr(d, "name"), "hh_acs_measures")
-  expect_true("census_tract_id" %in% names(d))
-  expect_true("census_tract_vintage" %in% names(d))
-  expect_true("year" %in% names(d))
-  fs::dir_delete("codec-data")
-  })
-
 test_that("write_tdr_csv", {
   skip_on_os("windows")
   write_tdr_csv(d_attrs, test_path())
