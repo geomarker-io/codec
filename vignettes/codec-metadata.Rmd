@@ -13,10 +13,10 @@ vignette: >
 
 Metadata is information *about* data, but does not contain the data itself. For example, a CSV file cannot tell R (or other software) anything about itself including:
 
-- general information like a name, title, description, license, or related URL
+- general information like its name, title, description, or homepage
 - how missing values are denoted
 - column names, titles, types, formats, and constraints
-- specific CSV "dialect" characteristics required to read it (e.g. delimiter, encoding, quoting)
+- specific CSV "dialect" characteristics required to read it (e.g. encoding, quoting)
 
 CODEC utilizes a specific set of standards to store community-level data in an effort to make them more interoperable and reusable.
 
@@ -49,9 +49,9 @@ The metadata of a CODEC tabular-data-resource is hierarchically composed of diff
 
 - **schema** (or ["table schema"](https://specs.frictionlessdata.io/table-schema/)) is a special *property* that is a list of information about the **fields** (or columns) in a tabular-data-resource. *schema* includes a list of *fields*, as well as the value used to denote missingness and which *fields* are primary or foreign keys.
 
-- **fields** (or ["field descriptors"](https://specs.frictionlessdata.io/table-schema/#field-descriptors)) are a special *schema descriptor* that is a list of each the *fields* in a tabular-data-resource, each with different *descriptors* containing *field*-specific information.
+- **fields** (or ["field descriptors"](https://specs.frictionlessdata.io/table-schema/#field-descriptors)) are a special *schema descriptor* that is a list of each of the *fields* in a tabular-data-resource, each with different *descriptors* containing *field*-specific information.
 
-- **dialect** (or ["CSV dialect"](https://specs.frictionlessdata.io/csv-dialect/)) is another special *property* that stores information about the formatting of the data CSV file. The [CODEC data standards](./codec-data#codec-data-standards) specify that data CSV files must follow the [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) standard for CSV files. Thus, the `dialect` descriptor is omitted from the CODEC tabular-data-resource standards.
+- **dialect** (or ["CSV dialect"](https://specs.frictionlessdata.io/csv-dialect/)) is another special *property* that stores information about the formatting of the data CSV file. The [CODEC data standards](codec-data.html#codec-data-standards) require specific **dialect** values so that the `dialect` descriptor is not required for a CODEC tabular-data-resource.
 
 A CODEC tabular-data-resource MUST contain `name` and `path` descriptors. All other properties, schema, and fields MAY be present, but MUST be one of:
 

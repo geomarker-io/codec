@@ -11,3 +11,4 @@ tabular-data-resource.yaml
 /mydata/
 inst/doc
 /tests/testthat/codec-data/
+/vignettes/codec-metadata_files/
