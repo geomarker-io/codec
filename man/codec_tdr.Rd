@@ -13,5 +13,7 @@ a list of named character vectors, one for each of "property", "schema", and "fi
 Defines the list of names (and descriptions) of valid CODEC \emph{property}, \emph{schema}, and \emph{fields} descriptors
 }
 \examples{
-names(codec_tdr())
+codec_tdr()$property
+codec_tdr()$schema
+codec_tdr()$fields
 }
