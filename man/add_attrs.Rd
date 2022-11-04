@@ -21,8 +21,8 @@ add_col_attrs(.x, var, ...)
 }
 \description{
 \itemize{
-\item Use \code{add_attr} to add attributes to an R object
-\item Use \code{add_col_attr} to add attributes to a column inside of a data frame
+\item Use \code{add_attrs} to add attributes to an R object
+\item Use \code{add_col_attrs} to add attributes to a column inside of a data frame
 }
 }
 \examples{

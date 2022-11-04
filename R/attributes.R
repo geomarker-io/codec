@@ -1,7 +1,7 @@
 #' add attributes
 #'
-#' - Use `add_attr` to add attributes to an R object
-#' - Use `add_col_attr` to add attributes to a column inside of a data frame
+#' - Use `add_attrs` to add attributes to an R object
+#' - Use `add_col_attrs` to add attributes to a column inside of a data frame
 #' @param .x an object to add attributes to
 #' @param var name of variable in .x to add attributes to
 #' @param ... additional arguments with name and value corresponding to metadata name and value
