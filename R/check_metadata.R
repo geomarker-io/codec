@@ -13,10 +13,4 @@ check_tdr_name <- function(name) {
   }
 }
 
-tdr <- read_tdr("https://codec-data.s3.amazonaws.com/census_mega_data/tabular-data-resource.yaml")
-check_tdr_name(tdr$name)
-check_tdr_name(tdr$erika)
-check_tdr_name(1)
-check_tdr_name("CensusData")
-check_tdr_name("census data")
-check_tdr_name("census+data")
+
