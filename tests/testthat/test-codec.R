@@ -3,6 +3,7 @@ test_that("codec_tdr", {
 })
 
 test_that("read_codec", {
+  skip("read_codec still experimental; don't download files for test for now")
   skip_on_ci()
   d <- read_codec("hh_acs_measures")
   expect_identical(attr(d, "name"), "hh_acs_measures")

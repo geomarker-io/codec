@@ -27,14 +27,17 @@ test_that("read_tdr", {
 
 test_that("read_tdr_csv", {
   skip_on_ci()
+  # reads file where all levels of factors are not present in the data
   d_tdr <- read_tdr_csv(test_path())
   expect_identical(levels(d_tdr$rating), c("best", "good", "better"))
   expect_identical(attr(d_tdr, "name"), "example")
   expect_identical(attr(d_tdr, "path"), "d.csv")
-
   # reads simple file with no factors
-  expect_snapshot(read_tdr_csv(test_path("simple_data")))
-
+  d_tdr_simple <- read_tdr_csv(test_path("simple_data"))
+  expect_identical(names(d_tdr_simple), c("a", "b", "c"))
+  expect_identical(attr(d_tdr_simple, "name"), "example")
+  expect_identical(attr(d_tdr_simple, "path"), "simple_data.csv")
+  expect_identical(attr(d_tdr_simple, "title"), "Simple Example Data Set")
 })
 
 test_that("write_tdr_csv", {

@@ -147,7 +147,11 @@ read_tdr_csv <- function(dir = getwd(), codec = TRUE, ...) {
 
   if (length(lvls) > 0) {
     for (lvl in names(lvls)) {
-      out <- dplyr::mutate(out, {{ lvl }} := forcats::fct_expand(dplyr::pull(out, {{ lvl }}), lvls[[lvl]]))
+      out <- dplyr::mutate(out,
+        {{ lvl }} := forcats::fct_expand(
+          dplyr::pull(out, {{ lvl }}),
+          as.character(lvls[[lvl]])
+        ))
     }
   }
 
