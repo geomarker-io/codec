@@ -152,3 +152,31 @@ release_codec_tdr <- function(.x, version, s3 = FALSE, gh = FALSE) {
 # could write code to get all `VersionID`s of a CODEC tdr and
 # then lookup associated versions in the metadata of each file
 # in order to download older versions
+
+
+#' Check for Tabular Data Resource Name
+#' 
+#' Name must be an identifier string composed of lower 
+#' case alphanumeric characters, _, -, and .
+#'
+#' @param name the name field from tabular-data-resource.yaml
+#'
+#' @return an error message if conditions are not met
+#' @export
+#'
+#' @examples
+#' check_tdr_name("name")
+check_tdr_name <- function(name) {
+  # metadata has a name field
+  if(is.null(name)) stop("Metadata must have a field called 'name'.")
+  # name is a character string
+  if(!is.character(name)) stop("'name' must be character string.")
+  # name does not have uppercase letters
+  if(stringr::str_detect(name, "[[:upper:]]")) stop("'name' must be all lowercase.")
+  # name does not have spaces
+  if(stringr::str_detect(name, " ")) stop("'name' must not contain spaces.")
+  # nonalphanumeric characters are either -, _, or .
+  if(!all(stringr::str_detect(unlist(stringr::str_extract_all(name, "[^[:alnum:]]")), "[_.-]"))) {
+    stop("Accepted non-alphanumeric characters for 'name' are '-', '_', and '.'")
+  }
+}
