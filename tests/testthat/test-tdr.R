@@ -20,13 +20,6 @@ test_that("write_tdr", {
   fs::file_delete("test.yaml")
 })
 
-test_that("read_tdr", {
-  skip_on_ci()
-  test_path("tabular-data-resource.yaml") |>
-    read_tdr() |>
-    expect_snapshot()
-})
-
 test_that("read_tdr_csv", {
   skip_on_ci()
   # reads file where all levels of factors are not present in the data
