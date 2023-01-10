@@ -167,25 +167,24 @@ read_tdr_csv <- function(tdr_file, codec = TRUE, ...) {
 #' @param .x data.frame or tibble
 #' @param dir path to directory where tdr will be created; see details
 #' @param codec logical; use only CODEC properties?
+#' @return .x, invisibly
 #' @export
 write_tdr_csv <- function(.x, dir = getwd(), codec = TRUE) {
 
   tdr_name <- attr(.x, "name")
 
   tdr_dir <- fs::path(dir, tdr_name)
-  tdr_csv <- fs::path(tdr_dir, tdr_name, ext = "csv")
-  tdr_yml <- fs::path(tdr_dir, "tabular-data-resource.yaml")
-
   fs::dir_create(tdr_dir)
-  cli::cli_alert_success("created {tdr_dir}/")
 
+  tdr_csv <- fs::path(tdr_dir, tdr_name, ext = "csv")
   readr::write_csv(.x, tdr_csv)
-  cli::cli_alert_success("wrote data to {tdr_csv}")
 
+  tdr_yml <- fs::path(tdr_dir, "tabular-data-resource.yaml")
   .x |>
     add_attrs(path = fs::path_rel(tdr_csv, start = tdr_dir)) |>
     write_tdr(file = tdr_yml, codec = codec)
-  cli::cli_alert_success("wrote metadata to {tdr_yml}")
+
+  return(invisible(.x))
 }
 
 ## make_metadata_md <- function(.x, file_name = "metadata.md") {
