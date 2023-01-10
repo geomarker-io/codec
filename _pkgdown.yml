@@ -28,6 +28,3 @@ reference:
   contents:
   - codec_tdr
   - check_tdr_name
-- title: internal
-  contents:
-  - release_codec_tdr
