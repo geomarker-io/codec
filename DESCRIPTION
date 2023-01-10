@@ -1,6 +1,6 @@
 Package: CODECtools
 Title: Support CODEC data infrastructure
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: 
     person("Cole", "Brokamp", , "cole.brokamp@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0289-3151"))
