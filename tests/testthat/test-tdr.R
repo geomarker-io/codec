@@ -30,16 +30,22 @@ test_that("read_tdr", {
 test_that("read_tdr_csv", {
   skip_on_ci()
   # reads file where all levels of factors are not present in the data
-  d_tdr <- read_tdr_csv(test_path())
+  d_tdr <- read_tdr_csv(test_path("tabular-data-resource.yaml"))
   expect_identical(levels(d_tdr$rating), c("best", "good", "better"))
   expect_identical(attr(d_tdr, "name"), "example")
   expect_identical(attr(d_tdr, "path"), "d.csv")
   # reads simple file with no factors
-  d_tdr_simple <- read_tdr_csv(test_path("simple_data"))
+  d_tdr_simple <- read_tdr_csv(test_path("simple_data", "tabular-data-resource.yaml"))
   expect_identical(names(d_tdr_simple), c("a", "b", "c"))
   expect_identical(attr(d_tdr_simple, "name"), "example")
   expect_identical(attr(d_tdr_simple, "path"), "simple_data.csv")
   expect_identical(attr(d_tdr_simple, "title"), "Simple Example Data Set")
+})
+
+test_that("read_tdr_csv works with URL", {
+  lndcvr <-
+    read_tdr_csv( "https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0/tabular-data-resource.yaml")
+  expect_identical(names(lndcvr), c("census_tract_id", "pct_green_2019", "pct_impervious_2019", "pct_treecanopy_2016", "evi_2018"))
 })
 
 test_that("write_tdr_csv", {
