@@ -81,32 +81,41 @@ write_tdr <- function(.x, file = "tabular-data-resource.yaml", codec = TRUE) {
 #' @return a list of frictionless metadata
 #' @export
 read_tdr <- function(file = "tabular-data-resource.yaml") {
-  # TODO if file is a folder, look for "tabular-data-resource.yaml" there
   metadata <- yaml::yaml.load_file(file)
   return(metadata)
 }
 
-#' read a CSV tabular data resource into R
+#' read a CSV tabular data resource into R from disk or the web
 #'
 #' The CSV file defined in a tabular-data-resource yaml file
 #' are read into R using `readr::read_csv()`. Metadata
 #' (properties and schema) are stored as attributes
 #' of the returned tibble and are also used to set
 #' the column classes of the returned data.frame or tibble.
+#' Files starting with `http://` or `https://` will be automatically
+#' downloaded locally first.
 #'
-#' @param dir path to folder that contains a
-#' tabular-data-resource.yaml file
+#' @param tdr_file path to tabular-data-resource.yaml file;
 #' @param codec logical; use only CODEC properties?
 #' @param ... additional options passed onto `readr::read_csv()`
 #' @return tibble with added tabular-data-resource attributes
 #' @export
-read_tdr_csv <- function(dir = getwd(), codec = TRUE, ...) {
+read_tdr_csv <- function(tdr_file, codec = TRUE, ...) {
 
-  tdr <- read_tdr(fs::path(dir, "tabular-data-resource.yaml"))
+  # if tdr_file is a URL
+  if (grepl("^((http|ftp)s?|sftp)://", tdr_file)) {
+    tdr <- yaml::read_yaml(url(tdr_file))
+    csv_file <- gsub("tabular-data-resource.yaml",
+                     tdr$path,
+                     tdr_file,
+                     fixed = TRUE)
+  } else { # tdr_file is a file
+    tdr <- yaml::read_yaml(tdr_file)
+    csv_file <- fs::path(fs::path_dir(tdr_file), tdr$path)
+  }
 
-  desc <- tdr
   flds <- purrr::pluck(tdr, "schema", "fields")
-  purrr::pluck(desc, "schema") <- NULL
+  purrr::pluck(tdr, "schema") <- NULL
 
   type_class_cw <- c(
     "string" = "c",
@@ -127,11 +136,9 @@ read_tdr_csv <- function(dir = getwd(), codec = TRUE, ...) {
 
   if (length(lvls) > 0) col_classes[[names(lvls)]] <- "f"
 
-  data_path <- fs::path(dir, desc$path)
-
   out <-
     readr::read_csv(
-      file = data_path,
+      file = csv_file,
       col_types = paste(col_classes, collapse = ""),
       col_select = all_of({{ col_names }}),
       locale = readr::locale(
@@ -142,8 +149,6 @@ read_tdr_csv <- function(dir = getwd(), codec = TRUE, ...) {
       name_repair = "check_unique",
       ...,
     )
-
-  cli::cli_alert_success("read in data from {.path {fs::path(data_path)}}")
 
   if (length(lvls) > 0) {
     for (lvl in names(lvls)) {
