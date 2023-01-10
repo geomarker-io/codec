@@ -1,0 +1,15 @@
+name: example
+path: simple_data.csv
+title: Simple Example Data Set
+license: MIT
+schema:
+  fields:
+    a:
+      name: a
+      type: number
+    b:
+      name: b
+      type: number
+    c:
+      name: c
+      type: number
