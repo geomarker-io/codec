@@ -55,7 +55,9 @@ test_that("write_tdr_csv", {
 
 test_that("glimpse_attr()", {
   expect_equal(glimpse_attr(d_attrs)$name, c("name", "path", "title", "homepage"))
+  expect_equal(nrow(glimpse_attr(data.frame())), 0)
 })
+
 
 test_that("glimpse_schema()", {
   expect_equal(glimpse_schema(d_attrs)$name, c("id", "date", "measure", "rating", "ranking", "impt"))
