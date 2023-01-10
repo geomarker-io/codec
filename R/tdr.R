@@ -211,13 +211,13 @@ write_tdr_csv <- function(.x, dir = getwd(), codec = TRUE) {
 glimpse_attr <- function(.x, codec = TRUE) {
   tdr <- make_tdr_from_attr(.x, codec = codec)
   purrr::pluck(tdr, "schema") <- NULL
+  tdr <- purrr::compact(tdr)
 
   tdr |>
     tibble::enframe() |>
     dplyr::rowwise(name) |>
     dplyr::mutate(value = paste(value, collapse = ",")) |>
     dplyr::ungroup()
-    ## dplyr::filter(!name == "schema")
 }
 
 #' glimpse CODEC schema
