@@ -13,6 +13,9 @@ write_tdr_csv(.x, dir = getwd(), codec = TRUE)
 
 \item{codec}{logical; use only CODEC properties?}
 }
+\value{
+.x, invisibly
+}
 \description{
 The \code{path} argument specifies where the folder containing
 the codec-tdr will be created.  Within this path, the folder
