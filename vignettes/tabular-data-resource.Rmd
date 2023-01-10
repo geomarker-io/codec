@@ -18,9 +18,11 @@ knitr::opts_chunk$set(
 library(CODECtools)
 ```
 
+## Creating a tabular-data-resource
+
 Inside R, metadata lives in the attributes of the data.frame and its columns. We can add and change these with several helper functions used in the example below: `add_attrs()`, `add_col_attrs()`, `add_type_attrs()`. Using these functions to set attributes in R means we can do so reproducibly and changes to the metadata are tracked alongside the R script that creates the data. This prevents a disconnect between data and metadata, but also allows for computing on the metadata to use it to create richer documentation. ^[Alternatively, we can edit the metadata yaml file directly and track changes there.  Reading the data CSV file back in to R using a function that also reads metadata (`read_tdr_csv()`) will update the attributes of the data.frame based on changes in the metadata file.]
 
-## Creating Data
+### Creating data
 
 We will create a simple dataset here for this example:
 
@@ -36,7 +38,7 @@ d <-
   )
 ```
 
-## Adding Metadata
+### Adding metadata
 
 When creating a tabular dataset in R, data-specific metadata (i.e., "properties") can be stored in the attributes of the R object (e.g., a data.frame or tibble).
 
@@ -84,7 +86,7 @@ glimpse_schema(d) |>
   knitr::kable()
 ```
 
-## Writing a tabular-data-resource to disk
+### Writing to disk
 
 Once metadata is set in the tibble's attributes, we can save the tabular data resource as a CSV file with an accompanying tabular-data-resource.yaml:
 
@@ -98,15 +100,23 @@ The `name` attribute of the supplied tibble is used as the name of a newly creat
 fs::dir_tree("mydata")
 ```
 
-## Reading a tabular-data-resource from disk
+Additionally, the `profile` is set to `tabular-data-resource` and included in the metadata. This allows for reading, modifying, and writing tabular-data-resources with other software as well.
 
-We can then read this tabular-data-package back into R and restore its attributes, as well as its column classes:
+## Reading a tabular-data-resource
+
+Since the `tabular-data-resource.yaml` file defines the relative location of the CSV data file in the `path` attribute, specifying this file is enough to read a tabular-data-resource from disk and restore its attributes and column classes in R:
 
 ```{r}
-mydata <- read_tdr_csv(fs::path("mydata", "tabular-data-resource.yaml"))
+mydata <- read_tdr_csv(tdr_file = fs::path("mydata", "tabular-data-resource.yaml"))
 mydata
 ```
 
 ```{r, include = FALSE}
 fs::dir_delete("mydata")
+```
+
+If the `tdr_file` is a URL, then the tabular-data-resource and CSV data files are automatically downloaded first:
+
+```{r}
+    read_tdr_csv( "https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0/tabular-data-resource.yaml")
 ```
