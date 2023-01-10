@@ -9,7 +9,6 @@ template:
 reference:
 - title: Reading/writing a tabular-data-resource to/from disk
   contents:
-  - read_codec
   - write_tdr_csv
   - read_tdr_csv
   - write_tdr
