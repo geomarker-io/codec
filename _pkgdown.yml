@@ -12,7 +12,6 @@ reference:
   - read_codec
   - write_tdr_csv
   - read_tdr_csv
-  - write_tdr
   - read_tdr
 - title: Adding metadata to objects in R using attributes
   contents:

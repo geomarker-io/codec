@@ -2,13 +2,12 @@
 % Please edit documentation in R/tdr.R
 \name{read_tdr_csv}
 \alias{read_tdr_csv}
-\title{read a CSV tabular data resource into R}
+\title{read a CSV tabular data resource into R from disk or the web}
 \usage{
-read_tdr_csv(dir = getwd(), codec = TRUE, ...)
+read_tdr_csv(tdr_file, codec = TRUE, ...)
 }
 \arguments{
-\item{dir}{path to folder that contains a
-tabular-data-resource.yaml file}
+\item{tdr_file}{path to tabular-data-resource.yaml file;}
 
 \item{codec}{logical; use only CODEC properties?}
 
@@ -23,4 +22,6 @@ are read into R using \code{readr::read_csv()}. Metadata
 (properties and schema) are stored as attributes
 of the returned tibble and are also used to set
 the column classes of the returned data.frame or tibble.
+Files starting with \verb{http://} or \verb{https://} will be automatically
+downloaded locally first.
 }

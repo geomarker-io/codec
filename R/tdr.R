@@ -25,7 +25,7 @@ make_tdr_from_attr <- function(.x, codec = TRUE) {
 #' add attributes to a data.frame based on a tabular-data-resource list
 #'
 #' @param .x a data.frame or tibble
-#' @param tdr a tabular-data-resource list (usually created with `read_tdr()` or `make_tdr_from_attr()`)
+#' @param tdr a tabular-data-resource list (usually created with `yaml::read_yaml` or `make_tdr_from_attr()`)
 #' @param codec logical; use only CODEC properties?
 #' @return .x with added tabular-data-resource attributes
 #' @export
@@ -73,16 +73,6 @@ write_tdr <- function(.x, file = "tabular-data-resource.yaml", codec = TRUE) {
     cat(file = file)
 
   return(invisible(.x))
-}
-
-#' read metadata in from a tabular-data-resource.yaml file
-#'
-#' @param file filename (or connection) of yaml file to read metadata from
-#' @return a list of frictionless metadata
-#' @export
-read_tdr <- function(file = "tabular-data-resource.yaml") {
-  metadata <- yaml::yaml.load_file(file)
-  return(metadata)
 }
 
 #' read a CSV tabular data resource into R from disk or the web

@@ -9,7 +9,7 @@ add_attr_from_tdr(.x, tdr, codec = TRUE)
 \arguments{
 \item{.x}{a data.frame or tibble}
 
-\item{tdr}{a tabular-data-resource list (usually created with \code{read_tdr()} or \code{make_tdr_from_attr()})}
+\item{tdr}{a tabular-data-resource list (usually created with \code{yaml::read_yaml} or \code{make_tdr_from_attr()})}
 
 \item{codec}{logical; use only CODEC properties?}
 }
