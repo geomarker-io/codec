@@ -92,6 +92,8 @@ write_tdr <- function(.x, file = "tabular-data-resource.yaml", codec = TRUE) {
 #' @export
 read_tdr_csv <- function(tdr_file, codec = TRUE, ...) {
 
+  # TODO if not URL and not file, assume it is a folder with tabular-data-resource.yaml file
+
   # if tdr_file is a URL
   if (grepl("^((http|ftp)s?|sftp)://", tdr_file)) {
     tdr <- yaml::read_yaml(url(tdr_file))

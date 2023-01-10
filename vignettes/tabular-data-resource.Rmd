@@ -103,7 +103,7 @@ fs::dir_tree("mydata")
 We can then read this tabular-data-package back into R and restore its attributes, as well as its column classes:
 
 ```{r}
-mydata <- read_tdr_csv("mydata")
+mydata <- read_tdr_csv(fs::path("mydata", "tabular-data-resource.yaml"))
 mydata
 ```
 
