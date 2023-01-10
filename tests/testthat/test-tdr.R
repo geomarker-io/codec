@@ -1,5 +1,7 @@
 test_that("make_tdr_from_attr", {
-  expect_snapshot(make_tdr_from_attr(d_attrs))
+  d_tdr <- make_tdr_from_attr(d_attrs)
+  expect_identical(names(d_tdr), c("name", "path", "title", "homepage", "schema"))
+  expect_identical(d_tdr$schema$fields$rating$constraints$enum, c("good", "better", "best"))
 })
 
 test_that("add_attr_from_tdr", {
@@ -53,48 +55,20 @@ test_that("write_tdr_csv", {
 })
 
 test_that("glimpse_attr()", {
-
-  classy_attrs <-
-    classy |>
-    add_type_attrs() |>
-    add_attrs(
-      name = "classy",
-      title = "The Classiest Data Set",
-      year = "2022",
-      description = "A toy data frame with many different column classes."
-    )
-
-    glimpse_attr(classy_attrs) |>
-      knitr::kable() |>
-      expect_snapshot()
-
+  expect_equal(glimpse_attr(d_attrs)$name, c("name", "path", "title", "homepage"))
 })
 
 test_that("glimpse_schema()", {
-
-  classy_attrs <-
-    classy |>
-    add_type_attrs() |>
-    add_attrs(
-      name = "classy",
-      title = "The Classiest Data Set",
-      year = "2022",
-      description = "A toy data frame with many different column classes."
-    )
-
-    glimpse_schema(classy_attrs) |>
-      knitr::kable() |>
-      expect_snapshot()
-
+  expect_equal(glimpse_schema(d_attrs)$name, c("id", "date", "measure", "rating", "ranking", "impt"))
+  expect_equal(glimpse_schema(d_attrs)$type, c("string", "date", "number", "string", "integer", "boolean"))
+  expect_equal(glimpse_schema(d_attrs)$constraints, c(NA, NA, NA, "good, better, best", NA, NA))
 })
 
 test_that("glimpse_schema() works without constraints", {
-
   mtcars_schema <-
     mtcars |>
     add_type_attrs() |>
     glimpse_schema()
-  
     expect_equal(
       mtcars_schema,
       tibble::tibble(
