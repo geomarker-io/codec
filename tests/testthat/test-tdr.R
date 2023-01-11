@@ -20,9 +20,10 @@ test_that("glimpse_attr()", {
   expect_equal(nrow(glimpse_attr(data.frame())), 0)
 })
 
-
 test_that("glimpse_schema()", {
   expect_equal(glimpse_schema(d_attrs)$name, c("id", "date", "measure", "rating", "ranking", "impt"))
+  expect_equal(glimpse_schema(d_attrs)$description, c("a unique identifier", NA, NA, NA, NA, NA))
+  expect_equal(glimpse_schema(d_attrs)$title, c("Identifier", NA, NA, NA, NA, NA))
   expect_equal(glimpse_schema(d_attrs)$type, c("string", "date", "number", "string", "integer", "boolean"))
   expect_equal(glimpse_schema(d_attrs)$constraints, c(NA, NA, NA, "good, better, best", NA, NA))
 })
