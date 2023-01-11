@@ -1,6 +1,6 @@
 Package: CODECtools
 Title: Support CODEC data infrastructure
-Version: 0.3.0
+Version: 0.4.0
 Authors@R: c(
     person("Cole", "Brokamp",
            email = "cole.brokamp@gmail.com",
