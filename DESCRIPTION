@@ -5,7 +5,7 @@ Authors@R: c(
     person("Cole", "Brokamp",
            email = "cole.brokamp@gmail.com",
 	   role = c("aut", "cre")),
-    person("Erika", "Rasnick",
+    person("Erika", "Manning",
            role = "aut")
 	   )
 Description: CODECtools provides tools for working with metadata in R and storing it alongside data in a YAML file. This package serves as the definition of the CODEC data specifications and provides helpers to contribute and validate CODEC data.
