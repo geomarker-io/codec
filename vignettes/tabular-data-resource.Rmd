@@ -118,5 +118,16 @@ fs::dir_delete("mydata")
 If the `tdr_file` is a URL, then the tabular-data-resource and CSV data files are automatically downloaded first:
 
 ```{r}
-    read_tdr_csv( "https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0/tabular-data-resource.yaml")
+lndcvr <-
+  read_tdr_csv( "https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0/tabular-data-resource.yaml")
+```
+
+```{r}
+glimpse_attr(lndcvr) |>
+  knitr::kable()
+```
+
+```{r}
+glimpse_schema(lndcvr) |>
+  knitr::kable()
 ```
