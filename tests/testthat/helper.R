@@ -28,6 +28,7 @@ d <-
 
 d_attrs <-
   d |>
+  add_col_attrs(id, title = "Identifier", description = "a unique identifier") |>
   add_attrs(
     name = "example",
     path = "d.csv",

@@ -34,6 +34,7 @@ add_attr_from_tdr <- function(.x, tdr, codec = TRUE) {
   desc <- tdr
   flds <- purrr::pluck(tdr, "schema", "fields")
   purrr::pluck(desc, "schema") <- NULL
+  desc <- purrr::compact(desc)
 
   if (codec) {
     desc <- purrr::compact(desc[names(codec_tdr()$property)])
@@ -107,7 +108,6 @@ read_tdr_csv <- function(tdr_file, codec = TRUE, ...) {
   }
 
   flds <- purrr::pluck(tdr, "schema", "fields")
-  purrr::pluck(tdr, "schema") <- NULL
 
   type_class_cw <- c(
     "string" = "c",

@@ -12,6 +12,7 @@ test_that("add_attr_from_tdr", {
   expect_identical(attr(d_tdr, "title"), attr(d_attrs, "title"))
   expect_identical(attr(d_tdr, "homepage"), attr(d_attrs, "homepage"))
   expect_identical(attr(d_tdr$rating, "constraints"), attr(d_attrs$rating, "constraints"))
+  expect_identical(attr(d_tdr$id, "description"), "a unique identifier")
 })
 
 test_that("write_tdr", {
@@ -23,7 +24,7 @@ test_that("write_tdr", {
 test_that("read_tdr_csv", {
   skip_on_ci()
   # reads file where all levels of factors are not present in the data
-  d_tdr <- read_tdr_csv(test_path("tabular-data-resource.yaml"))
+  d_tdr <- read_tdr_csv(test_path("d", "tabular-data-resource.yaml"))
   expect_identical(levels(d_tdr$rating), c("best", "good", "better"))
   expect_identical(attr(d_tdr, "name"), "example")
   expect_identical(attr(d_tdr, "path"), "d.csv")
@@ -33,12 +34,18 @@ test_that("read_tdr_csv", {
   expect_identical(attr(d_tdr_simple, "name"), "example")
   expect_identical(attr(d_tdr_simple, "path"), "simple_data.csv")
   expect_identical(attr(d_tdr_simple, "title"), "Simple Example Data Set")
+  # and reads schema
+  expect_identical(attr(d_tdr_simple$a, "name"), "a")
+  expect_identical(attr(d_tdr_simple$a, "type"), "number")
 })
 
 test_that("read_tdr_csv works with URL", {
+  "https://github.com/geomarker-io/CODECtools/blob/main/tests/testthat/simple_data/simple_data.csv"
   lndcvr <-
     read_tdr_csv( "https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0/tabular-data-resource.yaml")
-  expect_identical(names(lndcvr), c("census_tract_id", "pct_green_2019", "pct_impervious_2019", "pct_treecanopy_2016", "evi_2018"))
+  expect_identical(attr(lndcvr, "name"), "hamilton_landcover")
+  expect_identical(attr(lndcvr, "homepage"), "https://geomarker.io/hamilton_landcover")
+  expect_identical(attr(lndcvr$census_tract_id, "name"), "census_tract_id")
 })
 
 test_that("write_tdr_csv", {
