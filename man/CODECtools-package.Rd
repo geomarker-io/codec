@@ -22,7 +22,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Erika Rasnick
+  \item Erika Manning
 }
 
 }
