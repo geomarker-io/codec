@@ -94,6 +94,17 @@ glimpse_schema <- function(.x) {
   return(flds)
 }
 
+#' glimpse CODEC tdr
+#' This can be used instead of separately calling `glimpse_attr()` and `glimpse_schema()`
+#' @param .x data frame or tibble
+#' @param codec logical; include only CODEC properties? (see `?codec_tdr` for details)
+#' @return a named list of tibbles for attributes and schema
+#' @export
+glimpse_tdr <- function(.x, codec = TRUE) {
+  list(glimpse_attr(.x, codec = codec), glimpse_schema(.x)) |>
+    rlang::set_names(c("attributes", "schema"))
+}
+
 ## make_metadata_md <- function(.x, file_name = "metadata.md") {
 ##   options(knitr.kable.NA = "")
 ##   cat("#### Metadata\n\n", file = file_name, append = FALSE)

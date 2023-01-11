@@ -28,6 +28,14 @@ test_that("glimpse_schema()", {
   expect_equal(glimpse_schema(d_attrs)$constraints, c(NA, NA, NA, "good, better, best", NA, NA))
 })
 
+test_that("glimpse_tdr()", {
+  the_glimpse <- glimpse_tdr(d_attrs)
+  expect_equal(length(the_glimpse), 2)
+  expect_equal(names(the_glimpse), c("attributes", "schema"))
+  expect_equal(the_glimpse$attributes$name, c("name", "path", "title", "homepage"))
+  expect_equal(the_glimpse$schema$name, c("id", "date", "measure", "rating", "ranking", "impt"))
+})
+
 test_that("glimpse_schema() works without constraints", {
   mtcars_schema <-
     mtcars |>

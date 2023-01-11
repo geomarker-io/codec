@@ -23,6 +23,7 @@ reference:
   - add_attr_from_tdr
   - glimpse_attr
   - glimpse_schema
+  - glimpse_tdr
 - title: CODEC (meta)data specifications
   contents:
   - codec_tdr
