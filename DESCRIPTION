@@ -1,9 +1,13 @@
 Package: CODECtools
 Title: Support CODEC data infrastructure
 Version: 0.3.0
-Authors@R: 
-    person("Cole", "Brokamp", , "cole.brokamp@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-0289-3151"))
+Authors@R: c(
+    person("Cole", "Brokamp",
+           email = "cole.brokamp@gmail.com",
+	   role = c("aut", "cre")),
+    person("Erika", "Rasnick",
+           role = "aut")
+	   )
 Description: CODECtools provides tools for working with metadata in R and storing it alongside data in a YAML file. This package serves as the definition of the CODEC data specifications and provides helpers to contribute and validate CODEC data.
 License: GPL (>= 3)
 Encoding: UTF-8
