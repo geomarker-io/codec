@@ -37,6 +37,9 @@
     <loc>http://geomarker.io/CODECtools/reference/add_type_attrs.html</loc>
   </url>
   <url>
+    <loc>http://geomarker.io/CODECtools/reference/check_tdr_name.html</loc>
+  </url>
+  <url>
     <loc>http://geomarker.io/CODECtools/reference/codec_tdr.html</loc>
   </url>
   <url>
@@ -52,16 +55,7 @@
     <loc>http://geomarker.io/CODECtools/reference/make_tdr_from_attr.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/CODECtools/reference/read_codec.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/CODECtools/reference/read_tdr.html</loc>
-  </url>
-  <url>
     <loc>http://geomarker.io/CODECtools/reference/read_tdr_csv.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/CODECtools/reference/release_codec_tdr.html</loc>
   </url>
   <url>
     <loc>http://geomarker.io/CODECtools/reference/tidyeval.html</loc>

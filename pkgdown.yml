@@ -1,11 +1,11 @@
 pandoc: 2.19.2
-pkgdown: 2.0.6
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   codec-data: codec-data.html
   codec-metadata: codec-metadata.html
   tabular-data-resource: tabular-data-resource.html
-last_built: 2022-12-02T22:06Z
+last_built: 2023-01-11T02:59Z
 urls:
   reference: http://geomarker.io/CODECtools/reference
   article: http://geomarker.io/CODECtools/articles
