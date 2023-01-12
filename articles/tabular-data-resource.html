@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">CODECtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -275,11 +275,11 @@ other software as well.</p>
 </h2>
 <p>Since the <code>tabular-data-resource.yaml</code> file defines the
 relative location of the CSV data file in the <code>path</code>
-attribute, specifying this file is enough to read a
-tabular-data-resource from disk and restore its attributes and column
-classes in R:</p>
+attribute, specifying this file (or the folder that contains it) is
+enough to read a tabular-data-resource from disk and restore its
+attributes and column classes in R:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_tdr_csv.html">read_tdr_csv</a></span><span class="op">(</span>tdr_file <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="st">"mydata"</span>, <span class="st">"tabular-data-resource.yaml"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_tdr_csv.html">read_tdr_csv</a></span><span class="op">(</span><span class="st">"mydata"</span><span class="op">)</span></span>
 <span><span class="va">mydata</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 6</span></span></span>
 <span><span class="co">#&gt;   id    date       measure rating ranking impt </span></span>
@@ -291,7 +291,7 @@ classes in R:</p>
 and CSV data files are automatically downloaded first:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lndcvr</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="../reference/read_tdr_csv.html">read_tdr_csv</a></span><span class="op">(</span><span class="st">"https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0/tabular-data-resource.yaml"</span></span>
+<span>  <span class="fu"><a href="../reference/read_tdr_csv.html">read_tdr_csv</a></span><span class="op">(</span><span class="st">"https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/glimpse_tdr.html">glimpse_tdr</a></span><span class="op">(</span><span class="va">lndcvr</span><span class="op">)</span> <span class="op">|&gt;</span></span>
