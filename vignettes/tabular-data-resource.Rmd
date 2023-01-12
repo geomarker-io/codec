@@ -104,10 +104,10 @@ Additionally, the `profile` is set to `tabular-data-resource` and included in th
 
 ## Reading a tabular-data-resource
 
-Since the `tabular-data-resource.yaml` file defines the relative location of the CSV data file in the `path` attribute, specifying this file is enough to read a tabular-data-resource from disk and restore its attributes and column classes in R:
+Since the `tabular-data-resource.yaml` file defines the relative location of the CSV data file in the `path` attribute, specifying this file (or the folder that contains it) is enough to read a tabular-data-resource from disk and restore its attributes and column classes in R:
 
 ```{r}
-mydata <- read_tdr_csv(tdr_file = fs::path("mydata", "tabular-data-resource.yaml"))
+mydata <- read_tdr_csv("mydata")
 mydata
 ```
 
@@ -119,7 +119,7 @@ If the `tdr_file` is a URL, then the tabular-data-resource and CSV data files ar
 
 ```{r}
 lndcvr <-
-  read_tdr_csv("https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0/tabular-data-resource.yaml"
+  read_tdr_csv("https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0"
 )
 
 glimpse_tdr(lndcvr) |>

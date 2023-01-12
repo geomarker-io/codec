@@ -7,7 +7,8 @@
 read_tdr_csv(tdr_file, codec = TRUE, ...)
 }
 \arguments{
-\item{tdr_file}{path to tabular-data-resource.yaml file;}
+\item{tdr_file}{path or url to a \code{tabular-data-resource.yaml} file
+(or a directory containing a \code{tabular-data-resource.yaml} file)}
 
 \item{codec}{logical; use only CODEC properties?}
 

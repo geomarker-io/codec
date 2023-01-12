@@ -8,25 +8,33 @@
 #' Files starting with `http://` or `https://` will be automatically
 #' downloaded locally first.
 #'
-#' @param tdr_file path to tabular-data-resource.yaml file;
+#' @param tdr_file path or url to a `tabular-data-resource.yaml` file
+#' (or a directory containing a `tabular-data-resource.yaml` file)
 #' @param codec logical; use only CODEC properties?
 #' @param ... additional options passed onto `readr::read_csv()`
 #' @return tibble with added tabular-data-resource attributes
 #' @export
 read_tdr_csv <- function(tdr_file, codec = TRUE, ...) {
+  is_url <- grepl("^((http|ftp)s?|sftp)://", tdr_file)
 
-  # TODO if not URL and not file, assume it is a folder with tabular-data-resource.yaml file
-
-  # if tdr_file is a URL
-  if (grepl("^((http|ftp)s?|sftp)://", tdr_file)) {
-    tdr <- yaml::read_yaml(url(tdr_file))
+  if (is_url) {
+    if (!grepl("/tabular-data-resource.yaml", tdr_file)) {
+      tdr_file <- paste0(tdr_file, "/tabular-data-resource.yaml")
+    }
+    tdr_file_url <- url(tdr_file)
+    tdr <- yaml::read_yaml(tdr_file_url)
     csv_file <- gsub("tabular-data-resource.yaml",
                      tdr$path,
                      tdr_file,
                      fixed = TRUE)
-  } else { # tdr_file is a file
-    tdr <- yaml::read_yaml(tdr_file)
-    csv_file <- fs::path(fs::path_dir(tdr_file), tdr$path)
+  } else {
+    tdr_file_path <- fs::fs_path(tdr_file)
+    # if no tabular-data-resource.yaml file, assume it a directory containing one
+    if (fs::is_dir(tdr_file_path)) {
+      tdr_file_path <- fs::path(tdr_file_path, "tabular-data-resource.yaml")
+    }
+    tdr <- yaml::read_yaml(tdr_file_path)
+    csv_file <- fs::path(fs::path_dir(tdr_file_path), tdr$path)
   }
 
   flds <- purrr::pluck(tdr, "schema", "fields")
