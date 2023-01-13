@@ -23,14 +23,14 @@ test_that("check for census tract identifier", {
   expect_equal(check_census_tract_id(d), d)
 
   expect_error({
-    .x |>
+    d |>
       dplyr::select(-census_tract_id_2010) |>
       check_census_tract_id()
   },
   regexp = "must contain a census tract id column called")
 
   expect_error({
-    .x |>
+    d |>
       dplyr::slice(-1) |>
       check_census_tract_id()
   },
