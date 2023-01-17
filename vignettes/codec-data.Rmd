@@ -11,7 +11,7 @@ vignette: >
 
 > *Language:* The keywords “MUST”, “MUST NOT”, “SHOULD”, “SHOULD NOT”, and “MAY” in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
-### File Formats
+### Files
 
 A CODEC `tabular-data-resource` (i.e., `tdr`) consists of a directory that MUST contain exactly one data (`.csv`) file and exactly one metadata file (`tabular-data-resource.yaml`). The name of the directory and the name of the CSV file containing the data MUST be identical to the `name` [*property*](codec-metadata.html#tabular-data-resource-metadata).
 
@@ -21,11 +21,20 @@ For example,
     ├── mydata.csv
     └── tabular-data-resource.yaml
 
-#### Metadata file
+For both files:
+
+- the file encoding MUST be UTF-8
+- newlines MUST be encoded with either `\n` or `\r\n`
+- the newline style SHOULD be consistent within a file
+- there SHOULD be a newline at the end of the file
+
+#### Metadata YAML file
 
 The metadata file MUST be a valid YAML file named `tabular-data-resource.yaml` and it MUST adhere to the [CODEC Metadata Standards](codec-metadata.html#codec-metadata-specifications).
 
-#### Data file
+All fields in the data MUST be described in the metadata.  All fields described in the metadata MUST be in the data.
+
+#### Data CSV file
 
 The data file must follow the [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) standard for CSV files.  In addition:
 
@@ -33,14 +42,6 @@ The data file must follow the [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180)
 - the first row MUST be a header row, containing the `name` of each *field*
 - each `name` must be unique among all fields
   
-#### For both files:
-
-- the file encoding MUST be UTF-8
-- newlines MUST be encoded with either `\n` or `\r\n`
-- the newline style SHOULD be consistent within a file
-- there SHOULD be a newline at the end of the file
-
-All fields in the data MUST be described in the metadata.  All fields described in the metadata MUST be in the data.
 
 ### Missing Values
 
@@ -55,12 +56,7 @@ The census tract identifier column MUST contain 11-digit [GEOID](https://www.cen
 A CODEC `tdr` that was *not* created at a census tract level SHOULD link to a URL that contains code and a descriptive README file about how the data was harmonized (e.g., areal interpolation) with census tract geographies.
 
 
-### Date // Date Range??
+### Date / Date Range?
 
 - data must correspond to a year or month
 - *or* require start_date and end_date and assume value represents temporal average of this time period
-
-### Data Location
-
-- AWS Simple Storage Service (S3) is a cloud-based centralized storage area and CODEC data are located in a public bucket: [`s3://codec-data/`](https://codec-data.s3.amazonaws.com/)
-  - [bucket versioning](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Versioning.html) is used to create unique identifiers for each version of a data resource
