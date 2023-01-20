@@ -4,7 +4,7 @@
 \alias{check_missing_values}
 \title{Check for missing values}
 \usage{
-check_missing_values()
+check_missing_values(.x)
 }
 \arguments{
 \item{.x}{a codec tabular-data-resource}
