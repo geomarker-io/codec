@@ -94,6 +94,6 @@ check_files <- function(.x) {
 #' @param .x a codec tabular-data-resource
 #' @return .x, invisibly
 #' @export
-check_missing_values <- function() {
-
+check_missing_values <- function(.x) {
+  return(invisible(.x))
 }
