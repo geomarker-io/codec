@@ -15,7 +15,7 @@ check_census_tract_id <- function(.x) {
 
   # has census_tract_id_{year} column
   if(!any(names(.x) %in% census_tract_id_names)) {
-    stop("must contain a census tract id column called census_tract_id_2000, census_tract_id_2010, or census_trat_id_2020")
+    stop("must contain a census tract id column called census_tract_id_2000, census_tract_id_2010, or census_tract_id_2020")
   }
 
   census_tract_id_name <- census_tract_id_names[census_tract_id_names %in% names(.x)]
@@ -34,10 +34,66 @@ check_census_tract_id <- function(.x) {
     return(invisible(.x))
 }
 
+#' Check for files
+#'
+#' Errors will be raised if the CODEC tabular data resource does not meet the following requirements:
+#'
+#' - tdr directory must exist and have a matching CSV data file and a tabular-data-resource.yaml file
+#' - both files must use UTF-8 character encoding and have newlines encoded as `\n` or `\r\n`
+#' - the data file must end in `.csv`, have a header row containing the unique name of each field,
+#' and be able to be read using the [RFC 4180 standard](https://www.rfc-editor.org/rfc/rfc4180) for CSV files
+#' @param .x path to folder containing the tdr
+#' @return .x, invisibly
+#' @export
 check_files <- function(.x) {
 
+  tdr_dir <- fs::path(.x)
+  tdr_csv <- fs::path(tdr_dir, fs::path_file(tdr_dir), ext = "csv")
+  tdr_yaml <- fs::path(tdr_dir, "tabular-data-resource.yaml")
+
+  if (!fs::dir_exists(tdr_dir)) {
+    stop("cannot find ", tdr_dir, call. = FALSE)
+  }
+
+  if (!fs::file_exists(tdr_csv)) {
+    stop("cannot find matching CSV data file, ", tdr_csv)
+  }
+  
+  if (!fs::file_exists(tdr_yaml)) {
+    stop("cannot find metadata file, ", tdr_yaml)
+  }
+
+  # test encoding
+  if (!stringi::stri_enc_isutf8(tdr_csv)) {
+    stop(tdr_csv, " is not encoded in UTF-8")
+  }
+  if (!stringi::stri_enc_isutf8(tdr_yaml)) {
+    stop(tdr_yaml, " is not encoded in UTF-8")
+  }
+
+  # try to read CSV file
+  test_read_csv_file <-
+    purrr::safely(readr::read_csv)(
+      file = tdr_csv,
+      col_names = TRUE,
+      show_col_types = FALSE,
+      name_repair = "check_unique",
+      )
+
+  if (!is.null(test_read_csv_file$error)) {
+    stop(tdr_csv, " could not be read without error")
+  }
+
+  return(invisible(.x))
 }
 
+#' Check for missing values
+#'
+#' Errors will be raised if the CODEC tabular data resource does not meet the following requirements:
+#'
+#' @param .x a codec tabular-data-resource
+#' @return .x, invisibly
+#' @export
 check_missing_values <- function() {
 
 }

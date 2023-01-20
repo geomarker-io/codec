@@ -61,6 +61,7 @@ read_tdr_csv <- function(tdr_file, codec = TRUE, ...) {
   out <-
     readr::read_csv(
       file = csv_file,
+      col_names = TRUE,
       col_types = paste(col_classes, collapse = ""),
       col_select = all_of({{ col_names }}),
       locale = readr::locale(
@@ -69,6 +70,7 @@ read_tdr_csv <- function(tdr_file, codec = TRUE, ...) {
         grouping_mark = ""
       ),
       name_repair = "check_unique",
+      na = c("NA", ""),
       ...,
     )
 
