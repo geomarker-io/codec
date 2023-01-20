@@ -32,6 +32,7 @@ Imports:
     purrr (>= 1.0.0),
     readr,
     rlang (>= 0.4.11),
+    stringi,
     stringr,
     tibble,
     yaml

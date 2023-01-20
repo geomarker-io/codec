@@ -63,3 +63,6 @@ check_tdr_name <- function(name) {
   }
 }
 
+# TODO make sure name descriptor is identical to CSV file name in path descriptor
+# TODO check that field names are unique
+
