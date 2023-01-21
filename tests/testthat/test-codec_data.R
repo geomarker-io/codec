@@ -32,5 +32,13 @@ test_that("check files", {
   },
   regexp = "cannot find")
 
+  # TODO add test for non-UTF-8 file
+
+  expect_error({
+    check_files(test_path("sus"))
+  },
+  regexp = "read without error")
+
+
 
  })
