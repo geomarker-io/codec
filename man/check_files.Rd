@@ -19,7 +19,13 @@ Errors will be raised if the CODEC tabular data resource does not meet the follo
 \itemize{
 \item tdr directory must exist and have a matching CSV data file and a tabular-data-resource.yaml file
 \item both files must use UTF-8 character encoding and have newlines encoded as \verb{\\n} or \verb{\\r\\n}
-\item the data file must end in \code{.csv}, have a header row containing the unique name of each field,
-and be able to be read using the \href{https://www.rfc-editor.org/rfc/rfc4180}{RFC 4180 standard} for CSV files
+\item the data file must:
+\itemize{
+\item end in \code{.csv}
+\item have a header row containing the unique name of each field
+\item use \code{.} as the decimal mark (e.g., \code{1.34})
+\item not use a grouping mark (e.g., \code{1200} instead of \verb{1,200})
+\item be able to be read using the \href{https://www.rfc-editor.org/rfc/rfc4180}{RFC 4180 standard} for CSV files
+}
 }
 }
