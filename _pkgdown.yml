@@ -29,3 +29,5 @@ reference:
   - codec_tdr
   - check_tdr_name
   - check_census_tract_id
+  - check_files
+  - check_missing_values
