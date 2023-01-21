@@ -40,8 +40,12 @@ check_census_tract_id <- function(.x) {
 #'
 #' - tdr directory must exist and have a matching CSV data file and a tabular-data-resource.yaml file
 #' - both files must use UTF-8 character encoding and have newlines encoded as `\n` or `\r\n`
-#' - the data file must end in `.csv`, have a header row containing the unique name of each field,
-#' and be able to be read using the [RFC 4180 standard](https://www.rfc-editor.org/rfc/rfc4180) for CSV files
+#' - the data file must:
+#'   - end in `.csv`
+#'   - have a header row containing the unique name of each field
+#'   - use `.` as the decimal mark (e.g., `1.34`)
+#'   - not use a grouping mark (e.g., `1200` instead of `1,200`)
+#'   - be able to be read using the [RFC 4180 standard](https://www.rfc-editor.org/rfc/rfc4180) for CSV files
 #' @param .x path to folder containing the tdr
 #' @return .x, invisibly
 #' @export
@@ -71,17 +75,23 @@ check_files <- function(.x) {
     stop(tdr_yaml, " is not encoded in UTF-8")
   }
 
-  # try to read CSV file
+  # try to read (first 100 lines of) CSV file
   test_read_csv_file <-
     purrr::safely(readr::read_csv)(
       file = tdr_csv,
+      n_max = 100,
       col_names = TRUE,
       show_col_types = FALSE,
+      locale = readr::locale(
+        encoding = "UTF-8",
+        decimal_mark = ".",
+        grouping_mark = ""
+      ),
       name_repair = "check_unique",
       )
 
   if (!is.null(test_read_csv_file$error)) {
-    stop(tdr_csv, " could not be read without error")
+    stop(tdr_csv, " could not be read without error:\n\n", test_read_csv_file$error)
   }
 
   return(invisible(.x))
