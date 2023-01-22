@@ -27,25 +27,26 @@ check_census_tract_id <- function(.x) {
     purrr::pluck("census_tract_id")
 
   if(!all(required_census_tract_ids %in% .x[[census_tract_id_name]])) {
-    stop("the census tract id column, ", census_tract_id_name,
-         ", does not contain every census tract", call. = FALSE)
+    stop("the census tract id column, ",
+         census_tract_id_name,
+         ", does not contain every census tract in ",
+         paste0("`cincy::tract_tigris_", census_tract_id_year, "`"),
+         call. = FALSE)
   }
   
     return(invisible(.x))
 }
 
-#' Check for files
+#' Check files
 #'
 #' Errors will be raised if the CODEC tabular data resource does not meet the following requirements:
-#'
-#' - tdr directory must exist and have a matching CSV data file and a tabular-data-resource.yaml file
+#' - tdr directory must contain a `.csv` with the same name and a `tabular-data-resource.yaml` file
 #' - both files must use UTF-8 character encoding and have newlines encoded as `\n` or `\r\n`
 #' - the data file must:
-#'   - end in `.csv`
-#'   - have a header row containing the unique name of each field
+#'   - follow the [RFC 4180 standard](https://www.rfc-editor.org/rfc/rfc4180) for CSV files *and*
+#'   - have a header row containing a *unique* name for each field
 #'   - use `.` as the decimal mark (e.g., `1.34`)
 #'   - not use a grouping mark (e.g., `1200` instead of `1,200`)
-#'   - be able to be read using the [RFC 4180 standard](https://www.rfc-editor.org/rfc/rfc4180) for CSV files
 #' @param .x path to folder containing the tdr
 #' @return .x, invisibly
 #' @export
@@ -55,6 +56,7 @@ check_files <- function(.x) {
   tdr_csv <- fs::path(tdr_dir, fs::path_file(tdr_dir), ext = "csv")
   tdr_yaml <- fs::path(tdr_dir, "tabular-data-resource.yaml")
 
+  # check for files and folder
   if (!fs::dir_exists(tdr_dir)) {
     stop("cannot find ", tdr_dir, call. = FALSE)
   }
@@ -69,10 +71,10 @@ check_files <- function(.x) {
 
   # test encoding
   if (!stringi::stri_enc_isutf8(tdr_csv)) {
-    stop(tdr_csv, " is not encoded in UTF-8")
+    stop(tdr_csv, " does not seem to be encoded using UTF-8")
   }
   if (!stringi::stri_enc_isutf8(tdr_yaml)) {
-    stop(tdr_yaml, " is not encoded in UTF-8")
+    stop(tdr_yaml, " does not seem to be encoded using UTF-8")
   }
 
   # try to read (first 100 lines of) CSV file
