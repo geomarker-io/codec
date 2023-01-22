@@ -2,7 +2,7 @@
 % Please edit documentation in R/codec_data.R
 \name{check_files}
 \alias{check_files}
-\title{Check for files}
+\title{Check files}
 \usage{
 check_files(.x)
 }
@@ -14,18 +14,15 @@ check_files(.x)
 }
 \description{
 Errors will be raised if the CODEC tabular data resource does not meet the following requirements:
-}
-\details{
 \itemize{
-\item tdr directory must exist and have a matching CSV data file and a tabular-data-resource.yaml file
+\item tdr directory must contain a \code{.csv} with the same name and a \code{tabular-data-resource.yaml} file
 \item both files must use UTF-8 character encoding and have newlines encoded as \verb{\\n} or \verb{\\r\\n}
 \item the data file must:
 \itemize{
-\item end in \code{.csv}
-\item have a header row containing the unique name of each field
+\item follow the \href{https://www.rfc-editor.org/rfc/rfc4180}{RFC 4180 standard} for CSV files \emph{and}
+\item have a header row containing a \emph{unique} name for each field
 \item use \code{.} as the decimal mark (e.g., \code{1.34})
 \item not use a grouping mark (e.g., \code{1200} instead of \verb{1,200})
-\item be able to be read using the \href{https://www.rfc-editor.org/rfc/rfc4180}{RFC 4180 standard} for CSV files
 }
 }
 }

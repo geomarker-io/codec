@@ -64,6 +64,9 @@ CODECtools::codec_tdr() |>
   knitr::kable()
 ```
 
+
+All fields in the CSV data file MUST be described in the metadata and vice-versa.
+
 ### Examples
 
 An example CODEC tabular-data-resource looks like:

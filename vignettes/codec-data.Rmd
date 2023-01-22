@@ -13,7 +13,9 @@ vignette: >
 
 ### Files
 
-A CODEC `tabular-data-resource` (i.e., `tdr`) consists of a directory that MUST contain exactly one data (`.csv`) file and exactly one metadata file (`tabular-data-resource.yaml`). The name of the directory and the name of the CSV file containing the data MUST be identical to the `name` [*property*](codec-metadata.html#tabular-data-resource-metadata).
+A CODEC `tabular-data-resource` (i.e., `tdr`) consists of a directory that MUST contain exactly one data (`.csv`) file and exactly one metadata file (`tabular-data-resource.yaml`).
+
+The name of the directory and the name of the CSV file containing the data MUST be identical to the `name` [*property*](codec-metadata.html#tabular-data-resource-metadata).
 
 For example,
 
@@ -21,28 +23,19 @@ For example,
     ├── mydata.csv
     └── tabular-data-resource.yaml
 
-For both files:
-
-- the file encoding MUST be UTF-8
-- newlines MUST be encoded with either `\n` or `\r\n`
-- the newline style SHOULD be consistent within a file
-- there SHOULD be a newline at the end of the file
+Both files MUST be encoded using UTF-8 with newlines encoded as either `\n` or `\r\n`.
 
 #### Metadata YAML file
 
-The metadata file MUST be a valid YAML file named `tabular-data-resource.yaml` and it MUST adhere to the [CODEC Metadata Standards](codec-metadata.html#codec-metadata-specifications).
-
-All fields in the data MUST be described in the metadata.  All fields described in the metadata MUST be in the data.
+The metadata file MUST be a [YAML](https://yaml.org/) file named `tabular-data-resource.yaml` and it MUST adhere to the [CODEC Metadata Standards](codec-metadata.html#codec-metadata-specifications).
 
 #### Data CSV file
 
 The data file must follow the [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) standard for CSV files.  In addition:
 
 - the filename must end with `.csv`
-- the first row MUST be a header row, containing the `name` of each *field*
-- each `name` must be unique among all fields
+- the first row MUST be a header row, containing the *unique* `name` of each *field*
   
-
 ### Missing Values
 
 If a value is missing, it MUST be represented by either `NA` or an empty string (``) in the CSV data file.

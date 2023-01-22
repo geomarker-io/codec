@@ -27,12 +27,27 @@ test_that("check files", {
 
   expect_silent(check_files(test_path("d")))
 
+  # missing folder
   expect_error({
     check_files(test_path("dd"))
   },
   regexp = "cannot find")
 
-  # TODO add test for non-UTF-8 file
+  # missing file
+  expect_error({
+    check_files(test_path("d_empty"))
+  },
+  regexp = "cannot find matching CSV data file")
+
+  # duplicated names
+  expect_error({
+    check_files(test_path("d_dups"))
+  },
+  regexp = "Names must be unique")
+
+  # these characteristics will be tested by being able to read the CSV (with fixed locale)
+  # TODO add test for non-UTF-8 files
+  # TODO add test for wrong line ending type
 
   expect_error({
     check_files(test_path("sus"))
