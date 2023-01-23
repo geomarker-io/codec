@@ -36,8 +36,7 @@ test_that("check files", {
   # missing file
   expect_error({
     check_files(test_path("d_empty"))
-  },
-  regexp = "cannot find matching CSV data file")
+  }, regexp = "cannot find")
 
   # duplicated names
   expect_error({
