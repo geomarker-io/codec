@@ -23,6 +23,12 @@ parse_tdr_url <- function(tdr_url) {
   return(list("tdr" = tdr, "csv_file" = csv_file))
 }
 
+parse_tdr <- function(tdr_location) {
+ ifelse(is_url(tdr_location), parse_tdr_url, parse_tdr_file)(tdr_location)
+  }
+
+### or: if is a URL, create a temp directory and download it first
+
 #' read a CSV tabular data resource into R from disk or the web
 #'
 #' The CSV file defined in a tabular-data-resource yaml file
@@ -41,7 +47,7 @@ parse_tdr_url <- function(tdr_url) {
 #' @export
 read_tdr_csv <- function(tdr_file, codec = TRUE, ...) {
 
-  tdr_c <- ifelse(is_url(tdr_file), parse_tdr_url, parse_tdr_file)(tdr_file)
+  tdr_c <- parse_tdr(tdr_file)
 
   flds <- purrr::pluck(tdr_c$tdr, "schema", "fields")
 
