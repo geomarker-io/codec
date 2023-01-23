@@ -6,6 +6,5 @@
 ^docs$
 ^pkgdown$
 ^\.github$
-codec.md
 codec.png
 codec_metadata.mmd
