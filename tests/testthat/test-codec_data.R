@@ -46,14 +46,14 @@ test_that("check files", {
   regexp = "Names must be unique")
 
   # these characteristics will be tested by being able to read the CSV (with fixed locale)
-  # TODO add test for non-UTF-8 files
-  # TODO add test for wrong line ending type
+  # - non-UTF-8 files
+  # - wrong line ending type
 
   expect_error({
     check_files(test_path("sus"))
   },
   regexp = "read without error")
 
-
+  # impossible to enforce missing value representation?
 
  })
