@@ -1,3 +1,28 @@
+parse_tdr_file <- function(tdr_file) {
+  tdr_file <- fs::fs_path(tdr_file)
+  # if no tabular-data-resource.yaml file, assume it a directory containing one
+  if (fs::is_dir(tdr_file)) {
+    tdr_file <- fs::path(tdr_file, "tabular-data-resource.yaml")
+  }
+  tdr <- yaml::read_yaml(tdr_file)
+  csv_file <- fs::path(fs::path_dir(tdr_file), tdr$path)
+  return(list("tdr" = tdr, "csv_file" = csv_file))
+}
+
+is_url <- function(.x)  grepl("^((http|ftp)s?|sftp)://", .x)
+
+parse_tdr_url <- function(tdr_url) {
+  if (!grepl("/tabular-data-resource.yaml", tdr_url)) {
+    tdr_url <- paste0(tdr_url, "/tabular-data-resource.yaml")
+  }
+  tdr <- yaml::read_yaml(url(tdr_url))
+  csv_file <- gsub("tabular-data-resource.yaml",
+                   tdr$path,
+                   tdr_url,
+                   fixed = TRUE)
+  return(list("tdr" = tdr, "csv_file" = csv_file))
+}
+
 #' read a CSV tabular data resource into R from disk or the web
 #'
 #' The CSV file defined in a tabular-data-resource yaml file
@@ -15,29 +40,10 @@
 #' @return tibble with added tabular-data-resource attributes
 #' @export
 read_tdr_csv <- function(tdr_file, codec = TRUE, ...) {
-  is_url <- grepl("^((http|ftp)s?|sftp)://", tdr_file)
 
-  if (is_url) {
-    if (!grepl("/tabular-data-resource.yaml", tdr_file)) {
-      tdr_file <- paste0(tdr_file, "/tabular-data-resource.yaml")
-    }
-    tdr_file_url <- url(tdr_file)
-    tdr <- yaml::read_yaml(tdr_file_url)
-    csv_file <- gsub("tabular-data-resource.yaml",
-                     tdr$path,
-                     tdr_file,
-                     fixed = TRUE)
-  } else {
-    tdr_file_path <- fs::fs_path(tdr_file)
-    # if no tabular-data-resource.yaml file, assume it a directory containing one
-    if (fs::is_dir(tdr_file_path)) {
-      tdr_file_path <- fs::path(tdr_file_path, "tabular-data-resource.yaml")
-    }
-    tdr <- yaml::read_yaml(tdr_file_path)
-    csv_file <- fs::path(fs::path_dir(tdr_file_path), tdr$path)
-  }
+  tdr_c <- ifelse(is_url(tdr_file), parse_tdr_url, parse_tdr_file)(tdr_file)
 
-  flds <- purrr::pluck(tdr, "schema", "fields")
+  flds <- purrr::pluck(tdr_c$tdr, "schema", "fields")
 
   type_class_cw <- c(
     "string" = "c",
@@ -60,7 +66,7 @@ read_tdr_csv <- function(tdr_file, codec = TRUE, ...) {
 
   out <-
     readr::read_csv(
-      file = csv_file,
+      file = tdr_c$csv_file,
       col_names = TRUE,
       col_types = paste(col_classes, collapse = ""),
       col_select = all_of({{ col_names }}),
@@ -84,7 +90,7 @@ read_tdr_csv <- function(tdr_file, codec = TRUE, ...) {
     }
   }
 
-  out <- add_attr_from_tdr(out, tdr, codec = codec)
+  out <- add_attr_from_tdr(out, tdr_c$tdr, codec = codec)
   return(out)
 }
 
