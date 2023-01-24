@@ -1,4 +1,4 @@
-parse_tdr_file <- function(tdr_file) {
+read_tdr_file <- function(tdr_file) {
   tdr_file <- fs::fs_path(tdr_file)
   # if no tabular-data-resource.yaml file, assume it a directory containing one
   if (fs::is_dir(tdr_file)) {
@@ -11,7 +11,7 @@ parse_tdr_file <- function(tdr_file) {
 
 is_url <- function(.x)  grepl("^((http|ftp)s?|sftp)://", .x)
 
-parse_tdr_url <- function(tdr_url) {
+read_tdr_url <- function(tdr_url) {
   if (!grepl("/tabular-data-resource.yaml", tdr_url)) {
     tdr_url <- paste0(tdr_url, "/tabular-data-resource.yaml")
   }
@@ -23,16 +23,24 @@ parse_tdr_url <- function(tdr_url) {
   return(list("tdr" = tdr, "csv_file" = csv_file))
 }
 
-parse_tdr <- function(tdr_location) {
- ifelse(is_url(tdr_location), parse_tdr_url, parse_tdr_file)(tdr_location)
+#' Read a tabular data resource into R from disk or the web
+#'
+#' In addition, the path (or url) of the CSV is returned.
+#' @param tdr_file path or url to a `tabular-data-resource.yaml` file
+#' (or a directory containing a `tabular-data-resource.yaml` file)
+#' @return a list of (1) the "tdr" and (2) the path to its "csv_file"
+#' @export
+#' @examples
+#' read_tdr("https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0") |>
+#' str(4)
+read_tdr <- function(tdr_location) {
+ ifelse(is_url(tdr_location), read_tdr_url, read_tdr_file)(tdr_location)
   }
-
-### or: if is a URL, create a temp directory and download it first
 
 #' read a CSV tabular data resource into R from disk or the web
 #'
 #' The CSV file defined in a tabular-data-resource yaml file
-#' are read into R using `readr::read_csv()`. Metadata
+#' is read into R using `readr::read_csv()`. Metadata
 #' (properties and schema) are stored as attributes
 #' of the returned tibble and are also used to set
 #' the column classes of the returned data.frame or tibble.
@@ -47,7 +55,10 @@ parse_tdr <- function(tdr_location) {
 #' @export
 read_tdr_csv <- function(tdr_file, codec = TRUE, ...) {
 
-  tdr_c <- parse_tdr(tdr_file)
+  tdr_c <- read_tdr(tdr_file)
+
+  # should check_files() be run if it is a file?
+  ## if (!is_url(tdr_c)) check_files(fs::path_dir(tdr_file))
 
   flds <- purrr::pluck(tdr_c$tdr, "schema", "fields")
 

@@ -66,15 +66,15 @@ check_files <- function(.x) {
   }
   
   if (!fs::file_exists(tdr_yaml)) {
-    stop("cannot find metadata file, ", tdr_yaml)
+    stop("cannot find metadata file, ", tdr_yaml, call. = FALSE)
   }
 
   # test encoding
   if (!stringi::stri_enc_isutf8(tdr_csv)) {
-    stop(tdr_csv, " does not seem to be encoded using UTF-8")
+    stop(tdr_csv, " does not seem to be encoded using UTF-8", call. = FALSE)
   }
   if (!stringi::stri_enc_isutf8(tdr_yaml)) {
-    stop(tdr_yaml, " does not seem to be encoded using UTF-8")
+    stop(tdr_yaml, " does not seem to be encoded using UTF-8", call. = FALSE)
   }
 
   # try to read (first 100 lines of) CSV file
@@ -93,19 +93,8 @@ check_files <- function(.x) {
       )
 
   if (!is.null(test_read_csv_file$error)) {
-    stop(tdr_csv, " could not be read without error:\n\n", test_read_csv_file$error)
+    stop(tdr_csv, " could not be read without error:\n\n", test_read_csv_file$error, call. = FALSE)
   }
 
-  return(invisible(.x))
-}
-
-#' Check for missing values
-#'
-#' Errors will be raised if the CODEC tabular data resource does not meet the following requirements:
-#'
-#' @param .x a codec tabular-data-resource
-#' @return .x, invisibly
-#' @export
-check_missing_values <- function(.x) {
   return(invisible(.x))
 }

@@ -19,7 +19,7 @@ tibble with added tabular-data-resource attributes
 }
 \description{
 The CSV file defined in a tabular-data-resource yaml file
-are read into R using \code{readr::read_csv()}. Metadata
+is read into R using \code{readr::read_csv()}. Metadata
 (properties and schema) are stored as attributes
 of the returned tibble and are also used to set
 the column classes of the returned data.frame or tibble.

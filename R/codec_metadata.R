@@ -36,6 +36,53 @@ codec_tdr <- function() {
   )
 }
 
+#' check CODEC tabular-data-resource
+check_codec_tdr <- function(tdr) {
+
+  # must have "name" and "path" descriptors
+  if (!purrr::pluck_exists(tdr, "name")) stop("`name` property descriptor is required", call. = FALSE)
+  if (!purrr::pluck_exists(tdr, "path")) stop("`path` property descriptor is required", call. = FALSE)
+
+  # name must be valid
+  check_tdr_name(tdr$name)
+
+  # "name" must be identical to filename of "path" (without ".csv")
+  if (!tdr$name == fs::path_ext_remove(fs::path_file(tdr$path))) {
+    stop("name: ", tdr$name, " does not match ",
+         "file in path: ", tdr$path,
+         call. = FALSE)
+  }
+
+  # all properties must be in codec specs
+  codec_property_names <- names(codec_tdr()$property)
+  codec_schema_names <- names(codec_tdr()$schema)
+  codec_fields_names <- names(codec_tdr()$fields)
+
+  tdr_property_names <- names(tdr)
+  tdr_schema_names <- names(tdr$schema)
+  tdr_fields_names <-
+    tdr$schema$fields |>
+    purrr::map(names) |>
+    unlist() |>
+    unique()
+
+  if (!all(tdr_property_names %in% codec_property_names)) {
+    stop("property descriptors not in the codec specification are not allowed: ",
+         paste(tdr_property_names[!tdr_property_names %in% codec_property_names], collapse = ", "), call. = FALSE)
+  }
+  if (!all(tdr_schema_names %in% codec_schema_names)) {
+    stop("schema descriptors not in the codec specification are not allowed: ",
+         paste(tdr_schema_names[!tdr_schema_names %in% codec_schema_names], collapse = ", "), call. = FALSE)
+  }
+  if (!all(tdr_fields_names %in% codec_fields_names)) {
+    stop("field descriptors not in the codec specification are not allowed: ",
+         paste(tdr_fields_names[!tdr_fields_names %in% codec_fields_names], collapse = ", "), call. = FALSE)
+  }
+
+  # TODO all descriptors should be neither empty or missing
+}
+
+
 #' Check for Tabular Data Resource Name
 #' 
 #' Name must be an identifier string composed of lower 
@@ -49,20 +96,20 @@ codec_tdr <- function() {
 #' @examples
 #' check_tdr_name("name")
 check_tdr_name <- function(name) {
-  # metadata has a name field
-  if(is.null(name)) stop("Metadata must have a field called 'name'.")
   # name is a character string
-  if(!is.character(name)) stop("'name' must be character string.")
+  if(!is.character(name)) stop("'name' must be character string.", call. = FALSE)
   # name does not have uppercase letters
-  if(stringr::str_detect(name, "[[:upper:]]")) stop("'name' must be all lowercase.")
+  if(stringr::str_detect(name, "[[:upper:]]")) stop("'name' must be all lowercase.", call. = FALSE)
   # name does not have spaces
-  if(stringr::str_detect(name, " ")) stop("'name' must not contain spaces.")
+  if(stringr::str_detect(name, " ")) stop("'name' must not contain spaces.", call. = FALSE)
   # nonalphanumeric characters are either -, _, or .
   if(!all(stringr::str_detect(unlist(stringr::str_extract_all(name, "[^[:alnum:]]")), "[_.-]"))) {
-    stop("Accepted non-alphanumeric characters for 'name' are '-', '_', and '.'")
+    stop("Accepted non-alphanumeric characters for 'name' are '-', '_', and '.'", call. = FALSE)
   }
 }
 
-# TODO make sure name descriptor is identical to CSV file name in path descriptor
-# TODO check that field names are unique
+check_tdr_path <- function(path) {
+  # must be posix-style URL or relative file path
+  # must end in .csv
 
+  }
