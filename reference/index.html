@@ -49,7 +49,7 @@
     </div>
 
     <div class="section level2">
-      <h2 id="reading-writing-a-tabular-data-resource-to-from-disk">Reading/writing a tabular-data-resource to/from disk<a class="anchor" aria-label="anchor" href="#reading-writing-a-tabular-data-resource-to-from-disk"></a></h2>
+      <h2 id="read-and-write-tabular-data-resources-to-from-disk-or-the-web">Read and write tabular-data-resources to/from disk or the web<a class="anchor" aria-label="anchor" href="#read-and-write-tabular-data-resources-to-from-disk-or-the-web"></a></h2>
       
       
 
@@ -74,8 +74,13 @@
           <code><a href="write_tdr.html">write_tdr()</a></code> 
         </dt>
         <dd>extract data resource metadata from a data frame and save it to a file</dd>
+      </dl><dl><dt>
+          
+          <code><a href="read_tdr.html">read_tdr()</a></code> 
+        </dt>
+        <dd>Read a tabular data resource into R from disk or the web</dd>
       </dl></div><div class="section level2">
-      <h2 id="adding-metadata-to-objects-in-r-using-attributes">Adding metadata to objects in R using attributes<a class="anchor" aria-label="anchor" href="#adding-metadata-to-objects-in-r-using-attributes"></a></h2>
+      <h2 id="curate-metadata-of-tabular-r-objects-using-attributes">Curate metadata of tabular R objects using attributes<a class="anchor" aria-label="anchor" href="#curate-metadata-of-tabular-r-objects-using-attributes"></a></h2>
       
       
 
@@ -95,8 +100,18 @@
           <code><a href="add_type_attrs.html">add_type_attrs()</a></code> 
         </dt>
         <dd>automatically add "name" and "type" attributes to columns in a data frame</dd>
+      </dl><dl><dt>
+          
+          <code><a href="make_tdr_from_attr.html">make_tdr_from_attr()</a></code> 
+        </dt>
+        <dd>make a tabular-data-resource list from the attributes of a data.frame</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_attr_from_tdr.html">add_attr_from_tdr()</a></code> 
+        </dt>
+        <dd>add attributes to a data.frame based on a tabular-data-resource list</dd>
       </dl></div><div class="section level2">
-      <h2 id="converting-metadata-between-attributes-and-list-tabular-representations">Converting metadata between attributes and list/tabular representations<a class="anchor" aria-label="anchor" href="#converting-metadata-between-attributes-and-list-tabular-representations"></a></h2>
+      <h2 id="examine-metadata">Examine metadata<a class="anchor" aria-label="anchor" href="#examine-metadata"></a></h2>
       
       
 
@@ -107,16 +122,6 @@
       
 
       <dl><dt>
-          
-          <code><a href="make_tdr_from_attr.html">make_tdr_from_attr()</a></code> 
-        </dt>
-        <dd>make a tabular-data-resource list from the attributes of a data.frame</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_attr_from_tdr.html">add_attr_from_tdr()</a></code> 
-        </dt>
-        <dd>add attributes to a data.frame based on a tabular-data-resource list</dd>
-      </dl><dl><dt>
           
           <code><a href="glimpse_attr.html">glimpse_attr()</a></code> 
         </dt>
@@ -133,7 +138,7 @@
         <dd>glimpse CODEC tdr
 This can be used instead of separately calling <code><a href="../reference/glimpse_attr.html">glimpse_attr()</a></code> and <code><a href="../reference/glimpse_schema.html">glimpse_schema()</a></code></dd>
       </dl></div><div class="section level2">
-      <h2 id="codec-meta-data-specifications">CODEC (meta)data specifications<a class="anchor" aria-label="anchor" href="#codec-meta-data-specifications"></a></h2>
+      <h2 id="codec-tabular-data-resource-specifications">CODEC tabular-data-resource specifications<a class="anchor" aria-label="anchor" href="#codec-tabular-data-resource-specifications"></a></h2>
       
       
 
@@ -150,9 +155,29 @@ This can be used instead of separately calling <code><a href="../reference/glimp
         <dd>codec_tdr</dd>
       </dl><dl><dt>
           
+          <code><a href="check_codec_tdr_csv.html">check_codec_tdr_csv()</a></code> 
+        </dt>
+        <dd>check files, check metadata, check data</dd>
+      </dl><dl><dt>
+          
+          <code><a href="check_codec_tdr.html">check_codec_tdr()</a></code> 
+        </dt>
+        <dd>check CODEC tabular-data-resource</dd>
+      </dl><dl><dt>
+          
           <code><a href="check_tdr_name.html">check_tdr_name()</a></code> 
         </dt>
         <dd>Check for Tabular Data Resource Name</dd>
+      </dl><dl><dt>
+          
+          <code><a href="check_census_tract_id.html">check_census_tract_id()</a></code> <code><a href="check_census_tract_id.html">check_census_tract_id()</a></code> 
+        </dt>
+        <dd>Check for census tract id column</dd>
+      </dl><dl><dt>
+          
+          <code><a href="check_files.html">check_files()</a></code> <code><a href="check_files.html">check_files()</a></code> 
+        </dt>
+        <dd>Check files</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

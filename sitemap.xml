@@ -37,6 +37,18 @@
     <loc>http://geomarker.io/CODECtools/reference/add_type_attrs.html</loc>
   </url>
   <url>
+    <loc>http://geomarker.io/CODECtools/reference/check_census_tract_id.html</loc>
+  </url>
+  <url>
+    <loc>http://geomarker.io/CODECtools/reference/check_codec_tdr.html</loc>
+  </url>
+  <url>
+    <loc>http://geomarker.io/CODECtools/reference/check_codec_tdr_csv.html</loc>
+  </url>
+  <url>
+    <loc>http://geomarker.io/CODECtools/reference/check_files.html</loc>
+  </url>
+  <url>
     <loc>http://geomarker.io/CODECtools/reference/check_tdr_name.html</loc>
   </url>
   <url>
@@ -56,6 +68,9 @@
   </url>
   <url>
     <loc>http://geomarker.io/CODECtools/reference/make_tdr_from_attr.html</loc>
+  </url>
+  <url>
+    <loc>http://geomarker.io/CODECtools/reference/read_tdr.html</loc>
   </url>
   <url>
     <loc>http://geomarker.io/CODECtools/reference/read_tdr_csv.html</loc>
