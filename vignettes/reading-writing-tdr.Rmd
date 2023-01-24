@@ -95,9 +95,9 @@ read_tdr("mydata") |>
 fs::dir_delete("mydata")
 ```
 
-Note the difference in the `csv_file` when the tabular-data-resource is specified using an absolute file path:
+This would return a different `csv_file` if the tabular-data-resource had been specified using an absolute file path:
 
-```{r}
+```{r eval = FALSE}
 read_tdr("~/code/CODECtools/tests/testthat/d") |>
   str(2)
 ```

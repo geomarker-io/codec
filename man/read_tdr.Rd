@@ -14,7 +14,8 @@ read_tdr(tdr_location)
 a list of (1) the "tdr" and (2) the path to its "csv_file"
 }
 \description{
-In addition, the path (or url) of the CSV is returned.
+In addition, the path (or url) of the CSV is returned,
+relative to how \code{tdr_location} is specified.
 }
 \examples{
 read_tdr("https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0") |>
