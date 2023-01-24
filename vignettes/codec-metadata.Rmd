@@ -49,7 +49,7 @@ The metadata of a CODEC tabular-data-resource is hierarchically composed of diff
 
 - **schema** (or ["table schema"](https://specs.frictionlessdata.io/table-schema/)) is a special *property* that is a list of information about the **fields** (or columns) in a tabular-data-resource. *schema* includes a list of *fields*, as well as the value used to denote missingness and which *fields* are primary or foreign keys.
 
-- **fields** (or ["field descriptors"](https://specs.frictionlessdata.io/table-schema/#field-descriptors)) are a special *schema descriptor* that is a list of each of the *fields* in a tabular-data-resource, each with different *descriptors* containing *field*-specific information.
+- **fields** (or ["field descriptors"](https://specs.frictionlessdata.io/table-schema/#field-descriptors)) is a special *schema descriptor* list of each of the *fields* in a tabular-data-resource, each with different *descriptors* containing *field*-specific information.
 
 - **dialect** (or ["CSV dialect"](https://specs.frictionlessdata.io/csv-dialect/)) is another special *property* that stores information about the formatting of the data CSV file. The [CODEC data standards](codec-data.html#codec-data-standards) require specific **dialect** values so that the `dialect` descriptor is not required for a CODEC tabular-data-resource.
 

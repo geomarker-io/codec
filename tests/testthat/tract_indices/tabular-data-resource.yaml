@@ -1,0 +1,29 @@
+name: tract_indices
+path: tract_indices.csv
+title: Census Tract-Level Neighborhood Indices
+homepage: https://geomarker.io/tract_indices
+schema:
+  fields:
+    census_tract_id:
+      name: census_tract_id
+      title: Census Tract Identifier
+      type: .na.character
+    adi:
+      name: adi
+      title: Neighborhood Atlas Area Deprivation Index
+      description: national percentile ranking at block group level from 1 to 100
+        averaged for each tract; higher adi indicates higher disadvantage (2019)
+      type: number
+    coi:
+      name: coi
+      title: Child Opportunity Index
+      description: weighted average of three domain averaged z-scores, nationally
+        normed (2015)
+      type: number
+    dep_index:
+      name: dep_index
+      title: Material Deprivation Index
+      description: composite index of 6 variables above characterizing community material
+        deprivation; range 0 to 1, with higher values indicating higher deprivation
+        (2018)
+      type: number

@@ -12,6 +12,7 @@ reference:
   - write_tdr_csv
   - read_tdr_csv
   - write_tdr
+  - read_tdr
 - title: Adding metadata to objects in R using attributes
   contents:
   - add_attrs
@@ -27,7 +28,7 @@ reference:
 - title: CODEC (meta)data specifications
   contents:
   - codec_tdr
+  - check_codec_tdr
   - check_tdr_name
   - check_census_tract_id
   - check_files
-  - check_missing_values
