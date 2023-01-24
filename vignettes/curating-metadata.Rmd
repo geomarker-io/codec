@@ -1,8 +1,8 @@
 ---
-title: "Working with a Tabular Data Resource in R"
+title: "Curating metadata for tabular data in R using attributes"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Working with a Tabular Data Resource in R}
+  %\VignetteIndexEntry{Curating metadata for tabular data in R using attributes}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,11 +18,9 @@ knitr::opts_chunk$set(
 library(CODECtools)
 ```
 
-## Creating a tabular-data-resource
-
 Inside R, metadata lives in the attributes of the data.frame and its columns. We can add and change these with several helper functions used in the example below: `add_attrs()`, `add_col_attrs()`, `add_type_attrs()`. Using these functions to set attributes in R means we can do so reproducibly and changes to the metadata are tracked alongside the R script that creates the data. This prevents a disconnect between data and metadata, but also allows for computing on the metadata to use it to create richer documentation. ^[Alternatively, we can edit the metadata yaml file directly and track changes there.  Reading the data CSV file back in to R using a function that also reads metadata (`read_tdr_csv()`) will update the attributes of the data.frame based on changes in the metadata file.]
 
-### Creating data
+## Creating data
 
 We will create a simple dataset here for this example:
 
@@ -38,7 +36,7 @@ d <-
   )
 ```
 
-### Adding metadata
+## Adding metadata properties
 
 When creating a tabular dataset in R, data-specific metadata (i.e., "properties") can be stored in the attributes of the R object (e.g., a data.frame or tibble).
 
@@ -59,6 +57,8 @@ glimpse_attr(d) |>
  knitr::kable()
 ```
 
+## Adding column-specific metadata properties
+
 Similarly, we can add column-specific attributes (i.e., "schema"). These metadata functions follow the tidy design principles, making it simple to expressively and concisely add metadata using pipes:
 
 ```{r}
@@ -71,6 +71,8 @@ d <-
   add_col_attrs(ranking, title = "Ranking", description = "rank of the observation") |>
   add_col_attrs(impt, title = "Important", description = "true if this observation is important")
 ```
+
+## Adding column-specific metadata properties based on R classes
 
 Automatically add `name`, `type` and `enum` schema to each column in the data based on their class:
 
@@ -86,42 +88,4 @@ glimpse_schema(d) |>
   knitr::kable()
 ```
 
-### Writing to disk
-
-Once metadata is set in the tibble's attributes, we can save the tabular data resource as a CSV file with an accompanying tabular-data-resource.yaml:
-
-```{r}
-write_tdr_csv(d)
-``` 
-
-The `name` attribute of the supplied tibble is used as the name of a newly created folder *and* CSV file containing the data. Metadata extracted from the supplied tibble's attributes is saved in a `tabular-data-resource.yaml` file that lives alongside the data file in the newly created directory:
-
-```{r}
-fs::dir_tree("mydata")
-```
-
-Additionally, the `profile` is set to `tabular-data-resource` and included in the metadata. This allows for reading, modifying, and writing tabular-data-resources with other software as well.
-
-## Reading a tabular-data-resource
-
-Since the `tabular-data-resource.yaml` file defines the relative location of the CSV data file in the `path` attribute, specifying this file (or the folder that contains it) is enough to read a tabular-data-resource from disk and restore its attributes and column classes in R:
-
-```{r}
-mydata <- read_tdr_csv("mydata")
-mydata
-```
-
-```{r, include = FALSE}
-fs::dir_delete("mydata")
-```
-
-If the `tdr_file` is a URL, then the tabular-data-resource and CSV data files are automatically downloaded first:
-
-```{r}
-lndcvr <-
-  read_tdr_csv("https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0"
-)
-
-glimpse_tdr(lndcvr) |>
-  knitr::kable()
-```
+See [Reading and Writing Tabular Data Resources](articles/reading-writing-tdr.html) for details on how to save the tabular-data-resource to disk.
