@@ -7,27 +7,28 @@ template:
     fg: "#072B67"
     primary: "#C2326B"
 reference:
-- title: Reading/writing a tabular-data-resource to/from disk
+- title: Read and write tabular-data-resources to/from disk or the web
   contents:
   - write_tdr_csv
   - read_tdr_csv
   - write_tdr
   - read_tdr
-- title: Adding metadata to objects in R using attributes
+- title: Curate metadata of tabular R objects using attributes
   contents:
   - add_attrs
   - add_col_attrs
   - add_type_attrs
-- title: Converting metadata between attributes and list/tabular representations
-  contents:
   - make_tdr_from_attr
   - add_attr_from_tdr
+- title: Examine metadata
+  contents:
   - glimpse_attr
   - glimpse_schema
   - glimpse_tdr
-- title: CODEC (meta)data specifications
+- title: CODEC tabular-data-resource specifications
   contents:
   - codec_tdr
+  - check_codec_tdr_csv
   - check_codec_tdr
   - check_tdr_name
   - check_census_tract_id
