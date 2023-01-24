@@ -37,6 +37,9 @@ codec_tdr <- function() {
 }
 
 #' check CODEC tabular-data-resource
+#'
+#' ...
+#' @param tdr a codec tabular-data-resource list object
 check_codec_tdr <- function(tdr) {
 
   # must have "name" and "path" descriptors

@@ -26,7 +26,7 @@ read_tdr_url <- function(tdr_url) {
 #' Read a tabular data resource into R from disk or the web
 #'
 #' In addition, the path (or url) of the CSV is returned.
-#' @param tdr_file path or url to a `tabular-data-resource.yaml` file
+#' @param tdr_location path or url to a `tabular-data-resource.yaml` file
 #' (or a directory containing a `tabular-data-resource.yaml` file)
 #' @return a list of (1) the "tdr" and (2) the path to its "csv_file"
 #' @export

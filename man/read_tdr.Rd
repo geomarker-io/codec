@@ -7,7 +7,7 @@
 read_tdr(tdr_location)
 }
 \arguments{
-\item{tdr_file}{path or url to a \code{tabular-data-resource.yaml} file
+\item{tdr_location}{path or url to a \code{tabular-data-resource.yaml} file
 (or a directory containing a \code{tabular-data-resource.yaml} file)}
 }
 \value{

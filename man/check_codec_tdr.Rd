@@ -6,6 +6,9 @@
 \usage{
 check_codec_tdr(tdr)
 }
+\arguments{
+\item{tdr}{a codec tabular-data-resource list object}
+}
 \description{
-check CODEC tabular-data-resource
+...
 }
