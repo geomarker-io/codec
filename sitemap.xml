@@ -13,10 +13,13 @@
     <loc>http://geomarker.io/CODECtools/articles/codec-metadata.html</loc>
   </url>
   <url>
+    <loc>http://geomarker.io/CODECtools/articles/curating-metadata.html</loc>
+  </url>
+  <url>
     <loc>http://geomarker.io/CODECtools/articles/index.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/CODECtools/articles/tabular-data-resource.html</loc>
+    <loc>http://geomarker.io/CODECtools/articles/reading-writing-tdr.html</loc>
   </url>
   <url>
     <loc>http://geomarker.io/CODECtools/authors.html</loc>

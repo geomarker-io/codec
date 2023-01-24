@@ -4,8 +4,9 @@ pkgdown_sha: ~
 articles:
   codec-data: codec-data.html
   codec-metadata: codec-metadata.html
-  tabular-data-resource: tabular-data-resource.html
-last_built: 2023-01-24T21:22Z
+  curating-metadata: curating-metadata.html
+  reading-writing-tdr: reading-writing-tdr.html
+last_built: 2023-01-24T22:31Z
 urls:
   reference: http://geomarker.io/CODECtools/reference
   article: http://geomarker.io/CODECtools/articles
