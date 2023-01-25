@@ -17,8 +17,7 @@ codec_tdr <- function() {
       "title" = "human-friendly title of the resource",
       "homepage" = "homepage on the web related to the data; ideally a code repository used to create the data",
       "description" = "additional notes about the resource",
-      "schema" = "a list object containing items in schema",
-      "_s3VersionId" = "the VersionId of the file stored on AWS S3; not user-generated"
+      "schema" = "a list object containing items in schema"
     ),
     schema = c(
       "fields" = "a list object as long as the number of fields each containing the items in fields",

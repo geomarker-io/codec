@@ -20,8 +20,6 @@
                                                                                                                                                                                        "additional notes about the resource" 
                                                                                                                                                                                                                       schema 
                                                                                                                                                                                   "a list object containing items in schema" 
-                                                                                                                                                                                                                _s3VersionId 
-                                                                                                                                                            "the VersionId of the file stored on AWS S3; not user-generated" 
       
       $schema
                                                                                    fields 
