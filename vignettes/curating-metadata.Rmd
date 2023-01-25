@@ -88,4 +88,4 @@ glimpse_schema(d) |>
   knitr::kable()
 ```
 
-See [Reading and Writing Tabular Data Resources](articles/reading-writing-tdr.html) for details on how to save the tabular-data-resource to disk.
+See [Reading and Writing Tabular Data Resources](reading-writing-tdr.html) for details on how to save the tabular-data-resource to disk.

@@ -9,9 +9,9 @@ The goal of CODECtools is to support CODEC data infrastructure through:
 - [curating metadata for tabular data in R using attributes](articles/curating-metadata.html)
 - [reading and writing tabular-data-resources](articles/reading-writing-tdr.html)
 - [defining the CODEC tabular-data-resource specifications](articles/codec-specs.html)
-- [ ] providing tools to validate CODEC tabular data resources 
-- [ ] creating an online CODEC data catalog
-- [ ] provide online workflows to contribute to CODECdata repository
+- providing tools and workflows to validate CODEC tabular data resources 
+- providing online workflows to contribute to CODECdata repository
+- creating an online CODEC data catalog
 
 ## Installation
 
