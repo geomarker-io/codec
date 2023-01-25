@@ -22,8 +22,7 @@ codec_tdr <- function() {
     schema = c(
       "fields" = "a list object as long as the number of fields each containing the items in fields",
       "primaryKey" = "a field or set of fields that uniquely identifies each row",
-      "foreignKey" = "a field or set of fields that connect to a separate table",
-      "missingValues" = "a list object, one for each column, containing the following"
+      "foreignKey" = "a field or set of fields that connect to a separate table"
     ),
     fields = c(
       "name" = "machine-friendly name of field/column; must be identical to name of column in data CSV file",

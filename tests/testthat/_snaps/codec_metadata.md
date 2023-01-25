@@ -28,8 +28,6 @@
                              "a field or set of fields that uniquely identifies each row" 
                                                                                foreignKey 
                               "a field or set of fields that connect to a separate table" 
-                                                                            missingValues 
-                           "a list object, one for each column, containing the following" 
       
       $fields
                                                                                                                                                            name 
