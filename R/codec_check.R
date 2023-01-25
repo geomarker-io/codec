@@ -1,7 +1,23 @@
-#' check CODEC tabular-data-resource
+#' Check a tabular-data-resource against CODEC specifications
 #'
-#' ...
+#' This function will check that the file structure is correct,
+#' that the metadata can be read using CODEC specifications,
+#' that the CSV data can be read in with accompanying metadata,
+#' and that the data contains a census tract identifier column.
+#' @param .x path to folder containing the tdr
+#' @export
+check_codec_tdr_csv <- function(.x) {
+  check_files(.x)
+  tdr <- read_tdr(.x)$tdr
+  check_codec_tdr(tdr)
+  tdr_d <- read_tdr_csv(.x)
+  check_census_tract_id(tdr_d)
+  }
+
+#' check CODEC tdr
 #' @param tdr a codec tabular-data-resource list object
+#' @return `tdr`, invisibly
+#' @export
 check_codec_tdr <- function(tdr) {
 
   # must have "name" and "path" descriptors
@@ -45,21 +61,18 @@ check_codec_tdr <- function(tdr) {
   }
 
   # TODO all descriptors should be neither empty or missing
+
+  return(invisible(tdr))
 }
 
 
-#' Check for Tabular Data Resource Name
+#' check CODEC tdr name
 #' 
 #' Name must be an identifier string composed of lower 
 #' case alphanumeric characters, _, -, and .
-#'
 #' @param name the name field from tabular-data-resource.yaml
-#'
-#' @return an error message if conditions are not met
-#' @export
-#'
-#' @examples
-#' check_tdr_name("name")
+#' @return NULL, invisibly
+#' @keywords internal
 check_tdr_name <- function(name) {
   # name is a character string
   if(!is.character(name)) stop("'name' must be character string.", call. = FALSE)
@@ -71,22 +84,15 @@ check_tdr_name <- function(name) {
   if(!all(stringr::str_detect(unlist(stringr::str_extract_all(name, "[^[:alnum:]]")), "[_.-]"))) {
     stop("Accepted non-alphanumeric characters for 'name' are '-', '_', and '.'", call. = FALSE)
   }
+  return(invisible(NULL))
 }
 
+#' check CODEC tdr path
+#' @keywords internal
 check_tdr_path <- function(path) {
   # must be posix-style URL or relative file path
   # must end in .csv
 
-  }
-
-#' check files, check metadata, check data
-#' @param .x path to folder containing the tdr
-check_codec_tdr_csv <- function(.x) {
-  check_files(.x)
-  tdr <- read_tdr(.x)$tdr
-  check_codec_tdr(tdr)
-  tdr_d <- read_tdr_csv(.x)
-  check_census_tract_id(tdr_d)
   }
 
 #' Check for census tract id column
@@ -99,7 +105,7 @@ check_codec_tdr_csv <- function(.x) {
 #'
 #' @param .x a codec tabular-data-resource
 #' @return .x, invisibly
-#' @export
+#' @keywords internal
 check_census_tract_id <- function(.x) {
 
   census_tract_id_names <- paste0("census_tract_id_", c("2000", "2010", "2020"))
@@ -124,7 +130,7 @@ check_census_tract_id <- function(.x) {
          paste0("`cincy::tract_tigris_", census_tract_id_year, "`"),
          call. = FALSE)
   }
-  
+
     return(invisible(.x))
 }
 
@@ -155,7 +161,7 @@ check_files <- function(.x) {
   if (!fs::file_exists(tdr_csv)) {
     stop("cannot find matching CSV data file, ", tdr_csv)
   }
-  
+
   if (!fs::file_exists(tdr_yaml)) {
     stop("cannot find metadata file, ", tdr_yaml, call. = FALSE)
   }
@@ -178,7 +184,8 @@ check_files <- function(.x) {
       locale = readr::locale(
         encoding = "UTF-8",
         decimal_mark = ".",
-        grouping_mark = ""
+        grouping_mark = "",
+        
       ),
       name_repair = "check_unique",
       )

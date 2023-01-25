@@ -2,7 +2,7 @@
 % Please edit documentation in R/codec_check.R
 \name{check_tdr_name}
 \alias{check_tdr_name}
-\title{Check for Tabular Data Resource Name}
+\title{check CODEC tdr name}
 \usage{
 check_tdr_name(name)
 }
@@ -10,12 +10,10 @@ check_tdr_name(name)
 \item{name}{the name field from tabular-data-resource.yaml}
 }
 \value{
-an error message if conditions are not met
+NULL, invisibly
 }
 \description{
 Name must be an identifier string composed of lower
 case alphanumeric characters, _, -, and .
 }
-\examples{
-check_tdr_name("name")
-}
+\keyword{internal}

@@ -2,13 +2,16 @@
 % Please edit documentation in R/codec_check.R
 \name{check_codec_tdr}
 \alias{check_codec_tdr}
-\title{check CODEC tabular-data-resource}
+\title{check CODEC tdr}
 \usage{
 check_codec_tdr(tdr)
 }
 \arguments{
 \item{tdr}{a codec tabular-data-resource list object}
 }
+\value{
+\code{tdr}, invisibly
+}
 \description{
-...
+check CODEC tdr
 }

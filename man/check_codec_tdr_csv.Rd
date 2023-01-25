@@ -2,7 +2,7 @@
 % Please edit documentation in R/codec_check.R
 \name{check_codec_tdr_csv}
 \alias{check_codec_tdr_csv}
-\title{check files, check metadata, check data}
+\title{Check a tabular-data-resource against CODEC specifications}
 \usage{
 check_codec_tdr_csv(.x)
 }
@@ -10,5 +10,8 @@ check_codec_tdr_csv(.x)
 \item{.x}{path to folder containing the tdr}
 }
 \description{
-check files, check metadata, check data
+This function will check that the file structure is correct,
+that the metadata can be read using CODEC specifications,
+that the CSV data can be read in with accompanying metadata,
+and that the data contains a census tract identifier column.
 }
