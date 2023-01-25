@@ -30,7 +30,6 @@ make_tdr_from_attr <- function(.x, codec = TRUE) {
 #' @return .x with added tabular-data-resource attributes
 #' @export
 add_attr_from_tdr <- function(.x, tdr, codec = TRUE) {
-
   desc <- tdr
   flds <- purrr::pluck(tdr, "schema", "fields")
   purrr::pluck(desc, "schema") <- NULL
@@ -118,4 +117,3 @@ glimpse_tdr <- function(.x, codec = TRUE) {
 ##     knitr::kable() |>
 ##     cat(file = file_name, sep = "\n", append = TRUE)
 ## }
-

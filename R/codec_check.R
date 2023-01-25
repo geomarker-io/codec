@@ -12,7 +12,7 @@ check_codec_tdr_csv <- function(.x) {
   check_codec_tdr(tdr)
   tdr_d <- read_tdr_csv(.x)
   check_census_tract_id(tdr_d)
-  }
+}
 
 #' check CODEC tdr
 #' @param tdr a codec tabular-data-resource list object
@@ -30,8 +30,9 @@ check_codec_tdr <- function(tdr) {
   # "name" must be identical to filename of "path" (without ".csv")
   if (!tdr$name == fs::path_ext_remove(fs::path_file(tdr$path))) {
     stop("name: ", tdr$name, " does not match ",
-         "file in path: ", tdr$path,
-         call. = FALSE)
+      "file in path: ", tdr$path,
+      call. = FALSE
+    )
   }
 
   # all properties must be in codec specs
@@ -49,15 +50,21 @@ check_codec_tdr <- function(tdr) {
 
   if (!all(tdr_property_names %in% codec_property_names)) {
     stop("property descriptors not in the codec specification are not allowed: ",
-         paste(tdr_property_names[!tdr_property_names %in% codec_property_names], collapse = ", "), call. = FALSE)
+      paste(tdr_property_names[!tdr_property_names %in% codec_property_names], collapse = ", "),
+      call. = FALSE
+    )
   }
   if (!all(tdr_schema_names %in% codec_schema_names)) {
     stop("schema descriptors not in the codec specification are not allowed: ",
-         paste(tdr_schema_names[!tdr_schema_names %in% codec_schema_names], collapse = ", "), call. = FALSE)
+      paste(tdr_schema_names[!tdr_schema_names %in% codec_schema_names], collapse = ", "),
+      call. = FALSE
+    )
   }
   if (!all(tdr_fields_names %in% codec_fields_names)) {
     stop("field descriptors not in the codec specification are not allowed: ",
-         paste(tdr_fields_names[!tdr_fields_names %in% codec_fields_names], collapse = ", "), call. = FALSE)
+      paste(tdr_fields_names[!tdr_fields_names %in% codec_fields_names], collapse = ", "),
+      call. = FALSE
+    )
   }
 
   # TODO all descriptors should be neither empty or missing
@@ -67,21 +74,21 @@ check_codec_tdr <- function(tdr) {
 
 
 #' check CODEC tdr name
-#' 
-#' Name must be an identifier string composed of lower 
+#'
+#' Name must be an identifier string composed of lower
 #' case alphanumeric characters, _, -, and .
 #' @param name the name field from tabular-data-resource.yaml
 #' @return NULL, invisibly
 #' @keywords internal
 check_tdr_name <- function(name) {
   # name is a character string
-  if(!is.character(name)) stop("'name' must be character string.", call. = FALSE)
+  if (!is.character(name)) stop("'name' must be character string.", call. = FALSE)
   # name does not have uppercase letters
-  if(stringr::str_detect(name, "[[:upper:]]")) stop("'name' must be all lowercase.", call. = FALSE)
+  if (stringr::str_detect(name, "[[:upper:]]")) stop("'name' must be all lowercase.", call. = FALSE)
   # name does not have spaces
-  if(stringr::str_detect(name, " ")) stop("'name' must not contain spaces.", call. = FALSE)
+  if (stringr::str_detect(name, " ")) stop("'name' must not contain spaces.", call. = FALSE)
   # nonalphanumeric characters are either -, _, or .
-  if(!all(stringr::str_detect(unlist(stringr::str_extract_all(name, "[^[:alnum:]]")), "[_.-]"))) {
+  if (!all(stringr::str_detect(unlist(stringr::str_extract_all(name, "[^[:alnum:]]")), "[_.-]"))) {
     stop("Accepted non-alphanumeric characters for 'name' are '-', '_', and '.'", call. = FALSE)
   }
   return(invisible(NULL))
@@ -92,8 +99,7 @@ check_tdr_name <- function(name) {
 check_tdr_path <- function(path) {
   # must be posix-style URL or relative file path
   # must end in .csv
-
-  }
+}
 
 #' Check for census tract id column
 #'
@@ -107,11 +113,10 @@ check_tdr_path <- function(path) {
 #' @return .x, invisibly
 #' @keywords internal
 check_census_tract_id <- function(.x) {
-
   census_tract_id_names <- paste0("census_tract_id_", c("2000", "2010", "2020"))
 
   # has census_tract_id_{year} column
-  if(!any(names(.x) %in% census_tract_id_names)) {
+  if (!any(names(.x) %in% census_tract_id_names)) {
     stop("must contain a census tract id column called census_tract_id_2000, census_tract_id_2010, or census_tract_id_2020")
   }
 
@@ -123,15 +128,16 @@ check_census_tract_id <- function(.x) {
     eval() |>
     purrr::pluck("census_tract_id")
 
-  if(!all(required_census_tract_ids %in% .x[[census_tract_id_name]])) {
+  if (!all(required_census_tract_ids %in% .x[[census_tract_id_name]])) {
     stop("the census tract id column, ",
-         census_tract_id_name,
-         ", does not contain every census tract in ",
-         paste0("`cincy::tract_tigris_", census_tract_id_year, "`"),
-         call. = FALSE)
+      census_tract_id_name,
+      ", does not contain every census tract in ",
+      paste0("`cincy::tract_tigris_", census_tract_id_year, "`"),
+      call. = FALSE
+    )
   }
 
-    return(invisible(.x))
+  return(invisible(.x))
 }
 
 #' Check files
@@ -148,7 +154,6 @@ check_census_tract_id <- function(.x) {
 #' @return .x, invisibly
 #' @export
 check_files <- function(.x) {
-
   tdr_dir <- fs::path(.x)
   tdr_csv <- fs::path(tdr_dir, fs::path_file(tdr_dir), ext = "csv")
   tdr_yaml <- fs::path(tdr_dir, "tabular-data-resource.yaml")
@@ -185,10 +190,9 @@ check_files <- function(.x) {
         encoding = "UTF-8",
         decimal_mark = ".",
         grouping_mark = "",
-        
       ),
       name_repair = "check_unique",
-      )
+    )
 
   if (!is.null(test_read_csv_file$error)) {
     stop(tdr_csv, " could not be read without error:\n\n", test_read_csv_file$error, call. = FALSE)

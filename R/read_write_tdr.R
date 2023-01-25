@@ -9,17 +9,19 @@ read_tdr_file <- function(tdr_file) {
   return(list("tdr" = tdr, "csv_file" = csv_file))
 }
 
-is_url <- function(.x)  grepl("^((http|ftp)s?|sftp)://", .x)
+is_url <- function(.x) grepl("^((http|ftp)s?|sftp)://", .x)
 
 read_tdr_url <- function(tdr_url) {
   if (!grepl("/tabular-data-resource.yaml", tdr_url)) {
     tdr_url <- paste0(tdr_url, "/tabular-data-resource.yaml")
   }
   tdr <- yaml::read_yaml(url(tdr_url))
-  csv_file <- gsub("tabular-data-resource.yaml",
-                   tdr$path,
-                   tdr_url,
-                   fixed = TRUE)
+  csv_file <-
+    gsub("tabular-data-resource.yaml",
+      tdr$path,
+      tdr_url,
+      fixed = TRUE
+    )
   return(list("tdr" = tdr, "csv_file" = csv_file))
 }
 
@@ -33,10 +35,10 @@ read_tdr_url <- function(tdr_url) {
 #' @export
 #' @examples
 #' read_tdr("https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0") |>
-#' str(4)
+#'   str(4)
 read_tdr <- function(tdr_location) {
- ifelse(is_url(tdr_location), read_tdr_url, read_tdr_file)(tdr_location)
-  }
+  ifelse(is_url(tdr_location), read_tdr_url, read_tdr_file)(tdr_location)
+}
 
 #' read a CSV tabular data resource into R from disk or the web
 #'
@@ -55,7 +57,6 @@ read_tdr <- function(tdr_location) {
 #' @return tibble with added tabular-data-resource attributes
 #' @export
 read_tdr_csv <- function(tdr_file, codec = TRUE, ...) {
-
   tdr_c <- read_tdr(tdr_file)
 
   # should check_files() be run if it is a file?
@@ -100,11 +101,13 @@ read_tdr_csv <- function(tdr_file, codec = TRUE, ...) {
 
   if (length(lvls) > 0) {
     for (lvl in names(lvls)) {
-      out <- dplyr::mutate(out,
+      out <- dplyr::mutate(
+        out,
         {{ lvl }} := forcats::fct_expand(
           dplyr::pull(out, {{ lvl }}),
           as.character(lvls[[lvl]])
-        ))
+        )
+      )
     }
   }
 
@@ -151,7 +154,6 @@ write_tdr <- function(.x, file = "tabular-data-resource.yaml", codec = TRUE) {
 #' @return .x, invisibly
 #' @export
 write_tdr_csv <- function(.x, dir = getwd(), codec = TRUE) {
-
   tdr_name <- attr(.x, "name")
 
   tdr_dir <- fs::path(dir, tdr_name)

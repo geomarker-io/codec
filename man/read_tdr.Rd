@@ -19,5 +19,5 @@ relative to how \code{tdr_location} is specified.
 }
 \examples{
 read_tdr("https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0") |>
-str(4)
+  str(4)
 }

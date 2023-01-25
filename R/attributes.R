@@ -77,4 +77,3 @@ add_type_attrs <- function(.x) {
   attributes(out) <- attributes(.x)
   return(out)
 }
-
