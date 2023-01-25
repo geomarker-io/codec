@@ -80,24 +80,25 @@
     
     
 <blockquote>
-<p>CODEC specifications are versioned with {CODECtools}, so this article
-describes version 0.4.1.</p>
-</blockquote>
-<blockquote>
 <p><em>Language:</em> The keywords “MUST”, “MUST NOT”, “SHOULD”, “SHOULD
 NOT”, and “MAY” in this document are to be interpreted as described in
 <a href="https://tools.ietf.org/html/rfc2119" class="external-link">RFC 2119</a>.</p>
 </blockquote>
-<div class="section level3">
-<h3 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
-</h3>
-<p>CODEC is designed to deal with tabular community-level data; for
-example:</p>
+<p>A CODEC tabular-data-resource (or <code>tdr</code>) is designed to
+deal with tabular community-level data; for example:</p>
 <ul>
 <li>pediatric hospitalizations rate per month per census tract</li>
 <li>total number of gunshots per week per neighborhood</li>
 <li>housing code enforcement density per year per ZIP code</li>
 </ul>
+<p>Each CODEC <code>tdr</code> consists of (1) a single table of <a href="#data">data</a> and (2) its <a href="#metadata">metadata</a>.
+CODEC utilizes metadata specifications for community-level data in an
+effort to make them more interoperable and reusable.</p>
+<div class="section level3">
+<h3 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
+</h3>
+<p>Data is specified as average values or total counts for census tract
+geographies during a specific date range.</p>
 <p>The required <strong>census tract geography</strong> and <strong>date
 range</strong> columns in a CODEC tabular-data-resource are used to
 specify the “where” and the “when” and importantly, can be used to link
@@ -151,7 +152,7 @@ either <code>\n</code> or <code>\r\n</code>.</p>
 <p>The data file must follow the <a href="https://www.rfc-editor.org/rfc/rfc4180" class="external-link">RFC 4180</a> standard for
 CSV files. In addition:</p>
 <ul>
-<li>the filename must end with <code>.csv</code>
+<li>the filename MUST end with <code>.csv</code>
 </li>
 <li>the first row MUST be a header row, containing the <em>unique</em>
 <code>name</code> of each <em>field</em>
@@ -168,53 +169,17 @@ specifications.</p>
 </h3>
 <p>Metadata is information <em>about</em> data, but does not contain the
 data itself. For example, a CSV file cannot tell R (or other software)
-anything about itself including:</p>
-<ul>
-<li>general information like its name, title, description, or
-homepage</li>
-<li>how missing values are denoted</li>
-<li>column names, titles, types, formats, and constraints</li>
-<li>specific CSV “dialect” characteristics required to read it
-(e.g. encoding, quoting)</li>
-</ul>
-<p>CODEC utilizes a specific set of metadata specifications for
-community-level data in an effort to make them more interoperable and
-reusable.</p>
-<div class="section level4">
-<h4 id="frictionless-standards">Frictionless Standards<a class="anchor" aria-label="anchor" href="#frictionless-standards"></a>
-</h4>
-<p><a href="https://frictionlessdata.io/" class="external-link">Frictionless</a> standards are
-a set of <a href="https://specs.frictionlessdata.io/" class="external-link">patterns</a> for
-describing data, including datasets, files, and tables. These metadata
-are contained in a specific file (separate from the data file), usually
-written in JSON or YAML, that describes something specific to each
-Frictionless Standard.</p>
-<p>The CODEC metadata standards are based on the Frictionless <a href="https://specs.frictionlessdata.io/tabular-data-resource/" class="external-link">Tabular
-Data Resource</a> standards (often written as ‘tabular-data-resource’
-and abbreviated throughout the package as <code>tdr</code>), which is
-composed of three Frictionless standards:</p>
-<ol style="list-style-type: decimal">
-<li>
-<a href="https://specs.frictionlessdata.io/data-resource/" class="external-link">Data
-Resource</a>: describes an exact tabular file providing a path to the
-file and details like name, title, description, and more</li>
-<li>
-<a href="https://specs.frictionlessdata.io/table-schema/" class="external-link">Table
-Schema</a>: describes a tabular file by providing its dimension, field
-data types, relations, and constraints</li>
-<li>
-<a href="https://specs.frictionlessdata.io/csv-dialect/" class="external-link">CSV
-dialect</a>: describes the various dialects of CSV files, including
-terminator strings, quoting rules, escape rules, etc.</li>
-</ol>
-<p>A tabular-data-resource consists of (1) a <em>single</em> table of
-data and (2) its metadata, represented as a hierarchical list in a
-specific format. On disk, this metadata is stored as a YAML file and in
-R, it is stored in the attributes of a data.frame (or tibble).</p>
-</div>
-<div class="section level4">
-<h4 id="tabular-data-resource-metadata">Tabular-Data-Resource Metadata<a class="anchor" aria-label="anchor" href="#tabular-data-resource-metadata"></a>
-</h4>
+anything about itself including general information like its name,
+title, description, or homepage, as well as details on each column,
+including names, titles, types, formats, and constraints.</p>
+<p>The metadata of a CODEC tabular-data-resource is represented as a
+hierarchical list in a specific format. On disk, this metadata is stored
+separately from the data as a <code>tabular-data-resource.yaml</code>
+file and in R, it is stored in the attributes of a data.frame.</p>
+<p>The CODEC specifications are based on the <a href="https://frictionlessdata.io/" class="external-link">Frictionless</a> <a href="https://specs.frictionlessdata.io/data-resource/" class="external-link">Data
+Resource</a>, <a href="https://specs.frictionlessdata.io/table-schema/" class="external-link">Table Schema</a>,
+and <a href="https://specs.frictionlessdata.io/tabular-data-resource/" class="external-link">Tabular
+Data Resource</a> standards.</p>
 <p>The metadata of a CODEC tabular-data-resource is hierarchically
 composed of different <strong>descriptors</strong> :</p>
 <p><img src="codec_metadata.png"></p>
@@ -247,8 +212,8 @@ MAY be present, but MUST be one of:</p>
 <table class="table">
 <colgroup>
 <col width="5%">
-<col width="8%">
-<col width="85%">
+<col width="7%">
+<col width="86%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">type</th>
@@ -323,35 +288,29 @@ row</td>
 table</td>
 </tr>
 <tr class="even">
-<td align="left">schema</td>
-<td align="left">missingValues</td>
-<td align="left">a list object, one for each column, containing the
-following</td>
-</tr>
-<tr class="odd">
 <td align="left">fields</td>
 <td align="left">name</td>
 <td align="left">machine-friendly name of field/column; must be
 identical to name of column in data CSV file</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">fields</td>
 <td align="left">title</td>
 <td align="left">human-friendly name of field/column</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">fields</td>
 <td align="left">description</td>
 <td align="left">any additional notes about the field/column</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">fields</td>
 <td align="left">type</td>
 <td align="left">
 <a href="https://specs.frictionlessdata.io/table-schema/#types-and-formats" class="external-link">Frictionless
 type</a> of the field/column (e.g., string, number, boolean)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">fields</td>
 <td align="left">constraints</td>
 <td align="left">
@@ -363,7 +322,6 @@ values or factor levels</td>
 </table>
 <p><strong>All fields in the CSV data file MUST be described in the
 metadata and vice-versa.</strong></p>
-</div>
 <div class="section level4">
 <h4 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h4>
@@ -384,6 +342,10 @@ metadata and vice-versa.</strong></p>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">name</span><span class="kw">:</span><span class="at"> fraction_poverty</span></span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">title</span><span class="kw">:</span><span class="at"> Fraction of Households in Poverty</span></span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">type</span><span class="kw">:</span><span class="at"> number</span></span></code></pre></div>
+<blockquote>
+<p>CODEC specifications are versioned with {CODECtools}, so this article
+describes version 0.4.1.</p>
+</blockquote>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
