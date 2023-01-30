@@ -25,7 +25,7 @@ The required **census tract geography** and **date range** columns in a CODEC ta
 
 #### Census Tract Geography
 
-As tabular data that must specify a geography, a CODEC tabular-data-resource MUST include a [census tract](https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf) column named `census_tract_id_{year}`, where `{year}` is replaced with the decennial vintage of the census tract geographies used to create the dataset (e.g., `census_tract_id_2010` or `census_tract_id_2020`).
+As tabular data that must specify a geography, a CODEC tabular-data-resource MUST include a [census tract](https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf) column named `census_tract_id_{year}`, where `{year}` is replaced with the decennial vintage of the census tract geographies used to create the dataset (e.g., `census_tract_id_2010` or `census_tract_id_2020`).^[Alternatively, both a `census_tract_id` *and* a `census_tract_vintage` column MAY be specified, but the `census_tract_vintage` column MUST contain a unique value of `2000`, `2010`, or `2020`.]
 
 The census tract identifier column MUST contain 11-digit [GEOID](https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html) identifiers for *all* census tracts in Hamilton County (GEOID: 39061). A list of required census tract identifiers for 2000, 2010, and 2020 are available in the {{[cincy](https://github.com/geomarker-io/cincy)}} R package (e.g., `cincy::tract_tigris_2010`).
 

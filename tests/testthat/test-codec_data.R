@@ -1,18 +1,50 @@
 test_that("check for census tract identifier", {
 
-  d_tdr <-
-    read_tdr_csv("https://github.com/geomarker-io/hamilton_drivetime/releases/download/v0.1.0") |>
-    dplyr::rename(census_tract_id_2010 = census_tract_id) |>
-    CODECtools::add_type_attrs()
+  d_tdr <- read_tdr_csv(test_path("hamilton_poverty_2020"))
 
   expect_equal(check_census_tract_id(d_tdr), d_tdr)
 
   expect_error({
     d_tdr |>
-      dplyr::select(-census_tract_id_2010) |>
+      dplyr::select(-census_tract_id) |>
       check_census_tract_id()
   },
   regexp = "must contain a census tract id column called")
+
+  expect_error({
+    d_tdr |>
+      dplyr::mutate(census_tract_id_2010 = census_tract_id) |>
+      check_census_tract_id()
+  },
+  regexp = "must contain only one census tract id column")
+
+  expect_error({
+    d_tdr |>
+      dplyr::select(-census_tract_vintage) |>
+      check_census_tract_id()
+  },
+  regexp = "census_tract_vintage column must exist")
+
+  expect_error({
+    d_tdr |>
+      dplyr::mutate(census_tract_vintage = "2009") |>
+      check_census_tract_id()
+  },
+  regexp = "census_tract_vintage must be")
+
+  expect_error({
+    d_tdr |>
+      dplyr::mutate(census_tract_vintage = 2009) |>
+      check_census_tract_id()
+  },
+  regexp = "census_tract_vintage must be")
+
+  expect_error({
+    d_tdr |>
+      dplyr::mutate(census_tract_vintage = c(d_tdr$census_tract_vintage[-1], "2010")) |>
+      check_census_tract_id()
+  },
+  regexp = "census_tract_vintage column must have only one unique value")
 
   expect_error({
     d_tdr |>
@@ -20,7 +52,6 @@ test_that("check for census tract identifier", {
       check_census_tract_id()
   },
   regexp = "does not contain every census tract")
-                   
 })
 
 test_that("check files", {
