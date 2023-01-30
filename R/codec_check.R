@@ -5,6 +5,8 @@
 #' that the CSV data can be read in with accompanying metadata,
 #' and that the data contains a census tract identifier column.
 #' @param .x path to folder containing the tdr
+#' @return tibble with added tabular-data-resource attributes
+#' (equivalent to read_tdr_csv with `codec = TRUE`)
 #' @export
 check_codec_tdr_csv <- function(.x) {
   check_files(.x)
@@ -12,6 +14,7 @@ check_codec_tdr_csv <- function(.x) {
   check_codec_tdr(tdr)
   tdr_d <- read_tdr_csv(.x)
   check_census_tract_id(tdr_d)
+  return(invisible(tdr_d))
 }
 
 #' check CODEC tdr
