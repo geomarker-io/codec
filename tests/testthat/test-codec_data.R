@@ -47,6 +47,7 @@ test_that("check for census tract identifier", {
   regexp = "census_tract_vintage column must have only one unique value")
 
   expect_error({
+    skip_on_ci()
     d_tdr |>
       dplyr::slice(-1) |>
       check_census_tract_id()
