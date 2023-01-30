@@ -9,6 +9,10 @@ check_codec_tdr_csv(.x)
 \arguments{
 \item{.x}{path to folder containing the tdr}
 }
+\value{
+tibble with added tabular-data-resource attributes
+(equivalent to read_tdr_csv with \code{codec = TRUE})
+}
 \description{
 This function will check that the file structure is correct,
 that the metadata can be read using CODEC specifications,

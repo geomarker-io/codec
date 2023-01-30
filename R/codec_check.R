@@ -154,7 +154,7 @@ check_census_tract_id <- function(.x) {
   required_census_tract_ids <-
     parse(text = paste0("cincy::tract_tigris_", census_tract_id_year)) |>
     eval() |>
-    purrr::pluck("census_tract_id")
+    purrr::pluck(glue::glue("census_tract_id_{census_tract_id_year}"))
 
   if (!all(required_census_tract_ids %in% .x[[census_tract_id_name]])) {
     stop("the census tract id column, ",

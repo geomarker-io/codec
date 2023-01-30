@@ -66,9 +66,8 @@ test_that("check tdr name", {
   expect_error(check_tdr_name("census+data"))
 })
 
-test_that("check tdr path", {
-
-  })
+## test_that("check tdr path", {
+##   })
 
 test_that("check census tract id", {
 
@@ -118,7 +117,6 @@ test_that("check census tract id", {
   },
   regexp = "census_tract_vintage column must have only one unique value")
 
-  skip_on_ci()
   expect_error({
     d_tdr |>
       dplyr::slice(-1) |>

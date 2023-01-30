@@ -18,7 +18,7 @@ Suggests:
     roxygen2,
     knitr,
     rmarkdown,
-    cincy,
+    cincy (>= 1.0.0),
     curl
 Remotes:
     geomarker-io/cincy
