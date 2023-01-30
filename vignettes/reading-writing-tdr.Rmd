@@ -45,7 +45,7 @@ d <-
 
 ## Writing a tabular-data-resource to disk
 
-Following our [example](articles/curating-metadata.html), once metadata is set in the tibble's attributes, we can save the tabular data resource as a CSV file with an accompanying tabular-data-resource.yaml:
+Following our [example](curating-metadata.html), once metadata is set in the tibble's attributes, we can save the tabular data resource as a CSV file with an accompanying tabular-data-resource.yaml:
 
 ```{r}
 write_tdr_csv(d)
