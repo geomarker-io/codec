@@ -30,6 +30,9 @@ check_codec_tdr <- function(tdr) {
   # name must be valid
   check_tdr_name(tdr$name)
 
+  # path must be valid
+  check_tdr_path(tdr$path)
+
   # "name" must be identical to filename of "path" (without ".csv")
   if (!tdr$name == fs::path_ext_remove(fs::path_file(tdr$path))) {
     stop("name: ", tdr$name, " does not match ",
@@ -100,8 +103,16 @@ check_tdr_name <- function(name) {
 #' check CODEC tdr path
 #' @keywords internal
 check_tdr_path <- function(path) {
-  # must be posix-style URL or relative file path
-  # must end in .csv
+  # path is a character string
+  if (!is.character(path)) stop("'path' must be character string", call. = FALSE)
+  # path ends with .csv
+  if (! fs::path_ext(path) == "csv") stop("'path' must end with '.csv'", call. = FALSE)
+  # path can be a URL
+  if (is_url(path)) return(invisible(NULL))
+  # if not URL, check for absolute path
+  if (fs::is_absolute_path(path)) stop("'path' must be a relative file path")
+  # posix style path can't be enforced?
+  return(invisible(NULL))
 }
 
 #' Check for census tract id column

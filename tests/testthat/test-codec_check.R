@@ -66,8 +66,27 @@ test_that("check tdr name", {
   expect_error(check_tdr_name("census+data"))
 })
 
-## test_that("check tdr path", {
-##   })
+test_that("check tdr path", {
+
+  expect_silent(check_tdr_path(test_path("hamilton_poverty_2020", "hamilton_poverty_2020.csv")))
+  expect_silent(check_tdr_path(path = "tests/testthat/hamilton_poverty_2020/hamilton_poverty_2020.csv"))
+
+  expect_error(check_tdr_path(path = fs::path_abs(test_path("hamilton_poverty_2020", "hamilton_poverty_2020.csv"))),
+               regexp = "relative file path")
+
+  expect_silent(check_tdr_path(path = "https://example.com/file.csv"))
+
+  expect_error(check_tdr_path(1), regexp = "must be character string")
+
+  expect_error(check_tdr_path(path = "tests/testthat/hamilton_poverty_2020"),
+               regexp = "must end with '.csv'")
+
+  expect_error(check_tdr_path(path = "tests/testthat/hamilton_poverty_2020/hamilton_poverty_2020.csv."),
+               regexp = "must end with '.csv'")
+
+  expect_error(check_tdr_path("https://example.com"),
+               regexp = "must end with '.csv'")
+})
 
 test_that("check census tract id", {
 
