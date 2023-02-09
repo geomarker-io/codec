@@ -84,13 +84,12 @@
 NOT”, and “MAY” in this document are to be interpreted as described in
 <a href="https://tools.ietf.org/html/rfc2119" class="external-link">RFC 2119</a>.</p>
 </blockquote>
-<p>A CODEC tabular-data-resource (or <code>tdr</code>) is designed to
-deal with tabular community-level data; for example:</p>
-<ul>
-<li>pediatric hospitalizations rate per month per census tract</li>
-<li>total number of gunshots per week per neighborhood</li>
-<li>housing code enforcement density per year per ZIP code</li>
-</ul>
+<p>The CODEC tabular-data-resource (or <code>tdr</code>) specification
+provides a set of patterns useful for sharing tabular community-level
+data. Examples of this data include the pediatric hospitalizations rate
+per month per census tract, the total number of gunshots per week per
+neighborhood, and the housing code enforcement density per year per ZIP
+code.</p>
 <p>Each CODEC <code>tdr</code> consists of (1) a single table of <a href="#data">data</a> and (2) its <a href="#metadata">metadata</a>.
 CODEC utilizes metadata specifications for community-level data in an
 effort to make them more interoperable and reusable.</p>
@@ -149,7 +148,7 @@ data MUST be identical to the <code>name</code> <a href="codec-metadata.html#tab
 └── tabular-data-resource.yaml</code></pre>
 <p>Both files MUST be encoded using UTF-8 with newlines encoded as
 either <code>\n</code> or <code>\r\n</code>.</p>
-<p>The data file must follow the <a href="https://www.rfc-editor.org/rfc/rfc4180" class="external-link">RFC 4180</a> standard for
+<p>The data file MUST follow the <a href="https://www.rfc-editor.org/rfc/rfc4180" class="external-link">RFC 4180</a> standard for
 CSV files. In addition:</p>
 <ul>
 <li>the filename MUST end with <code>.csv</code>
