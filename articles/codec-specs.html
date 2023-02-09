@@ -104,19 +104,15 @@ range</strong> columns in a CODEC tabular-data-resource are used to
 specify the “where” and the “when” and importantly, can be used to link
 with other spatiotemporal health information:</p>
 <div class="section level4">
-<h4 id="census-tract-geography">Census Tract Geography<a class="anchor" aria-label="anchor" href="#census-tract-geography"></a>
+<h4 id="census-tract-identifier-column">Census Tract Identifier Column<a class="anchor" aria-label="anchor" href="#census-tract-identifier-column"></a>
 </h4>
 <p>As tabular data that must specify a geography, a CODEC
 tabular-data-resource MUST include a <a href="https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf" class="external-link">census
 tract</a> column named <code>census_tract_id_{year}</code>, where
 <code>{year}</code> is replaced with the decennial vintage of the census
-tract geographies used to create the dataset (e.g.,
-<code>census_tract_id_2010</code> or
-<code>census_tract_id_2020</code>).<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Alternatively, both a &lt;code&gt;census_tract_id&lt;/code&gt;
-&lt;em&gt;and&lt;/em&gt; a &lt;code&gt;census_tract_vintage&lt;/code&gt; column MAY be
-specified, but the &lt;code&gt;census_tract_vintage&lt;/code&gt; column MUST contain
-a unique value of &lt;code&gt;2000&lt;/code&gt;, &lt;code&gt;2010&lt;/code&gt;, or
-&lt;code&gt;2020&lt;/code&gt;.&lt;/p&gt;"><sup>1</sup></a></p>
+tract geographies used to create the dataset (i.e.,
+<code>census_tract_id_2000</code>, <code>census_tract_id_2010</code>, or
+<code>census_tract_id_2020</code>).</p>
 <p>The census tract identifier column MUST contain 11-digit <a href="https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html" class="external-link">GEOID</a>
 identifiers for <em>all</em> census tracts in Hamilton County (GEOID:
 39061). A list of required census tract identifiers for 2000, 2010, and
@@ -351,7 +347,6 @@ describes version 0.4.1.</p>
 </blockquote>
 </div>
 </div>
-
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>
