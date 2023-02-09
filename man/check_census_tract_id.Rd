@@ -16,11 +16,8 @@ check_census_tract_id(.x)
 Errors will be raised if the CODEC tabular data resource does not meet the following requirements:
 \itemize{
 \item data MUST contain a single census tract identifier column titled
-\code{census_tract_id_2000}, \code{census_tract_id_2010}, \code{census_tract_id_2020},
-or \code{census_tract_id}
-\item (if \code{census_tract_id}, then an accompanying \code{census_tract_vintage} column
-containing one distinct year MUST be present)
-\item census tract identifier column MUST contain all census tract identifiers
+\code{census_tract_id_2000}, \code{census_tract_id_2010}, or \code{census_tract_id_2020}.
+\item the census tract identifier column MUST contain all census tract identifiers
 in Hamilton County, OH for the appropriate vintage
 }
 }

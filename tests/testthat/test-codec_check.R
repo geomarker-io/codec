@@ -96,45 +96,24 @@ test_that("check census tract id", {
 
   expect_error({
     d_tdr |>
-      dplyr::select(-census_tract_id) |>
+      dplyr::select(-census_tract_id_2020) |>
       check_census_tract_id()
   },
   regexp = "must contain a census tract id column called")
 
   expect_error({
     d_tdr |>
-      dplyr::mutate(census_tract_id_2010 = census_tract_id) |>
+      dplyr::rename(census_tract_id = census_tract_id_2020) |>
+      check_census_tract_id()
+  },
+  regexp = "must contain a census tract id column called")
+
+  expect_error({
+    d_tdr |>
+      dplyr::mutate(census_tract_id_2010 = census_tract_id_2020) |>
       check_census_tract_id()
   },
   regexp = "must contain only one census tract id column")
-
-  expect_error({
-    d_tdr |>
-      dplyr::select(-census_tract_vintage) |>
-      check_census_tract_id()
-  },
-  regexp = "census_tract_vintage column must exist")
-
-  expect_error({
-    d_tdr |>
-      dplyr::mutate(census_tract_vintage = "2009") |>
-      check_census_tract_id()
-  },
-  regexp = "census_tract_vintage must be")
-
-  expect_error({
-    d_tdr |>
-      dplyr::mutate(census_tract_vintage = 2009) |>
-      check_census_tract_id()
-  },
-  regexp = "census_tract_vintage must be")
-
-  expect_error({
-    d_tdr |>
-      dplyr::mutate(census_tract_vintage = c(d_tdr$census_tract_vintage[-1], "2010")) |>
-      check_census_tract_id()
-  },
-  regexp = "census_tract_vintage column must have only one unique value")
 
   expect_error({
     d_tdr |>

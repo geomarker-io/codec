@@ -119,22 +119,19 @@ check_tdr_path <- function(path) {
 #'
 #' Errors will be raised if the CODEC tabular data resource does not meet the following requirements:
 #' - data MUST contain a single census tract identifier column titled
-#' `census_tract_id_2000`, `census_tract_id_2010`, `census_tract_id_2020`,
-#' or `census_tract_id`
-#' - (if `census_tract_id`, then an accompanying `census_tract_vintage` column
-#' containing one distinct year MUST be present)
-#' - census tract identifier column MUST contain all census tract identifiers
+#' `census_tract_id_2000`, `census_tract_id_2010`, or `census_tract_id_2020`.
+#' - the census tract identifier column MUST contain all census tract identifiers
 #' in Hamilton County, OH for the appropriate vintage
 #'
 #' @param .x a codec tabular-data-resource
 #' @return .x, invisibly
 #' @keywords internal
 check_census_tract_id <- function(.x) {
-  census_tract_id_names <- paste0("census_tract_id", c("", "_2000", "_2010", "_2020"))
+  census_tract_id_names <- paste0("census_tract_id", c("_2000", "_2010", "_2020"))
 
   # has census_tract_id_{year} or census_tract_id column
   if (!any(names(.x) %in% census_tract_id_names)) {
-    stop("must contain a census tract id column called census_tract_id, census_tract_id_2000, census_tract_id_2010, or census_tract_id_2020", call. = FALSE)
+    stop("must contain a census tract id column called census_tract_id_2000, census_tract_id_2010, or census_tract_id_2020", call. = FALSE)
   }
 
   # make sure only one tract column
@@ -144,23 +141,6 @@ check_census_tract_id <- function(.x) {
 
   census_tract_id_name <- census_tract_id_names[census_tract_id_names %in% names(.x)]
   census_tract_id_year <- stringr::str_extract(census_tract_id_name, "[0-9]+")
-
-  # if census_tract_id
-  if (census_tract_id_name == "census_tract_id") {
-    # check for census_tract_vintage column
-    if (!"census_tract_vintage" %in% names(.x)) {
-      stop("if census_tract_id is used as the tract identifer column, a census_tract_vintage column must exist")
-    }
-    census_tract_id_year <- unique(.x$census_tract_vintage)
-    # check that vintage column only has one year value in it
-    if (length(census_tract_id_year) > 1) {
-      stop("the census_tract_vintage column must have only one unique value")
-    }
-    # check that vintage is either 2000, 2010, or 2020
-    if (!as.character(census_tract_id_year) %in% c("2000", "2010", "2020")) {
-      stop("census_tract_vintage must be 2000, 2010, or 2020", call. = FALSE)
-    }
-  }
 
   required_census_tract_ids <-
     parse(text = paste0("cincy::tract_tigris_", census_tract_id_year)) |>
