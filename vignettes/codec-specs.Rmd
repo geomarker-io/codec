@@ -9,11 +9,7 @@ vignette: >
 
 > *Language:* The keywords “MUST”, “MUST NOT”, “SHOULD”, “SHOULD NOT”, and “MAY” in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
-A CODEC tabular-data-resource (or `tdr`) is designed to deal with tabular community-level data; for example:
-
-- pediatric hospitalizations rate per month per census tract
-- total number of gunshots per week per neighborhood
-- housing code enforcement density per year per ZIP code
+The CODEC tabular-data-resource (or `tdr`) specification provides a set of patterns useful for sharing tabular community-level data. Examples of this data include the pediatric hospitalizations rate per month per census tract, the total number of gunshots per week per neighborhood, and the housing code enforcement density per year per ZIP code.
 
 Each CODEC `tdr` consists of (1) a single table of [data](#data) and (2) its [metadata](#metadata). CODEC utilizes metadata specifications for community-level data in an effort to make them more interoperable and reusable.
 
@@ -50,7 +46,7 @@ For example,
 
 Both files MUST be encoded using UTF-8 with newlines encoded as either `\n` or `\r\n`.
 
-The data file must follow the [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) standard for CSV files.  In addition:
+The data file MUST follow the [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) standard for CSV files.  In addition:
 
 - the filename MUST end with `.csv`
 - the first row MUST be a header row, containing the *unique* `name` of each *field*

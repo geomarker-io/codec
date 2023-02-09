@@ -2,20 +2,47 @@
 % Please edit documentation in R/codec_check.R
 \name{check_codec_tdr_csv}
 \alias{check_codec_tdr_csv}
+\alias{check_data}
+\alias{check_census_tract_id}
+\alias{check_files}
+\alias{check_codec_tdr}
+\alias{check_tdr_name}
+\alias{check_tdr_path}
 \title{Check a tabular-data-resource against CODEC specifications}
 \usage{
-check_codec_tdr_csv(.x)
+check_codec_tdr_csv(path)
+
+check_data(tdr)
+
+check_census_tract_id(tdr)
+
+check_files(path)
+
+check_codec_tdr(tdr_md)
+
+check_tdr_name(name)
+
+check_tdr_path(path)
 }
 \arguments{
-\item{.x}{path to folder containing the tdr}
+\item{path}{path to tdr folder}
+
+\item{tdr}{a codec tabular-data-resource}
+
+\item{tdr_md}{a codec tabular-data-resource metadata list object}
+
+\item{name}{the name field from tabular-data-resource.yaml}
 }
 \value{
-tibble with added tabular-data-resource attributes
-(equivalent to read_tdr_csv with \code{codec = TRUE})
+for \code{check_codec_tdr_csv}, a tibble with added
+tabular-data-resource attributes (equivalent to read_tdr_csv with \code{codec = TRUE})
 }
 \description{
-This function will check that the file structure is correct,
+\code{check_codec_tdr_csv()} will use each of these functions to
+check that the file structure is correct,
 that the metadata can be read using CODEC specifications,
 that the CSV data can be read in with accompanying metadata,
 and that the data contains a census tract identifier column.
+For more information on the CODEC specifications, see the
+vignette: \code{vignette("codec-specs", package = "CODECtools")}
 }
