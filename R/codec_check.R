@@ -5,12 +5,11 @@
 #' that the metadata can be read using CODEC specifications,
 #' that the CSV data can be read in with accompanying metadata,
 #' and that the data contains a census tract identifier column.
-#' For more information on the CODEC specifications, see the
-#' vignette: `vignette("codec-specs", package = "CODECtools")`
-#' @param path path to tdr folder
-#' @param name the name field from tabular-data-resource.yaml
+#' See `vignette("codec-specs")` for the CODEC specifications.
 #' @param tdr a codec tabular-data-resource
 #' @param tdr_md a codec tabular-data-resource metadata list object
+#' @param path path to tdr folder
+#' @param name the name field from tabular-data-resource.yaml
 #' @return for `check_codec_tdr_csv`, a tibble with added
 #' tabular-data-resource attributes (equivalent to read_tdr_csv with `codec = TRUE`)
 #' @export

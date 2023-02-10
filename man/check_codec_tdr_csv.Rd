@@ -43,6 +43,5 @@ check that the file structure is correct,
 that the metadata can be read using CODEC specifications,
 that the CSV data can be read in with accompanying metadata,
 and that the data contains a census tract identifier column.
-For more information on the CODEC specifications, see the
-vignette: \code{vignette("codec-specs", package = "CODECtools")}
+See \code{vignette("codec-specs")} for the CODEC specifications.
 }

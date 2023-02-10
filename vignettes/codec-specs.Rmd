@@ -7,8 +7,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-> *Language:* The keywords “MUST”, “MUST NOT”, “SHOULD”, “SHOULD NOT”, and “MAY” in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
-
 The CODEC tabular-data-resource (or `tdr`) specification provides a set of patterns useful for sharing tabular community-level data. Examples of this data include the pediatric hospitalizations rate per month per census tract, the total number of gunshots per week per neighborhood, and the housing code enforcement density per year per ZIP code.
 
 Each CODEC `tdr` consists of (1) a single table of [data](#data) and (2) its [metadata](#metadata). CODEC utilizes metadata specifications for community-level data in an effort to make them more interoperable and reusable.
@@ -97,8 +95,8 @@ version: 1.2.1
 description: measures derived from 5-yr 2019 American Community Survey
 schema:
   fields:
-    census_tract_id:
-      name: census_tract_id
+    census_tract_id_2010:
+      name: census_tract_id_2010
       title: Census Tract
       description: 2010 vintage census tract identifier
       type: string
@@ -109,3 +107,5 @@ schema:
 ```
 
 > CODEC specifications are versioned with {CODECtools}, so this article describes version `r packageVersion("CODECtools")`.
+
+> *Language:* The keywords “MUST”, “MUST NOT”, “SHOULD”, “SHOULD NOT”, and “MAY” in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
