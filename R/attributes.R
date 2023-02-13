@@ -47,21 +47,26 @@ add_col_attrs <- function(.x, var, ...) {
 #' input data frame attributes are preserved
 #' @export
 add_type_attrs <- function(.x) {
-  col_classes <- purrr::map_chr(.x, ~ paste(class(.), collapse = ","))
+  ## col_classes <- purrr::map_chr(.x, ~ paste(class(.), collapse = ","))
+  col_classes <- purrr::map(.x, class)
 
   class_type_cw <- c(
     "character" = "string",
     "Date" = "date",
     "numeric" = "number",
     "factor" = "string",
-    "hms,difftime" = "time",
+    "hms" = "time",
     "integer" = "integer",
     "logical" = "boolean",
-    "POSIXct,POSIXt" = "datetime",
+    "POSIXct" = "datetime",
+    "POSIXt" = "datetime",
     "difftime" = "number"
   )
 
-  col_frictionless_classes <- class_type_cw[col_classes]
+  col_frictionless_classes <-
+    purrr::map(col_classes, ~ which(names(class_type_cw) %in% .)) |>
+    purrr::map(~ class_type_cw[.]) |>
+    purrr::map_chr(unique)
 
   # add enum constraints first so it shows up after type
   out <- .x |>

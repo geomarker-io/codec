@@ -49,4 +49,29 @@ test_that("add_type_attrs() works", {
     attr(classy_attrs$rating, "constraints"),
     list(enum = c("good", "better", "best"))
   )
+
+  # "other" classes for columns are dealt with (e.g., "glue,character")
+  classy_attrs_2 <-
+    classy |>
+    dplyr::mutate(other_id = glue::glue("123_{id}")) |>
+    add_type_attrs() |>
+    add_attrs(
+      name = "classy",
+      title = "The Classiest Data Set",
+      year = "2022",
+      description = "A toy data frame with many different column classes."
+    )
+
+  expect_equal(
+    sapply(classy_attrs_2, attr, "type"),
+    c(
+      id = "string", date = "date",
+      measure = "number", rating = "string",
+      ranking = "integer", awesomeness = "boolean",
+      datetime = "datetime", timesince = "number",
+      other_id = "string"
+    )
+  )
+
+
 })

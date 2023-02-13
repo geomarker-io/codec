@@ -19,7 +19,8 @@ Suggests:
     knitr,
     rmarkdown,
     cincy (>= 1.0.0),
-    curl
+    curl,
+    glue
 Remotes:
     geomarker-io/cincy
 Config/testthat/edition: 3
