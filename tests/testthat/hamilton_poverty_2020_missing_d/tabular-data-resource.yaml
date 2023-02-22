@@ -1,0 +1,24 @@
+profile: tabular-data-resource
+name: hamilton_poverty_2020_missing_d
+path: hamilton_poverty_2020_missing_d.csv
+version: 0.0.1
+title: Hamilton County Poverty Rates in 2020
+schema:
+  fields:
+    census_tract_id_2020:
+      name: census_tract_id_2020
+      title: Census Tract Identifier
+      description: refers to 2020 vintage census tracts identifiers
+      type: string
+    year:
+      name: year
+      title: Year
+      description: The year of the 5-year ACS estimates (e.g., the 2019 ACS covers
+        2015 - 2019)
+      type: integer
+    fraction_poverty:
+      name: fraction_poverty
+      title: Fraction of Households in Poverty
+      description: Fraction of households with income below poverty level within the
+        past 12 months
+      type: number

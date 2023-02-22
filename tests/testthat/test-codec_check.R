@@ -3,8 +3,17 @@ test_that("codec_tdr", {
 })
 
 test_that("check codec_tdr_csv", {
+
   expect_identical(read_tdr_csv(test_path("hamilton_poverty_2020")),
                    check_codec_tdr_csv(test_path("hamilton_poverty_2020")))
+
+  expect_silent(check_codec_tdr_csv(test_path("hamilton_poverty_2020")))
+
+  expect_error(check_codec_tdr_csv(path = test_path("hamilton_poverty_2020_missing_d")),
+               regexp = "fields that are not in the data")
+
+  expect_error(check_codec_tdr_csv(test_path("hamilton_poverty_2020_missing_md")),
+               regexp = "all fields in the data")
 })
 
 test_that("check codec_tdr", {
@@ -121,6 +130,33 @@ test_that("check census tract id", {
       check_census_tract_id()
   },
   regexp = "does not contain every census tract")
+})
+
+test_that("check date", {
+  d_tdr <- read_tdr_csv(test_path("hamilton_poverty_2020"))
+
+  expect_identical(d_tdr, check_date(d_tdr))
+
+  d_tdr |>
+    dplyr::select(-year) |>
+    check_date() |>
+    expect_error(regexp = "contain a 'year' column")
+
+  d_tdr |>
+    dplyr::mutate(year = rnorm(nrow(d_tdr))) |>
+    check_date() |>
+    expect_error(regexp = "contain integer years")
+
+  d_tdr |>
+    dplyr::mutate(month = sample(1:12, nrow(d_tdr), replace = TRUE)) |>
+    check_date() |>
+    expect_silent()
+
+  d_tdr |>
+    dplyr::mutate(month = sample(13:14, nrow(d_tdr), replace = TRUE)) |>
+    check_date() |>
+    expect_error(regexp = "contain integer values 1-12")
+
 })
 
 test_that("check files", {
