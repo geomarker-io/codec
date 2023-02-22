@@ -25,7 +25,7 @@ The census tract identifier column MUST contain 11-digit [GEOID](https://www.cen
 
 A CODEC `tdr` that was *not* created at a census tract level SHOULD link to a URL that contains code and a descriptive README file about how the data was harmonized (e.g., areal interpolation) with census tract geographies.
 
-#### Date Range
+#### Year (and Month) Temporal Column(s)
 
 A CODEC `tdr` MUST include a column called `year` that contains only integers representing the year during which the data was collected (e.g., 2018, 2023). It also MAY contain a `month` column, in which case the unique combination of the `year` and `month` columns represent the calendar month during which the data was collected (e.g., "2023" and "11" together represent November of 2023).
 
