@@ -9,13 +9,11 @@ vignette: >
 
 The CODEC tabular-data-resource (or `tdr`) specification provides a set of patterns useful for sharing tabular community-level data. Examples of this data include the pediatric hospitalizations rate per month per census tract, the total number of gunshots per week per neighborhood, and the housing code enforcement density per year per ZIP code.
 
-Each CODEC `tdr` consists of (1) a single table of [data](#data) and (2) its [metadata](#metadata). CODEC utilizes metadata specifications for community-level data in an effort to make them more interoperable and reusable.
+Each CODEC `tdr` consists of (1) a single table of [data](#data) and (2) its [metadata](#metadata). CODEC utilizes metadata specifications^[*Language:* The keywords “MUST”, “MUST NOT”, “SHOULD”, “SHOULD NOT”, and “MAY” in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).] for community-level data in an effort to make them more interoperable and reusable.
 
 ### Data
 
-Data is specified as average values or total counts for census tract geographies during a specific date range.
-
-The required **census tract geography** and **date range** columns in a CODEC tabular-data-resource are used to specify the "where" and the "when" and importantly, can be used to link with other spatiotemporal health information:
+Data is specified as average values or total counts for census tract geographies during a specific year (or year and month). The required **census tract identifer** and **year** (or *year* and *month*) columns in a CODEC tabular-data-resource can be used to link with other spatiotemporal health information.
 
 #### Census Tract Identifier Column
 
@@ -27,9 +25,7 @@ A CODEC `tdr` that was *not* created at a census tract level SHOULD link to a UR
 
 #### Year (and Month) Temporal Column(s)
 
-A CODEC `tdr` MUST include a column called `year` that contains only integers representing the year during which the data was collected (e.g., 2018, 2023). It also MAY contain a `month` column, in which case the unique combination of the `year` and `month` columns represent the calendar month during which the data was collected (e.g., "2023" and "11" together represent November of 2023).
-
-Year (and month) temporal variables in a CODEC `tdr` MUST be in a "tidy" format so that each row represents one time point of observations. This allows for updating datasets with newer data without changing field metadata.
+Year (and month) temporal variables in a CODEC `tdr` MUST be in a "tidy" format so that each row represents one time point of observations. This allows for updating datasets with newer data without changing field metadata. A CODEC `tdr` MUST include a column called `year` that contains only integers representing the year during which the data was collected (e.g., 2018, 2023). It also MAY contain a `month` column, in which case the unique combination of the `year` and `month` columns represent the calendar month during which the data was collected (e.g., "2023" and "11" together represent November of 2023).
 
 ### File Structure
 
@@ -111,6 +107,20 @@ schema:
       type: number
 ```
 
+The CSV data file for this example CODEC `tdr` would contain values for all vintage 2020 census tracts in Hamilton County, but only the first and last five are shown here:
+
+    year, census_tract_id_2020, fraction_poverty
+    2020, 39061021508, 0.057
+    2020, 39061021421, 0.031
+    2020, 39061023300, 0.030
+    2020, 39061002000, 0.098
+    2020, 39061002500, 0.442
+     ...      ...       ... 
+    2020, 39061021604, 0.259
+    2020, 39061024700, 0.062
+    2020, 39061026102, 0.154
+    2020, 39061023501, 0.046
+    2020, 39061009800, 0.391
+
 > CODEC specifications are versioned with {CODECtools}, so this article describes version `r packageVersion("CODECtools")`.
 
-> *Language:* The keywords “MUST”, “MUST NOT”, “SHOULD”, “SHOULD NOT”, and “MAY” in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
