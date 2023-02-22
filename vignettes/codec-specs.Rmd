@@ -27,8 +27,9 @@ A CODEC `tdr` that was *not* created at a census tract level SHOULD link to a UR
 
 #### Date Range
 
-- data must correspond to a year or month
-- *or* require start_date and end_date and assume value represents temporal average of this time period
+A CODEC `tdr` MUST include a column called `year` that contains only integers representing the year during which the data was collected (e.g., 2018, 2023). It also MAY contain a `month` column, in which case the unique combination of the `year` and `month` columns represent the calendar month during which the data was collected (e.g., "2023" and "11" together represent November of 2023).
+
+Year (and month) temporal variables in a CODEC `tdr` MUST be in a "tidy" format so that each row represents one time point of observations. This allows for updating datasets with newer data without changing field metadata.
 
 ### File Structure
 
@@ -92,7 +93,7 @@ name: tract_poverty
 path: tract_poverty.csv
 title: Fraction of Census Tract Households in Poverty
 version: 1.2.1
-description: measures derived from 5-yr 2019 American Community Survey
+description: measures derived from the 5-year American Community Survey
 schema:
   fields:
     census_tract_id_2010:
@@ -100,6 +101,10 @@ schema:
       title: Census Tract
       description: 2010 vintage census tract identifier
       type: string
+    year:
+      name: year
+      title: Year
+      type: integer
     fraction_poverty:
       name: fraction_poverty
       title: Fraction of Households in Poverty

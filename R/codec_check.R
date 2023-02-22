@@ -1,10 +1,13 @@
 #' Check a tabular-data-resource against CODEC specifications
 #'
 #' `check_codec_tdr_csv()` will use each of these functions to
-#' check that the file structure is correct,
-#' that the metadata can be read using CODEC specifications,
-#' that the CSV data can be read in with accompanying metadata,
-#' and that the data contains a census tract identifier column.
+#' check that
+#' - the file structure is correct
+#' - the metadata can be read using CODEC specifications
+#' - the CSV data can be read in with accompanying metadata
+#' - the data contains a census tract identifier column
+#' - the data contains a year (or year and month) column(s)
+#' - all fields in the CSV data are described in the metadata and vice-versa
 #' See `vignette("codec-specs")` for the CODEC specifications.
 #' @param tdr a codec tabular-data-resource
 #' @param tdr_md a codec tabular-data-resource metadata list object
@@ -17,8 +20,18 @@ check_codec_tdr_csv <- function(path) {
   check_files(path)
   tdr <- read_tdr(path)$tdr
   check_codec_tdr(tdr)
+
+  md_fields <- names(tdr$schema$fields)
+  d_fields <- names(readr::read_csv(read_tdr(path)$csv_file, n_max = 0, show_col_types = FALSE))
+  if(! all(d_fields %in% md_fields)) {
+    stop("the metadata does not describe all fields in the data", call. = FALSE)
+  }
+  if(! all(md_fields %in% d_fields)) {
+    stop("the metadata describes fields that are not in the data", call. = FALSE)
+  }
+
   tdr_d <- read_tdr_csv(path)
-  check_census_tract_id(tdr_d)
+  check_data(tdr_d)
   return(invisible(tdr_d))
 }
 
@@ -26,7 +39,7 @@ check_codec_tdr_csv <- function(path) {
 #' @rdname check_codec_tdr_csv
 check_data <- function(tdr) {
   check_census_tract_id(tdr)
-  # check_date(.x)
+  check_date(tdr)
 }
 
 #' Check census tract id column
@@ -65,7 +78,25 @@ check_census_tract_id <- function(tdr) {
 }
 
 #' Check date
-#' TODO
+#' @rdname check_codec_tdr_csv
+check_date <- function(tdr) {
+
+  if (! "year" %in% names(tdr)) {
+    stop("must contain a 'year' column", call. = FALSE)
+  }
+
+  years <- unique(tdr$year)
+  if (! identical(years, as.integer(years))) {
+    stop("the 'year' field must only contain integer years", call. = FALSE)
+  }
+
+  if ("month" %in% names(tdr)) {
+    if (! all(tdr$month %in% 1:12)) {
+      stop("the 'month' field  must only contain integer values 1-12", call. = FALSE)
+    }
+  }
+  return(invisible(tdr))
+}
 
 #' Check files
 #' @rdname check_codec_tdr_csv
