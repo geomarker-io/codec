@@ -86,17 +86,20 @@ per month per census tract, the total number of gunshots per week per
 neighborhood, and the housing code enforcement density per year per ZIP
 code.</p>
 <p>Each CODEC <code>tdr</code> consists of (1) a single table of <a href="#data">data</a> and (2) its <a href="#metadata">metadata</a>.
-CODEC utilizes metadata specifications for community-level data in an
-effort to make them more interoperable and reusable.</p>
+CODEC utilizes metadata specifications<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;em&gt;Language:&lt;/em&gt; The keywords “MUST”, “MUST NOT”,
+“SHOULD”, “SHOULD NOT”, and “MAY” in this document are to be interpreted
+as described in &lt;a href="https://tools.ietf.org/html/rfc2119" class="external-link"&gt;RFC
+2119&lt;/a&gt;.&lt;/p&gt;'><sup>1</sup></a> for community-level
+data in an effort to make them more interoperable and reusable.</p>
 <div class="section level3">
 <h3 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
 </h3>
 <p>Data is specified as average values or total counts for census tract
-geographies during a specific date range.</p>
-<p>The required <strong>census tract geography</strong> and <strong>date
-range</strong> columns in a CODEC tabular-data-resource are used to
-specify the “where” and the “when” and importantly, can be used to link
-with other spatiotemporal health information:</p>
+geographies during a specific year (or year and month). The required
+<strong>census tract identifer</strong> and <strong>year</strong> (or
+<em>year</em> and <em>month</em>) columns in a CODEC
+tabular-data-resource can be used to link with other spatiotemporal
+health information.</p>
 <div class="section level4">
 <h4 id="census-tract-identifier-column">Census Tract Identifier Column<a class="anchor" aria-label="anchor" href="#census-tract-identifier-column"></a>
 </h4>
@@ -118,14 +121,18 @@ README file about how the data was harmonized (e.g., areal
 interpolation) with census tract geographies.</p>
 </div>
 <div class="section level4">
-<h4 id="date-range">Date Range<a class="anchor" aria-label="anchor" href="#date-range"></a>
+<h4 id="year-and-month-temporal-columns">Year (and Month) Temporal Column(s)<a class="anchor" aria-label="anchor" href="#year-and-month-temporal-columns"></a>
 </h4>
-<ul>
-<li>data must correspond to a year or month</li>
-<li>
-<em>or</em> require start_date and end_date and assume value
-represents temporal average of this time period</li>
-</ul>
+<p>Year (and month) temporal variables in a CODEC <code>tdr</code> MUST
+be in a “tidy” format so that each row represents one time point of
+observations. This allows for updating datasets with newer data without
+changing field metadata. A CODEC <code>tdr</code> MUST include a column
+called <code>year</code> that contains only integers representing the
+year during which the data was collected (e.g., 2018, 2023). It also MAY
+contain a <code>month</code> column, in which case the unique
+combination of the <code>year</code> and <code>month</code> columns
+represent the calendar month during which the data was collected (e.g.,
+“2023” and “11” together represent November of 2023).</p>
 </div>
 </div>
 <div class="section level3">
@@ -323,7 +330,7 @@ metadata and vice-versa.</strong></p>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">path</span><span class="kw">:</span><span class="at"> tract_poverty.csv</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> Fraction of Census Tract Households in Poverty</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">version</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.2.1</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">description</span><span class="kw">:</span><span class="at"> measures derived from 5-yr 2019 American Community Survey</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">description</span><span class="kw">:</span><span class="at"> measures derived from the 5-year American Community Survey</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">schema</span><span class="kw">:</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">fields</span><span class="kw">:</span></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">census_tract_id_2010</span><span class="kw">:</span></span>
@@ -331,21 +338,36 @@ metadata and vice-versa.</strong></p>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">title</span><span class="kw">:</span><span class="at"> Census Tract</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">description</span><span class="kw">:</span><span class="at"> 2010 vintage census tract identifier</span></span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">type</span><span class="kw">:</span><span class="at"> string</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">fraction_poverty</span><span class="kw">:</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">name</span><span class="kw">:</span><span class="at"> fraction_poverty</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">title</span><span class="kw">:</span><span class="at"> Fraction of Households in Poverty</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">type</span><span class="kw">:</span><span class="at"> number</span></span></code></pre></div>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">year</span><span class="kw">:</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">name</span><span class="kw">:</span><span class="at"> year</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">title</span><span class="kw">:</span><span class="at"> Year</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">type</span><span class="kw">:</span><span class="at"> integer</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">fraction_poverty</span><span class="kw">:</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">name</span><span class="kw">:</span><span class="at"> fraction_poverty</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">title</span><span class="kw">:</span><span class="at"> Fraction of Households in Poverty</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">type</span><span class="kw">:</span><span class="at"> number</span></span></code></pre></div>
+<p>The CSV data file for this example CODEC <code>tdr</code> would
+contain values for all vintage 2020 census tracts in Hamilton County,
+but only the first and last five are shown here:</p>
+<pre><code>year, census_tract_id_2020, fraction_poverty
+2020, 39061021508, 0.057
+2020, 39061021421, 0.031
+2020, 39061023300, 0.030
+2020, 39061002000, 0.098
+2020, 39061002500, 0.442
+ ...      ...       ... 
+2020, 39061021604, 0.259
+2020, 39061024700, 0.062
+2020, 39061026102, 0.154
+2020, 39061023501, 0.046
+2020, 39061009800, 0.391</code></pre>
 <blockquote>
 <p>CODEC specifications are versioned with {CODECtools}, so this article
 describes version 0.4.1.</p>
 </blockquote>
-<blockquote>
-<p><em>Language:</em> The keywords “MUST”, “MUST NOT”, “SHOULD”, “SHOULD
-NOT”, and “MAY” in this document are to be interpreted as described in
-<a href="https://tools.ietf.org/html/rfc2119" class="external-link">RFC 2119</a>.</p>
-</blockquote>
 </div>
 </div>
+
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>
