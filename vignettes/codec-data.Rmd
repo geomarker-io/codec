@@ -1,0 +1,21 @@
+---
+title: "CODEC data catalog"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{CODEC data catalog}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(CODECtools)
+```
+
+[hamilton_traffic]("fs::path(fs::path_package("CODECtools"), "hamilton_traffic.html")")

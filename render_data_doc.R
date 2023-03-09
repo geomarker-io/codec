@@ -2,7 +2,8 @@
 
 render_data_doc = function(data_name, data_version) {
   rmarkdown::render(
-    "data_doc_template.Rmd", params = list(
+    fs::path(fs::path_package("CODECtools"), "data_doc_template.Rmd"),
+    params = list(
       data_name = data_name,
       data_version = data_version
     ),
