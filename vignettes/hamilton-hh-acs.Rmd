@@ -54,8 +54,7 @@ d_2021 <-
   sf::st_as_sf() |>
   cincy::interpolate(to = cincy::tract_tigris_2010, weights = "pop") |>
   sf::st_drop_geometry() |>
-  dplyr::mutate(across(where(is.numeric), ~round(.x, 3))) |>
-  dplyr::rename(census_tract_id_2010 = census_tract_id)
+  dplyr::mutate(across(where(is.numeric), ~round(.x, 3)))
 
 d <- dplyr::bind_rows(d_2010, d_2020, d_2021)
 
