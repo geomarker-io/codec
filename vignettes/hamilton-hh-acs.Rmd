@@ -105,7 +105,7 @@ library(sf)
 
 d <- dplyr::left_join(d, 
                       cincy::tract_tigris_2010, 
-                      by = c("census_tract_id_2010" = "census_tract_id")) |>
+                      by = "census_tract_id_2010") |>
   st_as_sf()
 
 m <- mapview::mapview(d, zcol = colnames(d)[2:(ncol(d)-1)]) 
