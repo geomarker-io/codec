@@ -1,0 +1,117 @@
+---
+title: "Hamilton County Harmonized Historical ACS Measures"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Hamilton County Harmonized Historical ACS Measures}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(CODECtools)
+library(knitr)
+library(sf)
+options(knitr.kable.NA = '')
+mapview::mapviewOptions(leafletWidth = 850)
+```
+
+```{r, include = FALSE}
+d <- read_tdr_csv(glue::glue("https://github.com/geomarker-io/hh_acs_measures/releases/download/v1.0.0")) |>
+  dplyr::filter(substr(census_tract_id, 1, 5) == "39061") |>
+  dplyr::select(-census_tract_vintage) |>
+  dplyr::rename(census_tract_id_2010 = census_tract_id) |>
+  add_col_attrs(census_tract_id_2010,
+                name = "census_tract_id_2010",
+                title = "Census Tract Identifier")
+
+# write tdr to keep schema
+write_tdr_csv(d, dir = "tmp")
+
+d_2010 <-
+  d |>
+  dplyr::filter(year %in% 2010:2019)
+
+d_2020 <-
+  d |>
+  dplyr::filter(year == 2020) |>
+  dplyr::left_join(cincy::tract_tigris_2020, by = c("census_tract_id_2010" = "census_tract_id")) |>
+  sf::st_as_sf() |>
+  cincy::interpolate(to = cincy::tract_tigris_2010, weights = "pop") |>
+  sf::st_drop_geometry() |>
+  dplyr::mutate(across(where(is.numeric), ~round(.x, 3))) |>
+  dplyr::rename(census_tract_id_2010 = census_tract_id)
+
+d_2021 <-
+  d |>
+  dplyr::filter(year == 2021) |>
+  dplyr::left_join(cincy::tract_tigris_2020, by = c("census_tract_id_2010" = "census_tract_id")) |>
+  sf::st_as_sf() |>
+  cincy::interpolate(to = cincy::tract_tigris_2010, weights = "pop") |>
+  sf::st_drop_geometry() |>
+  dplyr::mutate(across(where(is.numeric), ~round(.x, 3))) |>
+  dplyr::rename(census_tract_id_2010 = census_tract_id)
+
+d <- dplyr::bind_rows(d_2010, d_2020, d_2021)
+
+# glimpse_tdr(d)
+
+readr::write_csv(d, "tmp/hh_acs_measures/hh_acs_measures.csv")
+
+d <- read_tdr_csv("tmp/hh_acs_measures")
+glimpse_tdr(d)
+
+check_codec_tdr_csv("tmp/hh_acs_measures")
+fs::dir_delete("tmp")
+write_tdr_csv(d, "codec_data/")
+```
+
+**last updated:** `r gh::gh(glue::glue("/repos/geomarker-io/{glimpse_attr(d)$value[glimpse_attr(d)$name == 'name']}/releases"))[[1]]$created_at`
+
+### Attributes
+
+```{r, echo = FALSE}
+glimpse_attr(d) |>
+  knitr::kable()
+```
+
+### Schema
+
+```{r, echo = FALSE}
+glimpse_schema(d) |>
+  knitr::kable()
+```
+
+### Data
+
+```{r, echo = FALSE}
+DT::datatable(d, 
+              extensions = 'Buttons', 
+              options = list(
+                dom = 'Bfrtip',
+                buttons = 'csv', 
+                scrollX = TRUE)
+)
+```
+
+### Map
+
+```{r, echo = FALSE, message = FALSE}
+library(sf)
+
+d <- dplyr::left_join(d, 
+                      cincy::tract_tigris_2010, 
+                      by = c("census_tract_id_2010" = "census_tract_id")) |>
+  st_as_sf()
+
+m <- mapview::mapview(d, zcol = colnames(d)[2:(ncol(d)-1)]) 
+
+m@map |>
+  leaflet::hideGroup(colnames(d)[3:(ncol(d)-1)])
+```
+
+

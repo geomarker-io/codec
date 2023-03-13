@@ -6,6 +6,19 @@ template:
     bg: "#FFFFFF"
     fg: "#072B67"
     primary: "#C2326B"
+navbar:
+ components:
+   articles:
+    text: Articles
+    menu:
+    - text: CODEC data catalog
+      href: articles/codec-data.html
+    - text: CODEC tabular-data-resource specifications
+      href: articles/codec-specs.html
+    - text: Curating metadata for tabular data in R using attributes
+      href: articles/curating-metadata.html
+    - text: Reading and writing tabular data resources
+      href: articles/reading-writing-tdr.html
 reference:
 - title: Read and write tabular-data-resources to/from disk or the web
   contents:

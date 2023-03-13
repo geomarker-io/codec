@@ -1,0 +1,80 @@
+---
+title: "Hamilton County Census Tract-Level Neighborhood Indices"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Hamilton County Census Tract-Level Neighborhood Indices}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(CODECtools)
+library(knitr)
+options(knitr.kable.NA = '')
+mapview::mapviewOptions(leafletWidth = 850)
+```
+
+```{r, include = FALSE}
+d <- read_tdr_csv(glue::glue("https://github.com/geomarker-io/tract_indices/releases/download/v0.3.0")) |>
+  dplyr::filter(substr(census_tract_id, 1, 5) == "39061") |>
+  dplyr::rename(census_tract_id_2010 = census_tract_id) |>
+  dplyr::mutate(year = as.integer(2019)) |>
+  add_col_attrs(year, name = "year", title = "Year", description = "data year") |>
+  add_type_attrs()
+
+write_tdr_csv(d, dir = "tmp")
+check_codec_tdr_csv(fs::dir_ls("tmp"))
+fs::dir_delete("tmp")
+write_tdr_csv(d, "codec_data/")
+```
+
+**last updated:** `r gh::gh(glue::glue("/repos/geomarker-io/{glimpse_attr(d)$value[glimpse_attr(d)$name == 'name']}/releases"))[[1]]$created_at`
+
+### Attributes
+
+```{r, echo = FALSE}
+glimpse_attr(d) |>
+  knitr::kable()
+```
+
+### Schema
+
+```{r, echo = FALSE}
+glimpse_schema(d) |>
+  knitr::kable()
+```
+
+### Data
+
+```{r, echo = FALSE}
+DT::datatable(d, 
+              extensions = 'Buttons', 
+              options = list(
+                dom = 'Bfrtip',
+                buttons = 'csv', 
+                scrollX = TRUE)
+)
+```
+
+### Map
+
+```{r, echo = FALSE, message = FALSE}
+library(sf)
+
+d <- dplyr::left_join(d, 
+                      cincy::tract_tigris_2010, 
+                      by = c("census_tract_id_2010" = "census_tract_id")) |>
+  st_as_sf()
+
+m <- mapview::mapview(d, zcol = colnames(d)[2:(ncol(d)-1)]) 
+
+m@map |>
+  leaflet::hideGroup(colnames(d)[3:(ncol(d)-1)])
+```
+
+

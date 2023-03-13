@@ -7,15 +7,21 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
 
-```{r setup}
 library(CODECtools)
 ```
 
-[hamilton_traffic]("inst/hamilton_traffic.html")
+[hamilton_landcover](hamilton-landcover.html)
+
+[hamilton_traffic](hamilton-traffic.html)
+
+[hamilton_drivetime](hamilton-drivetime.html)
+
+[tract_indices](hamilton-tract-indices.html)
+
+[hh_acs_measures](hamilton-hh-acs.html)
