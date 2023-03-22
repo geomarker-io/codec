@@ -13,11 +13,18 @@ The **Co**mmunity **D**ata **E**xplorer for **C**incinnati (CoDEC) is a data rep
 
 Data about the communities in which we live come in different spatiotemporal resolutions and extents and often are not designed with the specific goal of integrating with other data. CoDEC defines specifications for community-level data in an effort to make them more FAIR.^[Findable, Accessible, Interoperable, and Reusable: https://doi.org/10.1038/sdata.2016.18] Operating with a common data specification means that organizations can more easily use methods and tools for harmonizing, storing, accessing, and *sharing* community-level data. This data can be described, curated, and checked against CoDEC specifications using the {CoDECtools} R package. Using these tools, a collection of extant community-level data resources is automatically transformed into a harmonized, community-level tabular data package that is openly available and accompanied by a (1) a richly-documented data catalog, (2) a web-based interface for exploring and learning from data, and (3) an API for accessing data at scale and on demand.
 
-Like its [namesake](https://en.wikipedia.org/wiki/Codec), CoDEC encodes data streams about the communities in which we live into a common format so that it can be decoded into different community-level geographies:
+Like its [namesake](https://en.wikipedia.org/wiki/Codec), CoDEC encodes data streams about the communities in which we live into a common format so that it can be decoded into different community-level geographies and different time frames. CoDEC relies on the {[cincy](https://geomarker.io/cincy/index.html)} R package to define Cincinnati-area [geographies](https://geomarker.io/cincy/articles/geographies.html) and [interpolate](https://geomarker.io/cincy/articles/interpolate.html) area-level data between census tracts, neighborhoods, and ZIP codes in different years.
 
-Cool figure about codec here... (include example outputs of data at zipcodes in 2010, census tracts in 2020, neighborhood, etc...)
+. . . CoDEC interpolation figure here . . .
 
 We have initialized CoDEC with extant community-level data from ... (hh_acs_measures, etc) ... .
+
+## Equitable Data
+
+Denice Ross, the U.S. Chief Data Scientist, has declared that "open data is necessary and *not* sufficient to drive the type of action that we need to create a more equitable society."^[https://www.fedscoop.com/us-chief-data-scientist-interview/]  Open data can fall short of driving action if it is not equitable. Disaggregating data by sensitive attributes, like race and ethnicity, can elucidate inequities that would otherwise remain hidden.^[https://doi.org/10.1377/forefront.20220323.555023 ]
+
+The White House's Equitable Data Working Group^[https://www.whitehouse.gov/briefing-room/statements-releases/2022/04/22/fact-sheet-biden-harris-administration-releases-recommendations-for-advancing-use-of-equitable-data/] has defined equitable data as "those that allow for rigorous assessment of the extent to which government programs and policies yield consistently fair, just, and impartial treatment of all individuals."
+They advise that equitable data should "illuminate opportunities for targeted actions that will result in demonstrably improved outcomes for underserved communities." The group recommended to make disaggregated data the norm while being "... intentional about when data are collected and shared, as well as how data are protected so as not to exacerbate the vulnerability of members of underserved communities, many of whom face the heightened risk of harm if their privacy is not protected." 
 
 ## Community-Level, Disaggregated, & Equitable Data
 
@@ -32,15 +39,7 @@ This saves time and resources, leading to increased efficiency and accelerated i
 A single point for data consumption provides ownership of the process of harmonizing data and integrates well with data governance, but most importantly, can provide data to be consumed in multiple ways (e.g. dashboard, tabular data file, API).
 Creating and maintaining an open community-level data resource equips the entire community for data-powered decision making *and* boosts organizational trustworthiness. Demonstrating reliability and capability of appropriately managing shared data helps earn the trust of organizations and communities intended to be served.^[The [TRUST Principles for digital repositories](https://doi.org/10.1038/s41597-020-0486-7) (Transparency, Responsibility, User Focus, Sustainability, Technology) provide a framework to demonstrate digital repository trustworthiness.]
 
-### Equitable Data
-
-Denice Ross, the U.S. Chief Data Scientist, has declared that "open data is necessary and *not* sufficient to drive the type of action that we need to create a more equitable society."^[https://www.fedscoop.com/us-chief-data-scientist-interview/]  Open data can fall short of driving action if it is not equitable. Disaggregating data by sensitive attributes, like race and ethnicity, can elucidate inequities that we be otherwised obscured.^[https://doi.org/10.1377/forefront.20220323.555023 ]
-
-The White House's Equitable Data Working Group^[https://www.whitehouse.gov/briefing-room/statements-releases/2022/04/22/fact-sheet-biden-harris-administration-releases-recommendations-for-advancing-use-of-equitable-data/] has defined equitable data as "those that allow for rigorous assessment of the extent to which government programs and policies yield consistently fair, just, and impartial treatment of all individuals."
-They advise that equitable data should "illuminate opportunities for targeted actions that will result in demonstrably improved outcomes for underserved communities."
-
-The group recommended to make disaggregated data the norm while protecting privacy.
-Although one of their three priority uses for equitable data is to generate disaggregated statistical estimates to characterize experiences of historically underserved groups, they caution that we "... must be intentional about when data are collected and shared, as well as how data are protected so as not to exacerbate the vulnerability of members of underserved communities, many of whom face the heightened risk of harm if their privacy is not protected." 
+. . . Figure of balance between "scientific utility" and "security and privacy" (all pivoting on "equitable access") . . .
 
 ## Frictionless Standards
 
@@ -51,3 +50,5 @@ Developed by the [Open Knowledge Foundation](https://okfn.org/), the [frictionle
 - [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/) = Data Resource + Table Schema
 - [CSV dialect](https://specs.frictionlessdata.io/csv-dialect/): describes the formatting specific to the various dialects of CSV files
 - [Data Package](https://specs.frictionlessdata.io/data-package/) & [Tabular Data Package](https://specs.frictionlessdata.io/tabular-data-package/): describes a *collection* of tabular files providing data resource information from above along with general information about the package itself, a license, authors, and other metadata
+
+See [CODEC tabular-data-resource specifications](codec-specs.html) to read more about the CoDEC specifications for data, metadata, and file structure.
