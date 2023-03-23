@@ -20,7 +20,10 @@ mapview::mapviewOptions(leafletWidth = 850)
 ```
 
 ```{r, include = FALSE}
-d <- read_tdr_csv(glue::glue("https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0")) |>
+name <- "hamilton_landcover"
+version <- gh::gh(glue::glue("/repos/geomarker-io/{name}/releases"))[[1]]$tag
+
+d <- read_tdr_csv(glue::glue("https://github.com/geomarker-io/{name}/releases/download/{version}/")) |>
   dplyr::rename(census_tract_id_2010 = census_tract_id) |>
   dplyr::mutate(year = as.integer(2019)) |>
   add_col_attrs(year, name = "year", title = "Year", description = "data year") |>
@@ -32,7 +35,7 @@ fs::dir_delete("tmp")
 write_tdr_csv(d, "codec_data/")
 ```
 
-**last updated:** `r gh::gh(glue::glue("/repos/geomarker-io/{glimpse_attr(d)$value[glimpse_attr(d)$name == 'name']}/releases"))[[1]]$created_at`
+**last updated:** `r gh::gh(glue::glue("/repos/geomarker-io/{name}/releases"))[[1]]$created_at`
 
 ### Attributes
 

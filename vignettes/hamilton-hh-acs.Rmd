@@ -21,7 +21,10 @@ mapview::mapviewOptions(leafletWidth = 850)
 ```
 
 ```{r, include = FALSE}
-d <- read_tdr_csv(glue::glue("https://github.com/geomarker-io/hh_acs_measures/releases/download/v1.0.0")) |>
+name <- "hh_acs_measures"
+version <- gh::gh(glue::glue("/repos/geomarker-io/{name}/releases"))[[1]]$tag
+
+d <- read_tdr_csv(glue::glue("https://github.com/geomarker-io/{name}/releases/download/{version}")) |>
   dplyr::filter(substr(census_tract_id, 1, 5) == "39061") |>
   dplyr::select(-census_tract_vintage) |>
   dplyr::rename(census_tract_id_2010 = census_tract_id) |>
@@ -70,7 +73,7 @@ fs::dir_delete("tmp")
 write_tdr_csv(d, "codec_data/")
 ```
 
-**last updated:** `r gh::gh(glue::glue("/repos/geomarker-io/{glimpse_attr(d)$value[glimpse_attr(d)$name == 'name']}/releases"))[[1]]$created_at`
+**last updated:** `r gh::gh(glue::glue("/repos/geomarker-io/{name}/releases"))[[1]]$created_at`
 
 ### Attributes
 
@@ -106,12 +109,13 @@ library(sf)
 d <- dplyr::left_join(d, 
                       cincy::tract_tigris_2010, 
                       by = "census_tract_id_2010") |>
-  st_as_sf()
+  st_as_sf() |>
+  dplyr::filter(year == max(unique(d$year)))
 
-m <- mapview::mapview(d, zcol = colnames(d)[2:(ncol(d)-1)]) 
+m <- mapview::mapview(d, zcol = colnames(d)[3:(ncol(d)-1)]) 
 
 m@map |>
-  leaflet::hideGroup(colnames(d)[3:(ncol(d)-1)])
+  leaflet::hideGroup(colnames(d)[4:(ncol(d)-1)])
 ```
 
 
