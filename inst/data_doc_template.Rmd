@@ -24,6 +24,7 @@ d <- read_tdr_csv(glue::glue("https://github.com/geomarker-io/{name}/releases/do
 ### Attributes
 
 ```{r, echo = FALSE}
+attr(d, which = "version") <- glue::glue("[{attr(d, which = 'version')}](https://github.com/geomarker-io/{name}/releases)")
 glimpse_attr(d) |>
   knitr::kable()
 ```

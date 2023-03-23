@@ -39,6 +39,7 @@ write_tdr_csv(d, "codec_data/")
 ### Attributes
 
 ```{r, echo = FALSE}
+attr(d, which = "version") <- glue::glue("[{attr(d, which = 'version')}](https://github.com/geomarker-io/{name}/releases)")
 glimpse_attr(d) |>
   knitr::kable()
 ```
