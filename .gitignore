@@ -9,3 +9,5 @@ docs
 inst/doc
 /tests/testthat/codec-data/
 /vignettes/codec-metadata_files/
+/doc/
+/Meta/

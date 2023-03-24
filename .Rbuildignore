@@ -8,3 +8,5 @@
 ^\.github$
 codec.png
 codec_metadata.mmd
+^doc$
+^Meta$

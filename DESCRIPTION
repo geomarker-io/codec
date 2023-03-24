@@ -20,7 +20,12 @@ Suggests:
     rmarkdown,
     cincy (>= 1.0.0),
     curl,
-    glue
+    glue, 
+    mapview,
+    gh,
+    DT,
+    sf,
+    leaflet
 Remotes:
     geomarker-io/cincy
 Config/testthat/edition: 3

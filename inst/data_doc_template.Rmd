@@ -1,0 +1,66 @@
+---
+title: "`r glimpse_attr(d)$value[glimpse_attr(d)$name == 'title']`"
+output: 
+  html_document:
+    toc: true
+    toc_float: 
+      collapsed: false
+---
+
+```{r, echo = FALSE}
+library(CODECtools)
+library(knitr)
+options(knitr.kable.NA = '')
+mapview::mapviewOptions(leafletWidth = 850)
+
+name <- "hamilton_property_code_enforcement" # change this
+version <- gh::gh(glue::glue("/repos/geomarker-io/{name}/releases"))[[1]]$tag
+
+d <- read_tdr_csv(glue::glue("https://github.com/geomarker-io/{name}/releases/download/{version}/"))
+```
+
+**last updated:** `r gh::gh(glue::glue("/repos/geomarker-io/{name}/releases"))[[1]]$created_at`
+
+### Attributes
+
+```{r, echo = FALSE}
+attr(d, which = "version") <- glue::glue("[{attr(d, which = 'version')}](https://github.com/geomarker-io/{name}/releases)")
+glimpse_attr(d) |>
+  knitr::kable()
+```
+
+### Schema
+
+```{r, echo = FALSE}
+glimpse_schema(d) |>
+  knitr::kable()
+```
+
+### Data
+
+```{r, echo = FALSE}
+DT::datatable(d, 
+              extensions = 'Buttons', 
+              options = list(
+                dom = 'Bfrtip',
+                buttons = 'csv', 
+                scrollX = TRUE)
+)
+```
+
+### Map
+
+```{r, echo = FALSE, message = FALSE}
+library(sf)
+
+d <- dplyr::left_join(d, 
+                      cincy::tract_tigris_2010, 
+                      by = c("census_tract_id_2010" = "census_tract_id")) |>
+  st_as_sf()
+
+m <- mapview::mapview(d, zcol = colnames(d)[2:(ncol(d)-1)]) 
+
+m@map |>
+  leaflet::hideGroup(colnames(d)[3:(ncol(d)-1)])
+```
+
