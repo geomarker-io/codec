@@ -1,0 +1,41 @@
+flowchart TB
+
+classDef I fill:#E49865,stroke:#333,stroke-width:0px;
+classDef II fill:#EACEC5,stroke:#333,stroke-width:0px;
+classDef III fill:#CBD6D5,stroke:#333,stroke-width:0px;
+classDef IIII fill:#8CB4C3,stroke:#333,stroke-width:0px;
+classDef V fill:#396175,color:#F6EAD8,stroke:#333,stroke-width:0px;
+
+subgraph source-box [data sources]
+    org(community \norganization):::I
+    jfs(government \n organization):::I
+    cchmc("healthcare \n organization"):::I
+    acs("built, natural, and \n social environment"):::I
+end
+class source-box II
+
+stage(collection of community-\nlevel data):::I
+
+org --> |"data \n support"| stage
+jfs --> |decentralized \n geocoding| stage
+cchmc --> |spatiotemporal \n aggregation| stage
+acs --> |automatic \n interpolation| stage
+stage --> codec-box
+
+subgraph codec-box ["Community Data Explorer for Cincinnati (CoDEC)"]
+    ingest("(meta)data harmonization"):::IIII
+    data(community-level \n tabular data resource):::IIII
+    data-catalog("interactive data catalog\n geomarker.io/codec/data"):::IIII
+    ingest --> data
+    data --> data-catalog
+    data --> api(data API):::IIII
+    api --> bindings(R package \n for accessing data):::IIII
+    data-catalog --> download(explore, map, download):::V
+end
+
+class codec-box III
+
+bindings --> dashboard("dashboards and reports"):::V
+bindings --> qr(QI & research):::V
+bindings --> shiny-codec("Shiny CoDEC"):::V
+api ---> anywhere(public access):::V

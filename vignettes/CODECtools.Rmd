@@ -7,17 +7,24 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-## What is CoDEC?
-
-The **Co**mmunity **D**ata **E**xplorer for **C**incinnati (CoDEC) is a data repository composed of equitable, community-level data for Cincinnati, Ohio.
+The **Co**mmunity **D**ata **E**xplorer for **C**incinnati (**CoDEC**) is a data repository composed of equitable, community-level data for Cincinnati, Ohio.
 
 Data about the communities in which we live come in different spatiotemporal resolutions and extents and often are not designed with the specific goal of integrating with other data. CoDEC defines specifications for community-level data in an effort to make them more FAIR.^[Findable, Accessible, Interoperable, and Reusable: https://doi.org/10.1038/sdata.2016.18] Operating with a common data specification means that organizations can more easily use methods and tools for harmonizing, storing, accessing, and *sharing* community-level data. This data can be described, curated, and checked against CoDEC specifications using the {CoDECtools} R package. Using these tools, a collection of extant community-level data resources is automatically transformed into a harmonized, community-level tabular data package that is openly available and accompanied by a (1) a richly-documented data catalog, (2) a web-based interface for exploring and learning from data, and (3) an API for accessing data at scale and on demand.
+
+![](codec_overview.png)
 
 Like its [namesake](https://en.wikipedia.org/wiki/Codec), CoDEC encodes data streams about the communities in which we live into a common format so that it can be decoded into different community-level geographies and different time frames. CoDEC relies on the {[cincy](https://geomarker.io/cincy/index.html)} R package to define Cincinnati-area [geographies](https://geomarker.io/cincy/articles/geographies.html) and [interpolate](https://geomarker.io/cincy/articles/interpolate.html) area-level data between census tracts, neighborhoods, and ZIP codes in different years.
 
 . . . CoDEC interpolation figure here . . .
 
-We have initialized CoDEC with extant community-level data from ... (hh_acs_measures, etc) ... .
+We have initialized CoDEC with extant community-level data from:
+
+- [Census Tract-Level Neighborhood Indices](https://github.com/geomarker-io/tract_indices)
+- [Harmonized Historical American Community Survey Measures](https://github.com/geomarker-io/hh_acs_measures)
+- [Hamilton County Property Code Enforcement](https://github.com/geomarker-io/hamilton_property_code_enforcement)
+- [Hamilton County Drive Time to CCHMC](https://github.com/geomarker-io/hamilton_drivetime)
+- [Hamilton County Land Cover and Built Environment](https://github.com/geomarker-io/hamilton_landcover)
+- [Hamilton County Parcel and Household Traffic](https://github.com/geomarker-io/hamilton_traffic)
 
 ## Equitable Data
 
@@ -29,7 +36,7 @@ They advise that equitable data should "illuminate opportunities for targeted ac
 ## Community-Level, Disaggregated, & Equitable Data
 
 Data are people and when sharing data, privacy is a spectrum of the tradeoffs between risks and benefits to individuals and populations.^[https://doi.org/10.1371/journal.pcbi.1005399] 
-Data collected at the individual-level by one organization often cannot be shared with another organization due to legal restrictions or organization-specific data governance policies. 
+Data collected at the individual-level by one organization often cannot be shared with another organization due to legal restrictions or organization-specific data governance policies. ^[https://sharing.nih.gov/data-management-and-sharing-policy/protecting-participant-privacy-when-sharing-scientific-data/principles-and-best-practices-for-protecting-participant-privacy]
 We are often interested in community-level (e.g. neighborhood, census tract, ZIP code) data disaggregated by gender, race, or other sensitive attributes.
 Achieving data harmonization upstream of storage allows for contribution of disaggregated, community-level data without disclosing individual-level data when sharing
 across organizations.
