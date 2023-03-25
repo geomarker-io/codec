@@ -20,7 +20,7 @@ Suggests:
     rmarkdown,
     cincy (>= 1.0.0),
     curl,
-    glue, 
+    glue,
     mapview,
     gh,
     DT,
@@ -44,3 +44,6 @@ Imports:
     tibble,
     yaml
 VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)
+LazyData: true
