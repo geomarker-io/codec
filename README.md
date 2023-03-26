@@ -10,8 +10,7 @@ The goal of CODECtools is to support CODEC data infrastructure through:
 - curating metadata for tabular data in R: `vignette("curating-metadata")`
 - reading and writing tabular-data-resources: `vignette("reading-writing-tdr")`
 - defining the CODEC tabular-data-resource specifications: `vignette("codec-specs")`
-- providing tools to check and contribute CODEC tabular-data-resources
-- creating an online CODEC data catalog
+- providing tools to check CODEC tabular-data-resources and create an interactive data catalog: `vignette("data")`
 
 ## Installation
 

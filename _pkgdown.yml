@@ -4,19 +4,24 @@ template:
   theme: atom-one-light
   bslib:
     bg: "#FFFFFF"
-    fg: "#072B67"
-    primary: "#C2326B"
+    fg: "#396175"
+    primary: "#8CB4C3"
 navbar:
- components:
+  structure:
+    left:  [intro, data, specs, articles, reference]
+  components:
+   intro:
+     text: Intro
+     href: articles/codec-intro.html
+   data:
+     text: Data
+     href: articles/codec-data.html
+   specs:
+     text: Specifications
+     href: articles/codec-specs.html
    articles:
     text: Articles
     menu:
-    - text: Intro to CoDEC
-      href: articles/codec-intro.html
-    - text: CODEC data catalog
-      href: articles/codec-data.html
-    - text: CODEC tabular-data-resource specifications
-      href: articles/codec-specs.html
     - text: Curating metadata for tabular data in R using attributes
       href: articles/curating-metadata.html
     - text: Reading and writing tabular data resources
