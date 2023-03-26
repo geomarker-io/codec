@@ -7,10 +7,7 @@
     <loc>http://geomarker.io/CODECtools/LICENSE.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/CODECtools/articles/CODECtools.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/CODECtools/articles/codec-data.html</loc>
+    <loc>http://geomarker.io/CODECtools/articles/codec-intro.html</loc>
   </url>
   <url>
     <loc>http://geomarker.io/CODECtools/articles/codec-specs.html</loc>
@@ -19,22 +16,7 @@
     <loc>http://geomarker.io/CODECtools/articles/curating-metadata.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/CODECtools/articles/hamilton-drivetime.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/CODECtools/articles/hamilton-hh-acs.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/CODECtools/articles/hamilton-landcover.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/CODECtools/articles/hamilton-property.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/CODECtools/articles/hamilton-tract-indices.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/CODECtools/articles/hamilton-traffic.html</loc>
+    <loc>http://geomarker.io/CODECtools/articles/data.html</loc>
   </url>
   <url>
     <loc>http://geomarker.io/CODECtools/articles/index.html</loc>

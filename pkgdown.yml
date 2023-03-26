@@ -2,18 +2,12 @@ pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
-  CODECtools: CODECtools.html
-  codec-data: codec-data.html
+  codec-intro: codec-intro.html
   codec-specs: codec-specs.html
   curating-metadata: curating-metadata.html
-  hamilton-drivetime: hamilton-drivetime.html
-  hamilton-hh-acs: hamilton-hh-acs.html
-  hamilton-landcover: hamilton-landcover.html
-  hamilton-property: hamilton-property.html
-  hamilton-tract-indices: hamilton-tract-indices.html
-  hamilton-traffic: hamilton-traffic.html
+  data: data.html
   reading-writing-tdr: reading-writing-tdr.html
-last_built: 2023-03-24T21:28Z
+last_built: 2023-03-26T02:33Z
 urls:
   reference: http://geomarker.io/CODECtools/reference
   article: http://geomarker.io/CODECtools/articles
