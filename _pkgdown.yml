@@ -11,6 +11,8 @@ navbar:
    articles:
     text: Articles
     menu:
+    - text: Intro to CoDEC
+      href: articles/codec-intro.html
     - text: CODEC data catalog
       href: articles/codec-data.html
     - text: CODEC tabular-data-resource specifications

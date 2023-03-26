@@ -1,0 +1,40 @@
+---
+title: "CODEC data catalog"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{CODEC data catalog}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+{CODECtools} comes with R scripts to generate a collection of "core" tabular-data-resources.  Source each of these to create an instance of `codec_data` in the current working directory:
+
+```{r eval = FALSE}
+library(CODECtools)
+
+fs::path_package("CODECtools") |>
+  fs::dir_ls(glob = "*codec_*.R") |>
+  purrr::walk(callr::rscript, .progress = interactive())
+```
+
+Code like this could be used to create an data catalog:
+
+```{r results = "asis", eval = FALSE}
+codec_glimpses <-
+  fs::path_package("CODECtools") |>
+  fs::path("codec_data") |>
+  fs::dir_ls(glob = "*tabular-data-resource.yaml", recurse = TRUE) |>
+  purrr::map(read_tdr_csv) |>
+  purrr::map(glimpse_tdr)
+
+make_md <- function(.x) {
+  cat("## ", .x$attributes[.x$attributes$name == 'title', 'value'][[1]], "\n\n")
+  cat("### Attributes \n\n")
+  cat(knitr::kable(.x$attributes), sep = "\n")
+  cat("\n\n ### Schema \n\n")
+  cat(knitr::kable(.x$schema), sep = "\n")
+  cat("\n\n", sep = "")
+}
+
+purrr::walk(codec_glimpses, make_md)
+```

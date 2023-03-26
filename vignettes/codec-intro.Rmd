@@ -1,8 +1,8 @@
 ---
-title: "CODECtools"
+title: "Introduction to CoDEC"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{CODECtools}
+  %\VignetteIndexEntry{Introduction to CoDEC}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

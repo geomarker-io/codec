@@ -25,7 +25,8 @@ Suggests:
     gh,
     DT,
     sf,
-    leaflet
+    leaflet,
+    callr
 Remotes:
     geomarker-io/cincy
 Config/testthat/edition: 3
