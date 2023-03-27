@@ -1,0 +1,141 @@
+---
+title: "Make CoDEC Figure"
+output: html_document
+date: "2023-03-24"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(tidyverse)
+library(sf)
+library(CODECtools)
+library(s3)
+library(qs)
+```
+
+```{r}
+hc <- cincy::county_7cc_2010 |> 
+  filter(county_name == "Hamilton") |>
+  st_transform(3735)
+fs::dir_create("figs")
+```
+
+# Point and Exact Date
+
+```{r}
+point <- readRDS("property_code_enforcement.rds") |>
+  filter(ENTERED_DATE > "2022-11-30") |> # filter to one month to prevent over-plotting
+  st_as_sf(coords = c("LONGITUDE", "LATITUDE"), crs = 4326) |>
+  st_transform(3735) |>
+  group_by(address) |>
+  tally() 
+
+ggplot() + 
+  geom_sf(data = hc) +
+  geom_sf(data = st_jitter(point, factor = 0.01), 
+          aes(color = n), 
+          alpha = 0.5,
+          show.legend = FALSE) +
+  ggthemes::theme_map() 
+ggsave("figs/property_point.svg")
+```
+
+```{r}
+prop_code <- read_tdr_csv("https://github.com/geomarker-io/hamilton_property_code_enforcement/releases/download/0.1.0/")
+
+prop_code <- prop_code |>
+  left_join(cincy::tract_tigris_2020, by = "census_tract_id_2020") |>
+  st_as_sf() |>
+  st_transform(3735)
+
+ggplot() +
+  geom_sf(data = prop_code, 
+          aes(fill = violations_per_household)) +
+  ggthemes::theme_map() +
+  theme(legend.position = "none")
+ggsave("figs/property_tract.svg")
+```
+
+# Lines
+
+```{r}
+hc_bbox <- st_bbox(hc) |> 
+  st_as_sfc() |>
+  st_buffer(dist = 10000, nQuadSegs = 4, endCapStyle = "SQUARE")
+
+lines_files <- s3::s3_get_files(c("s3://geomarker/aadt/aadt_by_state/ohio2017.qs", 
+                                  "s3://geomarker/aadt/aadt_by_state/indiana2017.qs",
+                                  "s3://geomarker/aadt/aadt_by_state/kentucky2017.qs")) 
+
+lines <- purrr::map(lines_files$file_path, qs::qread) |>
+  dplyr::bind_rows() |>
+  st_transform(3735)
+
+lines_box <- st_intersection(lines, hc_bbox) |>
+  mutate(aadt = as.numeric(aadt))
+
+ggplot() + 
+  geom_sf(data = hc) +
+  geom_sf(data = hc_bbox, alpha = 0, color = "white") +
+  geom_sf(data = lines_box |> filter(aadt > 0), 
+          aes(color = log(aadt)), 
+          show.legend = FALSE) +
+  scale_color_gradient(low = "#fee0d2", high = "#cb181d") +
+  ggthemes::theme_map() 
+ggsave("figs/aadt_lines.svg")
+```
+
+```{r}
+traffic <- read_tdr_csv("https://github.com/geomarker-io/hamilton_traffic/releases/download/v0.1.0/")
+
+traffic <- traffic |>
+  left_join(cincy::tract_tigris_2010, by = c("census_tract_id" = "census_tract_id_2010")) |>
+  st_as_sf() |>
+  st_transform(3735)
+
+ggplot() +
+  geom_sf(data = traffic, 
+          aes(fill = frac_households_near_traffic)) +
+  scale_fill_gradient(low = "#fee0d2", high = "#cb181d") +
+  ggthemes::theme_map() + 
+  theme(legend.position = "none")
+ggsave("figs/aadt_tract.svg")
+```
+
+# Raster
+
+```{r}
+download.file("https://github.com/geomarker-io/hamilton_landcover/raw/main/rasters/evi_hc_2018.tif", 
+              destfile = "evi.tif")
+
+evi <- raster::raster("evi.tif") |>
+  raster::projectRaster(crs = 3735) |>
+  raster::rasterToPoints() |>
+  as.data.frame()
+
+ggplot() + 
+  # geom_sf(data = hc_bbox, alpha = 0, color = "white") +
+  geom_raster(data = evi, aes(x = x, y = y, fill = evi_June_2018_5072)) +
+  geom_sf(data = hc, alpha = 0, color = "white", show.legend = FALSE, linewidth = 0.5) +
+  # scale_size_identity() +
+  scale_fill_gradient(low = "#e5f5e0", high = "#005a32") +
+  ggthemes::theme_map() +
+  theme(legend.position = "none")
+ggsave("figs/evi_raster.svg")
+```
+```{r}
+ham_evi <- read_tdr_csv("https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0/")
+
+ham_evi <- ham_evi |>
+  left_join(cincy::tract_tigris_2010, by = c("census_tract_id" = "census_tract_id_2010")) |>
+  st_as_sf() |>
+  st_transform(3735)
+
+ggplot() +
+  geom_sf(data = ham_evi, 
+          aes(fill = evi_2018)) +
+  scale_fill_gradient(low = "#e5f5e0", high = "#005a32") +
+  ggthemes::theme_map() + 
+  theme(legend.position = "none")
+ggsave("figs/evi_tract.svg")
+```
