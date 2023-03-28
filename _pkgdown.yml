@@ -49,3 +49,6 @@ reference:
   contents:
   - codec_tdr
   - check_codec_tdr_csv
+- title: CODEC user interface
+  contents:
+  - codec_colors
