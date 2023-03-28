@@ -12,3 +12,7 @@ codec_colors(n = NULL)
 \description{
 CoDEC colors
 }
+\examples{
+plot(1:8, rep(1, 8), col = codec_colors(1:8), pch = 19, cex = 10, axes = FALSE, xlab = "", ylab = "")
+text(1:8, rep(1.1, 8), labels = names(codec_colors()))
+}
