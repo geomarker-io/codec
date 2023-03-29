@@ -36,7 +36,8 @@ ggplot() +
           aes(color = n), 
           alpha = 0.5,
           show.legend = FALSE) +
-  ggthemes::theme_map() 
+  ggthemes::theme_map() +
+  ggspatial::annotation_scale(plot_unit = "ft", location = 'bl')
 ggsave("figs/property_point.svg")
 ```
 
