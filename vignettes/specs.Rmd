@@ -1,35 +1,35 @@
 ---
-title: "CODEC tabular-data-resource specifications"
+title: "CoDEC tabular-data-resource specifications"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{CODEC tabular-data-resource specifications}
+  %\VignetteIndexEntry{CoDEC tabular-data-resource specifications}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-The CODEC tabular-data-resource (or `tdr`) specification provides a set of patterns useful for sharing tabular community-level data. Examples of this data include the pediatric hospitalizations rate per month per census tract, the total number of gunshots per week per neighborhood, and the housing code enforcement density per year per ZIP code.
+The CoDEC tabular-data-resource (or `tdr`) specification provides a set of patterns useful for sharing tabular community-level data. Examples of this data include the pediatric hospitalizations rate per month per census tract, the total number of gunshots per week per neighborhood, and the housing code enforcement density per year per ZIP code.
 
-Each CODEC `tdr` consists of (1) a single table of [data](#data) and (2) its [metadata](#metadata). CODEC utilizes metadata specifications^[*Language:* The keywords “MUST”, “MUST NOT”, “SHOULD”, “SHOULD NOT”, and “MAY” in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).] for community-level data in an effort to make them more interoperable and reusable.
+Each CoDEC `tdr` consists of (1) a single table of [data](#data) and (2) its [metadata](#metadata). CoDEC utilizes metadata specifications^[*Language:* The keywords “MUST”, “MUST NOT”, “SHOULD”, “SHOULD NOT”, and “MAY” in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).] for community-level data in an effort to make them more interoperable and reusable.
 
 ### Data
 
-Data is specified as average values or total counts for census tract geographies during a specific year (or year and month). The required **census tract identifer** and **year** (or *year* and *month*) columns in a CODEC tabular-data-resource can be used to link with other spatiotemporal health information.
+Data is specified as average values or total counts for census tract geographies during a specific year (or year and month). The required **census tract identifer** and **year** (or *year* and *month*) columns in a CoDEC tabular-data-resource can be used to link with other spatiotemporal health information.
 
 #### Census Tract Identifier Column
 
-As tabular data that must specify a geography, a CODEC tabular-data-resource MUST include a [census tract](https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf) column named `census_tract_id_{year}`, where `{year}` is replaced with the decennial vintage of the census tract geographies used to create the dataset (i.e., `census_tract_id_2000`, `census_tract_id_2010`, or `census_tract_id_2020`).
+As tabular data that must specify a geography, a CoDEC tabular-data-resource MUST include a [census tract](https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf) column named `census_tract_id_{year}`, where `{year}` is replaced with the decennial vintage of the census tract geographies used to create the dataset (i.e., `census_tract_id_2000`, `census_tract_id_2010`, or `census_tract_id_2020`).
 
 The census tract identifier column MUST contain 11-digit [GEOID](https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html) identifiers for *all* census tracts in Hamilton County (GEOID: 39061). A list of required census tract identifiers for 2000, 2010, and 2020 are available in the {{[cincy](https://github.com/geomarker-io/cincy)}} R package (e.g., `cincy::tract_tigris_2010`).
 
-A CODEC `tdr` that was *not* created at a census tract level SHOULD link to a URL that contains code and a descriptive README file about how the data was harmonized (e.g., areal interpolation) with census tract geographies.
+A CoDEC `tdr` that was *not* created at a census tract level SHOULD link to a URL that contains code and a descriptive README file about how the data was harmonized (e.g., areal interpolation) with census tract geographies.
 
 #### Year (and Month) Temporal Column(s)
 
-Year (and month) temporal variables in a CODEC `tdr` MUST be in a "tidy" format so that each row represents one time point of observations. This allows for updating datasets with newer data without changing field metadata. A CODEC `tdr` MUST include a column called `year` that contains only integers representing the year during which the data was collected (e.g., 2018, 2023). It also MAY contain a `month` column, in which case the unique combination of the `year` and `month` columns represent the calendar month during which the data was collected (e.g., "2023" and "11" together represent November of 2023).
+Year (and month) temporal variables in a CoDEC `tdr` MUST be in a "tidy" format so that each row represents one time point of observations. This allows for updating datasets with newer data without changing field metadata. A CoDEC `tdr` MUST include a column called `year` that contains only integers representing the year during which the data was collected (e.g., 2018, 2023). It also MAY contain a `month` column, in which case the unique combination of the `year` and `month` columns represent the calendar month during which the data was collected (e.g., "2023" and "11" together represent November of 2023).
 
 ### File Structure
 
-A CODEC `tabular-data-resource` (i.e., `tdr`) consists of a directory that MUST contain exactly one data (`.csv`) file and exactly one metadata file (`tabular-data-resource.yaml`).
+A CoDEC `tabular-data-resource` (i.e., `tdr`) consists of a directory that MUST contain exactly one data (`.csv`) file and exactly one metadata file (`tabular-data-resource.yaml`).
 
 The name of the directory and the name of the CSV file containing the data MUST be identical to the `name` [*property*](codec-metadata.html#tabular-data-resource-metadata).
 
@@ -53,11 +53,11 @@ The metadata file MUST be a [YAML](https://yaml.org/) file named `tabular-data-r
 
 Metadata is information *about* data, but does not contain the data itself. For example, a CSV file cannot tell R (or other software) anything about itself including general information like its name, title, description, or homepage, as well as details on each column, including names, titles, types, formats, and constraints. 
 
-The metadata of a CODEC tabular-data-resource is represented as a hierarchical list in a specific format.  On disk, this metadata is stored separately from the data as a `tabular-data-resource.yaml` file and in R, it is stored in the attributes of a data.frame.
+The metadata of a CoDEC tabular-data-resource is represented as a hierarchical list in a specific format.  On disk, this metadata is stored separately from the data as a `tabular-data-resource.yaml` file and in R, it is stored in the attributes of a data.frame.
 
-The CODEC specifications are based on the [Frictionless](https://frictionlessdata.io/) [Data Resource](https://specs.frictionlessdata.io/data-resource/), [Table Schema](https://specs.frictionlessdata.io/table-schema/), and [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/) standards.
+The CoDEC specifications are based on the [Frictionless](https://frictionlessdata.io/) [Data Resource](https://specs.frictionlessdata.io/data-resource/), [Table Schema](https://specs.frictionlessdata.io/table-schema/), and [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/) standards.
 
-The metadata of a CODEC tabular-data-resource is hierarchically composed of different **descriptors** :
+The metadata of a CoDEC tabular-data-resource is hierarchically composed of different **descriptors** :
 
 ![](codec_metadata.png)
 
@@ -67,10 +67,10 @@ The metadata of a CODEC tabular-data-resource is hierarchically composed of diff
 
 - **fields** (or ["field descriptors"](https://specs.frictionlessdata.io/table-schema/#field-descriptors)) is a special *schema descriptor* list of each of the *fields* in a tabular-data-resource, each with different *descriptors* containing *field*-specific information.
 
-A CODEC tabular-data-resource MUST contain `name` and `path` descriptors. All other properties, schema, and fields MAY be present, but MUST be one of:
+A CoDEC tabular-data-resource MUST contain `name` and `path` descriptors. All other properties, schema, and fields MAY be present, but MUST be one of:
 
 ```{r as.is = T, echo = F}
-CODECtools::codec_tdr() |>
+CoDEC::codec_tdr() |>
   purrr::map(tibble::enframe) |>
   tibble::enframe(name = "type", value = "data") |>
   dplyr::rowwise(type) |>
@@ -82,7 +82,7 @@ CODECtools::codec_tdr() |>
 
 #### Example
 
-An example CODEC tabular-data-resource looks like:
+An example CoDEC tabular-data-resource looks like:
 
 ```yaml
 name: tract_poverty
@@ -107,7 +107,7 @@ schema:
       type: number
 ```
 
-The CSV data file for this example CODEC `tdr` would contain values for all vintage 2020 census tracts in Hamilton County, but only the first and last five are shown here:
+The CSV data file for this example CoDEC `tdr` would contain values for all vintage 2020 census tracts in Hamilton County, but only the first and last five are shown here:
 
     year, census_tract_id_2020, fraction_poverty
     2020, 39061021508, 0.057
@@ -122,5 +122,5 @@ The CSV data file for this example CODEC `tdr` would contain values for all vint
     2020, 39061023501, 0.046
     2020, 39061009800, 0.391
 
-> CODEC specifications are versioned with {CODECtools}, so this article describes version `r packageVersion("CODECtools")`.
+> CoDEC specifications are versioned with {CoDEC}, so this article describes version `r packageVersion("CoDEC")`.
 

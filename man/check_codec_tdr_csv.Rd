@@ -9,7 +9,7 @@
 \alias{check_codec_tdr}
 \alias{check_tdr_name}
 \alias{check_tdr_path}
-\title{Check a tabular-data-resource against CODEC specifications}
+\title{Check a tabular-data-resource against CoDEC specifications}
 \usage{
 check_codec_tdr_csv(path)
 
@@ -45,11 +45,11 @@ tabular-data-resource attributes (equivalent to read_tdr_csv with \code{codec = 
 check that
 \itemize{
 \item the file structure is correct
-\item the metadata can be read using CODEC specifications
+\item the metadata can be read using CoDEC specifications
 \item the CSV data can be read in with accompanying metadata
 \item the data contains a census tract identifier column
 \item the data contains a year (or year and month) column(s)
 \item all fields in the CSV data are described in the metadata and vice-versa
-See \code{vignette("codec-specs")} for the CODEC specifications.
+See \code{vignette("codec-specs")} for the CoDEC specifications.
 }
 }

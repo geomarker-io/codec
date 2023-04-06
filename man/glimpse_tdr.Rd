@@ -2,7 +2,7 @@
 % Please edit documentation in R/tdr.R
 \name{glimpse_tdr}
 \alias{glimpse_tdr}
-\title{glimpse CODEC tdr
+\title{glimpse CoDEC tdr
 This can be used instead of separately calling \code{glimpse_attr()} and \code{glimpse_schema()}}
 \usage{
 glimpse_tdr(.x, codec = TRUE)
@@ -10,12 +10,12 @@ glimpse_tdr(.x, codec = TRUE)
 \arguments{
 \item{.x}{data frame or tibble}
 
-\item{codec}{logical; include only CODEC properties? (see \code{?codec_tdr} for details)}
+\item{codec}{logical; include only CoDEC properties? (see \code{?codec_tdr} for details)}
 }
 \value{
 a named list of tibbles for attributes and schema
 }
 \description{
-glimpse CODEC tdr
+glimpse CoDEC tdr
 This can be used instead of separately calling \code{glimpse_attr()} and \code{glimpse_schema()}
 }

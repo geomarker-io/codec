@@ -10,7 +10,7 @@ codec_tdr()
 a list of named character vectors, one for each of "property", "schema", and "fields"
 }
 \description{
-Defines the list of names (and descriptions) of valid CODEC \emph{property}, \emph{schema}, and \emph{fields} descriptors
+Defines the list of names (and descriptions) of valid CoDEC \emph{property}, \emph{schema}, and \emph{fields} descriptors
 }
 \examples{
 codec_tdr()$property

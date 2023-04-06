@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r}
-library(CODECtools)
+library(CoDEC)
 ```
 
 ```{r, include = FALSE}
@@ -32,7 +32,7 @@ d <-
     name = "mydata",
     title = "My Data",
     version = "0.1.0",
-    homepage = "https://geomarker.io/CODECtools"
+    homepage = "https://geomarker.io/CoDEC"
   ) |>
   add_col_attrs(id, title = "Identifier", description = "unique identifier") |>
   add_col_attrs(date, title = "Date", description = "date of observation") |>
@@ -98,7 +98,7 @@ fs::dir_delete("mydata")
 This would return a different `csv_file` if the tabular-data-resource had been specified using an absolute file path:
 
 ```{r eval = FALSE}
-read_tdr("~/code/CODECtools/tests/testthat/d") |>
+read_tdr("~/code/CoDEC/tests/testthat/d") |>
   str(2)
 ```
 

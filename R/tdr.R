@@ -1,7 +1,7 @@
 #' make a tabular-data-resource list from the attributes of a data.frame
 #'
 #' @param .x a data.frame or tibble
-#' @param codec logical; use only CODEC properties?
+#' @param codec logical; use only CoDEC properties?
 #' @return a list of tabular-data-resource metadata
 make_tdr_from_attr <- function(.x, codec = TRUE) {
   desc <- attributes(.x)
@@ -26,7 +26,7 @@ make_tdr_from_attr <- function(.x, codec = TRUE) {
 #'
 #' @param .x a data.frame or tibble
 #' @param tdr a tabular-data-resource list (usually created with `yaml::read_yaml` or `make_tdr_from_attr()`)
-#' @param codec logical; use only CODEC properties?
+#' @param codec logical; use only CoDEC properties?
 #' @return .x with added tabular-data-resource attributes
 #' @export
 add_attr_from_tdr <- function(.x, tdr, codec = TRUE) {
@@ -52,7 +52,7 @@ add_attr_from_tdr <- function(.x, tdr, codec = TRUE) {
 
 #' glimpse attributes of a data.frame
 #' @param .x data frame or tibble
-#' @param codec logical; include only CODEC properties? (see `?codec_tdr` for details)
+#' @param codec logical; include only CoDEC properties? (see `?codec_tdr` for details)
 #' @return a tibble with `name` and `value` columns of attributes
 #' @details values are collapsed using `,`
 #' @export
@@ -68,7 +68,7 @@ glimpse_attr <- function(.x, codec = TRUE) {
     dplyr::ungroup()
 }
 
-#' glimpse CODEC schema
+#' glimpse CoDEC schema
 #' @param .x data frame or tibble
 #' @return a tibble with attributes for each column in `.x`
 #' @details constraints are collapsed using `,`
@@ -93,10 +93,10 @@ glimpse_schema <- function(.x) {
   return(flds)
 }
 
-#' glimpse CODEC tdr
+#' glimpse CoDEC tdr
 #' This can be used instead of separately calling `glimpse_attr()` and `glimpse_schema()`
 #' @param .x data frame or tibble
-#' @param codec logical; include only CODEC properties? (see `?codec_tdr` for details)
+#' @param codec logical; include only CoDEC properties? (see `?codec_tdr` for details)
 #' @return a named list of tibbles for attributes and schema
 #' @export
 glimpse_tdr <- function(.x, codec = TRUE) {
@@ -107,13 +107,13 @@ glimpse_tdr <- function(.x, codec = TRUE) {
 ## make_metadata_md <- function(.x, file_name = "metadata.md") {
 ##   options(knitr.kable.NA = "")
 ##   cat("#### Metadata\n\n", file = file_name, append = FALSE)
-##   CODECtools::glimpse_attr(d) |>
+##   CoDEC::glimpse_attr(d) |>
 ##     knitr::kable() |>
 ##     cat(file = file_name, sep = "\n", append = TRUE)
 ##   cat("\n#### Schema\n\n", file = file_name, append = TRUE)
 ##   d |>
 ##     dplyr::select(-ends_with("moe")) |>
-##     CODECtools::glimpse_schema() |>
+##     CoDEC::glimpse_schema() |>
 ##     knitr::kable() |>
 ##     cat(file = file_name, sep = "\n", append = TRUE)
 ## }

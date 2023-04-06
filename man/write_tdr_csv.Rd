@@ -11,7 +11,7 @@ write_tdr_csv(.x, dir = getwd(), codec = TRUE)
 
 \item{dir}{path to directory where tdr will be created; see details}
 
-\item{codec}{logical; use only CODEC properties?}
+\item{codec}{logical; use only CoDEC properties?}
 }
 \value{
 .x, invisibly

@@ -1,6 +1,6 @@
 #' codec_tdr
 #'
-#' Defines the list of names (and descriptions) of valid CODEC *property*, *schema*, and *fields* descriptors
+#' Defines the list of names (and descriptions) of valid CoDEC *property*, *schema*, and *fields* descriptors
 #' @return a list of named character vectors, one for each of "property", "schema", and "fields"
 #' @examples
 #' codec_tdr()$property

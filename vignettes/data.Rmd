@@ -1,18 +1,18 @@
 ---
-title: "CODEC data catalog"
+title: "Data Catalog"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{CODEC data catalog}
+  %\VignetteIndexEntry{Data Catalog}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-{CODECtools} comes with R scripts to generate a collection of "core" tabular-data-resources.  Source each of these to create an instance of `codec_data` in the current working directory:
+{CoDEC} comes with R scripts to generate a collection of "core" tabular-data-resources.  Source each of these to create an instance of `codec_data` in the current working directory:
 
 ```{r eval = FALSE}
-library(CODECtools)
+library(CoDEC)
 
-fs::path_package("CODECtools") |>
+fs::path_package("CoDEC") |>
   fs::dir_ls(glob = "*codec_*.R") |>
   purrr::walk(callr::rscript, .progress = interactive())
 ```
@@ -21,7 +21,7 @@ Code like this could be used to create an data catalog:
 
 ```{r results = "asis", eval = FALSE}
 codec_glimpses <-
-  fs::path_package("CODECtools") |>
+  fs::path_package("CoDEC") |>
   fs::path("codec_data") |>
   fs::dir_ls(glob = "*tabular-data-resource.yaml", recurse = TRUE) |>
   purrr::map(read_tdr_csv) |>

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tdr.R
 \name{glimpse_schema}
 \alias{glimpse_schema}
-\title{glimpse CODEC schema}
+\title{glimpse CoDEC schema}
 \usage{
 glimpse_schema(.x)
 }
@@ -13,7 +13,7 @@ glimpse_schema(.x)
 a tibble with attributes for each column in \code{.x}
 }
 \description{
-glimpse CODEC schema
+glimpse CoDEC schema
 }
 \details{
 constraints are collapsed using \verb{,}

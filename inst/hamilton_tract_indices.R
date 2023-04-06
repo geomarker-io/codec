@@ -1,4 +1,4 @@
-library(CODECtools)
+library(CoDEC)
 name <- "tract_indices"
 version <- "v0.3.0"
 

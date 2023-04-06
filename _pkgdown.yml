@@ -1,33 +1,32 @@
-url: http://geomarker.io/CODECtools/
+url: http://geomarker.io/codec
+home:
 template:
   bootstrap: 5
-  theme: atom-one-light
   bslib:
     bg: "#FFFFFF"
     fg: "#396175"
     primary: "#C28273"
+    border-radius: 0.5rem
+    btn-border-radius: 0.25rem
 navbar:
   structure:
-    left:  [intro, data, specs, articles, reference]
+    left:  [data, specs, articles, reference]
   components:
-   intro:
-     text: Intro
-     href: articles/codec-intro.html
    data:
      text: Data
-     href: articles/codec-data.html
+     href: articles/data.html
    specs:
      text: Specifications
-     href: articles/codec-specs.html
+     href: articles/specs.html
    articles:
     text: Articles
     menu:
-    - text: Frictionless Standards
-      href: articles/frictionless-standards.html
-    - text: Curating metadata for tabular data in R using attributes
-      href: articles/curating-metadata.html
     - text: Reading and writing tabular data resources
       href: articles/reading-writing-tdr.html
+    - text: Curating metadata for tabular data in R using attributes
+      href: articles/curating-metadata.html
+    - text: Frictionless Standards
+      href: articles/frictionless.html
 reference:
 - title: Read and write tabular-data-resources to/from disk or the web
   contents:
@@ -47,10 +46,10 @@ reference:
   - glimpse_attr
   - glimpse_schema
   - glimpse_tdr
-- title: CODEC tabular-data-resource specifications
+- title: CoDEC tabular-data-resource specifications
   contents:
   - codec_tdr
   - check_codec_tdr_csv
-- title: CODEC user interface
+- title: CoDEC user interface
   contents:
   - codec_colors
