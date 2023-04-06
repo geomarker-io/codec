@@ -10,7 +10,7 @@ read_tdr_csv(tdr_file, codec = TRUE, ...)
 \item{tdr_file}{path or url to a \code{tabular-data-resource.yaml} file
 (or a directory containing a \code{tabular-data-resource.yaml} file)}
 
-\item{codec}{logical; use only CODEC properties?}
+\item{codec}{logical; use only CoDEC properties?}
 
 \item{...}{additional options passed onto \code{readr::read_csv()}}
 }

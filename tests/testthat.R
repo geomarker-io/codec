@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(CODECtools)
+library(CoDEC)
 
-test_check("CODECtools")
+test_check("CoDEC")

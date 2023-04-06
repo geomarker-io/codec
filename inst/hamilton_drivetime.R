@@ -1,4 +1,4 @@
-library(CODECtools)
+library(CoDEC)
 name <- "hamilton_drivetime"
 version <- "v0.1.0"
 

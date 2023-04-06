@@ -17,4 +17,4 @@ Developed by the [Open Knowledge Foundation](https://okfn.org/), the [frictionle
 - [CSV dialect](https://specs.frictionlessdata.io/csv-dialect/): describes the formatting specific to the various dialects of CSV files
 - [Data Package](https://specs.frictionlessdata.io/data-package/) & [Tabular Data Package](https://specs.frictionlessdata.io/tabular-data-package/): describes a *collection* of tabular files providing data resource information from above along with general information about the package itself, a license, authors, and other metadata
 
-See [CODEC tabular-data-resource specifications](codec-specs.html) to read more about the CoDEC specifications for data, metadata, and file structure.
+See [CoDEC tabular-data-resource specifications](codec-specs.html) to read more about the CoDEC specifications for data, metadata, and file structure.

@@ -52,7 +52,7 @@ read_tdr <- function(tdr_location) {
 #'
 #' @param tdr_file path or url to a `tabular-data-resource.yaml` file
 #' (or a directory containing a `tabular-data-resource.yaml` file)
-#' @param codec logical; use only CODEC properties?
+#' @param codec logical; use only CoDEC properties?
 #' @param ... additional options passed onto `readr::read_csv()`
 #' @return tibble with added tabular-data-resource attributes
 #' @export
@@ -119,7 +119,7 @@ read_tdr_csv <- function(tdr_file, codec = TRUE, ...) {
 #'
 #' @param .x a data.frame or tibble
 #' @param file name of yaml file to write metadata to
-#' @param codec logical; include only CODEC properties or schema? (see `?codec_tdr` for details)
+#' @param codec logical; include only CoDEC properties or schema? (see `?codec_tdr` for details)
 #' @return .x (invisibly)
 #' @examples
 #' \dontrun{
@@ -150,7 +150,7 @@ write_tdr <- function(.x, file = "tabular-data-resource.yaml", codec = TRUE) {
 #' and a "tabular-data-resource.yaml" file will also be created.
 #' @param .x data.frame or tibble
 #' @param dir path to directory where tdr will be created; see details
-#' @param codec logical; use only CODEC properties?
+#' @param codec logical; use only CoDEC properties?
 #' @return .x, invisibly
 #' @export
 write_tdr_csv <- function(.x, dir = getwd(), codec = TRUE) {

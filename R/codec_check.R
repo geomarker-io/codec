@@ -1,14 +1,14 @@
-#' Check a tabular-data-resource against CODEC specifications
+#' Check a tabular-data-resource against CoDEC specifications
 #'
 #' `check_codec_tdr_csv()` will use each of these functions to
 #' check that
 #' - the file structure is correct
-#' - the metadata can be read using CODEC specifications
+#' - the metadata can be read using CoDEC specifications
 #' - the CSV data can be read in with accompanying metadata
 #' - the data contains a census tract identifier column
 #' - the data contains a year (or year and month) column(s)
 #' - all fields in the CSV data are described in the metadata and vice-versa
-#' See `vignette("codec-specs")` for the CODEC specifications.
+#' See `vignette("codec-specs")` for the CoDEC specifications.
 #' @param tdr a codec tabular-data-resource
 #' @param tdr_md a codec tabular-data-resource metadata list object
 #' @param path path to tdr folder
@@ -149,7 +149,7 @@ check_files <- function(path) {
   return(invisible(NULL))
 }
 
-#' check CODEC tdr
+#' check CoDEC tdr
 #' @rdname check_codec_tdr_csv
 #' @export
 check_codec_tdr <- function(tdr_md) {
@@ -210,7 +210,7 @@ check_codec_tdr <- function(tdr_md) {
 }
 
 
-#' check CODEC tdr name
+#' check CoDEC tdr name
 #' @rdname check_codec_tdr_csv
 #' @export
 check_tdr_name <- function(name) {
@@ -227,7 +227,7 @@ check_tdr_name <- function(name) {
   return(invisible(NULL))
 }
 
-#' check CODEC tdr path
+#' check CoDEC tdr path
 #' @rdname check_codec_tdr_csv
 #' @export
 check_tdr_path <- function(path) {

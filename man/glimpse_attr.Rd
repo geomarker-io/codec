@@ -9,7 +9,7 @@ glimpse_attr(.x, codec = TRUE)
 \arguments{
 \item{.x}{data frame or tibble}
 
-\item{codec}{logical; include only CODEC properties? (see \code{?codec_tdr} for details)}
+\item{codec}{logical; include only CoDEC properties? (see \code{?codec_tdr} for details)}
 }
 \value{
 a tibble with \code{name} and \code{value} columns of attributes
