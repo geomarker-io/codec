@@ -1,7 +1,5 @@
 url: http://geomarker.io/CoDEC
 home:
-  redirects:
-    - ["codec.html", "index.html"]
 template:
   bootstrap: 5
   bslib:
