@@ -6,13 +6,13 @@
 \alias{codec-package}
 \title{codec: Community Data Explorer for Cincinnati}
 \description{
-CoDEC provides tools for working with metadata in R and storing it alongside data in a YAML file. This package serves as the definition of the CoDEC data specifications and provides helpers to contribute and validate CoDEC data.
+codec provides tools for working with metadata in R and storing it alongside data in a YAML file. This package serves as the definition of the CoDEC data specifications and provides helpers to contribute and validate CoDEC data.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://github.com/geomarker-io/codec}
-  \item \url{http://geomarker.io/CoDEC/}
+  \item \url{http://geomarker.io/codec/}
   \item Report bugs at \url{https://github.com/geomarker-io/codec/issues}
 }
 

@@ -21,7 +21,7 @@ infrastructure through:
 
 ### Installation
 
-You can install the development version of CoDEC from
+You can install the development version of codec from
 [GitHub](https://github.com/) with:
 
     # install.packages("devtools")
