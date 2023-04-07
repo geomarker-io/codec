@@ -46,7 +46,7 @@ d <- d |>
     name = "mydata",
     title = "My Data",
     version = "0.1.0",
-    homepage = "https://geomarker.io/CoDEC"
+    homepage = "https://geomarker.io/codec"
   )
 ```
 

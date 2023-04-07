@@ -11,9 +11,9 @@ CoDEC provides tools for working with metadata in R and storing it alongside dat
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/geomarker-io/CoDEC}
+  \item \url{https://github.com/geomarker-io/codec}
   \item \url{http://geomarker.io/CoDEC/}
-  \item Report bugs at \url{https://github.com/geomarker-io/CoDEC/issues}
+  \item Report bugs at \url{https://github.com/geomarker-io/codec/issues}
 }
 
 }

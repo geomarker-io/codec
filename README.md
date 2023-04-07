@@ -2,12 +2,12 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/geomarker-io/CoDEC/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/geomarker-io/CoDEC/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/geomarker-io/codec/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/geomarker-io/codec/actions/workflows/R-CMD-check.yaml)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-The goal of the R package {codec} is to support [CoDEC](https://geomarker.io/CoDEC) data
+The goal of the R package {codec} is to support [CoDEC](https://geomarker.io/codec) data
 infrastructure through:
 
 - curating metadata for tabular data in R:
@@ -25,4 +25,4 @@ You can install the development version of CoDEC from
 [GitHub](https://github.com/) with:
 
     # install.packages("devtools")
-    devtools::install_github("geomarker-io/CoDEC")
+    devtools::install_github("geomarker-io/codec")

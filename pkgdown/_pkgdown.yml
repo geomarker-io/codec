@@ -1,4 +1,4 @@
-url: http://geomarker.io/CoDEC
+url: http://geomarker.io/codec
 home:
 template:
   bootstrap: 5
@@ -25,7 +25,7 @@ navbar:
    articles:
     text: Articles
     menu:
-    - text: CoDEC R package
+    - text: "{codec} R package"
       href: https://github.com/geomarker-io/codec
     - text: Reading and writing tabular data resources
       href: articles/reading-writing-tdr.html
@@ -34,13 +34,13 @@ navbar:
     - text: Frictionless Standards
       href: articles/frictionless.html
 reference:
-- title: Read and write tabular-data-resources to/from disk or the web
+- title: Read & write tabular-data-resources
   contents:
   - write_tdr_csv
   - read_tdr_csv
   - write_tdr
   - read_tdr
-- title: Curate metadata of tabular R objects using attributes
+- title: Curate metadata
   contents:
   - add_attrs
   - add_col_attrs
@@ -52,7 +52,7 @@ reference:
   - glimpse_attr
   - glimpse_schema
   - glimpse_tdr
-- title: CoDEC tabular-data-resource specifications
+- title: CoDEC specifications
   contents:
   - codec_tdr
   - check_codec_tdr_csv
