@@ -1,5 +1,7 @@
-url: http://geomarker.io/codec
+url: http://geomarker.io/CoDEC
 home:
+  redirects:
+    - ["codec.html", "index.html"]
 template:
   bootstrap: 5
   bslib:
@@ -10,8 +12,11 @@ template:
     btn-border-radius: 0.25rem
 navbar:
   structure:
-    left:  [data, specs, articles, reference]
+    left:  [about, data, specs, articles, reference]
   components:
+   about:
+    text: About
+    href: index.html
    data:
      text: Data
      href: articles/data.html
