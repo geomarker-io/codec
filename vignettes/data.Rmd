@@ -10,7 +10,7 @@ vignette: >
 {CoDEC} comes with R scripts to generate a collection of "core" tabular-data-resources.  Source each of these to create an instance of `codec_data` in the current working directory:
 
 ```{r eval = FALSE}
-library(CoDEC)
+library(codec)
 
 fs::path_package("CoDEC") |>
   fs::dir_ls(glob = "*codec_*.R") |>

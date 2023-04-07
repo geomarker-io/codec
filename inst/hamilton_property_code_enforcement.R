@@ -1,4 +1,4 @@
-library(CoDEC)
+library(codec)
 name <- "hamilton_property_code_enforcement"
 version <- "0.1.2"
 

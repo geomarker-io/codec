@@ -103,17 +103,3 @@ glimpse_tdr <- function(.x, codec = TRUE) {
   list(glimpse_attr(.x, codec = codec), glimpse_schema(.x)) |>
     rlang::set_names(c("attributes", "schema"))
 }
-
-## make_metadata_md <- function(.x, file_name = "metadata.md") {
-##   options(knitr.kable.NA = "")
-##   cat("#### Metadata\n\n", file = file_name, append = FALSE)
-##   CoDEC::glimpse_attr(d) |>
-##     knitr::kable() |>
-##     cat(file = file_name, sep = "\n", append = TRUE)
-##   cat("\n#### Schema\n\n", file = file_name, append = TRUE)
-##   d |>
-##     dplyr::select(-ends_with("moe")) |>
-##     CoDEC::glimpse_schema() |>
-##     knitr::kable() |>
-##     cat(file = file_name, sep = "\n", append = TRUE)
-## }

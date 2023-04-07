@@ -1,4 +1,4 @@
-library(CoDEC)
+library(codec)
 name <- "hamilton_landcover"
 version <- "v0.1.0"
 

@@ -1,4 +1,4 @@
-Package: CoDEC
+Package: codec
 Title: Community Data Explorer for Cincinnati
 Version: 0.6.0
 Authors@R: c(

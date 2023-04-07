@@ -70,7 +70,7 @@ The metadata of a CoDEC tabular-data-resource is hierarchically composed of diff
 A CoDEC tabular-data-resource MUST contain `name` and `path` descriptors. All other properties, schema, and fields MAY be present, but MUST be one of:
 
 ```{r as.is = T, echo = F}
-CoDEC::codec_tdr() |>
+codec::codec_tdr() |>
   purrr::map(tibble::enframe) |>
   tibble::enframe(name = "type", value = "data") |>
   dplyr::rowwise(type) |>

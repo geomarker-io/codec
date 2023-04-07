@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r}
-library(CoDEC)
+library(codec)
 ```
 
 Inside R, metadata lives in the attributes of the data.frame and its columns. We can add and change these with several helper functions used in the example below: `add_attrs()`, `add_col_attrs()`, `add_type_attrs()`. Using these functions to set attributes in R means we can do so reproducibly and changes to the metadata are tracked alongside the R script that creates the data. This prevents a disconnect between data and metadata, but also allows for computing on the metadata to use it to create richer documentation. ^[Alternatively, we can edit the metadata yaml file directly and track changes there.  Reading the data CSV file back in to R using a function that also reads metadata (`read_tdr_csv()`) will update the attributes of the data.frame based on changes in the metadata file.]

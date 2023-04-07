@@ -1,4 +1,4 @@
-library(CoDEC)
+library(codec)
 name <- "hh_acs_measures"
 version <- "v1.0.0"
 
