@@ -7,9 +7,7 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-## {CoDEC} R package
-
-The goal of the R package {codec} is to support [CoDEC](https://geomarker.io/codec) data
+The goal of the R package {codec} is to support [CoDEC](https://geomarker.io/CoDEC) data
 infrastructure through:
 
 - curating metadata for tabular data in R:
