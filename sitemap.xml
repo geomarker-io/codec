@@ -1,84 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://geomarker.io/codec/404.html</loc>
+    <loc>http://geomarker.io/CoDEC/404.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/LICENSE.html</loc>
+    <loc>http://geomarker.io/CoDEC/LICENSE.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/articles/curating-metadata.html</loc>
+    <loc>http://geomarker.io/CoDEC/articles/curating-metadata.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/articles/data.html</loc>
+    <loc>http://geomarker.io/CoDEC/articles/data.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/articles/frictionless.html</loc>
+    <loc>http://geomarker.io/CoDEC/articles/frictionless.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/articles/index.html</loc>
+    <loc>http://geomarker.io/CoDEC/articles/index.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/articles/reading-writing-tdr.html</loc>
+    <loc>http://geomarker.io/CoDEC/articles/reading-writing-tdr.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/articles/specs.html</loc>
+    <loc>http://geomarker.io/CoDEC/articles/specs.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/authors.html</loc>
+    <loc>http://geomarker.io/CoDEC/authors.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/index.html</loc>
+    <loc>http://geomarker.io/CoDEC/index.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/reference/CoDEC-package.html</loc>
+    <loc>http://geomarker.io/CoDEC/reference/CoDEC-package.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/reference/add_attr_from_tdr.html</loc>
+    <loc>http://geomarker.io/CoDEC/reference/add_attr_from_tdr.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/reference/add_attrs.html</loc>
+    <loc>http://geomarker.io/CoDEC/reference/add_attrs.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/reference/add_type_attrs.html</loc>
+    <loc>http://geomarker.io/CoDEC/reference/add_type_attrs.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/reference/check_codec_tdr_csv.html</loc>
+    <loc>http://geomarker.io/CoDEC/reference/check_codec_tdr_csv.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/reference/codec_colors.html</loc>
+    <loc>http://geomarker.io/CoDEC/reference/codec_colors.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/reference/codec_tdr.html</loc>
+    <loc>http://geomarker.io/CoDEC/reference/codec_tdr.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/reference/glimpse_attr.html</loc>
+    <loc>http://geomarker.io/CoDEC/reference/glimpse_attr.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/reference/glimpse_schema.html</loc>
+    <loc>http://geomarker.io/CoDEC/reference/glimpse_schema.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/reference/glimpse_tdr.html</loc>
+    <loc>http://geomarker.io/CoDEC/reference/glimpse_tdr.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/reference/index.html</loc>
+    <loc>http://geomarker.io/CoDEC/reference/index.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/reference/make_tdr_from_attr.html</loc>
+    <loc>http://geomarker.io/CoDEC/reference/make_tdr_from_attr.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/reference/read_tdr.html</loc>
+    <loc>http://geomarker.io/CoDEC/reference/read_tdr.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/reference/read_tdr_csv.html</loc>
+    <loc>http://geomarker.io/CoDEC/reference/read_tdr_csv.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/reference/tidyeval.html</loc>
+    <loc>http://geomarker.io/CoDEC/reference/tidyeval.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/reference/write_tdr.html</loc>
+    <loc>http://geomarker.io/CoDEC/reference/write_tdr.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/reference/write_tdr_csv.html</loc>
+    <loc>http://geomarker.io/CoDEC/reference/write_tdr_csv.html</loc>
   </url>
 </urlset>
