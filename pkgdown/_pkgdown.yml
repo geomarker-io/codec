@@ -6,6 +6,7 @@ template:
     bg: "#FFFFFF"
     fg: "#396175"
     primary: "#C28273"
+    grid-gutter-width: "0.0rem"
     border-radius: 0.5rem
     btn-border-radius: 0.25rem
 navbar:
@@ -24,6 +25,8 @@ navbar:
    articles:
     text: Articles
     menu:
+    - text: CoDEC R package
+      href: https://github.com/geomarker-io/codec
     - text: Reading and writing tabular data resources
       href: articles/reading-writing-tdr.html
     - text: Curating metadata for tabular data in R using attributes
