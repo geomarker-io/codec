@@ -122,5 +122,5 @@ The CSV data file for this example CoDEC `tdr` would contain values for all vint
     2020, 39061023501, 0.046
     2020, 39061009800, 0.391
 
-> CoDEC specifications are versioned with {CoDEC}, so this article describes version `r packageVersion("CoDEC")`.
+> CoDEC specifications are versioned with {CoDEC}, so this article describes version `r packageVersion("codec")`.
 
