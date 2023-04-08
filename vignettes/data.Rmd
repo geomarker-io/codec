@@ -10,16 +10,16 @@ vignette: >
 {CoDEC} comes with R scripts to generate a collection of "core" tabular-data-resources.  Source each of these to create an instance of `codec_data` in the current working directory:
 
 ```{r eval = FALSE}
-library(codec)
-
 fs::path_package("codec") |>
-  fs::dir_ls(glob = "*codec_*.R") |>
+  fs::dir_ls(glob = "*hamilton_*.R") |>
   purrr::walk(callr::rscript, .progress = interactive())
 ```
 
 Code like this could be used to create an data catalog:
 
-```{r results = "asis", eval = FALSE}
+```{r results = "asis", echo = TRUE}
+library(codec)
+
 codec_glimpses <-
   fs::path_package("codec") |>
   fs::path("codec_data") |>
@@ -36,5 +36,7 @@ make_md <- function(.x) {
   cat("\n\n", sep = "")
 }
 
+options(knitr.kable.NA = "")
 purrr::walk(codec_glimpses, make_md)
+
 ```
