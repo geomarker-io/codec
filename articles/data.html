@@ -97,47 +97,19 @@
     
     
 <p>{CoDEC} comes with R scripts to generate a collection of “core”
-tabular-data-resources. Source each of these to create an instance of
-<code>codec_data</code> in the current working directory:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path_package.html" class="external-link">path_package</a></span><span class="op">(</span><span class="st">"codec"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/dir_ls.html" class="external-link">dir_ls</a></span><span class="op">(</span>glob <span class="op">=</span> <span class="st">"*hamilton_*.R"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span><span class="fu">callr</span><span class="fu">::</span><span class="va"><a href="https://callr.r-lib.org/reference/rscript.html" class="external-link">rscript</a></span>, .progress <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Use this code to display the metadata for all resources in
-<code>codec_data</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/geomarker-io/codec" class="external-link">codec</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">codec_glimpses</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path_package.html" class="external-link">path_package</a></span><span class="op">(</span><span class="st">"codec"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="st">"codec_data"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/dir_ls.html" class="external-link">dir_ls</a></span><span class="op">(</span>glob <span class="op">=</span> <span class="st">"*tabular-data-resource.yaml"</span>, recurse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">read_tdr_csv</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">glimpse_tdr</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">make_md</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>knitr.kable.NA <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"## "</span>, <span class="va">.x</span><span class="op">$</span><span class="va">attributes</span><span class="op">[</span><span class="va">.x</span><span class="op">$</span><span class="va">attributes</span><span class="op">$</span><span class="va">name</span> <span class="op">==</span> <span class="st">'title'</span>, <span class="st">'value'</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="st">" {.tabset}\n\n"</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"\n\n### Attributes \n\n"</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">.x</span><span class="op">$</span><span class="va">attributes</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"\n\n### Schema \n\n"</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">.x</span><span class="op">$</span><span class="va">schema</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"\n\n"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span>sep <span class="op">=</span> <span class="st">"\n\n"</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span></span>
-<span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">codec_glimpses</span>, <span class="va">make_md</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span><span class="va">cat</span><span class="op">)</span></span></code></pre></div>
+tabular-data-resources that are installed in the package. Use the table
+of contents on the right to browse the metadata for each of the
+installed data resources.</p>
 <div class="section level2 tabset">
 <h2 class="tabset" id="tract-level-drivetime-to-cchmc">Tract-Level Drivetime to CCHMC<a class="anchor" aria-label="anchor" href="#tract-level-drivetime-to-cchmc"></a>
 </h2>
 
 
+
 <ul class="nav nav-tabs" id="tract-level-drivetime-to-cchmc" role="tablist">
 <li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#attributes" id="attributes-tab" type="button" role="tab" aria-controls="attributes" aria-selected="true" class="active nav-link">Attributes</button></li>
 <li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#schema" id="schema-tab" type="button" role="tab" aria-controls="schema" aria-selected="false" class="nav-link">Schema</button></li>
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#download" id="download-tab" type="button" role="tab" aria-controls="download" aria-selected="false" class="nav-link">Download</button></li>
 </ul>
 <div class="tab-content">
 <div class="active  tab-pane" id="attributes" role="tabpanel" aria-labelledby="attributes-tab">
@@ -213,6 +185,10 @@ isochrones</td>
 </tbody>
 </table>
 </div>
+<div class="tab-pane" id="download" role="tabpanel" aria-labelledby="download-tab">
+
+<p>read in R: <code>codec::codec_data("hamilton_drivetime")</code></p>
+</div>
 </div>
 </div>
 <div class="section level2 tabset">
@@ -221,9 +197,11 @@ Characteristics<a class="anchor" aria-label="anchor" href="#hamilton-county-land
 </h2>
 
 
+
 <ul class="nav nav-tabs" id="hamilton-county-landcover-and-built-environment-characteristics" role="tablist">
 <li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#attributes-1" id="attributes-1-tab" type="button" role="tab" aria-controls="attributes-1" aria-selected="true" class="active nav-link">Attributes</button></li>
 <li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#schema-1" id="schema-1-tab" type="button" role="tab" aria-controls="schema-1" aria-selected="false" class="nav-link">Schema</button></li>
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#download-1" id="download-1-tab" type="button" role="tab" aria-controls="download-1" aria-selected="false" class="nav-link">Download</button></li>
 </ul>
 <div class="tab-content">
 <div class="active  tab-pane" id="attributes-1" role="tabpanel" aria-labelledby="attributes-1-tab">
@@ -325,6 +303,10 @@ tract</td>
 </tbody>
 </table>
 </div>
+<div class="tab-pane" id="download-1" role="tabpanel" aria-labelledby="download-1-tab">
+
+<p>read in R: <code>codec::codec_data("hamilton_landcover")</code></p>
+</div>
 </div>
 </div>
 <div class="section level2 tabset">
@@ -332,9 +314,11 @@ tract</td>
 </h2>
 
 
+
 <ul class="nav nav-tabs" id="hamilton-county-property-code-enforcement" role="tablist">
 <li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#attributes-2" id="attributes-2-tab" type="button" role="tab" aria-controls="attributes-2" aria-selected="true" class="active nav-link">Attributes</button></li>
 <li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#schema-2" id="schema-2-tab" type="button" role="tab" aria-controls="schema-2" aria-selected="false" class="nav-link">Schema</button></li>
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#download-2" id="download-2-tab" type="button" role="tab" aria-controls="download-2" aria-selected="false" class="nav-link">Download</button></li>
 </ul>
 <div class="tab-content">
 <div class="active  tab-pane" id="attributes-2" role="tabpanel" aria-labelledby="attributes-2-tab">
@@ -409,6 +393,11 @@ tract</td>
 </tbody>
 </table>
 </div>
+<div class="tab-pane" id="download-2" role="tabpanel" aria-labelledby="download-2-tab">
+
+<p>read in R:
+<code>codec::codec_data("hamilton_property_code_enforcement")</code></p>
+</div>
 </div>
 </div>
 <div class="section level2 tabset">
@@ -416,9 +405,11 @@ tract</td>
 </h2>
 
 
+
 <ul class="nav nav-tabs" id="hamilton-county-parcel-and-household-traffic" role="tablist">
 <li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#attributes-3" id="attributes-3-tab" type="button" role="tab" aria-controls="attributes-3" aria-selected="true" class="active nav-link">Attributes</button></li>
 <li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#schema-3" id="schema-3-tab" type="button" role="tab" aria-controls="schema-3" aria-selected="false" class="nav-link">Schema</button></li>
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#download-3" id="download-3-tab" type="button" role="tab" aria-controls="download-3" aria-selected="false" class="nav-link">Download</button></li>
 </ul>
 <div class="tab-content">
 <div class="active  tab-pane" id="attributes-3" role="tabpanel" aria-labelledby="attributes-3-tab">
@@ -583,6 +574,10 @@ average annual daily truck traffic</td>
 </tbody>
 </table>
 </div>
+<div class="tab-pane" id="download-3" role="tabpanel" aria-labelledby="download-3-tab">
+
+<p>read in R: <code>codec::codec_data("hamilton_traffic")</code></p>
+</div>
 </div>
 </div>
 <div class="section level2 tabset">
@@ -591,9 +586,11 @@ Measures<a class="anchor" aria-label="anchor" href="#harmonized-historical-ameri
 </h2>
 
 
+
 <ul class="nav nav-tabs" id="harmonized-historical-american-community-survey-measures" role="tablist">
 <li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#attributes-4" id="attributes-4-tab" type="button" role="tab" aria-controls="attributes-4" aria-selected="true" class="active nav-link">Attributes</button></li>
 <li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#schema-4" id="schema-4-tab" type="button" role="tab" aria-controls="schema-4" aria-selected="false" class="nav-link">Schema</button></li>
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#download-4" id="download-4-tab" type="button" role="tab" aria-controls="download-4" aria-selected="false" class="nav-link">Download</button></li>
 </ul>
 <div class="tab-content">
 <div class="active  tab-pane" id="attributes-4" role="tabpanel" aria-labelledby="attributes-4-tab">
@@ -1039,6 +1036,10 @@ Education</td>
 </tbody>
 </table>
 </div>
+<div class="tab-pane" id="download-4" role="tabpanel" aria-labelledby="download-4-tab">
+
+<p>read in R: <code>codec::codec_data("hh_acs_measures")</code></p>
+</div>
 </div>
 </div>
 <div class="section level2 tabset">
@@ -1046,9 +1047,11 @@ Education</td>
 </h2>
 
 
+
 <ul class="nav nav-tabs" id="census-tract-level-neighborhood-indices" role="tablist">
 <li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#attributes-5" id="attributes-5-tab" type="button" role="tab" aria-controls="attributes-5" aria-selected="true" class="active nav-link">Attributes</button></li>
 <li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#schema-5" id="schema-5-tab" type="button" role="tab" aria-controls="schema-5" aria-selected="false" class="nav-link">Schema</button></li>
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#download-5" id="download-5-tab" type="button" role="tab" aria-controls="download-5" aria-selected="false" class="nav-link">Download</button></li>
 </ul>
 <div class="tab-content">
 <div class="active  tab-pane" id="attributes-5" role="tabpanel" aria-labelledby="attributes-5-tab">
@@ -1418,6 +1421,10 @@ employment mix, and employment/household mix (2021)</td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="tab-pane" id="download-5" role="tabpanel" aria-labelledby="download-5-tab">
+
+<p>read in R: <code>codec::codec_data("tract_indices")</code></p>
 </div>
 </div>
 </div>
