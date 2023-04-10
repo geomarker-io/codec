@@ -1,4 +1,4 @@
-# CoDEC
+&nbsp;
 
 The **Co**mmunity **D**ata **E**xplorer for **C**incinnati (**CoDEC**) is a data repository composed of equitable, community-level data for Cincinnati.
 
