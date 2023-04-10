@@ -7,17 +7,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-{CoDEC} comes with R scripts to generate a collection of "core" tabular-data-resources.  Source each of these to create an instance of `codec_data` in the current working directory:
+{CoDEC} comes with R scripts to generate a collection of "core" tabular-data-resources that are installed in the package. Use the table of contents on the right to browse the metadata for each of the installed data resources.
 
-```{r eval = FALSE}
-fs::path_package("codec") |>
-  fs::dir_ls(glob = "*hamilton_*.R") |>
-  purrr::walk(callr::rscript, .progress = interactive())
-```
-
-Use this code to display the metadata for all resources in `codec_data`:
-
-```{r results = "asis", echo = TRUE}
+```{r results = "asis", echo = FALSE}
 library(codec)
 
 codec_glimpses <-
