@@ -100,14 +100,15 @@
 tabular-data-resources. Source each of these to create an instance of
 <code>codec_data</code> in the current working directory:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path_package.html" class="external-link">path_package</a></span><span class="op">(</span><span class="st">"codec"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/dir_ls.html" class="external-link">dir_ls</a></span><span class="op">(</span>glob <span class="op">=</span> <span class="st">"*hamilton_*.R"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span><span class="fu">callr</span><span class="fu">::</span><span class="va"><a href="https://callr.r-lib.org/reference/rscript.html" class="external-link">rscript</a></span>, .progress <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Use this code to display the metadata for all resources in
+<code>codec_data</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/geomarker-io/codec" class="external-link">codec</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path_package.html" class="external-link">path_package</a></span><span class="op">(</span><span class="st">"codec"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/dir_ls.html" class="external-link">dir_ls</a></span><span class="op">(</span>glob <span class="op">=</span> <span class="st">"*codec_*.R"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span><span class="fu">callr</span><span class="fu">::</span><span class="va"><a href="https://callr.r-lib.org/reference/rscript.html" class="external-link">rscript</a></span>, .progress <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Code like this could be used to create an data catalog:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">codec_glimpses</span> <span class="op">&lt;-</span></span>
+<span><span class="va">codec_glimpses</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path_package.html" class="external-link">path_package</a></span><span class="op">(</span><span class="st">"codec"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="st">"codec_data"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/dir_ls.html" class="external-link">dir_ls</a></span><span class="op">(</span>glob <span class="op">=</span> <span class="st">"*tabular-data-resource.yaml"</span>, recurse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -115,16 +116,1313 @@ tabular-data-resources. Source each of these to create an instance of
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">glimpse_tdr</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">make_md</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"## "</span>, <span class="va">.x</span><span class="op">$</span><span class="va">attributes</span><span class="op">[</span><span class="va">.x</span><span class="op">$</span><span class="va">attributes</span><span class="op">$</span><span class="va">name</span> <span class="op">==</span> <span class="st">'title'</span>, <span class="st">'value'</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="st">"\n\n"</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"### Attributes \n\n"</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">.x</span><span class="op">$</span><span class="va">attributes</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"\n\n ### Schema \n\n"</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">.x</span><span class="op">$</span><span class="va">schema</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"\n\n"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>knitr.kable.NA <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"## "</span>, <span class="va">.x</span><span class="op">$</span><span class="va">attributes</span><span class="op">[</span><span class="va">.x</span><span class="op">$</span><span class="va">attributes</span><span class="op">$</span><span class="va">name</span> <span class="op">==</span> <span class="st">'title'</span>, <span class="st">'value'</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="st">" {.tabset}\n\n"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"\n\n### Attributes \n\n"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">.x</span><span class="op">$</span><span class="va">attributes</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"\n\n### Schema \n\n"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">.x</span><span class="op">$</span><span class="va">schema</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"\n\n"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span>sep <span class="op">=</span> <span class="st">"\n\n"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
-<span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span><span class="va">codec_glimpses</span>, <span class="va">make_md</span><span class="op">)</span></span></code></pre></div>
-  </main>
+<span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">codec_glimpses</span>, <span class="va">make_md</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span><span class="va">cat</span><span class="op">)</span></span></code></pre></div>
+<div class="section level2 tabset">
+<h2 class="tabset" id="tract-level-drivetime-to-cchmc">Tract-Level Drivetime to CCHMC<a class="anchor" aria-label="anchor" href="#tract-level-drivetime-to-cchmc"></a>
+</h2>
+
+
+<ul class="nav nav-tabs" id="tract-level-drivetime-to-cchmc" role="tablist">
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#attributes" id="attributes-tab" type="button" role="tab" aria-controls="attributes" aria-selected="true" class="active nav-link">Attributes</button></li>
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#schema" id="schema-tab" type="button" role="tab" aria-controls="schema" aria-selected="false" class="nav-link">Schema</button></li>
+</ul>
+<div class="tab-content">
+<div class="active  tab-pane" id="attributes" role="tabpanel" aria-labelledby="attributes-tab">
+
+<table class="table">
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">profile</td>
+<td align="left">tabular-data-resource</td>
+</tr>
+<tr class="even">
+<td align="left">name</td>
+<td align="left">hamilton_drivetime</td>
+</tr>
+<tr class="odd">
+<td align="left">path</td>
+<td align="left">hamilton_drivetime.csv</td>
+</tr>
+<tr class="even">
+<td align="left">version</td>
+<td align="left">0.1.0</td>
+</tr>
+<tr class="odd">
+<td align="left">title</td>
+<td align="left">Tract-Level Drivetime to CCHMC</td>
+</tr>
+<tr class="even">
+<td align="left">homepage</td>
+<td align="left"><a href="https://geomarker.io/hamilton_drivetime" class="external-link uri">https://geomarker.io/hamilton_drivetime</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tab-pane" id="schema" role="tabpanel" aria-labelledby="schema-tab">
+
+<table class="table">
+<colgroup>
+<col width="19%">
+<col width="25%">
+<col width="7%">
+<col width="48%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">title</th>
+<th align="left">type</th>
+<th align="left">description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">census_tract_id_2010</td>
+<td align="left">Census Tract Identifier</td>
+<td align="left">string</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">drive_time_avg</td>
+<td align="left">Average Drive Time to CCHMC</td>
+<td align="left">number</td>
+<td align="left">weighted average of overlapping drivetime
+isochrones</td>
+</tr>
+<tr class="odd">
+<td align="left">year</td>
+<td align="left">Year</td>
+<td align="left">integer</td>
+<td align="left">data year</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="section level2 tabset">
+<h2 class="tabset" id="hamilton-county-landcover-and-built-environment-characteristics">Hamilton County Landcover and Built Environment
+Characteristics<a class="anchor" aria-label="anchor" href="#hamilton-county-landcover-and-built-environment-characteristics"></a>
+</h2>
+
+
+<ul class="nav nav-tabs" id="hamilton-county-landcover-and-built-environment-characteristics" role="tablist">
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#attributes-1" id="attributes-1-tab" type="button" role="tab" aria-controls="attributes-1" aria-selected="true" class="active nav-link">Attributes</button></li>
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#schema-1" id="schema-1-tab" type="button" role="tab" aria-controls="schema-1" aria-selected="false" class="nav-link">Schema</button></li>
+</ul>
+<div class="tab-content">
+<div class="active  tab-pane" id="attributes-1" role="tabpanel" aria-labelledby="attributes-1-tab">
+
+<table class="table">
+<colgroup>
+<col width="12%">
+<col width="87%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">profile</td>
+<td align="left">tabular-data-resource</td>
+</tr>
+<tr class="even">
+<td align="left">name</td>
+<td align="left">hamilton_landcover</td>
+</tr>
+<tr class="odd">
+<td align="left">path</td>
+<td align="left">hamilton_landcover.csv</td>
+</tr>
+<tr class="even">
+<td align="left">version</td>
+<td align="left">0.1.0</td>
+</tr>
+<tr class="odd">
+<td align="left">title</td>
+<td align="left">Hamilton County Landcover and Built Environment
+Characteristics</td>
+</tr>
+<tr class="even">
+<td align="left">homepage</td>
+<td align="left"><a href="https://geomarker.io/hamilton_landcover" class="external-link uri">https://geomarker.io/hamilton_landcover</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tab-pane" id="schema-1" role="tabpanel" aria-labelledby="schema-1-tab">
+
+<table class="table">
+<colgroup>
+<col width="17%">
+<col width="26%">
+<col width="6%">
+<col width="49%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">title</th>
+<th align="left">type</th>
+<th align="left">description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">census_tract_id_2010</td>
+<td align="left">Census Tract Identifier</td>
+<td align="left">string</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">pct_green_2019</td>
+<td align="left">Percent Greenspace 2019</td>
+<td align="left">number</td>
+<td align="left">percent of pixels in each tract classified as
+green</td>
+</tr>
+<tr class="odd">
+<td align="left">pct_impervious_2019</td>
+<td align="left">Percent Impervious 2019</td>
+<td align="left">number</td>
+<td align="left">average percent imperviousness for pixels in each
+tract</td>
+</tr>
+<tr class="even">
+<td align="left">pct_treecanopy_2016</td>
+<td align="left">Percent Treecanopy 2016</td>
+<td align="left">number</td>
+<td align="left">average percent tree canopy for pixels in each
+tract</td>
+</tr>
+<tr class="odd">
+<td align="left">evi_2018</td>
+<td align="left">Enhanced Vegetation Index 2018</td>
+<td align="left">number</td>
+<td align="left">average enhanced vegetation index for pixels in each
+tract</td>
+</tr>
+<tr class="even">
+<td align="left">year</td>
+<td align="left">Year</td>
+<td align="left">integer</td>
+<td align="left">data year</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="section level2 tabset">
+<h2 class="tabset" id="hamilton-county-property-code-enforcement">Hamilton County Property Code Enforcement<a class="anchor" aria-label="anchor" href="#hamilton-county-property-code-enforcement"></a>
+</h2>
+
+
+<ul class="nav nav-tabs" id="hamilton-county-property-code-enforcement" role="tablist">
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#attributes-2" id="attributes-2-tab" type="button" role="tab" aria-controls="attributes-2" aria-selected="true" class="active nav-link">Attributes</button></li>
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#schema-2" id="schema-2-tab" type="button" role="tab" aria-controls="schema-2" aria-selected="false" class="nav-link">Schema</button></li>
+</ul>
+<div class="tab-content">
+<div class="active  tab-pane" id="attributes-2" role="tabpanel" aria-labelledby="attributes-2-tab">
+
+<table class="table">
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">profile</td>
+<td align="left">tabular-data-resource</td>
+</tr>
+<tr class="even">
+<td align="left">name</td>
+<td align="left">hamilton_property_code_enforcement</td>
+</tr>
+<tr class="odd">
+<td align="left">path</td>
+<td align="left">hamilton_property_code_enforcement.csv</td>
+</tr>
+<tr class="even">
+<td align="left">version</td>
+<td align="left">0.1.2</td>
+</tr>
+<tr class="odd">
+<td align="left">title</td>
+<td align="left">Hamilton County Property Code Enforcement</td>
+</tr>
+<tr class="even">
+<td align="left">homepage</td>
+<td align="left"><a href="https://geomarker.io/hamilton_property_code_enforcement" class="external-link uri">https://geomarker.io/hamilton_property_code_enforcement</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tab-pane" id="schema-2" role="tabpanel" aria-labelledby="schema-2-tab">
+
+<table class="table">
+<colgroup>
+<col width="27%">
+<col width="56%">
+<col width="8%">
+<col width="6%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">description</th>
+<th align="left">type</th>
+<th align="left">title</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">census_tract_id_2020</td>
+<td align="left">census tract identifier</td>
+<td align="left">string</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">violations_per_household</td>
+<td align="left">number of property code enforcements per household</td>
+<td align="left">number</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">year</td>
+<td align="left">data year</td>
+<td align="left">integer</td>
+<td align="left">Year</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="section level2 tabset">
+<h2 class="tabset" id="hamilton-county-parcel-and-household-traffic">Hamilton County Parcel and Household Traffic<a class="anchor" aria-label="anchor" href="#hamilton-county-parcel-and-household-traffic"></a>
+</h2>
+
+
+<ul class="nav nav-tabs" id="hamilton-county-parcel-and-household-traffic" role="tablist">
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#attributes-3" id="attributes-3-tab" type="button" role="tab" aria-controls="attributes-3" aria-selected="true" class="active nav-link">Attributes</button></li>
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#schema-3" id="schema-3-tab" type="button" role="tab" aria-controls="schema-3" aria-selected="false" class="nav-link">Schema</button></li>
+</ul>
+<div class="tab-content">
+<div class="active  tab-pane" id="attributes-3" role="tabpanel" aria-labelledby="attributes-3-tab">
+
+<table class="table">
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">profile</td>
+<td align="left">tabular-data-resource</td>
+</tr>
+<tr class="even">
+<td align="left">name</td>
+<td align="left">hamilton_traffic</td>
+</tr>
+<tr class="odd">
+<td align="left">path</td>
+<td align="left">hamilton_traffic.csv</td>
+</tr>
+<tr class="even">
+<td align="left">version</td>
+<td align="left">0.1.0</td>
+</tr>
+<tr class="odd">
+<td align="left">title</td>
+<td align="left">Hamilton County Parcel and Household Traffic</td>
+</tr>
+<tr class="even">
+<td align="left">homepage</td>
+<td align="left"><a href="https://geomarker.io/hamilton_traffic" class="external-link uri">https://geomarker.io/hamilton_traffic</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tab-pane" id="schema-3" role="tabpanel" aria-labelledby="schema-3-tab">
+
+<table class="table">
+<colgroup>
+<col width="19%">
+<col width="23%">
+<col width="4%">
+<col width="52%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">title</th>
+<th align="left">type</th>
+<th align="left">description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">census_tract_id_2010</td>
+<td align="left">Census Tract Identifier</td>
+<td align="left">string</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">n_parcels</td>
+<td align="left">Number of Parcels</td>
+<td align="left">integer</td>
+<td align="left">number of parcels in tract</td>
+</tr>
+<tr class="odd">
+<td align="left">n_parcels_near_traffic</td>
+<td align="left">Number of Parcels Near Traffic</td>
+<td align="left">integer</td>
+<td align="left">number of parcels within 400 m of roads with non-zero
+average annual daily traffic</td>
+</tr>
+<tr class="even">
+<td align="left">n_parcels_near_truck_traffic</td>
+<td align="left">Number of Parcels Near Truck Traffic</td>
+<td align="left">integer</td>
+<td align="left">number of parcels within 400 m of roads with non-zero
+average annual daily truck traffic</td>
+</tr>
+<tr class="odd">
+<td align="left">n_households</td>
+<td align="left">Number of Households</td>
+<td align="left">number</td>
+<td align="left">number of households in tract</td>
+</tr>
+<tr class="even">
+<td align="left">n_households_near_traffic</td>
+<td align="left">Number of Households Near Traffic</td>
+<td align="left">number</td>
+<td align="left">number of households within 400 m of roads with
+non-zero average annual daily traffic</td>
+</tr>
+<tr class="odd">
+<td align="left">n_households_near_truck_traffic</td>
+<td align="left">Number of Households Near Truck Traffic</td>
+<td align="left">number</td>
+<td align="left">number of households within 400 m of roads with
+non-zero average annual daily truck traffic</td>
+</tr>
+<tr class="even">
+<td align="left">median_parcel_traffic</td>
+<td align="left">Median Parcel Traffic</td>
+<td align="left">number</td>
+<td align="left">median average annual daily traffic within 400 m of
+each parcel (vehicle-meters)</td>
+</tr>
+<tr class="odd">
+<td align="left">median_household_traffic</td>
+<td align="left">Median Household Traffic</td>
+<td align="left">number</td>
+<td align="left">median average annual daily traffic within 400 m of
+each household (truck-meters)</td>
+</tr>
+<tr class="even">
+<td align="left">median_parcel_truck_traffic</td>
+<td align="left">Median Parcel Truck Traffic</td>
+<td align="left">number</td>
+<td align="left">median average annual daily truck traffic within 400 m
+of each parcel (vehicle-meters)</td>
+</tr>
+<tr class="odd">
+<td align="left">median_household_truck_traffic</td>
+<td align="left">Median Household Truck Traffic</td>
+<td align="left">number</td>
+<td align="left">median average annual daily truck traffic within 400 m
+of each household (truck-meters)</td>
+</tr>
+<tr class="even">
+<td align="left">frac_households_near_traffic</td>
+<td align="left">Fraction of Households Near Traffic</td>
+<td align="left">number</td>
+<td align="left">fraction of households within 400 m of roads with
+non-zero average annual daily traffic</td>
+</tr>
+<tr class="odd">
+<td align="left">frac_parcels_near_traffic</td>
+<td align="left">Fraction of Parcels Near Traffic</td>
+<td align="left">number</td>
+<td align="left">fraction of parcels within 400 m of roads with non-zero
+average annual daily traffic</td>
+</tr>
+<tr class="even">
+<td align="left">frac_households_near_truck_traffic</td>
+<td align="left">Fraction of Households Near Truck Traffic</td>
+<td align="left">number</td>
+<td align="left">fraction of households within 400 m of roads with
+non-zero average annual daily truck traffic</td>
+</tr>
+<tr class="odd">
+<td align="left">frac_parcels_near_truck_traffic</td>
+<td align="left">Fraction of Parcels Near Truck Traffic</td>
+<td align="left">number</td>
+<td align="left">fraction of parcels within 400 m of roads with non-zero
+average annual daily truck traffic</td>
+</tr>
+<tr class="even">
+<td align="left">year</td>
+<td align="left">Year</td>
+<td align="left">integer</td>
+<td align="left">data year</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="section level2 tabset">
+<h2 class="tabset" id="harmonized-historical-american-community-survey-measures">Harmonized Historical American Community Survey
+Measures<a class="anchor" aria-label="anchor" href="#harmonized-historical-american-community-survey-measures"></a>
+</h2>
+
+
+<ul class="nav nav-tabs" id="harmonized-historical-american-community-survey-measures" role="tablist">
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#attributes-4" id="attributes-4-tab" type="button" role="tab" aria-controls="attributes-4" aria-selected="true" class="active nav-link">Attributes</button></li>
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#schema-4" id="schema-4-tab" type="button" role="tab" aria-controls="schema-4" aria-selected="false" class="nav-link">Schema</button></li>
+</ul>
+<div class="tab-content">
+<div class="active  tab-pane" id="attributes-4" role="tabpanel" aria-labelledby="attributes-4-tab">
+
+<table class="table">
+<colgroup>
+<col width="12%">
+<col width="87%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">profile</td>
+<td align="left">tabular-data-resource</td>
+</tr>
+<tr class="even">
+<td align="left">name</td>
+<td align="left">hh_acs_measures</td>
+</tr>
+<tr class="odd">
+<td align="left">path</td>
+<td align="left">hh_acs_measures.csv</td>
+</tr>
+<tr class="even">
+<td align="left">version</td>
+<td align="left">1.0.0</td>
+</tr>
+<tr class="odd">
+<td align="left">title</td>
+<td align="left">Harmonized Historical American Community Survey
+Measures</td>
+</tr>
+<tr class="even">
+<td align="left">homepage</td>
+<td align="left"><a href="https://github.com/geomarker-io/hh_acs_measures" class="external-link uri">https://github.com/geomarker-io/hh_acs_measures</a></td>
+</tr>
+<tr class="odd">
+<td align="left">description</td>
+<td align="left">2010 - 2020 measures derived from ACS variables for
+census tracts in the contiguous US</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tab-pane" id="schema-4" role="tabpanel" aria-labelledby="schema-4-tab">
+
+<table class="table">
+<colgroup>
+<col width="15%">
+<col width="27%">
+<col width="53%">
+<col width="3%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">title</th>
+<th align="left">description</th>
+<th align="left">type</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">census_tract_id_2010</td>
+<td align="left">Census Tract Identifier</td>
+<td align="left">can refer to 2010 or 2020 vintage census tracts; unique
+only in combination with <code>census_tract_vintage</code>
+</td>
+<td align="left">string</td>
+</tr>
+<tr class="even">
+<td align="left">year</td>
+<td align="left">Year</td>
+<td align="left">The year of the 5-year ACS estimates (e.g., the 2019
+ACS covers 2015 - 2019)</td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_poverty</td>
+<td align="left">Fraction of Households in Poverty</td>
+<td align="left">Fraction of households with income below poverty level
+within the past 12 months</td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_poverty_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">n_children_lt18</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">n_children_lt18_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">n_pop</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">n_pop_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">n_household_lt18</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">n_household_lt18_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">n_household</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">n_household_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_insured</td>
+<td align="left">Fraction of People Insured</td>
+<td align="left">Fraction of population with health insurance (available
+from 2012 onwards only)</td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_insured_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_snap</td>
+<td align="left">Fraction of Households Receiving SNAP</td>
+<td align="left">Fraction of households receiving food stamps/SNAP in
+the past 12 months</td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_snap_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_fam_nospouse</td>
+<td align="left">Fraction of family households with a single
+householder</td>
+<td align="left">Single householder is male or female household, with no
+spouse present</td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_fam_nospouse_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_employment</td>
+<td align="left">Fraction of People Employed</td>
+<td align="left">Fraction of people employed in civilian labor
+force</td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_employment_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">n_housing_units</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">integer</td>
+</tr>
+<tr class="even">
+<td align="left">n_housing_units_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">integer</td>
+</tr>
+<tr class="odd">
+<td align="left">median_home_value</td>
+<td align="left">Median Value of Owner-Occupied Housing Units</td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">median_home_value_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">median_home_value_2010adj</td>
+<td align="left">Median Value of Owner-Occupied Housing Units (in 2010
+USD)</td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_housing_renters</td>
+<td align="left">Fraction of Housing Units Occupied by Renters</td>
+<td align="left">fraction denominator is number of <em>occupied</em>
+housing units</td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_housing_renters_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">median_rent_to_income_percentage</td>
+<td align="left">Median Rent to Income Percentage</td>
+<td align="left">The median of the percentage of rent to income among
+all renter-occupied housing units</td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">median_rent_to_income_percentage_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_high_rent</td>
+<td align="left">Fraction of Housing Units Paying at least 30% of Income
+on Rent</td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_high_rent_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_conditions</td>
+<td align="left">Fraction of Housing Units with Substandard Housing
+Conditions</td>
+<td align="left">substandard housing: incomplete plumbing or kitchens,
+overcrowding, 30% or more of household income spent on rent or owner
+costs</td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_conditions_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_builtbf1970</td>
+<td align="left">Fraction of Housing Units Built Before 1970</td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_builtbf1970_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_vacant</td>
+<td align="left">Fraction of Housing Units that are Vacant</td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_vacant_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_nhl</td>
+<td align="left">Fraction of People Not Hispanic/Latino</td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_nhl_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_nhl_w</td>
+<td align="left">Fraction of People White and Not Hispanic/Latino</td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_nhl_w_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_nhl_b</td>
+<td align="left">Fraction of People Black and Not Hispanic/Latino</td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_nhl_b_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_nhl_o</td>
+<td align="left">Fraction of People Not Black, Not White, and Not
+Hispanic/Latino</td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_nhl_o_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_hl</td>
+<td align="left">Fraction of People Hispanic/Latino</td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_hl_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_hl_w</td>
+<td align="left">Fraction of People White and Hispanic/Latino</td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_hl_w_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_hl_b</td>
+<td align="left">Fraction of People Black and Hispanic/Latino</td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_hl_b_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_hl_o</td>
+<td align="left">Fraction of People Not Black, Not White, and
+Hispanic/Latino</td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_hl_o_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_lesh</td>
+<td align="left">Fraction of Households Speaking Limited English</td>
+<td align="left">Available from 2016 onwards</td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_lesh_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">median_income</td>
+<td align="left">Median Household Income</td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">median_income_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">median_income_2010adj</td>
+<td align="left">Median Household Income (in 2010 USD)</td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+<tr class="odd">
+<td align="left">fraction_hs</td>
+<td align="left">Fraction of Adults with At Least High School
+Education</td>
+<td align="left">Available from 2012 onwards</td>
+<td align="left">number</td>
+</tr>
+<tr class="even">
+<td align="left">fraction_hs_moe</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">number</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="section level2 tabset">
+<h2 class="tabset" id="census-tract-level-neighborhood-indices">Census Tract-Level Neighborhood Indices<a class="anchor" aria-label="anchor" href="#census-tract-level-neighborhood-indices"></a>
+</h2>
+
+
+<ul class="nav nav-tabs" id="census-tract-level-neighborhood-indices" role="tablist">
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#attributes-5" id="attributes-5-tab" type="button" role="tab" aria-controls="attributes-5" aria-selected="true" class="active nav-link">Attributes</button></li>
+<li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#schema-5" id="schema-5-tab" type="button" role="tab" aria-controls="schema-5" aria-selected="false" class="nav-link">Schema</button></li>
+</ul>
+<div class="tab-content">
+<div class="active  tab-pane" id="attributes-5" role="tabpanel" aria-labelledby="attributes-5-tab">
+
+<table class="table">
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">profile</td>
+<td align="left">tabular-data-resource</td>
+</tr>
+<tr class="even">
+<td align="left">name</td>
+<td align="left">tract_indices</td>
+</tr>
+<tr class="odd">
+<td align="left">path</td>
+<td align="left">tract_indices.csv</td>
+</tr>
+<tr class="even">
+<td align="left">version</td>
+<td align="left">0.3.1</td>
+</tr>
+<tr class="odd">
+<td align="left">title</td>
+<td align="left">Census Tract-Level Neighborhood Indices</td>
+</tr>
+<tr class="even">
+<td align="left">homepage</td>
+<td align="left"><a href="https://geomarker.io/tract_indices" class="external-link uri">https://geomarker.io/tract_indices</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tab-pane" id="schema-5" role="tabpanel" aria-labelledby="schema-5-tab">
+
+<table class="table">
+<colgroup>
+<col width="9%">
+<col width="17%">
+<col width="2%">
+<col width="70%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">title</th>
+<th align="left">type</th>
+<th align="left">description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">census_tract_id_2010</td>
+<td align="left">Census Tract Identifier</td>
+<td align="left">string</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">adi</td>
+<td align="left">Neighborhood Atlas Area Deprivation Index</td>
+<td align="left">number</td>
+<td align="left">national percentile ranking at block group level from 1
+to 100 averaged for each tract; higher adi indicates higher disadvantage
+(2019)</td>
+</tr>
+<tr class="odd">
+<td align="left">coi_education</td>
+<td align="left">Child Opportunity Index Education Domain</td>
+<td align="left">number</td>
+<td align="left">weighted average of education domain component
+indicator z-scores, nationally normed (2015)</td>
+</tr>
+<tr class="even">
+<td align="left">coi_health_env</td>
+<td align="left">Child Opportunity Index Health and Environment
+Domain</td>
+<td align="left">number</td>
+<td align="left">weighted average of health and environment domain
+component indicator z-scores, nationally normed (2015)</td>
+</tr>
+<tr class="odd">
+<td align="left">coi_social_econ</td>
+<td align="left">Child Opportunity Index Social and Economic Domain</td>
+<td align="left">number</td>
+<td align="left">weighted average of social and economic domain
+component indicator z-scores, nationally normed (2015)</td>
+</tr>
+<tr class="even">
+<td align="left">coi</td>
+<td align="left">Child Opportunity Index</td>
+<td align="left">number</td>
+<td align="left">weighted average of three domain averaged z-scores,
+nationally normed (2015)</td>
+</tr>
+<tr class="odd">
+<td align="left">dep_index_fraction_assisted_income</td>
+<td align="left">Fraction Assisted Income</td>
+<td align="left">number</td>
+<td align="left">fraction of households receiving public assistance
+income or food stamps or SNAP in the past 12 months (2018)</td>
+</tr>
+<tr class="even">
+<td align="left">dep_index_fraction_high_school_edu</td>
+<td align="left">Fraction High School Education</td>
+<td align="left">number</td>
+<td align="left">fraction of population 25 and older with educational
+attainment of at least high school graduation (includes GED equivalency)
+(2018)</td>
+</tr>
+<tr class="odd">
+<td align="left">dep_index_median_income</td>
+<td align="left">Median Household Income</td>
+<td align="left">number</td>
+<td align="left">median household income in the past 12 months in 2018
+inflation-adjusted dollars (2018)</td>
+</tr>
+<tr class="even">
+<td align="left">dep_index_fraction_no_health_ins</td>
+<td align="left">Fraction No Health Insurance</td>
+<td align="left">number</td>
+<td align="left">fraction of poulation with no health insurance coverage
+(2018)</td>
+</tr>
+<tr class="odd">
+<td align="left">dep_index_fraction_poverty</td>
+<td align="left">Fraction Poverty</td>
+<td align="left">number</td>
+<td align="left">fraction of population with income in past 12 months
+below poverty level (2018)</td>
+</tr>
+<tr class="even">
+<td align="left">dep_index_fraction_vacant_housing</td>
+<td align="left">Fraction Vacant Housing</td>
+<td align="left">number</td>
+<td align="left">fraction of houses that are vacant (2018)</td>
+</tr>
+<tr class="odd">
+<td align="left">dep_index</td>
+<td align="left">Material Deprivation Index</td>
+<td align="left">number</td>
+<td align="left">composite index of 6 variables above characterizing
+community material deprivation; range 0 to 1, with higher values
+indicating higher deprivation (2018)</td>
+</tr>
+<tr class="even">
+<td align="left">lead_paint</td>
+<td align="left">Lead Paint Indicator</td>
+<td align="left">number</td>
+<td align="left">percent of housing units built pre-1960 (2019)</td>
+</tr>
+<tr class="odd">
+<td align="left">diesel_pm</td>
+<td align="left">Diesel PM Concentration</td>
+<td align="left">number</td>
+<td align="left">concentration of diesel particulate matter in air
+(ug/m3) (2017)</td>
+</tr>
+<tr class="even">
+<td align="left">cancer_risk</td>
+<td align="left">Cancer Risk</td>
+<td align="left">number</td>
+<td align="left">lifetime cancer risk from inhalation of air toxics
+(2017)</td>
+</tr>
+<tr class="odd">
+<td align="left">resp_hazard_ind</td>
+<td align="left">Respiratory Hazard Index</td>
+<td align="left">number</td>
+<td align="left">air toxics respiratory hazard index; ratio of exposure
+concentration to health-based reference concentration (2017)</td>
+</tr>
+<tr class="even">
+<td align="left">traffic_proximity</td>
+<td align="left">Traffic Proximity and Volume</td>
+<td align="left">number</td>
+<td align="left">Count of vehicles (AADT, avg. annual daily traffic) at
+major roads within 500 meters, divided by distance in meters (2019)</td>
+</tr>
+<tr class="odd">
+<td align="left">major_discharger_water</td>
+<td align="left">Major Direct Dischargers to Water Indicator</td>
+<td align="left">number</td>
+<td align="left">RSEI modeled toxic concentrations at stream segments
+within 500 m divided by distance in km (2021)</td>
+</tr>
+<tr class="even">
+<td align="left">nat_priority_proximity</td>
+<td align="left">Proximity to NPL Sites</td>
+<td align="left">number</td>
+<td align="left">count of proposed or listed National Priority List
+(a.k.a. superfund) sites within 5 km (or nearest one beyond 5 km)
+(2021)</td>
+</tr>
+<tr class="odd">
+<td align="left">risk_management_proximity</td>
+<td align="left">Proximity to RMP Facilities</td>
+<td align="left">number</td>
+<td align="left">count of Risk Management Plan (potential chemical
+accident management plan) facilities within 5 km (or nearest one beyond
+5 km), each divided by distance in km (2021)</td>
+</tr>
+<tr class="even">
+<td align="left">disposal_proximity</td>
+<td align="left">Proximity to TSDF Facilities</td>
+<td align="left">number</td>
+<td align="left">count of hazardous waste facilities (Treatment Storage
+and Disposal Facilities and LQGs) within 5 km (or nearest beyond 5 km),
+each divided by distance in km (2021)</td>
+</tr>
+<tr class="odd">
+<td align="left">ozone_conc</td>
+<td align="left">Ozone Cocentration</td>
+<td align="left">number</td>
+<td align="left">ozone seasonal average of daily maximum 8-hour
+concentration (ppb) (2018)</td>
+</tr>
+<tr class="even">
+<td align="left">pm_conc</td>
+<td align="left">PM Concentration</td>
+<td align="left">number</td>
+<td align="left">annual average PM2.5 level in air (ug/m3) (2018)</td>
+</tr>
+<tr class="odd">
+<td align="left">low_food_access_flag</td>
+<td align="left">Low Food Access Flag</td>
+<td align="left">boolean</td>
+<td align="left">TRUE if tract has at least 500 people or at least 33%
+of the tract population living more than 1 mile from nearest food store
+in urban areas, or more than 10 miles in rural areas (2019)</td>
+</tr>
+<tr class="even">
+<td align="left">low_food_access_pop</td>
+<td align="left"></td>
+<td align="left">number</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">low_food_access_pct</td>
+<td align="left">Low Food Access Percentage</td>
+<td align="left">number</td>
+<td align="left">percent of tract population living more than 1 mile
+from nearest food store in urban areas, or more than 10 miles in rural
+areas (2019)</td>
+</tr>
+<tr class="even">
+<td align="left">food_insecurity_pct</td>
+<td align="left">Food Insecurity Percentage</td>
+<td align="left">number</td>
+<td align="left">estimated percentage of population in food insecure
+households (2019)</td>
+</tr>
+<tr class="odd">
+<td align="left">hpsa_mh</td>
+<td align="left">Mental Health Professional Shortage Area</td>
+<td align="left">boolean</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">hpsa_pc</td>
+<td align="left">Primary Care Professional Shortage Area</td>
+<td align="left">boolean</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">ice</td>
+<td align="left">Racial Economic Index of Concentration at the
+Extremes</td>
+<td align="left">number</td>
+<td align="left">high income white non-Hispanic households versus low
+income people of color (not white non-Hispanic) households; -1 to 1
+where 1 indicates all high income white households and -1 indicates all
+low income people of color households (2019)</td>
+</tr>
+<tr class="even">
+<td align="left">pct_crowding</td>
+<td align="left">Percent Crowding</td>
+<td align="left">number</td>
+<td align="left">percent of households with greater than 1 person per
+room (2019)</td>
+</tr>
+<tr class="odd">
+<td align="left">mrfei</td>
+<td align="left">Modified Retail Food Environment Index</td>
+<td align="left">number</td>
+<td align="left">percentage of healthy food retailers (2011)</td>
+</tr>
+<tr class="even">
+<td align="left">mua</td>
+<td align="left">Medically Underserved Area</td>
+<td align="left">boolean</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">pct_1or2_risk_factors</td>
+<td align="left">Percent 1 or 2 Community Resilience Risk Factors</td>
+<td align="left">number</td>
+<td align="left">Rate of individuals with one to two community
+resilience risk factors (2019)</td>
+</tr>
+<tr class="even">
+<td align="left">pct_3ormore_risk_factors</td>
+<td align="left">Percent 3 or More Community Resilience Risk
+Factors</td>
+<td align="left">number</td>
+<td align="left">Rate of individuals with three or more community
+resilience risk factors (2019)</td>
+</tr>
+<tr class="odd">
+<td align="left">sdi</td>
+<td align="left">Social Deprivation Index</td>
+<td align="left">number</td>
+<td align="left">Social Deprivation Index Score 1-100 (2015)</td>
+</tr>
+<tr class="even">
+<td align="left">svi_socioeconomic</td>
+<td align="left">Social Vulnerability Index Socioeconomic Theme</td>
+<td align="left">number</td>
+<td align="left">percentile ranking 0 to 1 for socioeconomic theme
+(2018)</td>
+</tr>
+<tr class="odd">
+<td align="left">svi_household_comp</td>
+<td align="left">Social Vulnerability Index Household Composition
+Theme</td>
+<td align="left">number</td>
+<td align="left">percentile ranking 0 to 1 for household composition
+theme (2018)</td>
+</tr>
+<tr class="even">
+<td align="left">svi_minority</td>
+<td align="left">Social Vulnerability Index Minority Theme</td>
+<td align="left">number</td>
+<td align="left">percentile ranking 0 to 1 for minority status/language
+theme (2018)</td>
+</tr>
+<tr class="odd">
+<td align="left">svi_housing_transportation</td>
+<td align="left">Social Vulnerability Index Housing and Transportation
+Theme</td>
+<td align="left">number</td>
+<td align="left">percentile ranking 0 to 1 for housing
+type/transportation theme (2018)</td>
+</tr>
+<tr class="even">
+<td align="left">svi</td>
+<td align="left">Social Vulnerability Index</td>
+<td align="left">number</td>
+<td align="left">overall social vulnerability percentile ranking 0 to 1
+(2018)</td>
+</tr>
+<tr class="odd">
+<td align="left">walkability_index</td>
+<td align="left">Walkability Index</td>
+<td align="left">number</td>
+<td align="left">national percentile rankings at the block group level
+from 1 to 20 averaged for each tract; 1 is least walkable, 20 is most
+walkable; accounts for intersection density, proximity to transit stops,
+employment mix, and employment/household mix (2021)</td>
+</tr>
+<tr class="even">
+<td align="left">year</td>
+<td align="left">Year</td>
+<td align="left">integer</td>
+<td align="left">data year</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
