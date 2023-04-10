@@ -20,14 +20,18 @@ codec_glimpses <-
   purrr::map(glimpse_tdr)
 
 make_md <- function(.x) {
+  ttl <- .x$attributes[.x$attributes$name == "title", "value"][[1]]
+  nm <- .x$attributes[.x$attributes$name == "name", "value"][[1]]
   options(knitr.kable.NA = "")
   c(
-    paste0("## ", .x$attributes[.x$attributes$name == 'title', 'value'][[1]], " {.tabset}\n\n"),
-    paste0("\n\n### Attributes \n\n"),
+    glue::glue("## {{ttl}} {.tabset}\n\n", .open = "{{", .close = "}}"),
+    "\n\n### Attributes \n\n",
     paste0(knitr::kable(.x$attributes), sep = "\n"),
-    paste0("\n\n### Schema \n\n"),
+    "\n\n### Schema \n\n",
     paste0(knitr::kable(.x$schema), sep = "\n"),
-    paste0("\n\n")
+    "\n\n### Download \n\n",
+    glue::glue("read in R: `codec::codec_data(\"{nm}\")`"),
+    "\n\n"
   ) |>
     paste(sep = "\n\n")
 }
