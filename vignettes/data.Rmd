@@ -10,16 +10,16 @@ vignette: >
 {CoDEC} comes with R scripts to generate a collection of "core" tabular-data-resources.  Source each of these to create an instance of `codec_data` in the current working directory:
 
 ```{r eval = FALSE}
-library(codec)
-
 fs::path_package("codec") |>
-  fs::dir_ls(glob = "*codec_*.R") |>
+  fs::dir_ls(glob = "*hamilton_*.R") |>
   purrr::walk(callr::rscript, .progress = interactive())
 ```
 
-Code like this could be used to create an data catalog:
+Use this code to display the metadata for all resources in `codec_data`:
 
-```{r results = "asis", eval = FALSE}
+```{r results = "asis", echo = TRUE}
+library(codec)
+
 codec_glimpses <-
   fs::path_package("codec") |>
   fs::path("codec_data") |>
@@ -28,13 +28,18 @@ codec_glimpses <-
   purrr::map(glimpse_tdr)
 
 make_md <- function(.x) {
-  cat("## ", .x$attributes[.x$attributes$name == 'title', 'value'][[1]], "\n\n")
-  cat("### Attributes \n\n")
-  cat(knitr::kable(.x$attributes), sep = "\n")
-  cat("\n\n ### Schema \n\n")
-  cat(knitr::kable(.x$schema), sep = "\n")
-  cat("\n\n", sep = "")
+  options(knitr.kable.NA = "")
+  c(
+    paste0("## ", .x$attributes[.x$attributes$name == 'title', 'value'][[1]], " {.tabset}\n\n"),
+    paste0("\n\n### Attributes \n\n"),
+    paste0(knitr::kable(.x$attributes), sep = "\n"),
+    paste0("\n\n### Schema \n\n"),
+    paste0(knitr::kable(.x$schema), sep = "\n"),
+    paste0("\n\n")
+  ) |>
+    paste(sep = "\n\n")
 }
 
-purrr::walk(codec_glimpses, make_md)
+purrr::map(codec_glimpses, make_md) |>
+  purrr::walk(cat)
 ```

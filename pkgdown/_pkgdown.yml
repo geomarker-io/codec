@@ -1,5 +1,4 @@
 url: http://geomarker.io/codec
-home:
 template:
   bootstrap: 5
   bslib:
