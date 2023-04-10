@@ -58,3 +58,4 @@ reference:
 - title: CoDEC user interface
   contents:
   - codec_colors
+  - codec_data

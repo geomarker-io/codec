@@ -33,3 +33,29 @@ codec_tdr <- function() {
     )
   )
 }
+
+#' read CoDEC tabular data resource
+#' 
+#' This function is shorthand for reading a CoDEC tabular
+#' data resource using `read_tdr_csv()` from the installed
+#' R package.
+#' @param name name of installed codec tabular data resource
+#' @return a tibble (codec tabular data resource)
+#' @export
+#' @examples
+#' codec_data("hamilton_traffic")
+codec_data <- function(name) {
+
+  installed_codec_data <- 
+    fs::path_package("codec") |>
+    fs::path("codec_data") |>
+    fs::dir_ls(glob = "*tabular-data-resource.yaml", recurse = TRUE) |>
+    purrr::map(read_tdr) |>
+    purrr::map_chr(c("tdr", "name"))
+
+  if (!name %in% installed_codec_data) {
+    stop(name, " not found in installed codec_data (found: ", paste(installed_codec_data, collapse = ", "), ")", call. = FALSE)
+    }
+
+  read_tdr_csv(fs::path(fs::path_package("codec"), "codec_data", name))
+}
