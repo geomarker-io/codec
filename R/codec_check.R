@@ -205,9 +205,9 @@ check_codec_tdr <- function(tdr_md) {
   }
 
   # all descriptors should be non-empty (nor missing?)
-  if (any(nchar(unlist(tdr_md)) == 0)) {
-    stop("empty field descriptors are not allowed: ",
-         paste(names(unlist(tdr_md)[nchar(unlist(tdr_md)) == 0]), collapse = ", "),
+  if (any(nchar(unlist(tdr_md)) == 0) | any(is.na(unlist(tdr_md)))) {
+    stop("empty field or missing descriptors are not allowed: ",
+         paste(c(names(unlist(tdr_md)[nchar(unlist(tdr_md)) == 0]), names(unlist(tdr_md)[is.na(unlist(tdr_md))])), collapse = ", "),
          call. = FALSE
     )
   }
