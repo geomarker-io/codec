@@ -14,6 +14,9 @@ test_that("check codec_tdr_csv", {
 
   expect_error(check_codec_tdr_csv(test_path("hamilton_poverty_2020_missing_md")),
                regexp = "all fields in the data")
+
+  expect_error(check_codec_tdr_csv(test_path("hamilton_poverty_2020_empty_field")),
+               regexp = "empty field")
 })
 
 test_that("check codec_tdr", {

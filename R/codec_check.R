@@ -204,7 +204,13 @@ check_codec_tdr <- function(tdr_md) {
     )
   }
 
-  # TODO all descriptors should be neither empty or missing
+  # all descriptors should be non-empty (nor missing?)
+  if (any(nchar(unlist(tdr_md)) == 0)) {
+    stop("empty field descriptors are not allowed: ",
+         paste(names(unlist(tdr_md)[nchar(unlist(tdr_md)) == 0]), collapse = ", "),
+         call. = FALSE
+    )
+  }
 
   return(invisible(tdr_md))
 }
@@ -242,4 +248,3 @@ check_tdr_path <- function(path) {
   # posix style path can't be enforced?
   return(invisible(NULL))
 }
-
