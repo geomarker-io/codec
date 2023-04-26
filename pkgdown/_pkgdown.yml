@@ -19,7 +19,7 @@ navbar:
      text: Data
      href: articles/data.html
    specs:
-     text: Specifications
+     text: Specs
      href: articles/specs.html
    articles:
     text: Articles
