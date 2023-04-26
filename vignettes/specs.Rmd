@@ -21,7 +21,7 @@ A CoDEC `tdr` MUST include a [census tract](https://www2.census.gov/geo/pdfs/edu
 
 The census tract identifier column MUST contain 11-digit [GEOID](https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html) identifiers for *all* census tracts in Hamilton County (GEOID: 39061). A list of required census tract identifiers for 2000, 2010, and 2020 are available in the {{[cincy](https://github.com/geomarker-io/cincy)}} R package (e.g., `cincy::tract_tigris_2010`).
 
-A CoDEC `tdr` that was *not* created at a census tract level SHOULD link to a URL (using the `homepage` [*property*](codec-metadata.html#tabular-data-resource-metadata)) that contains code and a descriptive README file about how the data was harmonized (e.g., areal interpolation) with census tract geographies.
+A CoDEC `tdr` that was *not* created at a census tract level SHOULD link to a URL (using the `homepage` [*property*](specs.html#metadata)) that contains code and a descriptive README file about how the data was harmonized (e.g., areal interpolation) with census tract geographies.
 
 #### Year (and Month) Temporal Column(s)
 
@@ -31,7 +31,7 @@ Year (and month) temporal variables in a CoDEC `tdr` MUST be in a "tidy" format 
 
 A CoDEC `tdr` consists of a directory that MUST contain exactly one data (`.csv`) file and exactly one metadata file (`tabular-data-resource.yaml`).
 
-The name of the directory and the name of the CSV file containing the data MUST be identical to the `name` [*property*](codec-metadata.html#tabular-data-resource-metadata).
+The name of the directory and the name of the CSV file containing the data MUST be identical to the `name` [*property*](specs.html#metadata).
 
 For example,
 
@@ -80,7 +80,7 @@ codec::codec_tdr() |>
 
 **All fields in the CSV data file MUST be described in the metadata and vice-versa.**
 
-#### Example
+### Example
 
 An example CoDEC `tdr` looks like:
 

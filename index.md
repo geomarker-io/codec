@@ -1,4 +1,4 @@
-&nbsp;<img src="man/figures/logo.svg" align="right" height="200" />
+# CoDEC <img src="man/figures/logo.svg" align="right" height="200"/>
 
 The **Co**mmunity **D**ata **E**xplorer for **C**incinnati (**CoDEC**) is a data repository composed of equitable, community-level data for Cincinnati.
 
