@@ -69,15 +69,29 @@ The metadata of a CoDEC `tdr` is hierarchically composed of different **descript
 
 A CoDEC `tdr` MUST contain `name` and `path` descriptors. All other properties, schema, and fields MAY be present, but MUST be one of:
 
+#### `property`
+
 ```{r as.is = T, echo = F}
-codec::codec_tdr() |>
-  purrr::map(tibble::enframe) |>
-  tibble::enframe(name = "type", value = "data") |>
-  dplyr::rowwise(type) |>
-  dplyr::summarize(data, .groups = "drop") |>
-  knitr::kable()
+codec::codec_tdr()$property |>
+                   tibble::enframe() |>
+                   knitr::kable()
 ```
 
+#### `schema`
+
+```{r as.is = T, echo = F}
+codec::codec_tdr()$schema |>
+                   tibble::enframe() |>
+                   knitr::kable()
+```
+
+#### `fields`
+
+```{r as.is = T, echo = F}
+codec::codec_tdr()$fields |>
+                   tibble::enframe() |>
+                   knitr::kable()
+```
 **All fields in the CSV data file MUST be described in the metadata and vice-versa.**
 
 ### Example
