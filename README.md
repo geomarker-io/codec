@@ -15,7 +15,7 @@ infrastructure through:
 - reading and writing tabular-data-resources:
   `vignette("reading-writing-tdr")`
 - defining the CoDEC tabular-data-resource specifications:
-  `vignette("codec-specs")`
+  `vignette("specs")`
 - providing tools to check CoDEC tabular-data-resources and create an
   interactive data catalog: `vignette("data")`
 
