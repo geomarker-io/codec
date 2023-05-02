@@ -59,7 +59,7 @@ The CoDEC specifications are based on the [Frictionless](https://frictionlessdat
 
 The metadata of a CoDEC `tdr` is hierarchically composed of different **descriptors** :
 
-![](codec_metadata.png)
+![](codec_metadata.svg)
 
 - **property** (or ["metadata property"](https://specs.frictionlessdata.io/data-resource/#metadata-properties)) are named values used to describe the data resource. The value of most *properties* are a single character string (e.g., `name = "my_data"`), but some are lists.
 

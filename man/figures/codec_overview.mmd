@@ -1,3 +1,5 @@
+%%{init: { "fontFamily": "arial" } }%%
+
 flowchart TD
 
 classDef I fill:#E49865,stroke:#333,stroke-width:0px;
@@ -29,7 +31,7 @@ subgraph codec-box ["Community Data Explorer for Cincinnati (CoDEC)"]
     ingest --> data
     data --> data-catalog
     data --> api(data API):::IIII
-    api --> bindings(R package \n for accessing data):::IIII
+    api --> bindings(R code \n for accessing data):::IIII
     data-catalog --> download(explore, map, download):::V
 end
 
@@ -37,5 +39,5 @@ class codec-box III
 
 bindings --> dashboard("dashboards and reports"):::V
 bindings --> qr(QI & research):::V
-bindings --> shiny-codec("Shiny CoDEC"):::V
+bindings --> shiny-codec("Explore"):::V
 api ---> anywhere(public access):::V
