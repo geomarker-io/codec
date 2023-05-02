@@ -38,6 +38,8 @@ make_core_md <- function(x = cd[[1]]) {
 cd_md <- purrr::map(cd, make_core_md)
 ```
 
+&nbsp;
+
 ```{r}
 #| echo: false
 #| results: asis
@@ -47,12 +49,17 @@ purrr::walk(cd_md,
               glue::glue_data(
                 .,
                 "## `{name}`",
-                "[{title}]({homepage}) *v{version}* {dl_button}",
+                "[**{title}**]({homepage}) *v{version}* {dl_button}",
                 ## "```r",
                 ## "codec::codec_data(\"{name}\")",
                 ## "```",
                 ## "**About**: {description}",
+                ## " ### Schema",
                 "{paste(schema, collapse = '\n')}",
+                "\n\n",
+                "&nbsp;",
+                "\n\n",
+                "&nbsp;",
                 "\n\n",
                 .sep = "\n\n",
                 .na = "") |>
