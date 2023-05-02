@@ -1,14 +1,15 @@
 ---
-title: "Data Catalog"
+title: "Data"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Data Catalog}
+  %\VignetteIndexEntry{Data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r}
 #| echo: false
+options(knitr.kable.NA = "")
 library(codec)
 
 codec_data_installed <-
@@ -20,73 +21,42 @@ codec_data_installed <-
 cd <-
   purrr::map(codec_data_installed, codec::codec_data, .progress = "reading codec data") |>
   purrr::set_names(codec_data_installed)
-```
 
+make_core_md <- function(x = cd[[1]]) {
+  md <- purrr::keep_at(attributes(x), c("name", "title", "homepage", "version", "description"))
+  md$dl_button <- downloadthis::download_dir(
+    button_label = "", 
+    has_icon = TRUE,
+    icon = "fa fa-download",
+    self_contained = TRUE,
+    path = fs::path_package("codec", "codec_data", md$name),
+    output_name = md$name)
+  md$schema <- knitr::kable(glimpse_schema(x))
+  return(md)
+}
+
+cd_md <- purrr::map(cd, make_core_md)
+```
 
 ```{r}
 #| echo: false
-x <- cd[["tract_indices"]]
-x <-
-  x |>
-  add_attrs(description = "A compilation of several open data products at the census tract level, including socioeconomic indices, environmental indices, and resource access indices")
-```
+#| results: asis
 
-## `r attr(x, "title")`
+purrr::walk(cd_md,
+            function(.) {
+              glue::glue_data(
+                .,
+                "## `{name}`",
+                "[{title}]({homepage}) *v{version}* {dl_button}",
+                ## "```r",
+                ## "codec::codec_data(\"{name}\")",
+                ## "```",
+                ## "**About**: {description}",
+                "{paste(schema, collapse = '\n')}",
+                "\n\n",
+                .sep = "\n\n",
+                .na = "") |>
+                cat()
+            })
 
-[``r attr(x, "name")``](`r attr(x, "homepage")`) (*v`r attr(x, "version")`*): `r attr(x, "description")`.
-
-```{r}
-#| echo: false
-
-downloadthis::download_dir(
-  path = fs::path_package("codec", "codec_data", attr(x, "name")),
-  output_name = attr(x, "name"),
-  button_label = "Download",
-  button_type = "success",
-  has_icon = TRUE,
-  icon = "fa fa-download",
-  self_contained = TRUE
-)
-
-```
-
-```{r}
-#| eval: false
-codec::codec_data("tract_indices")
-
-```
-
-### Metadata
-
-```{r}
-#| echo: false
-glimpse_schema(x) |>
-  DT::datatable(rownames = FALSE,
-                options = list(
-                  paging = FALSE,
-                  dom = "ft",
-                  searchHighlight = TRUE,
-                  scrollCollapse = TRUE,
-                  scroller = TRUE,
-                  scrollX = TRUE,
-                  scrollY = "400px",
-                  extensions = c("Scroller")))
-```
-
-### Data
-
-```{r}
-#| echo: false
-x |>
-  DT::datatable(rownames = FALSE,
-                options = list(
-                  paging = FALSE,
-                  dom = "ft",
-                  searchHighlight = TRUE,
-                  scrollCollapse = TRUE,
-                  scroller = TRUE,
-                  scrollX = TRUE,
-                  scrollY = "400px",
-                  extensions = c("Scroller")))
-```
 ```
