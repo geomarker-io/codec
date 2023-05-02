@@ -25,13 +25,16 @@ cd <-
 make_core_md <- function(x = cd[[1]]) {
   md <- purrr::keep_at(attributes(x), c("name", "title", "homepage", "version", "description"))
   md$dl_button <- downloadthis::download_dir(
-    button_label = "", 
+    button_label = "tdr", 
+    button_type = "info",
     has_icon = TRUE,
     icon = "fa fa-download",
     self_contained = TRUE,
+    class = "codec_button_dl",
     path = fs::path_package("codec", "codec_data", md$name),
     output_name = md$name)
   md$schema <- knitr::kable(glimpse_schema(x))
+  md$v_button <- bsplus::bs_button(glue::glue("v{md$version}"), class = "codec_button_v")
   return(md)
 }
 
@@ -39,6 +42,19 @@ cd_md <- purrr::map(cd, make_core_md)
 ```
 
 &nbsp;
+
+```{css, echo=FALSE}
+.codec_button_dl {
+	font-size: 16px;
+	font-family: "Source Code Pro";
+}
+
+.codec_button_v {
+	font-size: 16px;
+	font-family: "Source Code Pro";
+	button-type: Info;
+}
+```
 
 ```{r}
 #| echo: false
@@ -48,8 +64,11 @@ purrr::walk(cd_md,
             function(.) {
               glue::glue_data(
                 .,
-                "## `{name}`",
-                "[**{title}**]({homepage}) *v{version}* {dl_button}",
+                "<hr>",
+                "## `{name}` {v_button}",
+                "[**{title}**]({homepage}) {dl_button}",
+                "<hr>",
+                ## "read into R with:",
                 ## "```r",
                 ## "codec::codec_data(\"{name}\")",
                 ## "```",
