@@ -25,16 +25,19 @@ cd <-
 make_core_md <- function(x = cd[[1]]) {
   md <- purrr::keep_at(attributes(x), c("name", "title", "homepage", "version", "description"))
   md$dl_button <- downloadthis::download_dir(
-    button_label = "tdr", 
+    button_label = "", 
     button_type = "info",
     has_icon = TRUE,
     icon = "fa fa-download",
     self_contained = TRUE,
     class = "codec_button_dl",
     path = fs::path_package("codec", "codec_data", md$name),
-    output_name = md$name)
+    output_name = md$name) |>
+    bsplus::bs_embed_tooltip("download the CoDEC tabular data resource", placement = "right")
   md$schema <- knitr::kable(glimpse_schema(x))
-  md$v_button <- bsplus::bs_button(glue::glue("v{md$version}"), class = "codec_button_v")
+  md$name_button <- bsplus::bs_button(
+    label = glue::glue("{md$name}"),
+    class = "codec_button_n")
   return(md)
 }
 
@@ -45,14 +48,14 @@ cd_md <- purrr::map(cd, make_core_md)
 
 ```{css, echo=FALSE}
 .codec_button_dl {
-	font-size: 16px;
+	font-size: 12px;
 	font-family: "Source Code Pro";
+	button-size: Extra-small;
 }
 
-.codec_button_v {
-	font-size: 16px;
+.codec_button_n {
+	font-size: 24px;
 	font-family: "Source Code Pro";
-	button-type: Info;
 }
 ```
 
@@ -64,10 +67,11 @@ purrr::walk(cd_md,
             function(.) {
               glue::glue_data(
                 .,
-                "<hr>",
-                "## `{name}` {v_button}",
-                "[**{title}**]({homepage}) {dl_button}",
-                "<hr>",
+                ## "<hr>",
+                "## {name_button}",
+                "[**{title}**]({homepage}) v{version} {dl_button}",
+                ## "> {description}",
+                ## "<hr>",
                 ## "read into R with:",
                 ## "```r",
                 ## "codec::codec_data(\"{name}\")",
