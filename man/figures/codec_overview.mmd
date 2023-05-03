@@ -27,7 +27,7 @@ stage --> codec-box
 subgraph codec-box ["Community Data Explorer for Cincinnati (CoDEC)"]
     ingest("(meta)data harmonization"):::IIII
     data(community-level \n tabular data resource):::IIII
-    data-catalog("interactive data catalog\n geomarker.io/codec/data"):::IIII
+    data-catalog("interactive data catalog\n geomarker.io/codec"):::IIII
     ingest --> data
     data --> data-catalog
     data --> api(data API):::IIII
@@ -39,5 +39,4 @@ class codec-box III
 
 bindings --> dashboard("dashboards and reports"):::V
 bindings --> qr(QI & research):::V
-bindings --> shiny-codec("Explore"):::V
 api ---> anywhere(public access):::V
