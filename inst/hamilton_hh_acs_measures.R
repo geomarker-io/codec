@@ -13,8 +13,7 @@ d <-
   add_col_attrs(census_tract_id_2010,
     name = "census_tract_id_2010",
     title = "Census Tract Identifier"
-  ) |>
-  add_attrs(description = "2010 - 2020 measures derived from ACS variables for census tracts in Hamilton County")
+  )
 
 write_tdr_csv(d, "codec_data")
 check_codec_tdr_csv(fs::path("codec_data", name))
