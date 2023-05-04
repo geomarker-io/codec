@@ -94,6 +94,8 @@ codec::codec_tdr()$fields |>
 ```
 **All fields in the CSV data file MUST be described in the metadata and vice-versa.**
 
+See [Curating metadata for tabular data in R using attributes](curating-metadata.html) for details on how to save the tabular-data-resource to disk.
+
 ### Example
 
 An example CoDEC `tdr` looks like:
@@ -136,5 +138,5 @@ The CSV data file for this example CoDEC `tdr` would contain values for all vint
     2020, 39061023501, 0.046
     2020, 39061009800, 0.391
 
-> CoDEC specifications are versioned with {CoDEC}, so this article describes version `r packageVersion("codec")`.
+> CoDEC specifications are versioned with {CoDEC}; this article describes version `r packageVersion("codec")`.
 
