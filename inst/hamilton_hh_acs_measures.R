@@ -1,6 +1,6 @@
 library(codec)
 name <- "hh_acs_measures"
-version <- "v1.0.0"
+version <- "v1.1.0"
 
 d <-
   read_tdr_csv(glue::glue(
@@ -15,5 +15,5 @@ d <-
     title = "Census Tract Identifier"
   )
 
-write_tdr_csv(d, "codec_data")
-check_codec_tdr_csv(fs::path("codec_data", name))
+write_tdr_csv(d, fs::path_package("codec", "codec_data"))
+check_codec_tdr_csv(fs::path_package("codec", "codec_data", name))

@@ -15,5 +15,5 @@ d <-
   add_type_attrs() |>
   add_attrs(description = "A collection of census-derived indices for census tracts in Hamilton County")
 
-write_tdr_csv(d, "codec_data")
-check_codec_tdr_csv(fs::path("codec_data", name))
+write_tdr_csv(d, fs::path_package("codec", "codec_data"))
+check_codec_tdr_csv(fs::path_package("codec", "codec_data", name))

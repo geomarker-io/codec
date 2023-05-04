@@ -11,5 +11,5 @@ d <-
   add_col_attrs(year, name = "year", title = "Year", description = "data year") |>
   add_type_attrs()
 
-write_tdr_csv(d, "codec_data")
-check_codec_tdr_csv(fs::path("codec_data", name))
+write_tdr_csv(d, fs::path_package("codec", "codec_data"))
+check_codec_tdr_csv(fs::path_package("codec", "codec_data", name))
