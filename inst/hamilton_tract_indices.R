@@ -1,4 +1,4 @@
-library(codec)
+devtools::load_all()
 name <- "tract_indices"
 version <- "v0.3.0"
 

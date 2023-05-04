@@ -1,4 +1,4 @@
-library(codec)
+devtools::load_all()
 name <- "hh_acs_measures"
 version <- "v1.1.0"
 

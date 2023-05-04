@@ -1,4 +1,4 @@
-library(codec)
+devtools::load_all()
 name <- "hamilton_landcover"
 version <- "v0.1.0"
 
