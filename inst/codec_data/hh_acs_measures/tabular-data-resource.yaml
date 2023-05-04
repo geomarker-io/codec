@@ -1,10 +1,10 @@
 profile: tabular-data-resource
 name: hh_acs_measures
 path: hh_acs_measures.csv
-version: 1.0.0
+version: 1.1.0
 title: Harmonized Historical American Community Survey Measures
-homepage: https://github.com/geomarker-io/hh_acs_measures
-description: 2010 - 2020 measures derived from ACS variables for census tracts in
+homepage: https://geomarker.io/hh_acs_measures
+description: 2010 - 2021 measures derived from ACS variables for census tracts in
   the contiguous US
 schema:
   fields:
@@ -64,9 +64,9 @@ schema:
       type: number
     fraction_snap:
       name: fraction_snap
-      title: Fraction of Households Receiving SNAP
-      description: Fraction of households receiving food stamps/SNAP in the past 12
-        months
+      title: Fraction of Households Receiving Assisted Income
+      description: Fraction of households receiving public assistance income or food
+        stamps/SNAP in the past 12 months
       type: number
     fraction_snap_moe:
       name: fraction_snap_moe
