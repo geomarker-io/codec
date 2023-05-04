@@ -4,6 +4,7 @@ path: hamilton_property_code_enforcement.csv
 version: 0.1.2
 title: Hamilton County Property Code Enforcement
 homepage: https://geomarker.io/hamilton_property_code_enforcement
+description: Number of property code enforcements per household by census tract
 schema:
   fields:
     census_tract_id_2020:
