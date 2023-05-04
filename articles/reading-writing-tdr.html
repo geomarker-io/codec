@@ -295,13 +295,10 @@ by expressing the <code>path</code> relative to how the location of the
 <span><span class="co">#&gt;   ..$ schema  :List of 1</span></span>
 <span><span class="co">#&gt;  $ csv_file: 'fs_path' chr "mydata/mydata.csv"</span></span></code></pre></div>
 <p>This would return a different <code>csv_file</code> if the
-tabular-data-resource had been specified using an absolute file
-path:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/read_tdr.html">read_tdr</a></span><span class="op">(</span><span class="st">"~/code/CoDEC/tests/testthat/d"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+tabular-data-resource had been specified using an absolute file path;
+e.g., <code>read_tdr("~/code/CoDEC/tests/testthat/d")</code></p>
 <p>This also works with a URL:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_tdr.html">read_tdr</a></span><span class="op">(</span><span class="st">"https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
