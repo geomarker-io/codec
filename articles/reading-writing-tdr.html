@@ -176,8 +176,8 @@ and CSV data files are automatically downloaded first:</p>
 <td>
 <table class="table">
 <colgroup>
-<col width="12%">
-<col width="87%">
+<col width="11%">
+<col width="88%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">name</th>
@@ -208,6 +208,11 @@ Characteristics</td>
 <tr class="even">
 <td align="left">homepage</td>
 <td align="left"><a href="https://geomarker.io/hamilton_landcover" class="external-link uri">https://geomarker.io/hamilton_landcover</a></td>
+</tr>
+<tr class="odd">
+<td align="left">description</td>
+<td align="left">Greenspace, imperviousness, treecanopy, and greenness
+(EVI) for all tracts in Hamilton County</td>
 </tr>
 </tbody>
 </table>
@@ -300,14 +305,15 @@ path:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_tdr.html">read_tdr</a></span><span class="op">(</span><span class="st">"https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
-<span><span class="co">#&gt;  $ tdr     :List of 7</span></span>
-<span><span class="co">#&gt;   ..$ profile : chr "tabular-data-resource"</span></span>
-<span><span class="co">#&gt;   ..$ name    : chr "hamilton_landcover"</span></span>
-<span><span class="co">#&gt;   ..$ path    : chr "hamilton_landcover.csv"</span></span>
-<span><span class="co">#&gt;   ..$ version : chr "0.1.0"</span></span>
-<span><span class="co">#&gt;   ..$ title   : chr "Hamilton County Landcover and Built Environment Characteristics"</span></span>
-<span><span class="co">#&gt;   ..$ homepage: chr "https://geomarker.io/hamilton_landcover"</span></span>
-<span><span class="co">#&gt;   ..$ schema  :List of 1</span></span>
+<span><span class="co">#&gt;  $ tdr     :List of 8</span></span>
+<span><span class="co">#&gt;   ..$ profile    : chr "tabular-data-resource"</span></span>
+<span><span class="co">#&gt;   ..$ name       : chr "hamilton_landcover"</span></span>
+<span><span class="co">#&gt;   ..$ path       : chr "hamilton_landcover.csv"</span></span>
+<span><span class="co">#&gt;   ..$ version    : chr "0.1.0"</span></span>
+<span><span class="co">#&gt;   ..$ title      : chr "Hamilton County Landcover and Built Environment Characteristics"</span></span>
+<span><span class="co">#&gt;   ..$ description: chr "Greenspace, imperviousness, treecanopy, and greenness (EVI) for all tracts in Hamilton County"</span></span>
+<span><span class="co">#&gt;   ..$ homepage   : chr "https://geomarker.io/hamilton_landcover"</span></span>
+<span><span class="co">#&gt;   ..$ schema     :List of 1</span></span>
 <span><span class="co">#&gt;   .. ..$ fields:List of 5</span></span>
 <span><span class="co">#&gt;   .. .. ..$ census_tract_id    :List of 3</span></span>
 <span><span class="co">#&gt;   .. .. ..$ pct_green_2019     :List of 4</span></span>
