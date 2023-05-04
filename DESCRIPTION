@@ -26,7 +26,9 @@ Suggests:
     DT,
     sf,
     leaflet,
-    callr
+    callr,
+    downloadthis,
+    bsplus
 Remotes:
     geomarker-io/cincy
 Config/testthat/edition: 3
