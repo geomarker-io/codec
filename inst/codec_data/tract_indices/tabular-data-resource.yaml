@@ -4,6 +4,8 @@ path: tract_indices.csv
 version: 0.3.1
 title: Census Tract-Level Neighborhood Indices
 homepage: https://geomarker.io/tract_indices
+description: A collection of census-derived indices for census tracts in Hamilton
+  County
 schema:
   fields:
     census_tract_id_2010:
@@ -152,9 +154,6 @@ schema:
         population living more than 1 mile from nearest food store in urban areas,
         or more than 10 miles in rural areas (2019)
       type: boolean
-    low_food_access_pop:
-      name: low_food_access_pop
-      type: number
     low_food_access_pct:
       name: low_food_access_pct
       title: Low Food Access Percentage

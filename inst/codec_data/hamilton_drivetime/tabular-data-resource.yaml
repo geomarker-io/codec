@@ -4,6 +4,8 @@ path: hamilton_drivetime.csv
 version: 0.1.0
 title: Tract-Level Drivetime to CCHMC
 homepage: https://geomarker.io/hamilton_drivetime
+description: Average drivetime in 6-minute intervals for census tracts in Hamilton
+  County
 schema:
   fields:
     census_tract_id_2010:
