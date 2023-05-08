@@ -12,11 +12,14 @@ template:
     btn-border-radius: 0.25rem
 navbar:
   structure:
-    left:  [about, data, specs, articles, reference]
+    left:  [about, explore, data, specs, articles, reference]
   components:
    about:
     text: About
     href: index.html
+   explore:
+     text: Explore
+     href: https://grapph.shinyapps.io/codec_explorer
    data:
      text: Data
      href: articles/data.html
