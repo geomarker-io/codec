@@ -35,18 +35,23 @@ codec_tdr <- function() {
 }
 
 #' read CoDEC tabular data resource
-#' 
+#'
 #' This function is shorthand for reading a CoDEC tabular
 #' data resource using `read_tdr_csv()` from the installed
 #' R package.
 #' @param name name of installed codec tabular data resource
+#' @param interpolate_to a {cincy} geography object; codec data
+#' will be returned at this geography
 #' @return a tibble (codec tabular data resource)
+#' @details the {cincy} geography object is supplied to `interpolate_to`
+#' is passed to `cincy::interpolate`, interpolating the tract-level codec
+#' data to the supplied geography using population weights
 #' @export
 #' @examples
 #' codec_data("hamilton_traffic")
-codec_data <- function(name) {
+codec_data <- function(name, interpolate_to = NULL) {
 
-  installed_codec_data <- 
+  installed_codec_data <-
     fs::path_package("codec") |>
     fs::path("codec_data") |>
     fs::dir_ls(glob = "*tabular-data-resource.yaml", recurse = TRUE) |>
@@ -57,5 +62,16 @@ codec_data <- function(name) {
     stop(name, " not found in installed codec_data (found: ", paste(installed_codec_data, collapse = ", "), ")", call. = FALSE)
     }
 
-  read_tdr_csv(fs::path(fs::path_package("codec"), "codec_data", name))
+  message("reading data...")
+  d <- read_tdr_csv(fs::path(fs::path_package("codec"), "codec_data", name))
+
+  if (!is.null(interpolate_to)) {
+    message(glue::glue("interpolating data to {names(interpolate_to)[1]}..."))
+    d_sf <- dplyr::left_join(d, cincy::tract_tigris_2010, by = "census_tract_id_2010")
+    d_sf <- sf::st_as_sf(d_sf)
+    d <- cincy::interpolate(from = d_sf, to = interpolate_to, weights = "pop")
+    d <- sf::st_drop_geometry(tibble::as_tibble(d))
+  }
+
+  return(d)
 }
