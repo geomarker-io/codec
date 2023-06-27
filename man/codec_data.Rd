@@ -4,10 +4,13 @@
 \alias{codec_data}
 \title{read CoDEC tabular data resource}
 \usage{
-codec_data(name)
+codec_data(name, interpolate_to = NULL)
 }
 \arguments{
 \item{name}{name of installed codec tabular data resource}
+
+\item{interpolate_to}{a {cincy} geography object; codec data
+will be returned at this geography}
 }
 \value{
 a tibble (codec tabular data resource)
@@ -16,6 +19,11 @@ a tibble (codec tabular data resource)
 This function is shorthand for reading a CoDEC tabular
 data resource using \code{read_tdr_csv()} from the installed
 R package.
+}
+\details{
+the {cincy} geography object is supplied to \code{interpolate_to}
+is passed to \code{cincy::interpolate}, interpolating the tract-level codec
+data to the supplied geography using population weights
 }
 \examples{
 codec_data("hamilton_traffic")
