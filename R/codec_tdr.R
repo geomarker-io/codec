@@ -69,8 +69,10 @@ codec_data <- function(name, interpolate_to = NULL) {
     message(glue::glue("interpolating data to {names(interpolate_to)[1]}..."))
     d_sf <- dplyr::left_join(d, cincy::tract_tigris_2010, by = "census_tract_id_2010")
     d_sf <- sf::st_as_sf(d_sf)
-    d <- cincy::interpolate(from = d_sf, to = interpolate_to, weights = "pop")
-    d <- sf::st_drop_geometry(tibble::as_tibble(d))
+    d_int <- cincy::interpolate(from = d_sf, to = interpolate_to, weights = "pop")
+    d_int <- sf::st_drop_geometry(tibble::as_tibble(d_int))
+    attributes(d_int) <- append(attributes(d_int), attributes(d))
+    d <- d_int
   }
 
   return(d)
