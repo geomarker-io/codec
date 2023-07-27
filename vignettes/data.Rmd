@@ -36,7 +36,7 @@ make_core_md <- function(x = cd[[1]]) {
     bsplus::bs_embed_tooltip("download the CoDEC tabular data resource", placement = "right")
   md$schema <- knitr::kable(glimpse_schema(x))
   md$name_button <- bsplus::bs_button(
-    label = glue::glue("`{md$name}`"),
+    label = glue::glue("{md$name}"),
     class = "codec_button_n")
   return(md)
 }
