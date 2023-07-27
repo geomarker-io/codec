@@ -54,6 +54,7 @@ cd_md <- purrr::map(cd, make_core_md)
 
 .codec_button_n {
 	font-size: 24px;
+	font-family: "Source Code Pro";
 }
 ```
 
