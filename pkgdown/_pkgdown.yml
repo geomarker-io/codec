@@ -10,6 +10,7 @@ template:
     grid-gutter-width: "0.0rem"
     border-radius: 0.5rem
     btn-border-radius: 0.25rem
+    code_font: {google: "Source Code Pro"}
 navbar:
   structure:
     left:  [about, explore, data, specs, articles, reference]
