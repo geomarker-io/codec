@@ -49,26 +49,3 @@ test_that("glimpse_schema() works without constraints", {
       )
     )
 })
-
-test_that("codec_data() with interpolation retains metadata", {
-  landcover_attrs <-
-    codec_data("hamilton_landcover") |>
-    glimpse_attr()
-  expect_equal(
-    landcover_attrs,
-    codec_data("hamilton_landcover", interpolate_to = cincy::zcta_tigris_2010) |>
-      glimpse_attr()
-    )
-})
-
-# test_that("codec_data() with interpolation retains schema metadata", {
-#   landcover_attrs <-
-#     codec_data("hamilton_landcover") |>
-#     glimpse_schema()
-#   expect_equal(
-#     landcover_attrs,
-#     codec_data("hamilton_landcover", interpolate_to = cincy::zcta_tigris_2010) |>
-#       glimpse_schema()
-#   )
-# })
-

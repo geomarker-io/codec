@@ -4,13 +4,15 @@
 \alias{codec_data}
 \title{read CoDEC tabular data resource}
 \usage{
-codec_data(name, interpolate_to = NULL)
+codec_data(name, geography = cincy::tract_tigris_2010, geometry = FALSE)
 }
 \arguments{
 \item{name}{name of installed codec tabular data resource}
 
-\item{interpolate_to}{a {cincy} geography object; codec data
+\item{geography}{a {cincy} geography object; codec data
 will be returned at this geography}
+
+\item{geometry}{if TRUE, \code{codec_data} will return an sf object}
 }
 \value{
 a tibble (codec tabular data resource)
@@ -21,7 +23,7 @@ data resource using \code{read_tdr_csv()} from the installed
 R package.
 }
 \details{
-the {cincy} geography object is supplied to \code{interpolate_to}
+the {cincy} geography object is supplied to \code{geography}
 is passed to \code{cincy::interpolate}, interpolating the tract-level codec
 data to the supplied geography using population weights
 }

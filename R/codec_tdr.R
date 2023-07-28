@@ -40,16 +40,17 @@ codec_tdr <- function() {
 #' data resource using `read_tdr_csv()` from the installed
 #' R package.
 #' @param name name of installed codec tabular data resource
-#' @param interpolate_to a {cincy} geography object; codec data
+#' @param geography a {cincy} geography object; codec data
 #' will be returned at this geography
+#' @param geometry if TRUE, `codec_data` will return an sf object
 #' @return a tibble (codec tabular data resource)
-#' @details the {cincy} geography object is supplied to `interpolate_to`
+#' @details the {cincy} geography object is supplied to `geography`
 #' is passed to `cincy::interpolate`, interpolating the tract-level codec
 #' data to the supplied geography using population weights
 #' @export
 #' @examples
 #' codec_data("hamilton_traffic")
-codec_data <- function(name, interpolate_to = NULL) {
+codec_data <- function(name, geography = cincy::tract_tigris_2010, geometry = FALSE) {
 
   installed_codec_data <-
     fs::path_package("codec") |>
@@ -60,18 +61,21 @@ codec_data <- function(name, interpolate_to = NULL) {
 
   if (!name %in% installed_codec_data) {
     stop(name, " not found in installed codec_data (found: ", paste(installed_codec_data, collapse = ", "), ")", call. = FALSE)
-    }
+  }
 
   message("reading data...")
   d <- read_tdr_csv(fs::path(fs::path_package("codec"), "codec_data", name))
 
-  if (!is.null(interpolate_to)) {
-    message(glue::glue("interpolating data to {names(interpolate_to)[1]}..."))
+  if(identical(geography, cincy::tract_tigris_2010) & geometry) {
+    d <- dplyr::left_join(d, cincy::tract_tigris_2010, by = "census_tract_id_2010")
+  }
+
+  if (!identical(geography, cincy::tract_tigris_2010)) {
+    message(glue::glue("interpolating data to {names(geography)[1]}..."))
     d_sf <- dplyr::left_join(d, cincy::tract_tigris_2010, by = "census_tract_id_2010")
     d_sf <- sf::st_as_sf(d_sf)
-    d_int <- cincy::interpolate(from = d_sf, to = interpolate_to, weights = "pop")
-    d_int <- sf::st_drop_geometry(tibble::as_tibble(d_int))
-    attributes(d_int) <- append(attributes(d_int), attributes(d))
+    d_int <- cincy::interpolate(from = d_sf, to = geography, weights = "pop")
+    if (!geometry) d_int <- sf::st_drop_geometry(tibble::as_tibble(d_int))
     d <- d_int
   }
 

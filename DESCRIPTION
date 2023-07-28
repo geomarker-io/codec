@@ -18,13 +18,11 @@ Suggests:
     roxygen2,
     knitr,
     rmarkdown,
-    cincy (>= 1.0.0),
     curl,
     glue,
     mapview,
     gh,
     DT,
-    sf,
     leaflet,
     callr,
     downloadthis,
@@ -45,7 +43,9 @@ Imports:
     stringi,
     stringr,
     tibble,
-    yaml
+    yaml, 
+    cincy (>= 1.0.1),
+    sf
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
