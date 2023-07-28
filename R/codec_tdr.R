@@ -68,6 +68,13 @@ codec_data <- function(name, geography = cincy::tract_tigris_2010, geometry = FA
   message("reading data...")
   d <- read_tdr_csv(fs::path(fs::path_package("codec"), "codec_data", name))
 
+  # check to see if we need cincy package without loading it yet
+  if (!deparse(substitute(geography)) == "cincy::tract_tigris_2010") {
+    if (!requireNamespace("cincy", quietly = TRUE)) {
+      message("geographic interpolation requires the {cincy} package. please install from https://geomarker.io/cincy")
+    }
+  }
+
   if(identical(geography, cincy::tract_tigris_2010) & geometry) {
     d <- dplyr::left_join(d, cincy::tract_tigris_2010, by = "census_tract_id_2010")
   }

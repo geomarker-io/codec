@@ -10,6 +10,7 @@ test_that("codec_data works", {
 })
 
 test_that("codec_data works with interpolation", {
+  skip_if_no_cincy()
 
   codec_d <- codec_data("hamilton_landcover",
                         geography = cincy::zcta_tigris_2010,

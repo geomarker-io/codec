@@ -26,6 +26,7 @@ Suggests:
     leaflet,
     callr,
     downloadthis,
+    cincy (>= 1.0.1),
     bsplus
 Remotes:
     geomarker-io/cincy
@@ -44,7 +45,6 @@ Imports:
     stringr,
     tibble,
     yaml, 
-    cincy (>= 1.0.1),
     sf
 VignetteBuilder: knitr
 Depends: 
