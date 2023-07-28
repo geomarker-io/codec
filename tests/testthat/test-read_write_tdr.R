@@ -24,6 +24,7 @@ test_that("read_tdr_csv", {
 })
 
 test_that("read_tdr_csv works with URL", {
+  skip_if_offline()
   lndcvr <-
     read_tdr_csv(tdr_file = "https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0/tabular-data-resource.yaml")
   expect_identical(attr(lndcvr, "name"), "hamilton_landcover")
@@ -43,3 +44,8 @@ test_that("write_tdr_csv", {
   ))
   fs::dir_delete(fs::path(test_path(), "example"))
 })
+
+test_that("write_tdr_csv fails on non tdr data.frame", {
+  write_tdr_csv(mtcars, "mtcars.csv") |>
+    expect_error(regexp = "'name' attribute")
+  })

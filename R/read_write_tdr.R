@@ -148,13 +148,17 @@ write_tdr <- function(.x, file = "tabular-data-resource.yaml", codec = TRUE) {
 #' of the data.frame or tibble. The CSV data file will be named
 #' based on the name attribute of the data.frame or tibble
 #' and a "tabular-data-resource.yaml" file will also be created.
-#' @param .x data.frame or tibble
+#'
+#' @param .x data.frame or tibble with metadata attributes (at least a 'name' attribute)
 #' @param dir path to directory where tdr will be created; see details
 #' @param codec logical; use only CoDEC properties?
 #' @return .x, invisibly
 #' @export
 write_tdr_csv <- function(.x, dir = getwd(), codec = TRUE) {
-  tdr_name <- attr(.x, "name")
+
+  tdr_name <- attr(.x, "name", exact = TRUE)
+
+  if (is.null(tdr_name)) stop("there is no 'name' attribute", call. = FALSE)
 
   tdr_dir <- fs::path(dir, tdr_name)
   fs::dir_create(tdr_dir)
