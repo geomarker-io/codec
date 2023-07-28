@@ -7,7 +7,7 @@
 write_tdr_csv(.x, dir = getwd(), codec = TRUE)
 }
 \arguments{
-\item{.x}{data.frame or tibble}
+\item{.x}{data.frame or tibble with metadata attributes (at least a 'name' attribute)}
 
 \item{dir}{path to directory where tdr will be created; see details}
 
