@@ -41,15 +41,17 @@ codec_tdr <- function() {
 #' R package.
 #' @param name name of installed codec tabular data resource
 #' @param geography a {cincy} geography object; codec data
-#' will be returned at this geography
-#' @param geometry if TRUE, `codec_data` will return an sf object
-#' @return a tibble (codec tabular data resource)
-#' @details the {cincy} geography object is supplied to `geography`
-#' is passed to `cincy::interpolate`, interpolating the tract-level codec
-#' data to the supplied geography using population weights
+#' will be returned at this geography using `cincy::interpolate`
+#' with block-level population weights
+#' @param geometry return the merged `geography` object
+#' alongside the output as a simple features object?
+#' @return a tibble (codec tabular data resource), or simple features object when `geometry = TRUE`
 #' @export
 #' @examples
 #' codec_data("hamilton_traffic")
+#' codec_data("hamilton_traffic", cincy::neigh_cchmc_2020)
+#' codec_data("hamilton_landcover", geography = cincy::zcta_tigris_2010, geometry = TRUE)
+
 codec_data <- function(name, geography = cincy::tract_tigris_2010, geometry = FALSE) {
 
   installed_codec_data <-

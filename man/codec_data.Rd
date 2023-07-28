@@ -10,23 +10,22 @@ codec_data(name, geography = cincy::tract_tigris_2010, geometry = FALSE)
 \item{name}{name of installed codec tabular data resource}
 
 \item{geography}{a {cincy} geography object; codec data
-will be returned at this geography}
+will be returned at this geography using \code{cincy::interpolate}
+with block-level population weights}
 
-\item{geometry}{if TRUE, \code{codec_data} will return an sf object}
+\item{geometry}{return the merged \code{geography} object
+alongside the output as a simple features object?}
 }
 \value{
-a tibble (codec tabular data resource)
+a tibble (codec tabular data resource), or simple features object when \code{geometry = TRUE}
 }
 \description{
 This function is shorthand for reading a CoDEC tabular
 data resource using \code{read_tdr_csv()} from the installed
 R package.
 }
-\details{
-the {cincy} geography object is supplied to \code{geography}
-is passed to \code{cincy::interpolate}, interpolating the tract-level codec
-data to the supplied geography using population weights
-}
 \examples{
 codec_data("hamilton_traffic")
+codec_data("hamilton_traffic", cincy::neigh_cchmc_2020)
+codec_data("hamilton_landcover", geography = cincy::zcta_tigris_2010, geometry = TRUE)
 }
