@@ -4,13 +4,20 @@
 \alias{codec_data}
 \title{read CoDEC tabular data resource}
 \usage{
-codec_data(name)
+codec_data(name, geography = cincy::tract_tigris_2010, geometry = FALSE)
 }
 \arguments{
 \item{name}{name of installed codec tabular data resource}
+
+\item{geography}{a {cincy} geography object; codec data
+will be returned at this geography using \code{cincy::interpolate}
+with block-level population weights}
+
+\item{geometry}{return the merged \code{geography} object
+alongside the output as a simple features object?}
 }
 \value{
-a tibble (codec tabular data resource)
+a tibble (codec tabular data resource), or simple features object when \code{geometry = TRUE}
 }
 \description{
 This function is shorthand for reading a CoDEC tabular
@@ -19,4 +26,6 @@ R package.
 }
 \examples{
 codec_data("hamilton_traffic")
+codec_data("hamilton_traffic", cincy::neigh_cchmc_2020)
+codec_data("hamilton_landcover", geography = cincy::zcta_tigris_2010, geometry = TRUE)
 }

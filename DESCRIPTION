@@ -18,16 +18,15 @@ Suggests:
     roxygen2,
     knitr,
     rmarkdown,
-    cincy (>= 1.0.0),
     curl,
     glue,
     mapview,
     gh,
     DT,
-    sf,
     leaflet,
     callr,
     downloadthis,
+    cincy (>= 1.0.1),
     bsplus
 Remotes:
     geomarker-io/cincy
@@ -45,7 +44,8 @@ Imports:
     stringi,
     stringr,
     tibble,
-    yaml
+    yaml, 
+    sf
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)

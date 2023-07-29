@@ -35,18 +35,26 @@ codec_tdr <- function() {
 }
 
 #' read CoDEC tabular data resource
-#' 
+#'
 #' This function is shorthand for reading a CoDEC tabular
 #' data resource using `read_tdr_csv()` from the installed
 #' R package.
 #' @param name name of installed codec tabular data resource
-#' @return a tibble (codec tabular data resource)
+#' @param geography a {cincy} geography object; codec data
+#' will be returned at this geography using `cincy::interpolate`
+#' with block-level population weights
+#' @param geometry return the merged `geography` object
+#' alongside the output as a simple features object?
+#' @return a tibble (codec tabular data resource), or simple features object when `geometry = TRUE`
 #' @export
 #' @examples
 #' codec_data("hamilton_traffic")
-codec_data <- function(name) {
+#' codec_data("hamilton_traffic", cincy::neigh_cchmc_2020)
+#' codec_data("hamilton_landcover", geography = cincy::zcta_tigris_2010, geometry = TRUE)
 
-  installed_codec_data <- 
+codec_data <- function(name, geography = cincy::tract_tigris_2010, geometry = FALSE) {
+
+  installed_codec_data <-
     fs::path_package("codec") |>
     fs::path("codec_data") |>
     fs::dir_ls(glob = "*tabular-data-resource.yaml", recurse = TRUE) |>
@@ -55,7 +63,30 @@ codec_data <- function(name) {
 
   if (!name %in% installed_codec_data) {
     stop(name, " not found in installed codec_data (found: ", paste(installed_codec_data, collapse = ", "), ")", call. = FALSE)
-    }
+  }
 
-  read_tdr_csv(fs::path(fs::path_package("codec"), "codec_data", name))
+  message("reading data...")
+  d <- read_tdr_csv(fs::path(fs::path_package("codec"), "codec_data", name))
+
+  # check to see if we need cincy package without loading it yet
+  if (!deparse(substitute(geography)) == "cincy::tract_tigris_2010") {
+    if (!requireNamespace("cincy", quietly = TRUE)) {
+      message("geographic interpolation requires the {cincy} package. please install from https://geomarker.io/cincy")
+    }
+  }
+
+  if(identical(geography, cincy::tract_tigris_2010) & geometry) {
+    d <- dplyr::left_join(d, cincy::tract_tigris_2010, by = "census_tract_id_2010")
+  }
+
+  if (!identical(geography, cincy::tract_tigris_2010)) {
+    message(glue::glue("interpolating data to {names(geography)[1]}..."))
+    d_sf <- dplyr::left_join(d, cincy::tract_tigris_2010, by = "census_tract_id_2010")
+    d_sf <- sf::st_as_sf(d_sf)
+    d_int <- cincy::interpolate(from = d_sf, to = geography, weights = "pop")
+    if (!geometry) d_int <- sf::st_drop_geometry(tibble::as_tibble(d_int))
+    d <- d_int
+  }
+
+  return(d)
 }
