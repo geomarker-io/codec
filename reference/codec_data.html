@@ -75,7 +75,7 @@ R package.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">codec_data</span><span class="op">(</span><span class="va">name</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">codec_data</span><span class="op">(</span><span class="va">name</span>, geography <span class="op">=</span> <span class="fu">cincy</span><span class="fu">::</span><span class="va"><a href="https://geomarker.io/cincy/reference/Tracts.html" class="external-link">tract_tigris_2010</a></span>, geometry <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -83,17 +83,31 @@ R package.</p>
     <dl><dt>name</dt>
 <dd><p>name of installed codec tabular data resource</p></dd>
 
+
+<dt>geography</dt>
+<dd><p>a cincy geography object; codec data
+will be returned at this geography using <code><a href="https://geomarker.io/cincy/reference/interpolate.html" class="external-link">cincy::interpolate</a></code>
+with block-level population weights</p></dd>
+
+
+<dt>geometry</dt>
+<dd><p>return the merged <code>geography</code> object
+alongside the output as a simple features object?</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>a tibble (codec tabular data resource)</p>
+<p>a tibble (codec tabular data resource), or simple features object when <code>geometry = TRUE</code></p>
+
+
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">codec_data</span><span class="op">(</span><span class="st">"hamilton_traffic"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> reading data...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 222 × 16</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    census_tract_id_2010 n_parcels n_parcels_near_traffic n_parcels_near_truck_…¹</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
@@ -114,6 +128,60 @@ R package.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   median_household_traffic &lt;dbl&gt;, median_parcel_truck_traffic &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   median_household_truck_traffic &lt;dbl&gt;, frac_households_near_traffic &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   frac_parcels_near_traffic &lt;dbl&gt;, …</span></span>
+<span class="r-in"><span><span class="fu">codec_data</span><span class="op">(</span><span class="st">"hamilton_traffic"</span>, <span class="fu">cincy</span><span class="fu">::</span><span class="va"><a href="https://geomarker.io/cincy/reference/neigh_cchmc_2020.html" class="external-link">neigh_cchmc_2020</a></span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> reading data...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> interpolating data to neighborhood_2020...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 81 × 17</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    neighborhood_2020                              geometry median_parcel_traffic</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                    <span style="color: #949494; font-style: italic;">&lt;GEOMETRY [m]&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Amberley              MULTIPOLYGON (((985694.3 1856953…                    0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Anderson Twp.-Newtown POLYGON ((988955.4 1843684, 9889…              4<span style="text-decoration: underline;">076</span>360.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Avondale              POLYGON ((982427 1848805, 982424…             21<span style="text-decoration: underline;">079</span>500.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Blue Ash              POLYGON ((989367.7 1860346, 9894…              5<span style="text-decoration: underline;">730</span>866.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Bond Hill             POLYGON ((982764.1 1854073, 9830…             14<span style="text-decoration: underline;">653</span>209.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Camp Washington       MULTIPOLYGON (((978267.3 1849989…            142<span style="text-decoration: underline;">134</span>372 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Carthage              MULTIPOLYGON (((981607.9 1856735…             12<span style="text-decoration: underline;">436</span>691 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Cheviot               POLYGON ((971222.1 1850759, 9712…              8<span style="text-decoration: underline;">205</span>357.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Clifton               POLYGON ((978953.8 1850916, 9789…             23<span style="text-decoration: underline;">392</span>227.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Colerain Twp.         POLYGON ((969890 1856864, 969912…              5<span style="text-decoration: underline;">394</span>207.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 71 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 14 more variables: median_household_traffic &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   median_parcel_truck_traffic &lt;dbl&gt;, median_household_truck_traffic &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   frac_households_near_traffic &lt;dbl&gt;, frac_parcels_near_traffic &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   frac_households_near_truck_traffic &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   frac_parcels_near_truck_traffic &lt;dbl&gt;, year &lt;dbl&gt;, n_parcels &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   n_parcels_near_traffic &lt;dbl&gt;, n_parcels_near_truck_traffic &lt;dbl&gt;, …</span></span>
+<span class="r-in"><span><span class="fu">codec_data</span><span class="op">(</span><span class="st">"hamilton_landcover"</span>, geography <span class="op">=</span> <span class="fu">cincy</span><span class="fu">::</span><span class="va"><a href="https://geomarker.io/cincy/reference/ZCTAs.html" class="external-link">zcta_tigris_2010</a></span>, geometry <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> reading data...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> interpolating data to zcta_2010...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 57 features and 6 fields</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: MULTIPOLYGON</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 953086.2 ymin: 1838813 xmax: 1010799 ymax: 1893846</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Projected CRS: NAD83(NSRS2007) / Conus Albers</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> First 10 features:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    zcta_2010 pct_green_2019 pct_impervious_2019 pct_treecanopy_2016  evi_2018</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      45212       31.73511            57.86038            6.653412 0.3173193</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      45204       59.41175            34.85815           26.840917 0.4065009</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      45233       90.68587            15.40738           38.599786 0.4991435</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4      45216       51.20896            45.71411           14.182532 0.3965691</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5      45232       66.93201            31.17200           28.380006 0.4911445</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6      45251       77.48776            28.91199           22.004516 0.4709363</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7      45248       82.29174            23.88763           27.630290 0.4575770</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8      45215       68.25781            34.82849           23.024239 0.4414922</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9      45237       56.38734            43.94948           12.492480 0.4148861</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10     45240       74.30367            31.02104           20.753888 0.4378616</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    year                       geometry</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  2019 MULTIPOLYGON (((985627.7 18...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2019 MULTIPOLYGON (((977449.5 18...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  2019 MULTIPOLYGON (((964704.8 18...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  2019 MULTIPOLYGON (((983383.5 18...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  2019 MULTIPOLYGON (((980269.4 18...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  2019 MULTIPOLYGON (((970337.7 18...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  2019 MULTIPOLYGON (((971363.4 18...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  2019 MULTIPOLYGON (((983611.1 18...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  2019 MULTIPOLYGON (((984422.1 18...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 2019 MULTIPOLYGON (((976570 1863...</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
