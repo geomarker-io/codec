@@ -84,7 +84,10 @@ codec_data <- function(name, geography = cincy::tract_tigris_2010, geometry = FA
     d_sf <- dplyr::left_join(d, cincy::tract_tigris_2010, by = "census_tract_id_2010")
     d_sf <- sf::st_as_sf(d_sf)
     d_int <- cincy::interpolate(from = d_sf, to = geography, weights = "pop")
-    if (!geometry) d_int <- sf::st_drop_geometry(tibble::as_tibble(d_int))
+    if (!geometry) {
+      d_int <- sf::st_drop_geometry(tibble::as_tibble(d_int)) |>
+        dplyr::select(-geometry)
+    }
     d <- d_int
   }
 
