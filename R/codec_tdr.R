@@ -85,7 +85,7 @@ codec_data <- function(name, geography = cincy::tract_tigris_2010, geometry = FA
     d_sf <- sf::st_as_sf(d_sf)
     d_int <- cincy::interpolate(from = d_sf, to = geography, weights = "pop")
     if (!geometry) {
-      d_int <- sf::st_drop_geometry(tibble::as_tibble(d_int)) |>
+      d_int <- tibble::as_tibble(d_int) |>
         dplyr::select(-geometry)
     }
     d <- d_int
