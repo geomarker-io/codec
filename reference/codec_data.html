@@ -14,7 +14,7 @@ R package."><meta property="og:image" content="http://geomarker.io/codec/logo.sv
     
     <a class="navbar-brand me-2" href="../index.html">codec</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -131,26 +131,26 @@ alongside the output as a simple features object?</p></dd>
 <span class="r-in"><span><span class="fu">codec_data</span><span class="op">(</span><span class="st">"hamilton_traffic"</span>, <span class="fu">cincy</span><span class="fu">::</span><span class="va"><a href="https://geomarker.io/cincy/reference/neigh_cchmc_2020.html" class="external-link">neigh_cchmc_2020</a></span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> reading data...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> interpolating data to neighborhood_2020...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 81 × 17</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    neighborhood_2020                              geometry median_parcel_traffic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                    <span style="color: #949494; font-style: italic;">&lt;GEOMETRY [m]&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Amberley              MULTIPOLYGON (((985694.3 1856953…                    0 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Anderson Twp.-Newtown POLYGON ((988955.4 1843684, 9889…              4<span style="text-decoration: underline;">076</span>360.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Avondale              POLYGON ((982427 1848805, 982424…             21<span style="text-decoration: underline;">079</span>500.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Blue Ash              POLYGON ((989367.7 1860346, 9894…              5<span style="text-decoration: underline;">730</span>866.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Bond Hill             POLYGON ((982764.1 1854073, 9830…             14<span style="text-decoration: underline;">653</span>209.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Camp Washington       MULTIPOLYGON (((978267.3 1849989…            142<span style="text-decoration: underline;">134</span>372 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Carthage              MULTIPOLYGON (((981607.9 1856735…             12<span style="text-decoration: underline;">436</span>691 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Cheviot               POLYGON ((971222.1 1850759, 9712…              8<span style="text-decoration: underline;">205</span>357.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Clifton               POLYGON ((978953.8 1850916, 9789…             23<span style="text-decoration: underline;">392</span>227.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Colerain Twp.         POLYGON ((969890 1856864, 969912…              5<span style="text-decoration: underline;">394</span>207.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 81 × 16</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    neighborhood_2020     median_parcel_traffic median_household_traffic</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Amberley                                 0                        0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Anderson Twp.-Newtown              4<span style="text-decoration: underline;">076</span>360.                 4<span style="text-decoration: underline;">082</span>516.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Avondale                          21<span style="text-decoration: underline;">079</span>500.                29<span style="text-decoration: underline;">044</span>446.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Blue Ash                           5<span style="text-decoration: underline;">730</span>866.                 5<span style="text-decoration: underline;">735</span>005.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Bond Hill                         14<span style="text-decoration: underline;">653</span>209.                21<span style="text-decoration: underline;">747</span>984.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Camp Washington                  142<span style="text-decoration: underline;">134</span>372                156<span style="text-decoration: underline;">719</span>637 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Carthage                          12<span style="text-decoration: underline;">436</span>691                 14<span style="text-decoration: underline;">055</span>610.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Cheviot                            8<span style="text-decoration: underline;">205</span>357.                 8<span style="text-decoration: underline;">476</span>028.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Clifton                           23<span style="text-decoration: underline;">392</span>227.                29<span style="text-decoration: underline;">486</span>212.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Colerain Twp.                      5<span style="text-decoration: underline;">394</span>207.                 5<span style="text-decoration: underline;">444</span>374.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 71 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 14 more variables: median_household_traffic &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   median_parcel_truck_traffic &lt;dbl&gt;, median_household_truck_traffic &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   frac_households_near_traffic &lt;dbl&gt;, frac_parcels_near_traffic &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   frac_households_near_truck_traffic &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 13 more variables: median_parcel_truck_traffic &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   median_household_truck_traffic &lt;dbl&gt;, frac_households_near_traffic &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   frac_parcels_near_traffic &lt;dbl&gt;, frac_households_near_truck_traffic &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   frac_parcels_near_truck_traffic &lt;dbl&gt;, year &lt;dbl&gt;, n_parcels &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   n_parcels_near_traffic &lt;dbl&gt;, n_parcels_near_truck_traffic &lt;dbl&gt;, …</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   n_parcels_near_traffic &lt;dbl&gt;, n_parcels_near_truck_traffic &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   n_households &lt;dbl&gt;, n_households_near_traffic &lt;dbl&gt;, …</span></span>
 <span class="r-in"><span><span class="fu">codec_data</span><span class="op">(</span><span class="st">"hamilton_landcover"</span>, geography <span class="op">=</span> <span class="fu">cincy</span><span class="fu">::</span><span class="va"><a href="https://geomarker.io/cincy/reference/ZCTAs.html" class="external-link">zcta_tigris_2010</a></span>, geometry <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> reading data...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> interpolating data to zcta_2010...</span>
