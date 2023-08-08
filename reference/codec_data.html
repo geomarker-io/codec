@@ -107,7 +107,6 @@ alongside the output as a simple features object?</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">codec_data</span><span class="op">(</span><span class="st">"hamilton_traffic"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> reading data...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 222 × 16</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    census_tract_id_2010 n_parcels n_parcels_near_traffic n_parcels_near_truck_…¹</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
@@ -129,8 +128,6 @@ alongside the output as a simple features object?</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   median_household_truck_traffic &lt;dbl&gt;, frac_households_near_traffic &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   frac_parcels_near_traffic &lt;dbl&gt;, …</span></span>
 <span class="r-in"><span><span class="fu">codec_data</span><span class="op">(</span><span class="st">"hamilton_traffic"</span>, <span class="fu">cincy</span><span class="fu">::</span><span class="va"><a href="https://geomarker.io/cincy/reference/neigh_cchmc_2020.html" class="external-link">neigh_cchmc_2020</a></span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> reading data...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> interpolating data to neighborhood_2020...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 81 × 16</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    neighborhood_2020     median_parcel_traffic median_household_traffic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -152,8 +149,6 @@ alongside the output as a simple features object?</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   n_parcels_near_traffic &lt;dbl&gt;, n_parcels_near_truck_traffic &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   n_households &lt;dbl&gt;, n_households_near_traffic &lt;dbl&gt;, …</span></span>
 <span class="r-in"><span><span class="fu">codec_data</span><span class="op">(</span><span class="st">"hamilton_landcover"</span>, geography <span class="op">=</span> <span class="fu">cincy</span><span class="fu">::</span><span class="va"><a href="https://geomarker.io/cincy/reference/ZCTAs.html" class="external-link">zcta_tigris_2010</a></span>, geometry <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> reading data...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> interpolating data to zcta_2010...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 57 features and 6 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: MULTIPOLYGON</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
