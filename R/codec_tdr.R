@@ -65,13 +65,12 @@ codec_data <- function(name, geography = cincy::tract_tigris_2010, geometry = FA
     stop(name, " not found in installed codec_data (found: ", paste(installed_codec_data, collapse = ", "), ")", call. = FALSE)
   }
 
-  message("reading data...")
   d <- read_tdr_csv(fs::path(fs::path_package("codec"), "codec_data", name))
 
   # check to see if we need cincy package without loading it yet
   if (!deparse(substitute(geography)) == "cincy::tract_tigris_2010") {
     if (!requireNamespace("cincy", quietly = TRUE)) {
-      message("geographic interpolation requires the {cincy} package. please install from https://geomarker.io/cincy")
+      stop("geographic interpolation requires the {cincy} package. please install from https://geomarker.io/cincy", call. = FALSE)
     }
   }
 
@@ -80,7 +79,6 @@ codec_data <- function(name, geography = cincy::tract_tigris_2010, geometry = FA
   }
 
   if (!identical(geography, cincy::tract_tigris_2010)) {
-    message(glue::glue("interpolating data to {names(geography)[1]}..."))
     d_sf <- dplyr::left_join(d, cincy::tract_tigris_2010, by = "census_tract_id_2010")
     d_sf <- sf::st_as_sf(d_sf)
     d_int <- cincy::interpolate(from = d_sf, to = geography, weights = "pop")
