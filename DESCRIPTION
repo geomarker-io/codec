@@ -26,7 +26,7 @@ Suggests:
     leaflet,
     callr,
     downloadthis,
-    cincy (>= 1.0.1),
+    cincy (>= 1.0.2),
     bsplus
 Remotes:
     geomarker-io/cincy

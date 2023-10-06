@@ -16,7 +16,7 @@ test_that("codec_data works with interpolation", {
   codec_d <- codec_data("hamilton_landcover",
                         geography = cincy::zcta_tigris_2010,
                         geometry = TRUE)
-  expect_equal(nrow(codec_d), 57)
+  expect_equal(nrow(codec_d), 54)
   expect_equal(ncol(codec_d), 7)
   expect_identical(glimpse_attr(codec_d)$value[[2]], "hamilton_landcover")
   expect_s3_class(codec_d, "sf")
@@ -26,7 +26,7 @@ test_that("codec_data works with interpolation", {
                         geography = cincy::zcta_tigris_2010,
                         geometry = FALSE)
   
-  expect_equal(nrow(codec_d), 57)
+  expect_equal(nrow(codec_d), 54)
   expect_equal(ncol(codec_d), 6)
   expect_identical(glimpse_attr(codec_d)$value[[2]], "hamilton_landcover")
   expect_error(expect_s3_class(codec_d, "sf"))
