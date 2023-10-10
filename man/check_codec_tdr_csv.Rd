@@ -2,7 +2,6 @@
 % Please edit documentation in R/codec_check.R
 \name{check_codec_tdr_csv}
 \alias{check_codec_tdr_csv}
-\alias{check_data}
 \alias{check_census_tract_id}
 \alias{check_date}
 \alias{check_files}
@@ -12,8 +11,6 @@
 \title{Check a tabular-data-resource against CoDEC specifications}
 \usage{
 check_codec_tdr_csv(path)
-
-check_data(tdr)
 
 check_census_tract_id(tdr)
 

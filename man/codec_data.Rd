@@ -4,17 +4,10 @@
 \alias{codec_data}
 \title{read CoDEC tabular data resource}
 \usage{
-codec_data(name, geography = cincy::tract_tigris_2010, geometry = FALSE)
+codec_data(name)
 }
 \arguments{
 \item{name}{name of installed codec tabular data resource}
-
-\item{geography}{a {cincy} geography object; codec data
-will be returned at this geography using \code{cincy::interpolate}
-with block-level population weights}
-
-\item{geometry}{return the merged \code{geography} object
-alongside the output as a simple features object?}
 }
 \value{
 a tibble (codec tabular data resource), or simple features object when \code{geometry = TRUE}

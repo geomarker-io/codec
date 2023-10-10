@@ -41,11 +41,6 @@ codec_tdr <- function() {
 #' data resource using `read_tdr_csv()` from the installed
 #' R package.
 #' @param name name of installed codec tabular data resource
-#' @param geography a {cincy} geography object; codec data
-#' will be returned at this geography using `cincy::interpolate`
-#' with block-level population weights
-#' @param geometry return the merged `geography` object
-#' alongside the output as a simple features object?
 #' @return a tibble (codec tabular data resource), or simple features object when `geometry = TRUE`
 #' @export
 #' @examples
@@ -53,7 +48,7 @@ codec_tdr <- function() {
 #' codec_data("hamilton_traffic", cincy::neigh_cchmc_2020)
 #' codec_data("hamilton_landcover", geography = cincy::zcta_tigris_2010, geometry = TRUE)
 
-codec_data <- function(name, geography = cincy::tract_tigris_2010, geometry = FALSE) {
+codec_data <- function(name) {
 
   installed_codec_data <-
     fs::path_package("codec") |>
@@ -67,28 +62,6 @@ codec_data <- function(name, geography = cincy::tract_tigris_2010, geometry = FA
   }
 
   d <- fr::read_fr_tdr(fs::path(fs::path_package("codec"), "codec_data", name, "tabular-data-resource.yaml"))
-
-  # check to see if we need cincy package without loading it yet
-  if (!deparse(substitute(geography)) == "cincy::tract_tigris_2010") {
-    if (!requireNamespace("cincy", quietly = TRUE)) {
-      stop("geographic interpolation requires the {cincy} package. please install from https://geomarker.io/cincy", call. = FALSE)
-    }
-  }
-
-  if(identical(geography, cincy::tract_tigris_2010) & geometry) {
-    d <- dplyr::left_join(d, cincy::tract_tigris_2010, by = "census_tract_id_2010")
-  }
-
-  if (!identical(geography, cincy::tract_tigris_2010)) {
-    d_sf <- dplyr::left_join(d, cincy::tract_tigris_2010, by = "census_tract_id_2010")
-    d_sf <- sf::st_as_sf(d_sf)
-    d_int <- cincy::interpolate(from = d_sf, to = geography, weights = "pop")
-    if (!geometry) {
-      d_int <- tibble::as_tibble(d_int) |>
-        dplyr::select(-geometry)
-    }
-    d <- d_int
-  }
 
   return(d)
 }
