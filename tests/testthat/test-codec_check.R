@@ -4,8 +4,8 @@ test_that("codec_tdr", {
 
 test_that("check codec_tdr_csv", {
 
-  expect_identical(read_tdr_csv(test_path("hamilton_poverty_2020")),
-                   check_codec_tdr_csv(test_path("hamilton_poverty_2020")))
+  expect_identical(fr::read_fr_tdr(test_path("hamilton_poverty_2020", "tabular-data-resource.yaml")),
+                   check_codec_tdr_csv(test_path("hamilton_poverty_2020", "tabular-data-resource.yaml")))
 
   expect_silent(check_codec_tdr_csv(test_path("hamilton_poverty_2020")))
 
@@ -102,7 +102,7 @@ test_that("check tdr path", {
 
 test_that("check census tract id", {
 
-  d_tdr <- read_tdr_csv(test_path("hamilton_poverty_2020"))
+  d_tdr <- fr::read_fr_tdr(test_path("hamilton_poverty_2020"))
 
   expect_equal(check_census_tract_id(d_tdr), d_tdr)
 

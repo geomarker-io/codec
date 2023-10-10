@@ -59,14 +59,14 @@ codec_data <- function(name, geography = cincy::tract_tigris_2010, geometry = FA
     fs::path_package("codec") |>
     fs::path("codec_data") |>
     fs::dir_ls(glob = "*tabular-data-resource.yaml", recurse = TRUE) |>
-    purrr::map(read_tdr) |>
-    purrr::map_chr(c("tdr", "name"))
+    purrr::map(yaml::read_yaml) |>
+    purrr::map_chr("name")
 
   if (!name %in% installed_codec_data) {
     stop(name, " not found in installed codec_data (found: ", paste(installed_codec_data, collapse = ", "), ")", call. = FALSE)
   }
 
-  d <- read_tdr_csv(fs::path(fs::path_package("codec"), "codec_data", name))
+  d <- fr::read_fr_tdr(fs::path(fs::path_package("codec"), "codec_data", name, "tabular-data-resource.yaml"))
 
   # check to see if we need cincy package without loading it yet
   if (!deparse(substitute(geography)) == "cincy::tract_tigris_2010") {
