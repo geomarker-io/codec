@@ -18,28 +18,13 @@
 #' @export
 check_codec_tdr_csv <- function(path) {
   check_files(path)
-  tdr <- read_tdr(path)$tdr
-  check_codec_tdr(tdr)
+  d <- fr::read_fr_tdr(fs::path(path, "tabular-data-resource.yaml"))
 
-  md_fields <- names(tdr$schema$fields)
-  d_fields <- names(readr::read_csv(read_tdr(path)$csv_file, n_max = 0, show_col_types = FALSE))
-  if(! all(d_fields %in% md_fields)) {
-    stop("the metadata does not describe all fields in the data", call. = FALSE)
-  }
-  if(! all(md_fields %in% d_fields)) {
-    stop("the metadata describes fields that are not in the data", call. = FALSE)
-  }
+  check_codec_tdr(as.list(d))
+  check_census_tract_id(as.data.frame(d))
+  check_date(as.data.frame(d))
 
-  tdr_d <- read_tdr_csv(path)
-  check_data(tdr_d)
-  return(invisible(tdr_d))
-}
-
-#' Check data
-#' @rdname check_codec_tdr_csv
-check_data <- function(tdr) {
-  check_census_tract_id(tdr)
-  check_date(tdr)
+  return(invisible(d))
 }
 
 #' Check census tract id column
@@ -86,8 +71,8 @@ check_date <- function(tdr) {
   }
 
   years <- unique(tdr$year)
-  if (! identical(years, as.integer(years))) {
-    stop("the 'year' field must only contain integer years", call. = FALSE)
+  if (! all(years %in% 1970:2099)) {
+    stop("the 'year' field must only contain integer years between 1970 and 2099", call. = FALSE)
   }
 
   if ("month" %in% names(tdr)) {
@@ -242,6 +227,8 @@ check_tdr_path <- function(path) {
   # path ends with .csv
   if (! fs::path_ext(path) == "csv") stop("'path' must end with '.csv'", call. = FALSE)
   # path can be a URL
+
+  is_url <- function(.x) grepl("^((http|ftp)s?|sftp)://", .x)
   if (is_url(path)) return(invisible(NULL))
   # if not URL, check for absolute path
   if (fs::is_absolute_path(path)) stop("'path' must be a relative file path")

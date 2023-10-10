@@ -44,8 +44,9 @@ Imports:
     stringi,
     stringr,
     tibble,
-    yaml, 
-    sf
+    yaml,
+    sf,
+    s3
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
