@@ -23,7 +23,7 @@ cd <-
   purrr::set_names(codec_data_installed)
 
 make_core_md <- function(x = cd[[1]]) {
-  md <- purrr::keep_at(attributes(x), c("name", "title", "homepage", "version", "description"))
+  md <- purrr::keep_at(as.list(x), c("name", "title", "homepage", "version", "description"))
   md$dl_button <- downloadthis::download_dir(
     button_label = "", 
     button_type = "info",
@@ -34,7 +34,8 @@ make_core_md <- function(x = cd[[1]]) {
     path = fs::path_package("codec", "codec_data", md$name),
     output_name = md$name) |>
     bsplus::bs_embed_tooltip("download the CoDEC tabular data resource", placement = "right")
-  md$schema <- knitr::kable(glimpse_schema(x))
+  ## md$schema <- knitr::kable(glimpse_schema(x))
+  # TODO best way to directly show schema?
   md$name_button <- bsplus::bs_button(
     label = glue::glue("{md$name}"),
     class = "codec_button_n")
@@ -68,8 +69,9 @@ purrr::walk(cd_md,
                 .,
                 ## "<hr>",
                 "## {name_button}",
-                "[**{title}**]({homepage}) v{version} {dl_button}",
-                ## "> {description}",
+                ## "[**{title}**]({homepage}) v{version} {dl_button}",
+                "**{ifelse(length(title) == 0, name, title)}** v{version} {dl_button}",
+                "> {description}",
                 ## "<hr>",
                 ## "read into R with:",
                 ## "```r",
@@ -77,7 +79,7 @@ purrr::walk(cd_md,
                 ## "```",
                 ## "**About**: {description}",
                 ## " ### Schema",
-                "{paste(schema, collapse = '\n')}",
+                ## "{paste(schema, collapse = '\n')}",
                 "\n\n",
                 "&nbsp;",
                 "\n\n",
