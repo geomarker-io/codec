@@ -31,10 +31,6 @@ check_tdr_path(path)
 and a list for check_codec_tdr())}
 
 \item{name}{the name field from tabular-data-resource.yaml}
-
-\item{tdr}{a codec tabular-data-resource}
-
-\item{tdr_md}{a codec tabular-data-resource metadata list object}
 }
 \value{
 for \code{check_codec_tdr_csv}, a tibble with added

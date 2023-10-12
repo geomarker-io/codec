@@ -44,10 +44,7 @@ codec_tdr <- function() {
 #' @return a tibble (codec tabular data resource), or simple features object when `geometry = TRUE`
 #' @export
 #' @examples
-#' codec_data("hamilton_traffic")
-#' codec_data("hamilton_traffic", cincy::neigh_cchmc_2020)
-#' codec_data("hamilton_landcover", geography = cincy::zcta_tigris_2010, geometry = TRUE)
-
+#' codec_data("hamilton_drivetime")
 codec_data <- function(name) {
 
   installed_codec_data <-

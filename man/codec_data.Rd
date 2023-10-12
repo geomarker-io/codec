@@ -18,7 +18,5 @@ data resource using \code{read_tdr_csv()} from the installed
 R package.
 }
 \examples{
-codec_data("hamilton_traffic")
-codec_data("hamilton_traffic", cincy::neigh_cchmc_2020)
-codec_data("hamilton_landcover", geography = cincy::zcta_tigris_2010, geometry = TRUE)
+codec_data("hamilton_drivetime")
 }

@@ -11,8 +11,6 @@
 #' See `vignette("codec-specs")` for the CoDEC specifications.
 #' @param x a codec fr_tdr object (or data frame for check_census_tract_id(), check_date()
 #' and a list for check_codec_tdr())
-#' @param tdr a codec tabular-data-resource
-#' @param tdr_md a codec tabular-data-resource metadata list object
 #' @param path path to tdr folder
 #' @param name the name field from tabular-data-resource.yaml
 #' @return for `check_codec_tdr_csv`, a tibble with added
