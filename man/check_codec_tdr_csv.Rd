@@ -12,13 +12,13 @@
 \usage{
 check_codec_tdr_csv(path)
 
-check_census_tract_id(tdr)
+check_census_tract_id(x)
 
-check_date(tdr)
+check_date(x)
 
 check_files(path)
 
-check_codec_tdr(tdr_md)
+check_codec_tdr(x)
 
 check_tdr_name(name)
 
@@ -27,11 +27,14 @@ check_tdr_path(path)
 \arguments{
 \item{path}{path to tdr folder}
 
+\item{x}{a codec fr_tdr object (or data frame for check_census_tract_id(), check_date()
+and a list for check_codec_tdr())}
+
+\item{name}{the name field from tabular-data-resource.yaml}
+
 \item{tdr}{a codec tabular-data-resource}
 
 \item{tdr_md}{a codec tabular-data-resource metadata list object}
-
-\item{name}{the name field from tabular-data-resource.yaml}
 }
 \value{
 for \code{check_codec_tdr_csv}, a tibble with added

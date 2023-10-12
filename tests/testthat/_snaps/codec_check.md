@@ -24,9 +24,11 @@
       $schema
                                                                                    fields 
       "a list object as long as the number of fields each containing the items in fields" 
+                                                                            missingValues 
+                       "the string values that should be considered missing observations" 
                                                                                primaryKey 
                              "a field or set of fields that uniquely identifies each row" 
-                                                                               foreignKey 
+                                                                              foreignKeys 
                               "a field or set of fields that connect to a separate table" 
       
       $fields

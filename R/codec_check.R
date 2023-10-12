@@ -9,6 +9,8 @@
 #' - the data contains a year (or year and month) column(s)
 #' - all fields in the CSV data are described in the metadata and vice-versa
 #' See `vignette("codec-specs")` for the CoDEC specifications.
+#' @param x a codec fr_tdr object (or data frame for check_census_tract_id(), check_date()
+#' and a list for check_codec_tdr())
 #' @param tdr a codec tabular-data-resource
 #' @param tdr_md a codec tabular-data-resource metadata list object
 #' @param path path to tdr folder
@@ -29,20 +31,22 @@ check_codec_tdr_csv <- function(path) {
 
 #' Check census tract id column
 #' @rdname check_codec_tdr_csv
-check_census_tract_id <- function(tdr) {
+check_census_tract_id <- function(x) {
   census_tract_id_names <- paste0("census_tract_id", c("_2000", "_2010", "_2020"))
+  tdr_data <- as.data.frame(x)
+  tdr_data_names <- names(tdr_data)
 
   # has census_tract_id_{year} or census_tract_id column
-  if (!any(names(tdr) %in% census_tract_id_names)) {
+  if (!any(tdr_data_names %in% census_tract_id_names)) {
     stop("must contain a census tract id column called census_tract_id_2000, census_tract_id_2010, or census_tract_id_2020", call. = FALSE)
   }
 
   # make sure only one tract column
-  if (sum(names(tdr) %in% census_tract_id_names) > 1) {
+  if (sum(tdr_data_names %in% census_tract_id_names) > 1) {
     stop("must contain only one census tract id column", call. = FALSE)
     }
 
-  census_tract_id_name <- census_tract_id_names[census_tract_id_names %in% names(tdr)]
+  census_tract_id_name <- census_tract_id_names[census_tract_id_names %in% tdr_data_names]
   census_tract_id_year <- stringr::str_extract(census_tract_id_name, "[0-9]+")
 
   required_census_tract_ids <-
@@ -50,7 +54,7 @@ check_census_tract_id <- function(tdr) {
     eval() |>
     purrr::pluck(paste0("census_tract_id_", census_tract_id_year))
 
-  if (!all(required_census_tract_ids %in% tdr[[census_tract_id_name]])) {
+  if (!all(required_census_tract_ids %in% tdr_data[[census_tract_id_name]])) {
     stop("the census tract id column, ",
       census_tract_id_name,
       ", does not contain every census tract in ",
@@ -59,28 +63,31 @@ check_census_tract_id <- function(tdr) {
     )
   }
 
-  return(invisible(tdr))
+  return(invisible(x))
 }
 
-#' Check date
+#' Check year or year-month column
 #' @rdname check_codec_tdr_csv
-check_date <- function(tdr) {
+check_date <- function(x) {
 
-  if (! "year" %in% names(tdr)) {
+  tdr_data <- as.data.frame(x)
+  tdr_data_names <- names(tdr_data)
+
+  if (! "year" %in% tdr_data_names) {
     stop("must contain a 'year' column", call. = FALSE)
   }
 
-  years <- unique(tdr$year)
+  years <- unique(tdr_data$year)
   if (! all(years %in% 1970:2099)) {
     stop("the 'year' field must only contain integer years between 1970 and 2099", call. = FALSE)
   }
 
-  if ("month" %in% names(tdr)) {
-    if (! all(tdr$month %in% 1:12)) {
+  if ("month" %in% tdr_data_names) {
+    if (! all(tdr_data$month %in% 1:12)) {
       stop("the 'month' field  must only contain integer values 1-12", call. = FALSE)
     }
   }
-  return(invisible(tdr))
+  return(invisible(x))
 }
 
 #' Check files
@@ -137,7 +144,9 @@ check_files <- function(path) {
 #' check CoDEC tdr
 #' @rdname check_codec_tdr_csv
 #' @export
-check_codec_tdr <- function(tdr_md) {
+check_codec_tdr <- function(x) {
+
+  tdr_md <- as.list(x)
 
   # must have "name" and "path" descriptors
   if (!purrr::pluck_exists(tdr_md, "name")) stop("`name` property descriptor is required", call. = FALSE)
@@ -197,7 +206,7 @@ check_codec_tdr <- function(tdr_md) {
     )
   }
 
-  return(invisible(tdr_md))
+  return(invisible(x))
 }
 
 
