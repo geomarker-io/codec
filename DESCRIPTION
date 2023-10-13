@@ -36,10 +36,10 @@ BugReports: https://github.com/geomarker-io/codec/issues
 Imports: 
     fs,
     purrr (>= 1.0.0),
-    readr,
     stringi,
     stringr,
     yaml,
+    vroom,
     fr (>= 0.1.0)
 VignetteBuilder: knitr
 Depends: 

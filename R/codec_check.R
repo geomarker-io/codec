@@ -119,17 +119,18 @@ check_files <- function(path) {
 
   # try to read (first 100 lines of) CSV file
   test_read_csv_file <-
-    purrr::safely(readr::read_csv)(
+    purrr::safely(vroom::vroom)(
       file = tdr_csv,
+      delim = ",",
       n_max = 100,
       col_names = TRUE,
       show_col_types = FALSE,
-      locale = readr::locale(
+      locale = vroom::locale(
         encoding = "UTF-8",
         decimal_mark = ".",
         grouping_mark = "",
       ),
-      name_repair = "check_unique",
+      .name_repair = "check_unique",
     )
 
   if (!is.null(test_read_csv_file$error)) {
