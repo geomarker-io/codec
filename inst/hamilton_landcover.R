@@ -1,6 +1,6 @@
 devtools::load_all()
 name <- "hamilton_landcover"
-version <- "v0.1.0"
+version <- "v0.1.0" # should be "0.1.0" in repo; fix below if updated!!!
 
 rd <-
   fr::read_fr_tdr(glue::glue(
@@ -17,7 +17,8 @@ d_tdr <-
   fr::as_fr_tdr(d,
     name = name,
     title = "Hamilton County Landcover and Built Environment Characteristics",
-    version = version,
+    ## version = version,
+    version = "0.1.0",
     description = "Greenspace, imperviousness, treecanopy, and greenness (EVI) for all tracts in Hamilton County",
     homepage = "https://geomarker.io/hamilton_landcover"
   ) |>
