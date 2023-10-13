@@ -1,0 +1,40 @@
+profile: tabular-data-resource
+name: hamilton_landcover
+path: hamilton_landcover.csv
+version: v0.1.0
+title: Hamilton County Landcover and Built Environment Characteristics
+homepage: https://geomarker.io/hamilton_landcover
+description: Greenspace, imperviousness, treecanopy, and greenness (EVI) for all tracts
+  in Hamilton County
+schema:
+  fields:
+    census_tract_id_2010:
+      name: census_tract_id_2010
+      type: string
+      title: Census Tract Identifier
+    pct_green_2019:
+      name: pct_green_2019
+      type: number
+      title: Percent Greenspace 2019
+      description: percent of pixels in each tract classified as green
+    pct_impervious_2019:
+      name: pct_impervious_2019
+      type: number
+      title: Percent Impervious 2019
+      description: average percent imperviousness for pixels in each tract
+    pct_treecanopy_2016:
+      name: pct_treecanopy_2016
+      type: number
+      title: Percent Treecanopy 2016
+      description: average percent tree canopy for pixels in each tract
+    evi_2018:
+      name: evi_2018
+      type: number
+      title: Enhanced Vegetation Index 2018
+      description: average enhanced vegetation index for pixels in each tract
+    year:
+      name: year
+      type: number
+      title: Year
+      description: The actual year is unique to each data product and denoted in the
+        field names
