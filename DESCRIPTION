@@ -28,7 +28,7 @@ Suggests:
     bsplus
 Remotes:
     geomarker-io/cincy
-    cole-brokamp/fr@19bbf2a72a83c3ac21231cafc9ca690d1f16df58
+    cole-brokamp/fr
 Config/testthat/edition: 3
 URL: https://github.com/geomarker-io/codec,
     http://geomarker.io/codec/
@@ -40,7 +40,7 @@ Imports:
     stringi,
     stringr,
     yaml,
-    fr
+    fr (>= 0.1.0)
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
