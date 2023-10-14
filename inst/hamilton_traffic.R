@@ -1,6 +1,6 @@
 devtools::load_all()
 name <- "hamilton_traffic"
-version <- "v0.1.0" # should be "0.1.0" in repo; fix below if updated!!!
+version <- "v0.1.0"
 
 rd <-
   fr::read_fr_tdr(glue::glue(
@@ -16,9 +16,9 @@ d <-
 d_tdr <-
   fr::as_fr_tdr(
     d,
-    name = "hamilton_traffic",
+    name = name,
     title = "Hamilton County Parcel and Household Traffic",
-    version = "0.1.0",
+    version = version,
     description = "Number and fraction of parcels and households near traffic by census tract",
     homepage = "https://geomarker.io/hamilton_traffic"
   ) |>

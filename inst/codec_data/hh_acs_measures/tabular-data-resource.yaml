@@ -1,0 +1,190 @@
+profile: tabular-data-resource
+name: hh_acs_measures
+path: hh_acs_measures.csv
+version: v1.1.0
+title: Harmonized Historical American Community Survey Measures
+homepage: https://geomarker.io/hh_acs_measures
+description: 2010 - 2021 measures derived from ACS variables for census tracts in
+  the contiguous US
+schema:
+  fields:
+    census_tract_id_2010:
+      name: census_tract_id_2010
+      type: string
+    year:
+      name: year
+      type: number
+    fraction_poverty:
+      name: fraction_poverty
+      type: number
+    fraction_poverty_moe:
+      name: fraction_poverty_moe
+      type: number
+    n_children_lt18:
+      name: n_children_lt18
+      type: number
+    n_children_lt18_moe:
+      name: n_children_lt18_moe
+      type: number
+    n_pop:
+      name: n_pop
+      type: number
+    n_pop_moe:
+      name: n_pop_moe
+      type: number
+    n_household_lt18:
+      name: n_household_lt18
+      type: number
+    n_household_lt18_moe:
+      name: n_household_lt18_moe
+      type: number
+    n_household:
+      name: n_household
+      type: number
+    n_household_moe:
+      name: n_household_moe
+      type: number
+    fraction_insured:
+      name: fraction_insured
+      type: number
+    fraction_insured_moe:
+      name: fraction_insured_moe
+      type: number
+    fraction_snap:
+      name: fraction_snap
+      type: number
+    fraction_snap_moe:
+      name: fraction_snap_moe
+      type: number
+    fraction_fam_nospouse:
+      name: fraction_fam_nospouse
+      type: number
+    fraction_fam_nospouse_moe:
+      name: fraction_fam_nospouse_moe
+      type: number
+    fraction_employment:
+      name: fraction_employment
+      type: number
+    fraction_employment_moe:
+      name: fraction_employment_moe
+      type: number
+    n_housing_units:
+      name: n_housing_units
+      type: number
+    n_housing_units_moe:
+      name: n_housing_units_moe
+      type: number
+    median_home_value:
+      name: median_home_value
+      type: number
+    median_home_value_moe:
+      name: median_home_value_moe
+      type: number
+    median_home_value_2010adj:
+      name: median_home_value_2010adj
+      type: number
+    fraction_housing_renters:
+      name: fraction_housing_renters
+      type: number
+    fraction_housing_renters_moe:
+      name: fraction_housing_renters_moe
+      type: number
+    median_rent_to_income_percentage:
+      name: median_rent_to_income_percentage
+      type: number
+    median_rent_to_income_percentage_moe:
+      name: median_rent_to_income_percentage_moe
+      type: number
+    fraction_high_rent:
+      name: fraction_high_rent
+      type: number
+    fraction_high_rent_moe:
+      name: fraction_high_rent_moe
+      type: number
+    fraction_conditions:
+      name: fraction_conditions
+      type: number
+    fraction_conditions_moe:
+      name: fraction_conditions_moe
+      type: number
+    fraction_builtbf1970:
+      name: fraction_builtbf1970
+      type: number
+    fraction_builtbf1970_moe:
+      name: fraction_builtbf1970_moe
+      type: number
+    fraction_vacant:
+      name: fraction_vacant
+      type: number
+    fraction_vacant_moe:
+      name: fraction_vacant_moe
+      type: number
+    fraction_nhl:
+      name: fraction_nhl
+      type: number
+    fraction_nhl_moe:
+      name: fraction_nhl_moe
+      type: number
+    fraction_nhl_w:
+      name: fraction_nhl_w
+      type: number
+    fraction_nhl_w_moe:
+      name: fraction_nhl_w_moe
+      type: number
+    fraction_nhl_b:
+      name: fraction_nhl_b
+      type: number
+    fraction_nhl_b_moe:
+      name: fraction_nhl_b_moe
+      type: number
+    fraction_nhl_o:
+      name: fraction_nhl_o
+      type: number
+    fraction_nhl_o_moe:
+      name: fraction_nhl_o_moe
+      type: number
+    fraction_hl:
+      name: fraction_hl
+      type: number
+    fraction_hl_moe:
+      name: fraction_hl_moe
+      type: number
+    fraction_hl_w:
+      name: fraction_hl_w
+      type: number
+    fraction_hl_w_moe:
+      name: fraction_hl_w_moe
+      type: number
+    fraction_hl_b:
+      name: fraction_hl_b
+      type: number
+    fraction_hl_b_moe:
+      name: fraction_hl_b_moe
+      type: number
+    fraction_hl_o:
+      name: fraction_hl_o
+      type: number
+    fraction_hl_o_moe:
+      name: fraction_hl_o_moe
+      type: number
+    fraction_lesh:
+      name: fraction_lesh
+      type: number
+    fraction_lesh_moe:
+      name: fraction_lesh_moe
+      type: number
+    median_income:
+      name: median_income
+      type: number
+    median_income_moe:
+      name: median_income_moe
+      type: number
+    median_income_2010adj:
+      name: median_income_2010adj
+      type: number
+    fraction_hs:
+      name: fraction_hs
+      type: number
+    fraction_hs_moe:
+      name: fraction_hs_moe
+      type: number
