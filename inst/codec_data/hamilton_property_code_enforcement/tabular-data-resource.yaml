@@ -1,0 +1,22 @@
+profile: tabular-data-resource
+name: hamilton_property_code_enforcement
+path: hamilton_property_code_enforcement.csv
+version: 0.1.3
+title: Hamilton County Property Code Enforcement
+homepage: https://geomarker.io/hamilton_property_code_enforcement
+description: Number of property code enforcements per household by census tract
+schema:
+  fields:
+    census_tract_id_2010:
+      name: census_tract_id_2010
+      type: string
+      description: census tract identifier
+    violations_per_household:
+      name: violations_per_household
+      type: number
+      description: number of property code enforcements per household
+    year:
+      name: year
+      type: number
+      title: Year
+      description: data year
