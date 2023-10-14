@@ -11,21 +11,20 @@ schema:
     census_tract_id_2010:
       name: census_tract_id_2010
       type: string
-      title: Census Tract Identifier
     n_parcels:
       name: n_parcels
-      type: number
+      type: integer
       title: Number of Parcels
       description: number of parcels in tract
     n_parcels_near_traffic:
       name: n_parcels_near_traffic
-      type: number
+      type: integer
       title: Number of Parcels Near Traffic
       description: number of parcels within 400 m of roads with non-zero average annual
         daily traffic
     n_parcels_near_truck_traffic:
       name: n_parcels_near_truck_traffic
-      type: number
+      type: integer
       title: Number of Parcels Near Truck Traffic
       description: number of parcels within 400 m of roads with non-zero average annual
         daily truck traffic
@@ -97,6 +96,3 @@ schema:
     year:
       name: year
       type: number
-      title: Year
-      description: The actual year is unique to each data product and denoted in the
-        field names
