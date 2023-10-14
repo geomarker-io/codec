@@ -1,7 +1,7 @@
 profile: tabular-data-resource
 name: hamilton_traffic
 path: hamilton_traffic.csv
-version: 0.1.0
+version: v0.1.0
 title: Hamilton County Parcel and Household Traffic
 homepage: https://geomarker.io/hamilton_traffic
 description: Number and fraction of parcels and households near traffic by census

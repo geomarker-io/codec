@@ -1,7 +1,7 @@
 profile: tabular-data-resource
 name: hamilton_drivetime
 path: hamilton_drivetime.csv
-version: 0.2.0
+version: v0.2.0
 description: A census tract-level measure of drive time to Cincinnati Children's Hospital
   Medical Center is derived using 6-minute interval drive time isochrones obtained
   from [openroute service](https://classic-maps.openrouteservice.org/reach?n1=38.393339&n2=-95.339355&n3=5&b=0&i=0&j1=30&j2=15&k1=en-US&k2=km).
@@ -11,7 +11,7 @@ schema:
     census_tract_id_2010:
       name: census_tract_id_2010
       type: string
-      title: Census tract identifer
+      title: Census tract identifier
     drive_time_avg:
       name: drive_time_avg
       type: number
