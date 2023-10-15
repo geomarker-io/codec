@@ -28,7 +28,7 @@ Suggests:
     bsplus
 Remotes:
     geomarker-io/cincy,
-    cole-brokamp/fr@e80ff9b
+    cole-brokamp/fr@1b85d0c
 Config/testthat/edition: 3
 URL: https://github.com/geomarker-io/codec,
     http://geomarker.io/codec/
