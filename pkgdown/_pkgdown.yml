@@ -27,6 +27,8 @@ navbar:
    specs:
      text: Specs
      href: articles/specs.html
+   articles:
+
 reference:
 - title: CoDEC specifications
   contents:
