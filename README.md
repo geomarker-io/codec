@@ -7,16 +7,12 @@
 <!-- badges: end -->
 
 The goal of the R package {codec} is to support [CoDEC](https://geomarker.io/codec) data
-infrastructure through:
+infrastructure through
 
-- curating metadata for tabular data in R:
-  `vignette("curating-metadata")`
-- reading and writing tabular-data-resources:
-  `vignette("reading-writing-tdr")`
-- defining the CoDEC tabular-data-resource specifications:
-  `vignette("specs")`
-- providing tools to check CoDEC tabular-data-resources and create an
-  interactive data catalog: `vignette("data")`
+- defining the CoDEC tabular-data-resource (TDR) specifications: `vignette("specs")`
+- providing tools to check TDRs against the CoDEC specifications
+- creation and hosting of an interactive data catalog and explorer: `vignette("data")`
+- providing an R-based interface for retreiving CoDEC data (`codec_data()`)
 
 ### Installation
 

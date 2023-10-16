@@ -27,11 +27,6 @@ navbar:
    specs:
      text: Specs
      href: articles/specs.html
-   articles:
-    text: Articles
-    menu:
-    - text: "{codec} R package"
-      href: https://github.com/geomarker-io/codec
 reference:
 - title: CoDEC specifications
   contents:
