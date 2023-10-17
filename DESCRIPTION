@@ -23,7 +23,6 @@ Suggests:
     glue,
     callr,
     downloadthis,
-    cincy (>= 1.0.2),
     tibble,
     bsplus
 Remotes:
@@ -40,6 +39,7 @@ Imports:
     stringr,
     yaml,
     vroom,
+    cincy (>= 1.1.0),
     fr (>= 0.2.0)
 VignetteBuilder: knitr
 Depends: 

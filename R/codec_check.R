@@ -15,6 +15,7 @@
 #' @param name the name field from tabular-data-resource.yaml
 #' @return for `check_codec_tdr_csv`, a tibble with added
 #' tabular-data-resource attributes (equivalent to read_tdr_csv with `codec = TRUE`)
+#' @importFrom cincy interpolate
 #' @export
 check_codec_tdr_csv <- function(path) {
   check_files(path)
