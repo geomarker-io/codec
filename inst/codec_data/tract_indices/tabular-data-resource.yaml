@@ -4,8 +4,7 @@ path: tract_indices.csv
 version: v0.3.0
 title: Census Tract-Level Neighborhood Indices
 homepage: https://geomarker.io/tract_indices
-description: A collection of census-derived indices for census tracts in Hamilton
-  County
+description: A collection of census-derived indices for all census tracts in the U.S.
 schema:
   fields:
     census_tract_id_2010:
