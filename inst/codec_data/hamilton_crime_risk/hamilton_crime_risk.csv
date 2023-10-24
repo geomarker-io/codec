@@ -1,4 +1,4 @@
-census_tract_id_2010,Total,Personal,Murder,Rape,Robbery,Assault,Property,Burglary,Theft,MotVeh,year
+census_tract_id_2010,crime_total,crime_personal,crime_murder,crime_rape,crime_robbery,crime_assualt,crime_property,crime_burglary,crime_theft,crime_motveh,year
 39061024800,103,25,37,19,42,20,116,49,143,39,2020
 39061024901,70,38,43,27,57,33,75,71,79,54,2020
 39061025002,40,27,40,87,22,18,42,89,33,24,2020

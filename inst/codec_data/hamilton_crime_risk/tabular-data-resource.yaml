@@ -12,46 +12,36 @@ schema:
     census_tract_id_2010:
       name: census_tract_id_2010
       type: string
-    Total:
-      name: Total
+    crime_total:
+      name: crime_total
       type: number
-      title: Total Crime Risk
-    Personal:
-      name: Personal
+    crime_personal:
+      name: crime_personal
       type: number
-      title: Personal Crime Risk
-    Murder:
-      name: Murder
+    crime_murder:
+      name: crime_murder
       type: number
-      title: Murder Crime Risk
-    Rape:
-      name: Rape
+    crime_rape:
+      name: crime_rape
       type: number
-      title: Rape Crime Risk
-    Robbery:
-      name: Robbery
+    crime_robbery:
+      name: crime_robbery
       type: number
-      title: Robbery Crime Risk
-    Assault:
-      name: Assault
+    crime_assualt:
+      name: crime_assualt
       type: number
-      title: Assault Crime Risk
-    Property:
-      name: Property
+    crime_property:
+      name: crime_property
       type: number
-      title: Property Crime Risk
-    Burglary:
-      name: Burglary
+    crime_burglary:
+      name: crime_burglary
       type: number
-      title: Burglary Crime Risk
-    Theft:
-      name: Theft
+    crime_theft:
+      name: crime_theft
       type: number
-      title: Theft Crime Risk
-    MotVeh:
-      name: MotVeh
+    crime_motveh:
+      name: crime_motveh
       type: number
-      title: Motor Vehicle Crime Risk
     year:
       name: year
       type: number
