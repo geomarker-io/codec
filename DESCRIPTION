@@ -40,7 +40,8 @@ Imports:
     yaml,
     vroom,
     cincy (>= 1.1.0),
-    fr (>= 0.2.0)
+    fr (>= 0.3.0),
+    sf
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)

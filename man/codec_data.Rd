@@ -4,13 +4,16 @@
 \alias{codec_data}
 \title{read CoDEC tabular data resource}
 \usage{
-codec_data(name)
+codec_data(name, geography = cincy::tract_tigris_2010)
 }
 \arguments{
 \item{name}{name of installed codec tabular data resource}
+
+\item{geography}{a \href{https://geomarker.io/cincy/#data}{{cincy} geography object}
+to spatially interpolate data to}
 }
 \value{
-a tibble (codec tabular data resource), or simple features object when \code{geometry = TRUE}
+a frictionless tabular data resource (\code{fr_tdr}) object
 }
 \description{
 This function is shorthand for reading a CoDEC tabular
@@ -18,5 +21,6 @@ data resource using \code{read_tdr_csv()} from the installed
 R package.
 }
 \examples{
-codec_data("hamilton_drivetime")
+codec_data("hamilton_property_code_enforcement")
+codec_data("hamilton_property_code_enforcement", geography = cincy::neigh_cchmc_2010)
 }

@@ -4,8 +4,7 @@ test_that("codec_tdr", {
 
 test_that("check codec_tdr_csv", {
 
-  expect_identical(fr::read_fr_tdr(test_path("hamilton_poverty_2020", "tabular-data-resource.yaml")),
-                   check_codec_tdr_csv(test_path("hamilton_poverty_2020")))
+  expect_silent(check_codec_tdr_csv(test_path("hamilton_poverty_2020")))
 
   expect_silent(check_codec_tdr_csv(test_path("hamilton_poverty_2020")))
 

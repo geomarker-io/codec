@@ -41,12 +41,14 @@ codec_tdr <- function() {
 #' data resource using `read_tdr_csv()` from the installed
 #' R package.
 #' @param name name of installed codec tabular data resource
-#' @return a tibble (codec tabular data resource), or simple features object when `geometry = TRUE`
+#' @param geography a [{cincy} geography object](https://geomarker.io/cincy/#data)
+#' to spatially interpolate data to
+#' @return a frictionless tabular data resource (`fr_tdr`) object
 #' @export
 #' @examples
-#' codec_data("hamilton_drivetime")
-codec_data <- function(name) {
-
+#' codec_data("hamilton_property_code_enforcement")
+#' codec_data("hamilton_property_code_enforcement", geography = cincy::neigh_cchmc_2010)
+codec_data <- function(name, geography = cincy::tract_tigris_2010) {
   installed_codec_data <-
     fs::path_package("codec") |>
     fs::path("codec_data") |>
@@ -58,7 +60,28 @@ codec_data <- function(name) {
     stop(name, " not found in installed codec_data (found: ", paste(installed_codec_data, collapse = ", "), ")", call. = FALSE)
   }
 
-  d <- fr::read_fr_tdr(fs::path(fs::path_package("codec"), "codec_data", name, "tabular-data-resource.yaml"))
+  d <-
+    fs::path(
+      fs::path_package("codec"),
+      "codec_data",
+      name,
+      "tabular-data-resource.yaml"
+    ) |>
+    fr::read_fr_tdr()
 
-  return(d)
+  codec_geography <- cincy::tract_tigris_2010
+
+  if (identical(geography, codec_geography)) {
+    return(d)
+  }
+
+  out <-
+    as.data.frame(d) |>
+    dplyr::left_join(codec_geography, by = "census_tract_id_2010") |>
+    sf::st_as_sf() |>
+    cincy::interpolate(to = geography, weights = "pop") |>
+    sf::st_drop_geometry() |>
+    fr::as_fr_tdr(.template = d)
+
+  return(out)
 }
