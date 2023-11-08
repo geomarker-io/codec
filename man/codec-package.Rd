@@ -23,6 +23,7 @@ Useful links:
 Authors:
 \itemize{
   \item Erika Manning
+  \item Andrew Vancil
 }
 
 }
