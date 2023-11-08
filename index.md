@@ -26,6 +26,7 @@ We have initialized CoDEC with extant community-level data from:
   Environment](https://github.com/geomarker-io/hamilton_landcover)
 - [Hamilton County Parcel and Household
   Traffic](https://github.com/geomarker-io/hamilton_traffic)
+- [Hamilton County Crime Risk](https://github.com/geomarker-io/hamilton_crime_risk)
 
 Using specifications, data is assembled **transparently** and **reproducibly**, and data structure can be automatically validated. This saves time and resources, leading to increased efficiency and accelerated innovation. A single point for data consumption provides ownership of the process of harmonizing data and integrates well with data governance, but most importantly, can provide data to be consumed in multiple ways (e.g. dashboard, tabular data file, API). Creating and maintaining an open community-level data resource equips the entire community for data-powered decision making *and* boosts organizational trustworthiness. Demonstrating reliability and capability of appropriately managing shared data helps earn the [trust](https://doi.org/10.1038/s41597-020-0486-7) of organizations and communities intended to be served.
 

@@ -28,35 +28,8 @@ navbar:
      text: Specs
      href: articles/specs.html
    articles:
-    text: Articles
-    menu:
-    - text: "{codec} R package"
-      href: https://github.com/geomarker-io/codec
-    - text: Reading and writing tabular data resources
-      href: articles/reading-writing-tdr.html
-    - text: Curating metadata for tabular data in R using attributes
-      href: articles/curating-metadata.html
-    - text: Frictionless Standards
-      href: articles/frictionless.html
+
 reference:
-- title: Read & write tabular-data-resources
-  contents:
-  - write_tdr_csv
-  - read_tdr_csv
-  - write_tdr
-  - read_tdr
-- title: Curate metadata
-  contents:
-  - add_attrs
-  - add_col_attrs
-  - add_type_attrs
-  - make_tdr_from_attr
-  - add_attr_from_tdr
-- title: Examine metadata
-  contents:
-  - glimpse_attr
-  - glimpse_schema
-  - glimpse_tdr
 - title: CoDEC specifications
   contents:
   - codec_tdr

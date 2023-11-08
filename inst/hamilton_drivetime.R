@@ -1,16 +1,32 @@
 devtools::load_all()
+library(dplyr)
+library(sf)
+
 name <- "hamilton_drivetime"
-version <- "v0.1.0"
+version <- "v0.2.0"
+description <- "A census tract-level measure of drive time to Cincinnati Children's Hospital Medical Center is derived using 6-minute interval drive time isochrones obtained from [openroute service](https://classic-maps.openrouteservice.org/reach?n1=38.393339&n2=-95.339355&n3=5&b=0&i=0&j1=30&j2=15&k1=en-US&k2=km). Each tract-level drive time is an area-weighted average of drive times."
+
+isochrones <-
+  s3::s3_get("s3://geomarker/drivetime/isochrones/cchmc_isochrones.rds") |>
+  readRDS()
 
 d <-
-  read_tdr_csv(glue::glue(
-    "https://github.com/geomarker-io/",
-    "{name}/releases/download/{version}/"
-  )) |>
-  dplyr::rename(census_tract_id_2010 = census_tract_id) |>
-  dplyr::mutate(year = as.integer(2021)) |>
-  add_col_attrs(year, name = "year", title = "Year", description = "data year") |>
-  add_type_attrs()
+  st_intersection(cincy::tract_tigris_2010, isochrones) |>
+  mutate(
+    area = round(as.numeric(st_area(geometry))),
+    drive_time = as.numeric(as.character(drive_time))) |>
+  group_by(census_tract_id_2010) |>
+  mutate(wt_drive_time = drive_time * area/sum(area)) |>
+  summarize(drive_time_avg = round(sum(wt_drive_time),1)) |>
+  st_drop_geometry()
 
-write_tdr_csv(d, fs::path_package("codec", "codec_data"))
+d$year <- as.integer(2022)
+
+d_tdr <-
+  fr::as_fr_tdr(d, name = name, version = version, description = description) |>
+  fr::update_field("census_tract_id_2010", title = "Census tract identifier") |>
+  fr::update_field("drive_time_avg", title = "Average drivetime to CCHMC") |>
+  fr::update_field("year", description = "Isochrones were obtained in 2022, but these rarely change over time (absent changes to major roadways)")
+
+fr::write_fr_tdr(d_tdr, fs::path_package("codec", "codec_data"))
 check_codec_tdr_csv(fs::path_package("codec", "codec_data", name))

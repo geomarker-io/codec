@@ -2,14 +2,17 @@ devtools::load_all()
 name <- "hamilton_property_code_enforcement"
 version <- "0.1.3"
 
-d <-
-  read_tdr_csv(glue::glue(
+rd <-
+  fr::read_fr_tdr(glue::glue(
     "https://github.com/geomarker-io/",
     "{name}/releases/download/{version}/"
-  )) |>
-  dplyr::mutate(year = as.integer(2022)) |>
-  add_col_attrs(year, name = "year", title = "Year", description = "data year") |>
-  add_type_attrs()
+  ))
 
-write_tdr_csv(d, fs::path_package("codec", "codec_data"))
+d_tdr <-
+  rd |>
+  fr::fr_mutate(year = 2022) |>
+  fr::update_field("year", title = "Year", description = "data year")
+d_tdr@version <- version
+
+fr::write_fr_tdr(d_tdr, fs::path_package("codec", "codec_data"))
 check_codec_tdr_csv(fs::path_package("codec", "codec_data", name))

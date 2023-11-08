@@ -1,7 +1,7 @@
 profile: tabular-data-resource
 name: hamilton_traffic
 path: hamilton_traffic.csv
-version: 0.1.0
+version: v0.1.0
 title: Hamilton County Parcel and Household Traffic
 homepage: https://geomarker.io/hamilton_traffic
 description: Number and fraction of parcels and households near traffic by census
@@ -10,92 +10,89 @@ schema:
   fields:
     census_tract_id_2010:
       name: census_tract_id_2010
-      title: Census Tract Identifier
       type: string
     n_parcels:
       name: n_parcels
+      type: integer
       title: Number of Parcels
       description: number of parcels in tract
-      type: integer
     n_parcels_near_traffic:
       name: n_parcels_near_traffic
+      type: integer
       title: Number of Parcels Near Traffic
       description: number of parcels within 400 m of roads with non-zero average annual
         daily traffic
-      type: integer
     n_parcels_near_truck_traffic:
       name: n_parcels_near_truck_traffic
+      type: integer
       title: Number of Parcels Near Truck Traffic
       description: number of parcels within 400 m of roads with non-zero average annual
         daily truck traffic
-      type: integer
     n_households:
       name: n_households
+      type: number
       title: Number of Households
       description: number of households in tract
-      type: number
     n_households_near_traffic:
       name: n_households_near_traffic
+      type: number
       title: Number of Households Near Traffic
       description: number of households within 400 m of roads with non-zero average
         annual daily traffic
-      type: number
     n_households_near_truck_traffic:
       name: n_households_near_truck_traffic
+      type: number
       title: Number of Households Near Truck Traffic
       description: number of households within 400 m of roads with non-zero average
         annual daily truck traffic
-      type: number
     median_parcel_traffic:
       name: median_parcel_traffic
+      type: number
       title: Median Parcel Traffic
       description: median average annual daily traffic within 400 m of each parcel
         (vehicle-meters)
-      type: number
     median_household_traffic:
       name: median_household_traffic
+      type: number
       title: Median Household Traffic
       description: median average annual daily traffic within 400 m of each household
         (truck-meters)
-      type: number
     median_parcel_truck_traffic:
       name: median_parcel_truck_traffic
+      type: number
       title: Median Parcel Truck Traffic
       description: median average annual daily truck traffic within 400 m of each
         parcel (vehicle-meters)
-      type: number
     median_household_truck_traffic:
       name: median_household_truck_traffic
+      type: number
       title: Median Household Truck Traffic
       description: median average annual daily truck traffic within 400 m of each
         household (truck-meters)
-      type: number
     frac_households_near_traffic:
       name: frac_households_near_traffic
+      type: number
       title: Fraction of Households Near Traffic
       description: fraction of households within 400 m of roads with non-zero average
         annual daily traffic
-      type: number
     frac_parcels_near_traffic:
       name: frac_parcels_near_traffic
+      type: number
       title: Fraction of Parcels Near Traffic
       description: fraction of parcels within 400 m of roads with non-zero average
         annual daily traffic
-      type: number
     frac_households_near_truck_traffic:
       name: frac_households_near_truck_traffic
+      type: number
       title: Fraction of Households Near Truck Traffic
       description: fraction of households within 400 m of roads with non-zero average
         annual daily truck traffic
-      type: number
     frac_parcels_near_truck_traffic:
       name: frac_parcels_near_truck_traffic
+      type: number
       title: Fraction of Parcels Near Truck Traffic
       description: fraction of parcels within 400 m of roads with non-zero average
         annual daily truck traffic
-      type: number
     year:
       name: year
-      title: Year
-      description: data year
-      type: integer
+      type: number

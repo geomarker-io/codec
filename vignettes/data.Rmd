@@ -9,83 +9,72 @@ vignette: >
 
 ```{r}
 #| echo: false
+#| comment: ""
 options(knitr.kable.NA = "")
 library(codec)
 
-codec_data_installed <-
+cd <-
   fs::path_package("codec") |>
   fs::path("codec_data") |>
   fs::dir_ls() |>
-  fs::path_file()
-  
-cd <-
-  purrr::map(codec_data_installed, codec::codec_data, .progress = "reading codec data") |>
-  purrr::set_names(codec_data_installed)
+  fs::path_file() |>
+  lapply(codec_data)
 
-make_core_md <- function(x = cd[[1]]) {
-  md <- purrr::keep_at(attributes(x), c("name", "title", "homepage", "version", "description"))
-  md$dl_button <- downloadthis::download_dir(
-    button_label = "", 
-    button_type = "info",
-    has_icon = TRUE,
-    icon = "fa fa-download",
-    self_contained = TRUE,
-    class = "codec_button_dl",
-    path = fs::path_package("codec", "codec_data", md$name),
-    output_name = md$name) |>
+make_data_entry <- function(x) {
+  dl_button <-
+    downloadthis::download_dir(
+      button_label = x@version, 
+      button_type = "info",
+      has_icon = TRUE,
+      icon = "fa fa-download",
+      self_contained = TRUE,
+      class = "codec_button_dl",
+      path = fs::path_package("codec", "codec_data", x@name),
+      output_name = x@name) |>
     bsplus::bs_embed_tooltip("download the CoDEC tabular data resource", placement = "right")
-  md$schema <- knitr::kable(glimpse_schema(x))
-  md$name_button <- bsplus::bs_button(
-    label = glue::glue("{md$name}"),
-    class = "codec_button_n")
-  return(md)
-}
-
-cd_md <- purrr::map(cd, make_core_md)
-```
-
-&nbsp;
-
-```{css, echo=FALSE}
-.codec_button_dl {
-	font-size: 12px;
-	button-size: Extra-small;
-}
-
-.codec_button_n {
-	font-size: 24px;
-	font-family: "Source Code Pro";
+  cat(glue::glue("### `{x@name}`{dl_button}"))
+  cat("\n\n")
+  cat(glue::glue("> {x@description}"))
+  cat("\n\n")
+  cat("<details><summary> Table schema:</summary>")
+  tibble::tibble(
+    name = purrr::map(x@schema@fields, \(.) S7::prop(., "name")),
+    type = purrr::map(x@schema@fields, \(.) S7::prop(., "type")),
+    title = purrr::map(x@schema@fields, \(.) S7::prop(., "title")),
+    description = purrr::map(x@schema@fields, \(.) S7::prop(., "description"))
+  ) |>
+    knitr::kable() |>
+    print()
+  cat("</details>")
+  cat("\n\n")
+  cat("\n\n")
 }
 ```
 
 ```{r}
 #| echo: false
 #| results: asis
+invisible(lapply(cd, make_data_entry))
+```
 
-purrr::walk(cd_md,
-            function(.) {
-              glue::glue_data(
-                .,
-                ## "<hr>",
-                "## {name_button}",
-                "[**{title}**]({homepage}) v{version} {dl_button}",
-                ## "> {description}",
-                ## "<hr>",
-                ## "read into R with:",
-                ## "```r",
-                ## "codec::codec_data(\"{name}\")",
-                ## "```",
-                ## "**About**: {description}",
-                ## " ### Schema",
-                "{paste(schema, collapse = '\n')}",
-                "\n\n",
-                "&nbsp;",
-                "\n\n",
-                "&nbsp;",
-                "\n\n",
-                .sep = "\n\n",
-                .na = "") |>
-                cat()
-            })
+```{css, echo=FALSE}
+.codec_button_dl {
+	font-size: 14px;
+}
 
+h3 {
+	font-size: 26px;
+}
+
+summary {
+	font-size: 18px;
+}
+
+blockquote {
+	font-size: 18px;
+}
+
+table {
+	font-size: 14px;
+}
 ```

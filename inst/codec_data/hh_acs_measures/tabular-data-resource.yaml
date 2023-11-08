@@ -1,7 +1,7 @@
 profile: tabular-data-resource
 name: hh_acs_measures
 path: hh_acs_measures.csv
-version: 1.1.0
+version: v1.1.0
 title: Harmonized Historical American Community Survey Measures
 homepage: https://geomarker.io/hh_acs_measures
 description: 2010 - 2021 measures derived from ACS variables for census tracts in
@@ -10,22 +10,19 @@ schema:
   fields:
     census_tract_id_2010:
       name: census_tract_id_2010
-      title: Census Tract Identifier
-      description: can refer to 2010 or 2020 vintage census tracts; unique only in
-        combination with `census_tract_vintage`
       type: string
     year:
       name: year
+      type: integer
       title: Year
       description: The year of the 5-year ACS estimates (e.g., the 2019 ACS covers
         2015 - 2019)
-      type: integer
     fraction_poverty:
       name: fraction_poverty
+      type: number
       title: Fraction of Households in Poverty
       description: Fraction of households with income below poverty level within the
         past 12 months
-      type: number
     fraction_poverty_moe:
       name: fraction_poverty_moe
       type: number
@@ -55,36 +52,36 @@ schema:
       type: integer
     fraction_insured:
       name: fraction_insured
+      type: number
       title: Fraction of People Insured
       description: Fraction of population with health insurance (available from 2012
         onwards only)
-      type: number
     fraction_insured_moe:
       name: fraction_insured_moe
       type: number
     fraction_snap:
       name: fraction_snap
+      type: number
       title: Fraction of Households Receiving Assisted Income
       description: Fraction of households receiving public assistance income or food
         stamps/SNAP in the past 12 months
-      type: number
     fraction_snap_moe:
       name: fraction_snap_moe
       type: number
     fraction_fam_nospouse:
       name: fraction_fam_nospouse
+      type: number
       title: Fraction of family households with a single householder
       description: Single householder is male or female household, with no spouse
         present
-      type: number
     fraction_fam_nospouse_moe:
       name: fraction_fam_nospouse_moe
       type: number
     fraction_employment:
       name: fraction_employment
+      type: number
       title: Fraction of People Employed
       description: Fraction of people employed in civilian labor force
-      type: number
     fraction_employment_moe:
       name: fraction_employment_moe
       type: number
@@ -96,142 +93,142 @@ schema:
       type: integer
     median_home_value:
       name: median_home_value
-      title: Median Value of Owner-Occupied Housing Units
       type: number
+      title: Median Value of Owner-Occupied Housing Units
     median_home_value_moe:
       name: median_home_value_moe
       type: number
     median_home_value_2010adj:
       name: median_home_value_2010adj
-      title: Median Value of Owner-Occupied Housing Units (in 2010 USD)
       type: number
+      title: Median Value of Owner-Occupied Housing Units (in 2010 USD)
     fraction_housing_renters:
       name: fraction_housing_renters
+      type: number
       title: Fraction of Housing Units Occupied by Renters
       description: fraction denominator is number of *occupied* housing units
-      type: number
     fraction_housing_renters_moe:
       name: fraction_housing_renters_moe
       type: number
     median_rent_to_income_percentage:
       name: median_rent_to_income_percentage
+      type: number
       title: Median Rent to Income Percentage
       description: The median of the percentage of rent to income among all renter-occupied
         housing units
-      type: number
     median_rent_to_income_percentage_moe:
       name: median_rent_to_income_percentage_moe
       type: number
     fraction_high_rent:
       name: fraction_high_rent
-      title: Fraction of Housing Units Paying at least 30% of Income on Rent
       type: number
+      title: Fraction of Housing Units Paying at least 30% of Income on Rent
     fraction_high_rent_moe:
       name: fraction_high_rent_moe
       type: number
     fraction_conditions:
       name: fraction_conditions
+      type: number
       title: Fraction of Housing Units with Substandard Housing Conditions
       description: 'substandard housing: incomplete plumbing or kitchens, overcrowding,
         30% or more of household income spent on rent or owner costs'
-      type: number
     fraction_conditions_moe:
       name: fraction_conditions_moe
       type: number
     fraction_builtbf1970:
       name: fraction_builtbf1970
-      title: Fraction of Housing Units Built Before 1970
       type: number
+      title: Fraction of Housing Units Built Before 1970
     fraction_builtbf1970_moe:
       name: fraction_builtbf1970_moe
       type: number
     fraction_vacant:
       name: fraction_vacant
-      title: Fraction of Housing Units that are Vacant
       type: number
+      title: Fraction of Housing Units that are Vacant
     fraction_vacant_moe:
       name: fraction_vacant_moe
       type: number
     fraction_nhl:
       name: fraction_nhl
-      title: Fraction of People Not Hispanic/Latino
       type: number
+      title: Fraction of People Not Hispanic/Latino
     fraction_nhl_moe:
       name: fraction_nhl_moe
       type: number
     fraction_nhl_w:
       name: fraction_nhl_w
-      title: Fraction of People White and Not Hispanic/Latino
       type: number
+      title: Fraction of People White and Not Hispanic/Latino
     fraction_nhl_w_moe:
       name: fraction_nhl_w_moe
       type: number
     fraction_nhl_b:
       name: fraction_nhl_b
-      title: Fraction of People Black and Not Hispanic/Latino
       type: number
+      title: Fraction of People Black and Not Hispanic/Latino
     fraction_nhl_b_moe:
       name: fraction_nhl_b_moe
       type: number
     fraction_nhl_o:
       name: fraction_nhl_o
-      title: Fraction of People Not Black, Not White, and Not Hispanic/Latino
       type: number
+      title: Fraction of People Not Black, Not White, and Not Hispanic/Latino
     fraction_nhl_o_moe:
       name: fraction_nhl_o_moe
       type: number
     fraction_hl:
       name: fraction_hl
-      title: Fraction of People Hispanic/Latino
       type: number
+      title: Fraction of People Hispanic/Latino
     fraction_hl_moe:
       name: fraction_hl_moe
       type: number
     fraction_hl_w:
       name: fraction_hl_w
-      title: Fraction of People White and Hispanic/Latino
       type: number
+      title: Fraction of People White and Hispanic/Latino
     fraction_hl_w_moe:
       name: fraction_hl_w_moe
       type: number
     fraction_hl_b:
       name: fraction_hl_b
-      title: Fraction of People Black and Hispanic/Latino
       type: number
+      title: Fraction of People Black and Hispanic/Latino
     fraction_hl_b_moe:
       name: fraction_hl_b_moe
       type: number
     fraction_hl_o:
       name: fraction_hl_o
-      title: Fraction of People Not Black, Not White, and Hispanic/Latino
       type: number
+      title: Fraction of People Not Black, Not White, and Hispanic/Latino
     fraction_hl_o_moe:
       name: fraction_hl_o_moe
       type: number
     fraction_lesh:
       name: fraction_lesh
+      type: number
       title: Fraction of Households Speaking Limited English
       description: Available from 2016 onwards
-      type: number
     fraction_lesh_moe:
       name: fraction_lesh_moe
       type: number
     median_income:
       name: median_income
-      title: Median Household Income
       type: number
+      title: Median Household Income
     median_income_moe:
       name: median_income_moe
       type: number
     median_income_2010adj:
       name: median_income_2010adj
-      title: Median Household Income (in 2010 USD)
       type: number
+      title: Median Household Income (in 2010 USD)
     fraction_hs:
       name: fraction_hs
+      type: number
       title: Fraction of Adults with At Least High School Education
       description: Available from 2012 onwards
-      type: number
     fraction_hs_moe:
       name: fraction_hs_moe
       type: number

@@ -9,14 +9,14 @@ schema:
   fields:
     census_tract_id_2010:
       name: census_tract_id_2010
-      description: census tract identifier
       type: string
+      description: census tract identifier
     violations_per_household:
       name: violations_per_household
-      description: number of property code enforcements per household
       type: number
+      description: number of property code enforcements per household
     year:
       name: year
+      type: number
       title: Year
       description: data year
-      type: integer

@@ -1,0 +1,48 @@
+profile: tabular-data-resource
+name: hamilton_crime_risk
+path: hamilton_crime_risk.csv
+version: v0.1.0
+title: Hamilton County Crime Risk
+homepage: https://geomarker.io/hamilton_crime_risk
+description: Average [crime risk](https://github.com/geomarker-io/hamilton_crime_risk/blob/master/AGS-CrimeRisk-Methodology-2022A.pdf)
+  (2014-2020) at 2020 census blocks interpolated (population weighted) to 2010 census
+  tracts.
+schema:
+  fields:
+    census_tract_id_2010:
+      name: census_tract_id_2010
+      type: string
+    crime_total:
+      name: crime_total
+      type: number
+    crime_personal:
+      name: crime_personal
+      type: number
+    crime_murder:
+      name: crime_murder
+      type: number
+    crime_rape:
+      name: crime_rape
+      type: number
+    crime_robbery:
+      name: crime_robbery
+      type: number
+    crime_assualt:
+      name: crime_assualt
+      type: number
+    crime_property:
+      name: crime_property
+      type: number
+    crime_burglary:
+      name: crime_burglary
+      type: number
+    crime_theft:
+      name: crime_theft
+      type: number
+    crime_motveh:
+      name: crime_motveh
+      type: number
+    year:
+      name: year
+      type: number
+      description: Represents 2014 - 2020 average

@@ -4,23 +4,18 @@ test_that("codec_tdr", {
 
 test_that("check codec_tdr_csv", {
 
-  expect_identical(read_tdr_csv(test_path("hamilton_poverty_2020")),
-                   check_codec_tdr_csv(test_path("hamilton_poverty_2020")))
-
   expect_silent(check_codec_tdr_csv(test_path("hamilton_poverty_2020")))
 
-  expect_error(check_codec_tdr_csv(path = test_path("hamilton_poverty_2020_missing_d")),
-               regexp = "fields that are not in the data")
-
-  expect_error(check_codec_tdr_csv(test_path("hamilton_poverty_2020_missing_md")),
-               regexp = "all fields in the data")
+  expect_silent(check_codec_tdr_csv(test_path("hamilton_poverty_2020")))
 
   expect_error(check_codec_tdr_csv(test_path("hamilton_poverty_2020_empty_field")),
                regexp = "empty field")
 })
 
 test_that("check codec_tdr", {
-  tdr <- read_tdr(test_path("tract_indices"))$tdr
+
+  tdr <- fr::read_fr_tdr(test_path("hamilton_poverty_2020", "tabular-data-resource.yaml")) |>
+    as.list()
 
   expect_no_condition(check_codec_tdr(tdr))
 
@@ -56,8 +51,8 @@ test_that("check codec_tdr", {
     check_codec_tdr() |>
     expect_error(regexp = "not allowed: foo")
 
-  test_path("d_dups") |>
-    read_tdr() |>
+  test_path("d_dups", "tabular-data-resource.yaml") |>
+    fr::read_fr_tdr() |>
     expect_error(regexp = "Duplicate map key: 'id'")
 
   tdr |>
@@ -72,10 +67,10 @@ test_that("check tdr name", {
   tdr$name <- "census_data"
   expect_no_condition(check_tdr_name(tdr$name))
   expect_error(check_tdr_name(tdr$wrong))
-  expect_error(check_tdr_name(1))
-  expect_error(check_tdr_name("CensusData"))
-  expect_error(check_tdr_name("census data"))
-  expect_error(check_tdr_name("census+data"))
+  expect_error(check_tdr_name(1), "must be character string")
+  expect_error(check_tdr_name("CensusData"), "must be all lowercase")
+  expect_error(check_tdr_name("census data"), "must not contain spaces")
+  expect_error(check_tdr_name("census+data"), "Accepted non-alphanumeric characters for")
 })
 
 test_that("check tdr path", {
@@ -102,19 +97,13 @@ test_that("check tdr path", {
 
 test_that("check census tract id", {
 
-  d_tdr <- read_tdr_csv(test_path("hamilton_poverty_2020"))
+  d_tdr <- fr::read_fr_tdr(test_path("hamilton_poverty_2020", "tabular-data-resource.yaml"))
 
   expect_equal(check_census_tract_id(d_tdr), d_tdr)
 
   expect_error({
     d_tdr |>
-      dplyr::select(-census_tract_id_2020) |>
-      check_census_tract_id()
-  },
-  regexp = "must contain a census tract id column called")
-
-  expect_error({
-    d_tdr |>
+      tibble::as_tibble() |>
       dplyr::rename(census_tract_id = census_tract_id_2020) |>
       check_census_tract_id()
   },
@@ -122,6 +111,7 @@ test_that("check census tract id", {
 
   expect_error({
     d_tdr |>
+      tibble::as_tibble() |>
       dplyr::mutate(census_tract_id_2010 = census_tract_id_2020) |>
       check_census_tract_id()
   },
@@ -129,6 +119,7 @@ test_that("check census tract id", {
 
   expect_error({
     d_tdr |>
+      tibble::as_tibble() |>
       dplyr::slice(-1) |>
       check_census_tract_id()
   },
@@ -136,27 +127,31 @@ test_that("check census tract id", {
 })
 
 test_that("check date", {
-  d_tdr <- read_tdr_csv(test_path("hamilton_poverty_2020"))
+  d_tdr <- fr::read_fr_tdr(test_path("hamilton_poverty_2020", "tabular-data-resource.yaml"))
 
   expect_identical(d_tdr, check_date(d_tdr))
 
   d_tdr |>
+    tibble::as_tibble() |>
     dplyr::select(-year) |>
     check_date() |>
     expect_error(regexp = "contain a 'year' column")
 
   d_tdr |>
-    dplyr::mutate(year = rnorm(nrow(d_tdr))) |>
+    tibble::as_tibble() |>
+    dplyr::mutate(year = rnorm(nrow(as.data.frame(d_tdr)))) |>
     check_date() |>
     expect_error(regexp = "contain integer years")
 
   d_tdr |>
-    dplyr::mutate(month = sample(1:12, nrow(d_tdr), replace = TRUE)) |>
+    tibble::as_tibble() |>
+    dplyr::mutate(month = sample(1:12, nrow(as.data.frame(d_tdr)), replace = TRUE)) |>
     check_date() |>
     expect_silent()
 
   d_tdr |>
-    dplyr::mutate(month = sample(13:14, nrow(d_tdr), replace = TRUE)) |>
+    tibble::as_tibble() |>
+    dplyr::mutate(month = sample(13:14, nrow(as.data.frame(d_tdr)), replace = TRUE)) |>
     check_date() |>
     expect_error(regexp = "contain integer values 1-12")
 

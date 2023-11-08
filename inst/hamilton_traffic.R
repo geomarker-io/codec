@@ -2,15 +2,17 @@ devtools::load_all()
 name <- "hamilton_traffic"
 version <- "v0.1.0"
 
-d <-
-  read_tdr_csv(glue::glue(
-  "https://github.com/geomarker-io/",
-  "{name}/releases/download/{version}/"
-)) |>
-  dplyr::rename(census_tract_id_2010 = census_tract_id) |>
-  dplyr::mutate(year = as.integer(2017)) |>
-  add_col_attrs(year, name = "year", title = "Year", description = "data year") |>
-  add_type_attrs()
+rd <-
+  fr::read_fr_tdr(glue::glue(
+    "https://github.com/geomarker-io/",
+    "{name}/releases/download/{version}/"
+  ))
 
-write_tdr_csv(d, fs::path_package("codec", "codec_data"))
+d_tdr <-
+  rd |>
+  fr::fr_rename(census_tract_id_2010 = census_tract_id) |>
+  fr::fr_mutate(year = as.integer(2017))
+d_tdr@version <- version
+
+fr::write_fr_tdr(d_tdr, fs::path_package("codec", "codec_data"))
 check_codec_tdr_csv(fs::path_package("codec", "codec_data", name))

@@ -2,7 +2,6 @@
 % Please edit documentation in R/codec_check.R
 \name{check_codec_tdr_csv}
 \alias{check_codec_tdr_csv}
-\alias{check_data}
 \alias{check_census_tract_id}
 \alias{check_date}
 \alias{check_files}
@@ -13,15 +12,13 @@
 \usage{
 check_codec_tdr_csv(path)
 
-check_data(tdr)
+check_census_tract_id(x)
 
-check_census_tract_id(tdr)
-
-check_date(tdr)
+check_date(x)
 
 check_files(path)
 
-check_codec_tdr(tdr_md)
+check_codec_tdr(x)
 
 check_tdr_name(name)
 
@@ -30,9 +27,8 @@ check_tdr_path(path)
 \arguments{
 \item{path}{path to tdr folder}
 
-\item{tdr}{a codec tabular-data-resource}
-
-\item{tdr_md}{a codec tabular-data-resource metadata list object}
+\item{x}{a codec fr_tdr object (or data frame for check_census_tract_id(), check_date()
+and a list for check_codec_tdr())}
 
 \item{name}{the name field from tabular-data-resource.yaml}
 }
