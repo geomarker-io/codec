@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">codec</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,15 +29,6 @@
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../articles/specs.html">Specs</a>
-</li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="external-link dropdown-item" href="https://github.com/geomarker-io/codec">{codec} R package</a>
-    <a class="dropdown-item" href="../articles/reading-writing-tdr.html">Reading and writing tabular data resources</a>
-    <a class="dropdown-item" href="../articles/curating-metadata.html">Curating metadata for tabular data in R using attributes</a>
-    <a class="dropdown-item" href="../articles/frictionless.html">Frictionless Standards</a>
-  </div>
 </li>
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
@@ -62,95 +53,6 @@
     </div>
 
     <div class="section level2">
-      <h2 id="read-write-tabular-data-resources">Read &amp; write tabular-data-resources<a class="anchor" aria-label="anchor" href="#read-write-tabular-data-resources"></a></h2>
-      
-      
-
-      
-    </div><div id="" class="section level2">
-      
-      
-      
-
-      <dl><dt>
-          
-          <code><a href="write_tdr_csv.html">write_tdr_csv()</a></code> 
-        </dt>
-        <dd>write a tabular-data-resource yaml file and data csv file based on a data.frame or tibble</dd>
-      </dl><dl><dt>
-          
-          <code><a href="read_tdr_csv.html">read_tdr_csv()</a></code> 
-        </dt>
-        <dd>read a CSV tabular data resource into R from disk or the web</dd>
-      </dl><dl><dt>
-          
-          <code><a href="write_tdr.html">write_tdr()</a></code> 
-        </dt>
-        <dd>extract data resource metadata from a data frame and save it to a file</dd>
-      </dl><dl><dt>
-          
-          <code><a href="read_tdr.html">read_tdr()</a></code> 
-        </dt>
-        <dd>Read a tabular data resource into R from disk or the web</dd>
-      </dl></div><div class="section level2">
-      <h2 id="curate-metadata">Curate metadata<a class="anchor" aria-label="anchor" href="#curate-metadata"></a></h2>
-      
-      
-
-      
-    </div><div id="" class="section level2">
-      
-      
-      
-
-      <dl><dt>
-          
-          <code><a href="add_attrs.html">add_attrs()</a></code> <code><a href="add_attrs.html">add_col_attrs()</a></code> 
-        </dt>
-        <dd>add attributes</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_type_attrs.html">add_type_attrs()</a></code> 
-        </dt>
-        <dd>automatically add "name" and "type" attributes to columns in a data frame</dd>
-      </dl><dl><dt>
-          
-          <code><a href="make_tdr_from_attr.html">make_tdr_from_attr()</a></code> 
-        </dt>
-        <dd>make a tabular-data-resource list from the attributes of a data.frame</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_attr_from_tdr.html">add_attr_from_tdr()</a></code> 
-        </dt>
-        <dd>add attributes to a data.frame based on a tabular-data-resource list</dd>
-      </dl></div><div class="section level2">
-      <h2 id="examine-metadata">Examine metadata<a class="anchor" aria-label="anchor" href="#examine-metadata"></a></h2>
-      
-      
-
-      
-    </div><div id="" class="section level2">
-      
-      
-      
-
-      <dl><dt>
-          
-          <code><a href="glimpse_attr.html">glimpse_attr()</a></code> 
-        </dt>
-        <dd>glimpse attributes of a data.frame</dd>
-      </dl><dl><dt>
-          
-          <code><a href="glimpse_schema.html">glimpse_schema()</a></code> 
-        </dt>
-        <dd>glimpse CoDEC schema</dd>
-      </dl><dl><dt>
-          
-          <code><a href="glimpse_tdr.html">glimpse_tdr()</a></code> 
-        </dt>
-        <dd>glimpse CoDEC tdr
-This can be used instead of separately calling <code><a href="../reference/glimpse_attr.html">glimpse_attr()</a></code> and <code><a href="../reference/glimpse_schema.html">glimpse_schema()</a></code></dd>
-      </dl></div><div class="section level2">
       <h2 id="codec-specifications">CoDEC specifications<a class="anchor" aria-label="anchor" href="#codec-specifications"></a></h2>
       
       
@@ -168,7 +70,7 @@ This can be used instead of separately calling <code><a href="../reference/glimp
         <dd>codec_tdr</dd>
       </dl><dl><dt>
           
-          <code><a href="check_codec_tdr_csv.html">check_codec_tdr_csv()</a></code> <code><a href="check_codec_tdr_csv.html">check_data()</a></code> <code><a href="check_codec_tdr_csv.html">check_census_tract_id()</a></code> <code><a href="check_codec_tdr_csv.html">check_date()</a></code> <code><a href="check_codec_tdr_csv.html">check_files()</a></code> <code><a href="check_codec_tdr_csv.html">check_codec_tdr()</a></code> <code><a href="check_codec_tdr_csv.html">check_tdr_name()</a></code> <code><a href="check_codec_tdr_csv.html">check_tdr_path()</a></code> 
+          <code><a href="check_codec_tdr_csv.html">check_codec_tdr_csv()</a></code> <code><a href="check_codec_tdr_csv.html">check_census_tract_id()</a></code> <code><a href="check_codec_tdr_csv.html">check_date()</a></code> <code><a href="check_codec_tdr_csv.html">check_files()</a></code> <code><a href="check_codec_tdr_csv.html">check_codec_tdr()</a></code> <code><a href="check_codec_tdr_csv.html">check_tdr_name()</a></code> <code><a href="check_codec_tdr_csv.html">check_tdr_path()</a></code> 
         </dt>
         <dd>Check a tabular-data-resource against CoDEC specifications</dd>
       </dl></div><div class="section level2">
@@ -198,7 +100,7 @@ This can be used instead of separately calling <code><a href="../reference/glimp
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Cole Brokamp, Erika Manning.</p>
+  <p></p><p>Developed by Cole Brokamp, Erika Manning, Andrew Vancil.</p>
 </div>
 
 <div class="pkgdown-footer-right">

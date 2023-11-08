@@ -7,19 +7,10 @@
     <loc>http://geomarker.io/codec/LICENSE.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/articles/curating-metadata.html</loc>
-  </url>
-  <url>
     <loc>http://geomarker.io/codec/articles/data.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/articles/frictionless.html</loc>
-  </url>
-  <url>
     <loc>http://geomarker.io/codec/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/codec/articles/reading-writing-tdr.html</loc>
   </url>
   <url>
     <loc>http://geomarker.io/codec/articles/specs.html</loc>
@@ -29,15 +20,6 @@
   </url>
   <url>
     <loc>http://geomarker.io/codec/index.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/codec/reference/add_attr_from_tdr.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/codec/reference/add_attrs.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/codec/reference/add_type_attrs.html</loc>
   </url>
   <url>
     <loc>http://geomarker.io/codec/reference/check_codec_tdr_csv.html</loc>
@@ -55,33 +37,6 @@
     <loc>http://geomarker.io/codec/reference/codec_tdr.html</loc>
   </url>
   <url>
-    <loc>http://geomarker.io/codec/reference/glimpse_attr.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/codec/reference/glimpse_schema.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/codec/reference/glimpse_tdr.html</loc>
-  </url>
-  <url>
     <loc>http://geomarker.io/codec/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/codec/reference/make_tdr_from_attr.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/codec/reference/read_tdr.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/codec/reference/read_tdr_csv.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/codec/reference/tidyeval.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/codec/reference/write_tdr.html</loc>
-  </url>
-  <url>
-    <loc>http://geomarker.io/codec/reference/write_tdr_csv.html</loc>
   </url>
 </urlset>

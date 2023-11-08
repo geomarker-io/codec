@@ -30,7 +30,7 @@ See vignette("codec-specs") for the CoDEC specifications.
     
     <a class="navbar-brand me-2" href="../index.html">codec</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,15 +49,6 @@ See vignette("codec-specs") for the CoDEC specifications.
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../articles/specs.html">Specs</a>
-</li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="external-link dropdown-item" href="https://github.com/geomarker-io/codec">{codec} R package</a>
-    <a class="dropdown-item" href="../articles/reading-writing-tdr.html">Reading and writing tabular data resources</a>
-    <a class="dropdown-item" href="../articles/curating-metadata.html">Curating metadata for tabular data in R using attributes</a>
-    <a class="dropdown-item" href="../articles/frictionless.html">Frictionless Standards</a>
-  </div>
 </li>
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
@@ -98,15 +89,13 @@ See <code>vignette("codec-specs")</code> for the CoDEC specifications.</p></li>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_codec_tdr_csv</span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">check_data</span><span class="op">(</span><span class="va">tdr</span><span class="op">)</span></span>
+<span><span class="fu">check_census_tract_id</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">check_census_tract_id</span><span class="op">(</span><span class="va">tdr</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">check_date</span><span class="op">(</span><span class="va">tdr</span><span class="op">)</span></span>
+<span><span class="fu">check_date</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">check_files</span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">check_codec_tdr</span><span class="op">(</span><span class="va">tdr_md</span><span class="op">)</span></span>
+<span><span class="fu">check_codec_tdr</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">check_tdr_name</span><span class="op">(</span><span class="va">name</span><span class="op">)</span></span>
 <span></span>
@@ -119,12 +108,9 @@ See <code>vignette("codec-specs")</code> for the CoDEC specifications.</p></li>
 <dd><p>path to tdr folder</p></dd>
 
 
-<dt>tdr</dt>
-<dd><p>a codec tabular-data-resource</p></dd>
-
-
-<dt>tdr_md</dt>
-<dd><p>a codec tabular-data-resource metadata list object</p></dd>
+<dt>x</dt>
+<dd><p>a codec fr_tdr object (or data frame for check_census_tract_id(), check_date()
+and a list for check_codec_tdr())</p></dd>
 
 
 <dt>name</dt>
@@ -144,7 +130,7 @@ tabular-data-resource attributes (equivalent to read_tdr_csv with <code>codec = 
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Cole Brokamp, Erika Manning.</p>
+  <p></p><p>Developed by Cole Brokamp, Erika Manning, Andrew Vancil.</p>
 </div>
 
 <div class="pkgdown-footer-right">
