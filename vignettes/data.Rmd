@@ -9,6 +9,7 @@ vignette: >
 
 ```{r}
 #| echo: false
+#| comment: ""
 options(knitr.kable.NA = "")
 library(codec)
 
@@ -19,12 +20,10 @@ cd <-
   fs::path_file() |>
   lapply(codec_data)
 
-
 make_data_entry <- function(x) {
-
   dl_button <-
     downloadthis::download_dir(
-      button_label = "", 
+      button_label = x@version, 
       button_type = "info",
       has_icon = TRUE,
       icon = "fa fa-download",
@@ -33,14 +32,21 @@ make_data_entry <- function(x) {
       path = fs::path_package("codec", "codec_data", x@name),
       output_name = x@name) |>
     bsplus::bs_embed_tooltip("download the CoDEC tabular data resource", placement = "right")
-
-  name_button <- bsplus::bs_button(label = x@name, class = "codec_button_n")
-
-  version_button <- glue::glue("{x@version}")
-
-  cat(glue::glue("{name_button}{version_button}{dl_button}"))
+  cat(glue::glue("### `{x@name}`{dl_button}"))
   cat("\n\n")
   cat(glue::glue("> {x@description}"))
+  cat("\n\n")
+  cat("<details><summary> Table schema:</summary>")
+  tibble::tibble(
+    name = purrr::map(x@schema@fields, \(.) S7::prop(., "name")),
+    type = purrr::map(x@schema@fields, \(.) S7::prop(., "type")),
+    title = purrr::map(x@schema@fields, \(.) S7::prop(., "title")),
+    description = purrr::map(x@schema@fields, \(.) S7::prop(., "description"))
+  ) |>
+    knitr::kable() |>
+    print()
+  cat("</details>")
+  cat("\n\n")
   cat("\n\n")
 }
 ```
@@ -53,12 +59,22 @@ invisible(lapply(cd, make_data_entry))
 
 ```{css, echo=FALSE}
 .codec_button_dl {
-	font-size: 12px;
-	button-size: Extra-small;
+	font-size: 14px;
 }
 
-.codec_button_n {
-	font-size: 24px;
-	font-family: "Source Code Pro";
+h3 {
+	font-size: 26px;
+}
+
+summary {
+	font-size: 18px;
+}
+
+blockquote {
+	font-size: 18px;
+}
+
+table {
+	font-size: 14px;
 }
 ```
