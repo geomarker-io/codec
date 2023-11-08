@@ -12,40 +12,44 @@ vignette: >
 options(knitr.kable.NA = "")
 library(codec)
 
-codec_data_installed <-
+cd <-
   fs::path_package("codec") |>
   fs::path("codec_data") |>
   fs::dir_ls() |>
-  fs::path_file()
-  
-cd <-
-  purrr::map(codec_data_installed, codec::codec_data, .progress = "reading codec data") |>
-  purrr::set_names(codec_data_installed)
+  fs::path_file() |>
+  lapply(codec_data)
 
-make_core_md <- function(x = cd[[1]]) {
-  md <- purrr::keep_at(as.list(x), c("name", "title", "homepage", "version", "description"))
-  md$dl_button <- downloadthis::download_dir(
-    button_label = "", 
-    button_type = "info",
-    has_icon = TRUE,
-    icon = "fa fa-download",
-    self_contained = TRUE,
-    class = "codec_button_dl",
-    path = fs::path_package("codec", "codec_data", md$name),
-    output_name = md$name) |>
+
+make_data_entry <- function(x) {
+
+  dl_button <-
+    downloadthis::download_dir(
+      button_label = "", 
+      button_type = "info",
+      has_icon = TRUE,
+      icon = "fa fa-download",
+      self_contained = TRUE,
+      class = "codec_button_dl",
+      path = fs::path_package("codec", "codec_data", x@name),
+      output_name = x@name) |>
     bsplus::bs_embed_tooltip("download the CoDEC tabular data resource", placement = "right")
-  ## md$schema <- knitr::kable(glimpse_schema(x))
-  # TODO best way to directly show schema?
-  md$name_button <- bsplus::bs_button(
-    label = glue::glue("{md$name}"),
-    class = "codec_button_n")
-  return(md)
-}
 
-cd_md <- purrr::map(cd, make_core_md)
+  name_button <- bsplus::bs_button(label = x@name, class = "codec_button_n")
+
+  version_button <- glue::glue("{x@version}")
+
+  cat(glue::glue("{name_button}{version_button}{dl_button}"))
+  cat("\n\n")
+  cat(glue::glue("> {x@description}"))
+  cat("\n\n")
+}
 ```
 
-&nbsp;
+```{r}
+#| echo: false
+#| results: asis
+invisible(lapply(cd, make_data_entry))
+```
 
 ```{css, echo=FALSE}
 .codec_button_dl {
@@ -57,37 +61,4 @@ cd_md <- purrr::map(cd, make_core_md)
 	font-size: 24px;
 	font-family: "Source Code Pro";
 }
-```
-
-```{r}
-#| echo: false
-#| results: asis
-
-purrr::walk(cd_md,
-            function(.) {
-              glue::glue_data(
-                .,
-                ## "<hr>",
-                "## {name_button}",
-                ## "[**{title}**]({homepage}) {version} {dl_button}",
-                "**{ifelse(length(title) == 0, name, title)}** {version} {dl_button}",
-                "> {description}",
-                ## "<hr>",
-                ## "read into R with:",
-                ## "```r",
-                ## "codec::codec_data(\"{name}\")",
-                ## "```",
-                ## "**About**: {description}",
-                ## " ### Schema",
-                ## "{paste(schema, collapse = '\n')}",
-                "\n\n",
-                "&nbsp;",
-                "\n\n",
-                "&nbsp;",
-                "\n\n",
-                .sep = "\n\n",
-                .na = "") |>
-                cat()
-            })
-
 ```
