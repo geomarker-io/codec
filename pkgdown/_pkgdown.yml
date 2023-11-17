@@ -20,7 +20,7 @@ navbar:
     href: index.html
    explore:
      text: Explore
-     href: https://grapph.shinyapps.io/codec_explorer
+     href: https://grapph.shinyapps.io/codec_shiny
    data:
      text: Data
      href: articles/data.html
