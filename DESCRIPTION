@@ -26,10 +26,10 @@ Suggests:
     callr,
     downloadthis,
     tibble,
-    bsplus
+    bsplus,
+    S7
 Remotes:
-    geomarker-io/cincy,
-    cole-brokamp/fr
+    geomarker-io/cincy
 Config/testthat/edition: 3
 URL: https://github.com/geomarker-io/codec,
     http://geomarker.io/codec/
@@ -42,7 +42,7 @@ Imports:
     yaml,
     vroom,
     cincy (>= 1.1.0),
-    fr (>= 0.4.0),
+    fr,
     sf
 VignetteBuilder: knitr
 Depends: 
