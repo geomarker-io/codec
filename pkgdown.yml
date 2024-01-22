@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   data: data.html
   specs: specs.html
-last_built: 2024-01-22T20:49Z
+last_built: 2024-01-22T20:51Z
 urls:
   reference: http://geomarker.io/codec/reference
   article: http://geomarker.io/codec/articles
