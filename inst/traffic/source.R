@@ -1,14 +1,11 @@
-
-
 dest_path <- tempfile(fileext = ".gdb.zip")
 
 "https://www.arcgis.com/sharing/rest/content/items/c199f2799b724ffbacf4cafe3ee03e55/data" |>
   utils::download.file(dest_path, mode = "wb", method = "wget")
 
-sf::st_layers(dsn = dest_path)$name |>
-  strsplit("_", fixed = TRUE) |>
-  purrr::map_chr(3)
-
+#' sf::st_layers(dsn = dest_path)$name |>
+#'   strsplit("_", fixed = TRUE) |>
+#'   purrr::map_chr(3)
 
 rd <-
   sf::st_read(
@@ -36,14 +33,13 @@ out <-
     aadt_truck = sum(AADT_SINGLE_UNIT, AADT_COMBINATION, na.rm = TRUE)
   )
 
-out |>
-  dplyr::mutate(year = 2020) |>
-  fr::as_fr_tdr(
-    name = "codec_traffic",
-    title = "Average Annual Daily Truck and Total Traffic Counts"
-  ) |>
-  fr::update_field("aadt", title = "Average Annual Daily Traffic (total)") |>
-  fr::update_field("aadt_truck", title = "Average Annual Daily Traffic (trucks only)") |>
-  fr::write_fr_tdr(fs::path_package("codec"))
-
-check_codec_tdr_csv(fs::path_package("codec", "codec_traffic"))
+library(dotenv)
+dpkg_write(
+  out,
+  name = "aadt",
+  version = "0.1.0",
+  dir = tempdir(),
+  readme_file = fs::path("inst", "traffic", "README", ext = "md"),
+  source_file = fs::path("inst", "traffic", "source", ext = "R")
+) |>
+  dpkg_s3_put(dpkg_path)
