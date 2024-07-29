@@ -4,10 +4,16 @@
 \alias{dpkg_read}
 \title{Read a data package from a folder}
 \usage{
-dpkg_read(dpkg, readRDS = TRUE)
+dpkg_read(dpkg, return = c("rds", "path", "metadata", "md"))
 }
 \arguments{
 \item{dpkg}{path or url to folder containing a datapackage.yaml file}
+
+\item{return}{what to return? "rds" returns the R object by reading in the rds file;
+"path" returns the path to the rds file; "metadata" (or "md") returns a list of the metadata
+stored with the rds file in the data package with \code{dpkg_write()}}
+
+\item{md}{}
 
 \item{readRDS}{logical; read and return R object based on \code{path} descriptor?}
 }

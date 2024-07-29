@@ -47,14 +47,15 @@ dpkg_read <- function(dpkg, return = c("rds", "path", "metadata", "md")) {
 #' @param dir directory in which to write the data package
 #' @param readme_file required; the name of a README.md file that
 #' [describes](https://datapackage.org/standard/data-package/#description) the data package;
-#' the `title` descriptor for the data package is taken from the first level one header of this file
+#' the `title` descriptor for the data package is taken from the first level one header of this file;
+#' defaults to a README.md file within `dir`
 #' @param source_file an optional path to a source file to copy to the data package and
 #' reference in the `sources` descriptor
 #' @returns invisibly, the path to the datapackage.yaml file;
 #' also prints the directory tree of the created data package
 #' @export
 #' @examples
-#' cat("# My cars", "\n", "This is all about the carsss.",
+#' cat("# My cars", "\n", "This is all about the cars.",
 #'   file = fs::path(tempdir(), "README.md"), sep = "\n"
 #' )
 #' dpkg_write(mtcars, "mtcars", version = "0.1.0", dir = tempdir())

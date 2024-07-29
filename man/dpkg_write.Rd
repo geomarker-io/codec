@@ -26,7 +26,8 @@ the \href{https://datapackage.org/recipes/data-package-version/}{semantic versio
 
 \item{readme_file}{required; the name of a README.md file that
 \href{https://datapackage.org/standard/data-package/#description}{describes} the data package;
-the \code{title} descriptor for the data package is taken from the first level one header of this file}
+the \code{title} descriptor for the data package is taken from the first level one header of this file;
+defaults to a README.md file within \code{dir}}
 
 \item{source_file}{an optional path to a source file to copy to the data package and
 reference in the \code{sources} descriptor}
@@ -43,7 +44,8 @@ Within \code{dir}, the data package is created as a new folder based on the \cod
 and will contain a \verb{\{name\}.rds} file and a \code{dataresource.yaml} file
 }
 \examples{
-cat("# My cars", "\n", "This is all about the carsss.",
-    file = fs::path(tempdir(), "README.md"), sep = "\n")
+cat("# My cars", "\n", "This is all about the cars.",
+  file = fs::path(tempdir(), "README.md"), sep = "\n"
+)
 dpkg_write(mtcars, "mtcars", version = "0.1.0", dir = tempdir())
 }
