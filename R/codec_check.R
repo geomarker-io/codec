@@ -1,4 +1,4 @@
-#' Check a tabular-data-resource against CoDEC specifications
+#' Check a tibble against CoDEC specifications
 #'
 #' `check_codec_tdr_csv()` will use each of these functions to
 #' check that
