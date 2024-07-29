@@ -4,6 +4,10 @@
 #' one [data resource](https://datapackage.org/standard/data-resource/) that
 #' is a RDS object created with `dpkg_write()`.
 #' @param dpkg path or url to folder containing a datapackage.yaml file
+#' @param return what to return? "rds" returns the R object by reading in the rds file;
+#' "path" returns the path to the rds file; "metadata" (or "md") returns a list of the metadata
+#' stored with the rds file in the data package with `dpkg_write()`
+#' @param md 
 #' @param readRDS logical; read and return R object based on `path` descriptor?
 #' @returns if readRDS is TRUE, then an R object saved read from RDS file;
 #' otherwise, the path to the data resource
@@ -11,15 +15,21 @@
 #' @examples
 #' dpkg_write(mtcars, "mtcars", version = "0.1.0", dir = tempdir())
 #' dpkg_read(fs::path(tempdir(), "mtcars"))
-dpkg_read <- function(dpkg, readRDS = TRUE) {
+dpkg_read <- function(dpkg, return = c("rds", "path", "metadata", "md")) {
+  return_choice <- rlang::arg_match(return)
   md <-
     fs::path(dpkg, "datapackage.yaml") |>
     yaml::read_yaml()
+  if (return_choice %in% c("metadata", "md")) {
+    return(md)
+  }
   d_path <- fs::path(dpkg, md$resources$resource$path)
-  if (readRDS) {
+  if (return_choice == "path") {
+    return(d_path)
+  }
+  if (return_choice == "rds") {
     return(readRDS(d_path))
   }
-  return(d_path)
 }
 
 #' Write a data package to a folder
