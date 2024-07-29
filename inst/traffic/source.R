@@ -33,7 +33,6 @@ out <-
     aadt_truck = sum(AADT_SINGLE_UNIT, AADT_COMBINATION, na.rm = TRUE)
   )
 
-library(dotenv)
 dpkg_write(
   out,
   name = "aadt",
@@ -42,4 +41,6 @@ dpkg_write(
   readme_file = fs::path("inst", "traffic", "README", ext = "md"),
   source_file = fs::path("inst", "traffic", "source", ext = "R")
 ) |>
-  dpkg_s3_put(dpkg_path)
+  dpkg_s3_put()
+
+
