@@ -1,6 +1,6 @@
 Package: codec
 Title: Community Data Explorer for Cincinnati
-Version: 1.0.1
+Version: 2.0.0
 Authors@R: c(
     person("Cole", "Brokamp",
            email = "cole.brokamp@gmail.com",
@@ -10,7 +10,7 @@ Authors@R: c(
     person("Andrew", "Vancil",
            role = "aut")
 	   )
-Description: codec provides tools for working with metadata in R and storing it alongside data in a YAML file. This package serves as the definition of the CoDEC data specifications and provides helpers to contribute and validate CoDEC data.
+Description: codec provides tools for working with metadata in R and storing it alongside data in a YAML file in a data package. This package serves as the definition of the CoDEC data specifications and provides helpers to create and validate CoDEC data.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -23,7 +23,10 @@ Suggests:
     curl,
     glue,
     callr,
-    tibble
+    tibble,
+    gert,
+    gh,
+    httr2
 Remotes:
     geomarker-io/cincy
 Config/testthat/edition: 3

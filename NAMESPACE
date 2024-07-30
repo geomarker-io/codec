@@ -2,6 +2,7 @@
 
 export(as_codec_dpkg)
 export(codec_colors)
+export(dpkg_gh_release)
 export(dpkg_read)
 export(dpkg_s3_get)
 export(dpkg_s3_put)
