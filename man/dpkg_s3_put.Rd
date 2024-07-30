@@ -2,7 +2,7 @@
 % Please edit documentation in R/dpkg_s3.R
 \name{dpkg_s3_put}
 \alias{dpkg_s3_put}
-\title{Put a dpkg into the CoDEC S3 bucket under \verb{/data}}
+\title{Put a dpkg into the public CoDEC S3 bucket}
 \usage{
 dpkg_s3_put(x)
 }

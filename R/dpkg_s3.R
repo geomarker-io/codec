@@ -2,7 +2,7 @@ has_internet <- function() {
   !is.null(curl::nslookup("captive.apple.com", error = FALSE))
 }
 
-#' Put a dpkg into the CoDEC S3 bucket under `/data`
+#' Put a dpkg into the public CoDEC S3 bucket
 #'
 #' Ensure paws can connect via the usual methods;
 #' see the developer guide at https://www.paws-r-sdk.com/developer_guide/credentials/.

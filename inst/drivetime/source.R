@@ -13,8 +13,7 @@ d <-
   dplyr::summarize(drive_time_avg = round(sum(wt_drive_time), 1)) |>
   sf::st_drop_geometry()
 
-new_codec_dpkg(d, name = "drivetime", version = "0.2.0") |>
-  tibble::as_tibble() |>
+as_codec_dpkg(d, name = "drivetime", version = "0.2.0") |>
   dpkg_write(
     name = "drivetime",
     version = "0.2.0",

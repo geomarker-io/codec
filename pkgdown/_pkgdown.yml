@@ -21,20 +21,14 @@ navbar:
    explore:
      text: Explore
      href: https://grapph.shinyapps.io/codec_shiny
-   data:
-     text: Data
-     href: articles/data.html
-   specs:
-     text: Specs
-     href: articles/specs.html
-   articles:
-
 reference:
-- title: CoDEC specifications
+- title: CoDEC
   contents:
-  - codec_tdr
-  - check_codec_tdr_csv
-- title: CoDEC user interface
-  contents:
+  - as_codec_dpkg
   - codec_colors
-  - codec_data
+- title: Data Package
+  contents:
+  - dpkg_read
+  - dpkg_write
+  - dpkg_s3_put
+  - dpkg_s3_get
