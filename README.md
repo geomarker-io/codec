@@ -9,10 +9,9 @@
 The goal of the R package {codec} is to support [CoDEC](https://geomarker.io/codec) data
 infrastructure through
 
-- defining the CoDEC tabular-data-resource (TDR) specifications: `vignette("specs")`
-- providing tools to check TDRs against the CoDEC specifications
-- creation and hosting of an interactive data catalog and explorer: `vignette("data")`
-- providing an R-based interface for retreiving CoDEC data (`codec_data()`)
+- defining the CoDEC tabular-data-resource (TDR) specifications
+- creation and hosting of an interactive data catalog and explorer
+- providing an R-based interface for retreiving CoDEC data stored online
 
 ### Installation
 
