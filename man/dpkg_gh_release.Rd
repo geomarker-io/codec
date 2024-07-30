@@ -21,4 +21,5 @@ Any \code{description} metadata (auto populated at time of dpkg creation using a
 will also be used as the GitHub release description.
 The \code{GITHUB_PAT} environment variable must be set and the working directory
 must be inside of a git repository with a GitHub remote.
+Trying to create more than one release from the current commit will result in an error.
 }

@@ -32,3 +32,4 @@ reference:
   - dpkg_write
   - dpkg_s3_put
   - dpkg_s3_get
+  - dpkg_gh_release
