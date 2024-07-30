@@ -25,7 +25,7 @@ dpkg_gh_release <- function(x, draft = TRUE) {
     gh::gh(
       glue::glue("POST /repos/{gh_owner}/{gh_repo}/releases"),
       name = glue::glue("{dpkg_name} {dpkg_version}"),
-      tag_name = glue::glue("v{dpkg_version}"),
+      tag_name = glue::glue("{dpkg_name}-v{dpkg_version}"),
       target_commitish = gert::git_info()$commit,
       body = yaml::read_yaml(x)$resources$resource$description,
       draft = draft
