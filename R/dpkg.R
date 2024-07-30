@@ -7,14 +7,8 @@
 #' @param return what to return? "rds" returns the R object by reading in the rds file;
 #' "path" returns the path to the rds file; "metadata" (or "md") returns a list of the metadata
 #' stored with the rds file in the data package with `dpkg_write()`
-#' @param md 
-#' @param readRDS logical; read and return R object based on `path` descriptor?
-#' @returns if readRDS is TRUE, then an R object saved read from RDS file;
-#' otherwise, the path to the data resource
+#' @returns either the R object, path to the rds file, or a list of metadata
 #' @export
-#' @examples
-#' dpkg_write(mtcars, "mtcars", version = "0.1.0", dir = tempdir())
-#' dpkg_read(fs::path(tempdir(), "mtcars"))
 dpkg_read <- function(dpkg, return = c("rds", "path", "metadata", "md")) {
   return_choice <- rlang::arg_match(return)
   md <-
@@ -25,7 +19,7 @@ dpkg_read <- function(dpkg, return = c("rds", "path", "metadata", "md")) {
   }
   d_path <- fs::path(dpkg, md$resources$resource$path)
   if (return_choice == "path") {
-    return(d_path)
+    return(as.character(d_path))
   }
   if (return_choice == "rds") {
     return(readRDS(d_path))
@@ -49,16 +43,12 @@ dpkg_read <- function(dpkg, return = c("rds", "path", "metadata", "md")) {
 #' [describes](https://datapackage.org/standard/data-package/#description) the data package;
 #' the `title` descriptor for the data package is taken from the first level one header of this file;
 #' defaults to a README.md file within `dir`
+#' @param homepage url to repository with more information or source code related to the data package
 #' @param source_file an optional path to a source file to copy to the data package and
 #' reference in the `sources` descriptor
 #' @returns invisibly, the path to the datapackage.yaml file;
 #' also prints the directory tree of the created data package
 #' @export
-#' @examples
-#' cat("# My cars", "\n", "This is all about the cars.",
-#'   file = fs::path(tempdir(), "README.md"), sep = "\n"
-#' )
-#' dpkg_write(mtcars, "mtcars", version = "0.1.0", dir = tempdir())
 dpkg_write <- function(x,
                        name,
                        version,

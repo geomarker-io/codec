@@ -4,9 +4,25 @@
 \name{codec-package}
 \alias{codec}
 \alias{codec-package}
-\title{codec: Community Data Explorer for Cincinnati}
+\title{About the CoDEC package}
 \description{
-codec provides tools for working with metadata in R and storing it alongside data in a YAML file. This package serves as the definition of the CoDEC data specifications and provides helpers to contribute and validate CoDEC data.
+The CoDEC tabular-data-resource (TDR) specifications provide a set of patterns designed to make sharing tabular community-level data easier.
+Examples of this type of data include the pediatric hospitalization rate per month per census tract, the total number of gunshots per season per neighborhood, and the housing code enforcement density per year per ZIP code.
+
+Data is specified as average values or total counts for census tract geographies during a specific year (or year and month).
+The required \strong{census tract identifer} and \strong{year} (or \emph{year} and \emph{month}) columns in a CoDEC TDR contain the spatiotemporal information that can be used to link other data.
+
+A CoDEC TDR must include a \href{https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf}{census tract} column named \verb{census_tract_id_\{year\}}, where \code{{year}} is replaced with the decennial vintage of the census tract geographies used to create the dataset (i.e., \code{census_tract_id_2000}, \code{census_tract_id_2010}, or \code{census_tract_id_2020}).
+
+The census tract identifier column MUST contain 11-digit \href{https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html}{GEOID} identifiers for \emph{all} census tracts in Hamilton County (GEOID: 39061). A list of required census tract identifiers for 2000, 2010, and 2020 are available in the \href{https://github.com/geomarker-io/cincy}{cincy} R package (e.g., \code{cincy::tract_tigris_2010}).
+
+A CoDEC \code{tdr} that was \emph{not} created at a census tract level should link to a URL (using the \code{homepage} \href{specs.html#metadata}{\emph{property}}) that contains code and a descriptive README file about how the data was harmonized (e.g., areal interpolation) with census tract geographies.
+
+Year (and month) temporal variables in a CoDEC TDR must be in a "tidy format" so that each row represents one observation in time. This allows for cumulatively updating data resources without changing field-specific metadata.
+
+A CoDEC TDR must include a column called \code{year} that contains only integers representing the year during which the data was collected (e.g., 2018, 2023).
+
+It also may contain a \code{month} column, in which case the unique combination of the \code{year} and \code{month} columns represent the calendar month during which the data was collected (e.g., "2023" and "11" together represent November of 2023).
 }
 \seealso{
 Useful links:

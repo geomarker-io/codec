@@ -13,12 +13,12 @@ d <-
   dplyr::summarize(drive_time_avg = round(sum(wt_drive_time), 1)) |>
   sf::st_drop_geometry()
 
-dpkg_write(
-  d,
-  name = "drivetime",
-  version = "0.2.0",
-  dir = tempdir(),
-  readme_file = fs::path("inst", "drivetime", "README", ext = "md"),
-  source_file = fs::path("inst", "drivetime", "source", ext = "R")
-) |>
+new_codec_dpkg(d, name = "drivetime", version = "0.2.0") |>
+  tibble::as_tibble() |>
+  dpkg_write(
+    name = "drivetime",
+    version = "0.2.0",
+    dir = tempdir(),
+    readme_file = fs::path("inst", "drivetime", "README", ext = "md")
+  ) |>
   dpkg_s3_put()

@@ -1,5 +1,3 @@
-library(S7)
-
 prop_label <- S7::new_property(
   class = S7::class_character,
   validator = function(value) {
@@ -35,3 +33,5 @@ new_codec_dpkg <- S7::new_class(
     # check URL?
   }
 )
+
+## as_codec_dpkg <- function(x, name, version, homepage = character()

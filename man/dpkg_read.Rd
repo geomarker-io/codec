@@ -12,21 +12,12 @@ dpkg_read(dpkg, return = c("rds", "path", "metadata", "md"))
 \item{return}{what to return? "rds" returns the R object by reading in the rds file;
 "path" returns the path to the rds file; "metadata" (or "md") returns a list of the metadata
 stored with the rds file in the data package with \code{dpkg_write()}}
-
-\item{md}{}
-
-\item{readRDS}{logical; read and return R object based on \code{path} descriptor?}
 }
 \value{
-if readRDS is TRUE, then an R object saved read from RDS file;
-otherwise, the path to the data resource
+either the R object, path to the rds file, or a list of metadata
 }
 \description{
 Read a \href{https://datapackage.org/standard/data-package/}{data package} with
 one \href{https://datapackage.org/standard/data-resource/}{data resource} that
 is a RDS object created with \code{dpkg_write()}.
-}
-\examples{
-dpkg_write(mtcars, "mtcars", version = "0.1.0", dir = tempdir())
-dpkg_read(fs::path(tempdir(), "mtcars"))
 }

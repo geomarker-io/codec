@@ -2,4 +2,8 @@
 
 export(codec_colors)
 export(dpkg_read)
+export(dpkg_s3_get)
+export(dpkg_s3_put)
 export(dpkg_write)
+if (getRversion() < "4.3.0") importFrom("S7", "@")
+import(cincy)

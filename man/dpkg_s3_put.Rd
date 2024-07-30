@@ -10,8 +10,9 @@ dpkg_s3_put(x)
 \item{x}{path to datapackage.yaml file}
 }
 \description{
-Ensure {paws} can connect via the usual methods.
-See the developer guide at https://www.paws-r-sdk.com/developer_guide/credentials/.
+Ensure paws can connect via the usual methods;
+see the developer guide at https://www.paws-r-sdk.com/developer_guide/credentials/.
+The resulting data package will be available publicly.
 }
 \examples{
 \dontrun{
@@ -19,7 +20,7 @@ See the developer guide at https://www.paws-r-sdk.com/developer_guide/credential
 library(dotenv)
 # alternatively, use aws command line to login interactively via profile sso account
 system2("aws", c("sso", "login", "--profile", "geomarker-io"))
-# make sure to set AWS_PROFILE so {paws} can authenticate
+# make sure to set AWS_PROFILE so paws can authenticate
 Sys.setenv("AWS_PROFILE" = "geomarker-io")
 }
 }

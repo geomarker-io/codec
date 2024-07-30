@@ -2,9 +2,9 @@
 % Please edit documentation in R/dpkg_s3.R
 \name{dpkg_s3_get}
 \alias{dpkg_s3_get}
-\title{Get a dpkg file from the CoDEC S3 bucket under \verb{/data}}
+\title{Get a dpkg file from the CoDEC S3 bucket}
 \usage{
-dpkg_s3_get(x = "aadt", dir = tools::R_user_dir("codec", "data"))
+dpkg_s3_get(x, dir = tools::R_user_dir("codec", "data"))
 }
 \arguments{
 \item{x}{name of CoDEC dpkg}
@@ -15,9 +15,9 @@ dpkg_s3_get(x = "aadt", dir = tools::R_user_dir("codec", "data"))
 path to downloaded datapackage directory
 }
 \description{
-Get a dpkg file from the CoDEC S3 bucket under \verb{/data}
+Public data packages are downloaded from \verb{s3://geomarker-io/codec_data}
 }
 \examples{
-dpkg_s3_get("aadt") |>
+dpkg_s3_get("drivetime") |>
   dpkg_read()
 }
