@@ -2,7 +2,7 @@
 % Please edit documentation in R/dpkg_s3.R
 \name{dpkg_s3_get}
 \alias{dpkg_s3_get}
-\title{Get a dpkg file from the CoDEC S3 bucket}
+\title{Get a dpkg from the public CoDEC S3 bucket}
 \usage{
 dpkg_s3_get(x, dir = tools::R_user_dir("codec", "data"))
 }

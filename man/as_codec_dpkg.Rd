@@ -2,7 +2,7 @@
 % Please edit documentation in R/codec_dpkg.R
 \name{as_codec_dpkg}
 \alias{as_codec_dpkg}
-\title{check_codec_dpkg}
+\title{as_codec_dpkg}
 \usage{
 as_codec_dpkg(x, name, version, homepage = character())
 }
@@ -16,10 +16,10 @@ as_codec_dpkg(x, name, version, homepage = character())
 \item{homepage}{(optional) a URL that links to a webpage with code or descriptions related to creation of the data package}
 }
 \value{
-x (coerced to a tibble)
+a codec_dpkg object
 }
 \description{
-Check a data package according to the CoDEC specifications:
+Coerce a data.frame into a data package according to the CoDEC specifications:
 }
 \details{
 \enumerate{

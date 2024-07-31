@@ -34,7 +34,7 @@ dpkg_s3_put <- function(x) {
   return(invisible(NULL))
 }
 
-#' Get a dpkg file from the CoDEC S3 bucket
+#' Get a dpkg from the public CoDEC S3 bucket
 #'
 #' Public data packages are downloaded from `s3://geomarker-io/codec_data`
 #' @param x name of CoDEC dpkg

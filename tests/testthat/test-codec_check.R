@@ -44,3 +44,22 @@ test_that("check date", {
     check_date() |>
     expect_equal("the 'month' field  must only contain integer values 1-12")
 })
+
+test_that("codec S7 object", {
+
+  readRDS(testthat::test_path("drivetime", "drivetime.rds")) |>
+    dplyr::mutate(year = 2021) |>
+    as_codec_dpkg(name = "foofy", version = "0.0.0") |>
+    expect_no_condition()
+
+  readRDS(testthat::test_path("drivetime", "drivetime.rds")) |>
+    as_codec_dpkg(name = "foofy", version = "0.0.0") |>
+    expect_error("contain a 'year' column")
+
+  readRDS(testthat::test_path("drivetime", "drivetime.rds")) |>
+    dplyr::slice_head(n = 5) |>
+    dplyr::mutate(year = 2021) |>
+    as_codec_dpkg(name = "foofy", version = "0.0.0") |>
+    expect_error("does not contain")
+
+  }
