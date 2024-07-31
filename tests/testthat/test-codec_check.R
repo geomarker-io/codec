@@ -46,7 +46,6 @@ test_that("check date", {
 })
 
 test_that("codec S7 object", {
-
   readRDS(testthat::test_path("drivetime", "drivetime.rds")) |>
     dplyr::mutate(year = 2021) |>
     as_codec_dpkg(name = "foofy", version = "0.0.0") |>
@@ -61,5 +60,4 @@ test_that("codec S7 object", {
     dplyr::mutate(year = 2021) |>
     as_codec_dpkg(name = "foofy", version = "0.0.0") |>
     expect_error("does not contain")
-
-  }
+})
