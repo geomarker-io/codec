@@ -22,3 +22,5 @@ out_dpkg <-
     title = "Average Drive Time to Cincinnati Children's",
     description = paste(readLines(fs::path_package("codec", "drivetime", "README.md")), collapse = "\n")
   )
+
+codec_dpkg_s3_put(out_dpkg)
