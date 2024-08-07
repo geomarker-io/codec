@@ -36,9 +36,7 @@ Imports:
     paws.storage,
     rlang,
     stringr,
-    digest,
     purrr (>= 1.0.0),
-    yaml,
     cincy (>= 1.1.0),
     dpkg
 Depends: 

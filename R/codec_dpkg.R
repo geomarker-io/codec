@@ -18,6 +18,10 @@
 #' Use this function to check the structure of a CoDEC data package before
 #' writing it to disk or uploading it to a repository.
 #' @param x data.frame or tibble meeting CoDEC data specifications above
+#' @param name see `dpkg::as_dpkg()`
+#' @param version see `dpkg::as_dpkg()`
+#' @param title see `dpkg::as_dpkg()`
+#' @param homepage see `dpkg::as_dpkg()`
 #' @returns a dpkg object
 #' @export
 as_codec_dpkg <- function(x, name, version, title = character(), homepage = character()) {

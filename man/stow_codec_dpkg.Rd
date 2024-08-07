@@ -7,17 +7,17 @@
 stow_codec_dpkg(codec_dpkg)
 }
 \arguments{
-\item{x}{name of CoDEC dpkg}
-
-\item{dir}{directory in which to write the data package}
+\item{codec_dpkg}{name of CoDEC dpkg}
 }
 \value{
-path to downloaded datapackage directory
+path to downloaded data package parquet file
 }
 \description{
 Public data packages are downloaded from \verb{s3://geomarker-io/codec_data}
 }
 \examples{
-dpkg_s3_get("drivetime") |>
-  dpkg_read()
+\dontrun{
+  dpkg_s3_get("drivetime-v0.1.0") |>
+    dpkg::read_dpkg()
+}
 }

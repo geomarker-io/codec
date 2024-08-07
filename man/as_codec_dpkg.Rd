@@ -8,6 +8,14 @@ as_codec_dpkg(x, name, version, title = character(), homepage = character())
 }
 \arguments{
 \item{x}{data.frame or tibble meeting CoDEC data specifications above}
+
+\item{name}{see \code{dpkg::as_dpkg()}}
+
+\item{version}{see \code{dpkg::as_dpkg()}}
+
+\item{title}{see \code{dpkg::as_dpkg()}}
+
+\item{homepage}{see \code{dpkg::as_dpkg()}}
 }
 \value{
 a dpkg object

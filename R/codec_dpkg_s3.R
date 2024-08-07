@@ -18,7 +18,7 @@
 codec_dpkg_s3_put <- function(x) {
   if (!inherits(x, "dpkg::dpkg")) rlang::abort("x must be a dpkg object")
 
-  written_path <- dpkg::write_dpkg(x, tempdir())
+  written_path <- dpkg:::write_dpkg(x, tempdir())
   paws.storage::s3()$put_object(
     Body = written_path,
     Bucket = "geomarker-io",
@@ -31,13 +31,14 @@ codec_dpkg_s3_put <- function(x) {
 #' Get a dpkg from the public CoDEC S3 bucket
 #'
 #' Public data packages are downloaded from `s3://geomarker-io/codec_data`
-#' @param x name of CoDEC dpkg
-#' @param dir directory in which to write the data package
-#' @returns path to downloaded datapackage directory
+#' @param codec_dpkg name of CoDEC dpkg
+#' @returns path to downloaded data package parquet file
 #' @export
 #' @examples
-#' dpkg_s3_get("drivetime") |>
-#'   dpkg_read()
+#' \dontrun{
+#'   dpkg_s3_get("drivetime-v0.1.0") |>
+#'     dpkg::read_dpkg()
+#' }
 stow_codec_dpkg <- function(codec_dpkg) {
   resp <-
     paws.storage::s3(credentials = list(anonymous = TRUE))$get_object(
