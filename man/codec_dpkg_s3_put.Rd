@@ -9,18 +9,19 @@ codec_dpkg_s3_put(x)
 \arguments{
 \item{x}{a data package (\code{dpkg::dpkg}) object}
 }
+\value{
+character string URI of uploaded resource
+}
 \description{
-The (AWS CLI)\link{https://aws.amazon.com/cli/} tool must be installed and authenticated to
+The \href{https://aws.amazon.com/cli/}{AWS CLI} tool must be installed and authenticated to
 write to \verb{s3://geomarker-io/codec_data}.
 The resulting data package will be available publicly.
 }
 \examples{
 \dontrun{
-# use credentials in .env file to authenticate with aws
-library(dotenv)
-# alternatively, use aws command line to login interactively via profile sso account
+# use aws command line to login interactively via profile sso account"
 system2("aws", c("sso", "login", "--profile", "geomarker-io"))
-# make sure to set AWS_PROFILE so paws can authenticate
+# make sure to set AWS_PROFILE so the AWS CLI tool knows to use it by default"
 Sys.setenv("AWS_PROFILE" = "geomarker-io")
 }
 }
