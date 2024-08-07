@@ -1,10 +1,10 @@
 #' Put a dpkg into the public CoDEC S3 bucket
 #'
-#' Ensure paws can connect via the usual methods;
-#' see the developer guide at https://www.paws-r-sdk.com/developer_guide/credentials/.
+#' The (AWS CLI)[https://aws.amazon.com/cli/] tool must be installed and authenticated to
+#' write to `s3://geomarker-io/codec_data`.
 #' The resulting data package will be available publicly.
 #' @param x a data package (`dpkg::dpkg`) object
-#' @returns NULL
+#' @returns
 #' @export
 #' @examples
 #' \dontrun{
@@ -17,35 +17,37 @@
 #' }
 codec_dpkg_s3_put <- function(x) {
   if (!inherits(x, "dpkg::dpkg")) rlang::abort("x must be a dpkg object")
-
-  written_path <- dpkg:::write_dpkg(x, tempdir())
-  paws.storage::s3()$put_object(
-    Body = written_path,
-    Bucket = "geomarker-io",
-    Key = fs::path("codec_data", glue::glue("{x@name}-v{x@version}"), ext = "parquet"),
-    ACL = "public-read"
-  )
-  return(invisible(NULL))
+  the_file <- dpkg:::write_dpkg(x, tempdir())
+  out <-
+    system2(
+      "aws",
+      c(
+        "s3", "cp", the_file,
+        glue::glue("s3://geomarker-io/codec_data/{x@name}-v{x@version}.parquet"),
+        "--acl public-read"
+      )
+    )
+  if (!out == 0L) rlang::abort("aws s3 cp command failed")
+  return(invisible(as.character(glue::glue("s3://geomarker-io/codec_data/{x@name}-v{x@version}.parquet"))))
 }
 
 #' Get a dpkg from the public CoDEC S3 bucket
 #'
-#' Public data packages are downloaded from `s3://geomarker-io/codec_data`
+#' Public data packages are downloaded from `s3://geomarker-io/codec_data`.
+#' `dpkg::stow()` is used to cache a local copy in the user's data directory so that
+#' it is available later without having to redownload it.
 #' @param codec_dpkg name of CoDEC dpkg
+#' @param overwrite logical; re-download the remote file even though
+#' a local file with the same name exists?
 #' @returns path to downloaded data package parquet file
 #' @export
 #' @examples
 #' \dontrun{
-#'   dpkg_s3_get("drivetime-v0.1.0") |>
-#'     dpkg::read_dpkg()
+#' stow_codec_dpkg(codec_dpkg = "traffic-v0.1.0")
 #' }
-stow_codec_dpkg <- function(codec_dpkg) {
-  resp <-
-    paws.storage::s3(credentials = list(anonymous = TRUE))$get_object(
-      Bucket = "geomarker-io",
-      Key = glue::glue("codec_data/{codec_dpkg}.parquet")
-    )
-  out_path <- dpkg::stow_path(paste0(codec_dpkg, ".parquet"))
-  writeBin(resp$Body, con = out_path)
-  return(out_path)
+stow_codec_dpkg <- function(codec_dpkg, overwrite = FALSE) {
+  dpkg::stow_url(
+    paste0("https://geomarker-io.s3.us-east-2.amazonaws.com/codec_data/", codec_dpkg, ".parquet"),
+    overwrite = overwrite
+  )
 }

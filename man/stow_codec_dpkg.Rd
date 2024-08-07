@@ -17,7 +17,7 @@ Public data packages are downloaded from \verb{s3://geomarker-io/codec_data}
 }
 \examples{
 \dontrun{
-  dpkg_s3_get("drivetime-v0.1.0") |>
-    dpkg::read_dpkg()
+dpkg_s3_get("drivetime-v0.1.0") |>
+  dpkg::read_dpkg()
 }
 }

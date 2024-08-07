@@ -10,8 +10,8 @@ codec_dpkg_s3_put(x)
 \item{x}{a data package (\code{dpkg::dpkg}) object}
 }
 \description{
-Ensure paws can connect via the usual methods;
-see the developer guide at https://www.paws-r-sdk.com/developer_guide/credentials/.
+The (AWS CLI)\link{https://aws.amazon.com/cli/} tool must be installed and authenticated to
+write to \verb{s3://geomarker-io/codec_data}.
 The resulting data package will be available publicly.
 }
 \examples{
