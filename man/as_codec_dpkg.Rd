@@ -4,7 +4,14 @@
 \alias{as_codec_dpkg}
 \title{as_codec_dpkg}
 \usage{
-as_codec_dpkg(x, name, version, title = character(), homepage = character())
+as_codec_dpkg(
+  x,
+  name,
+  version,
+  title = character(),
+  description = character(),
+  homepage = character()
+)
 }
 \arguments{
 \item{x}{data.frame or tibble meeting CoDEC data specifications above}
@@ -14,6 +21,8 @@ as_codec_dpkg(x, name, version, title = character(), homepage = character())
 \item{version}{see \code{dpkg::as_dpkg()}}
 
 \item{title}{see \code{dpkg::as_dpkg()}}
+
+\item{description}{see \code{dpkg::as_dpkg()}}
 
 \item{homepage}{see \code{dpkg::as_dpkg()}}
 }

@@ -21,15 +21,16 @@
 #' @param name see `dpkg::as_dpkg()`
 #' @param version see `dpkg::as_dpkg()`
 #' @param title see `dpkg::as_dpkg()`
+#' @param description see `dpkg::as_dpkg()`
 #' @param homepage see `dpkg::as_dpkg()`
 #' @returns a dpkg object
 #' @export
-as_codec_dpkg <- function(x, name, version, title = character(), homepage = character()) {
+as_codec_dpkg <- function(x, name, version, title = character(), description = character(), homepage = character()) {
   chk1 <- check_census_tract_id(x)
   if (!is.null(chk1)) rlang::abort(chk1)
   chk2 <- check_date(x)
   if (!is.null(chk2)) rlang::abort(chk2)
-  out <- dpkg::as_dpkg(x, name = name, version = version, homepage = homepage)
+  out <- dpkg::as_dpkg(x, name = name, version = version, description = description, homepage = homepage)
   return(out)
 }
 
