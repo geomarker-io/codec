@@ -1,15 +1,3 @@
-test_that("check_name works", {
-  expect_no_condition(check_name("codec_traffic"))
-  check_name("CoDEC_traffic") |>
-    expect_equal("`name` must be all lowercase")
-  check_name(1) |>
-    expect_equal("`name` must be a character string")
-  check_name("census data") |>
-    expect_equal("`name` must not contain spaces")
-  check_name("census+data") |>
-    expect_equal("`name` must only contain a-z, 0-9, -, _, .")
-})
-
 test_that("check census tract id", {
   skip_if_no_cincy()
   readRDS(testthat::test_path("drivetime", "drivetime.rds")) |>
@@ -45,7 +33,7 @@ test_that("check date", {
     expect_equal("the 'month' field  must only contain integer values 1-12")
 })
 
-test_that("codec S7 object", {
+test_that("as_codec_dpkg works", {
   readRDS(testthat::test_path("drivetime", "drivetime.rds")) |>
     dplyr::mutate(year = 2021) |>
     as_codec_dpkg(name = "foofy", version = "0.0.0") |>

@@ -10,7 +10,7 @@ Authors@R: c(
     person("Andrew", "Vancil",
            role = "aut")
 	   )
-Description: codec provides tools for working with metadata in R and storing it alongside data in a YAML file in a data package. This package serves as the definition of the CoDEC data specifications and provides helpers to create and validate CoDEC data.
+Description: This repository serves as the definition of the CoDEC data specifications and provides helpers to create, validate, release, and read CoDEC data.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -22,13 +22,10 @@ Suggests:
     dplyr,
     curl,
     glue,
-    callr,
-    tibble,
-    gert,
-    gh,
-    httr2
+    tibble
 Remotes:
-    geomarker-io/cincy
+    geomarker-io/cincy,
+    cole-brokamp/dpkg
 Config/testthat/edition: 3
 URL: https://github.com/geomarker-io/codec,
     http://geomarker.io/codec/
@@ -42,7 +39,8 @@ Imports:
     digest,
     purrr (>= 1.0.0),
     yaml,
-    cincy (>= 1.1.0)
+    cincy (>= 1.1.0),
+    dpkg
 Depends: 
     R (>= 2.10)
 LazyData: true

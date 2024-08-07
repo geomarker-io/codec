@@ -33,12 +33,13 @@ out <-
     aadt_truck = sum(AADT_SINGLE_UNIT, AADT_COMBINATION, na.rm = TRUE)
   )
 
-dpkg_write(
-  out,
-  name = "aadt",
-  version = "0.1.0",
-  dir = tempdir(),
-  readme_file = fs::path("inst", "traffic", "README", ext = "md"),
-  source_file = fs::path("inst", "traffic", "source", ext = "R")
-) |>
+as_codec_dpkg(d, name = "aadt", version = "0.1.0") |>
+  dpkg_write(
+    out,
+    name = "aadt",
+    version = "0.1.0",
+    dir = tempdir(),
+    readme_file = fs::path("inst", "traffic", "README", ext = "md"),
+    source_file = fs::path("inst", "traffic", "source", ext = "R")
+  ) |>
   dpkg_s3_put()

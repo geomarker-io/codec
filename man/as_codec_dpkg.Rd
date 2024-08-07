@@ -4,28 +4,33 @@
 \alias{as_codec_dpkg}
 \title{as_codec_dpkg}
 \usage{
-as_codec_dpkg(x, name, version, homepage = character())
+as_codec_dpkg(x, name, version, title = character(), homepage = character())
 }
 \arguments{
 \item{x}{data.frame or tibble meeting CoDEC data specifications above}
-
-\item{name}{a lowercase character string consisting of only \code{a-z}, \code{0-9}, \code{-}, \verb{_}, or \code{.}}
-
-\item{version}{a character string representing a \href{https://datapackage.org/recipes/data-package-version/}{semantic version} (e.g., "0.2.1")}
-
-\item{homepage}{(optional) a URL that links to a webpage with code or descriptions related to creation of the data package}
 }
 \value{
-a codec_dpkg object
+a dpkg object
 }
 \description{
-Coerce a data.frame into a data package according to the CoDEC specifications:
+Convert a tibble to a data package (\code{dpkg}) object in R while checking it
+against CoDEC data specifications:
 }
 \details{
 \enumerate{
-\item The data includes a \href{https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf}{census tract} identifier column (i.e., \verb{census_tract_id_\{2000,2010,2020\}}). The column must contain 11-digit \href{https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html}{GEOID} identifiers for every census tract in Hamilton County, OH.
-\item The data includes a year column (\code{year}), an integer year representing the vintage of the data (e.g. "2020"). The data can optionally include a month column (\code{month}), an integer month of the year. Data must be structured in a tidy format such that each row is an observation for a specific census tract at a specific year (and month).
+\item The data must include a \href{https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf}{census tract}
+identifier column (i.e., \verb{census_tract_id_\{2000,2010,2020\}}).
+The column must contain 11-digit
+\href{https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html}{GEOID}
+identifiers for every census tract in Hamilton County, OH.
+\item The data includes a year column (\code{year}), an integer year representing the
+vintage of the data (e.g. "2020").
+The data can optionally include a month column (\code{month}), an integer month of the year.
 }
 
-Use this function to check the structure of a CoDEC data package before writing it to disk or uploading it to a repository.
+Data must be structured in a tidy format such that each row is an observation
+for a specific census tract at a specific year (and month).
+
+Use this function to check the structure of a CoDEC data package before
+writing it to disk or uploading it to a repository.
 }

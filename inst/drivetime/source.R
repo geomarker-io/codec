@@ -11,13 +11,13 @@ d <-
   dplyr::group_by(census_tract_id_2010) |>
   dplyr::mutate(wt_drive_time = drive_time * area / sum(area)) |>
   dplyr::summarize(drive_time_avg = round(sum(wt_drive_time), 1)) |>
-  sf::st_drop_geometry()
+  sf::st_drop_geometry() |>
+  dplyr::mutate(year = 2024)
 
-as_codec_dpkg(d, name = "drivetime", version = "0.2.0") |>
-  dpkg_write(
-    name = "drivetime",
-    version = "0.2.0",
-    dir = tempdir(),
-    readme_file = fs::path("inst", "drivetime", "README", ext = "md")
-  ) |>
-  dpkg_s3_put()
+codec_dpkg(
+  d,
+  name = "drivetime",
+  version = "0.2.0",
+  title = "Average Drive Time to Cincinnati Children's"
+) |>
+  write_codec_dpkg(fs::path_package("codec"))
