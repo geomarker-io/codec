@@ -1,3 +1,10 @@
+if (tryCatch(read.dcf("DESCRIPTION")[1, "Package"] == "codec", finally = FALSE)) {
+  devtools::load_all()
+} else {
+  library(codec)
+}
+packageVersion("codec")
+
 dest_path <- tempfile(fileext = ".gdb.zip")
 
 "https://www.arcgis.com/sharing/rest/content/items/c199f2799b724ffbacf4cafe3ee03e55/data" |>
@@ -39,7 +46,7 @@ out_dpkg <-
   out |>
   as_codec_dpkg(
     name = "traffic",
-    version = "0.1.0",
+    version = "0.1.1",
     title = "Average Annual Daily Truck and Total Traffic Counts",
     description = paste(readLines(fs::path_package("codec", "traffic", "README.md")), collapse = "\n")
   )
