@@ -18,7 +18,7 @@ out_dpkg <-
   out |>
   as_codec_dpkg(
     name = "drivetime",
-    version = "0.2.0",
+    version = "0.2.1",
     title = "Average Drive Time to Cincinnati Children's",
     description = paste(readLines(fs::path_package("codec", "drivetime", "README.md")), collapse = "\n")
   )

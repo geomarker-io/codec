@@ -11,7 +11,7 @@ out_dpkg <-
   out |>
   as_codec_dpkg(
     name = "hh_acs_measures",
-    version = "1.1.0",
+    version = "1.1.1",
     title = "Harmonized Historical American Community Survey Measures",
     homepage = "https://github.com/geomarker-io/hh_acs_measures",
     description = paste(readLines(fs::path_package("codec", "hh_acs_measures", "README.md")), collapse = "\n")
