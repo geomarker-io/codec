@@ -30,7 +30,7 @@ as_codec_dpkg <- function(x, name, version, title = character(), description = c
   if (!is.null(chk1)) rlang::abort(chk1)
   chk2 <- check_date(x)
   if (!is.null(chk2)) rlang::abort(chk2)
-  out <- dpkg::as_dpkg(x, name = name, version = version, description = description, homepage = homepage)
+  out <- dpkg::as_dpkg(x, name = name, version = version, title = title, description = description, homepage = homepage)
   return(out)
 }
 
