@@ -57,3 +57,7 @@ stow_codec_dpkg <- function(codec_dpkg, overwrite = FALSE) {
     overwrite = overwrite
   )
 }
+
+list_codec_dpkg <- function() {
+  system2("aws", c("s3", "ls", "s3://geomarker-io/codec_data/"))
+}
