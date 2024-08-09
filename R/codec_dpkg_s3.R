@@ -15,7 +15,7 @@
 #' }
 codec_dpkg_s3_put <- function(x) {
   if (!inherits(x, "dpkg::dpkg")) rlang::abort("x must be a dpkg object")
-  the_file <- dpkg:::write_dpkg(x, tempdir())
+  the_file <- dpkg::write_dpkg(x, tempdir())
   out <-
     system2(
       "aws",
@@ -41,11 +41,11 @@ codec_dpkg_s3_put <- function(x) {
 #' `stow_codec_dpkg()`, the path to the downloaded data package parquet file
 #' @export
 #' @examples
-#' get_codec_dpkg("traffic-v0.1.0")
+#' get_codec_dpkg("drivetime-v0.2.2")
 #' 
-#' stow_codec_dpkg("traffic-v0.1.0")
+#' stow_codec_dpkg("drivetime-v0.2.2")
 get_codec_dpkg <- function(codec_dpkg, overwrite = FALSE) {
-  nanoparquet::read_parquet(stow_codec_dpkg(codec_dpkg = codec_dpkg, overwrite = overwrite))
+  dpkg::read_dpkg(stow_codec_dpkg(codec_dpkg = codec_dpkg, overwrite = overwrite))
 }
 
 #' Stow a dpkg from the public CoDEC S3 bucket

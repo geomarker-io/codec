@@ -25,7 +25,7 @@ Public data packages are downloaded from \verb{s3://geomarker-io/codec_data}.
 it is available later without having to redownload it.
 }
 \examples{
-get_codec_dpkg("traffic-v0.1.0")
+get_codec_dpkg("drivetime-v0.2.2")
 
-stow_codec_dpkg("traffic-v0.1.0")
+stow_codec_dpkg("drivetime-v0.2.2")
 }
