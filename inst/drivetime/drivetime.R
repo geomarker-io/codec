@@ -18,8 +18,9 @@ out_dpkg <-
   out |>
   as_codec_dpkg(
     name = "drivetime",
-    version = "0.2.1",
+    version = "0.2.2",
     title = "Average Drive Time to Cincinnati Children's",
+    homepage = "https://geomarker.io/codec",
     description = paste(readLines(fs::path_package("codec", "drivetime", "README.md")), collapse = "\n")
   )
 
