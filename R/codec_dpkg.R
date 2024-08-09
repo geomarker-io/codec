@@ -4,19 +4,17 @@
 #' against CoDEC data specifications:
 #'
 #' 1. The data must include a [census tract](https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf)
-#' identifier column (i.e., `census_tract_id_{2000,2010,2020}`).
+#' identifier column (i.e., `census_tract_id_2000`, `census_tract_id_2010`, or `census_tract_id_2020`).
 #' The column must contain 11-digit
 #' [GEOID](https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html)
 #' identifiers for every census tract in Hamilton County, OH.
 #' 2. The data includes a year column (`year`), an integer year representing the
-#' vintage of the data (e.g. "2020").
+#' vintage of the data (e.g. `2021`).
 #' The data can optionally include a month column (`month`), an integer month of the year.
 #' 
 #' Data must be structured in a tidy format such that each row is an observation
 #' for a specific census tract at a specific year (and month).
 #'
-#' Use this function to check the structure of a CoDEC data package before
-#' writing it to disk or uploading it to a repository.
 #' @param x data.frame or tibble meeting CoDEC data specifications above
 #' @param name see `dpkg::as_dpkg()`
 #' @param version see `dpkg::as_dpkg()`
