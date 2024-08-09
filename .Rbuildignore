@@ -9,3 +9,4 @@
 ^doc$
 ^Meta$
 index.md
+justfile

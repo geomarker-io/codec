@@ -6,7 +6,7 @@ login_aws:
   aws sso login --profile {{AWS_PROFILE}}
 
 # make and release CoDEC data
-release_data codec_dpkg_name:
+release_data codec_dpkg_name: login_aws
   Rscript inst/{{codec_dpkg_name}}/{{codec_dpkg_name}}.R
 
 # print stuff
