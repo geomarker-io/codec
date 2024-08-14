@@ -10,7 +10,10 @@ dpkgs <-
   list(
     get_codec_dpkg("environmental_justice_index-v0.1.0"),
     get_codec_dpkg("hh_acs_measures-v1.1.1") |>
-      dplyr::filter(year == 2019)
+      dplyr::filter(year == 2019),
+    get_codec_dpkg("drivetime-v0.2.2"),
+    get_codec_dpkg("landcover-v0.1.0"),
+    get_codec_dpkg("traffic-v0.1.2")
   )
 
 d <-
@@ -48,3 +51,4 @@ rdeck(map_style = mapbox_light(), initial_bounds = st_bbox(d)) |>
   ) |>
   add_codec_map_layer(median_rent_to_income_percentage) |>
   add_codec_map_layer(prcnt_area_within_1mi_high_volume_road)
+
