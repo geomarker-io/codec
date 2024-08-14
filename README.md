@@ -9,8 +9,9 @@
 The goal of the R package {codec} is to support [CoDEC](https://geomarker.io/codec) data
 infrastructure through
 
-- defining the CoDEC tabular-data-resource (TDR) specifications
+- defining the CoDEC data specifications
 - creation and hosting of an interactive data catalog and explorer
+- providing developer tools to add new CoDEC data resources
 - providing an R-based interface for retreiving CoDEC data stored online
 
 ### Installation
@@ -20,3 +21,11 @@ You can install the development version of codec from
 
     # install.packages("devtools")
     devtools::install_github("geomarker-io/codec")
+
+### Usage
+
+See https://geomarker.io/codec/reference/index.html for reference pages on included functions.
+
+### Developing
+
+Use `just` to login to aws using sso and to make and release a CoDEC data resource to `s3://geomarker-io/codec_data/`
