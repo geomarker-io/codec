@@ -1,6 +1,6 @@
 Package: codec
 Title: Community Data Explorer for Cincinnati
-Version: 2.0.0
+Version: 2.0.0.9000
 Authors@R: c(
     person("Cole", "Brokamp",
            email = "cole.brokamp@gmail.com",
@@ -35,7 +35,7 @@ Imports:
     stringr,
     purrr (>= 1.0.0),
     cincy (>= 1.1.0),
-    dpkg
+    dpkg (>= 0.2.0)
 Depends: 
     R (>= 2.10)
 LazyData: true

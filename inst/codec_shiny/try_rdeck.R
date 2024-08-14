@@ -10,7 +10,6 @@ dpkgs <-
   list(
     get_codec_dpkg("environmental_justice_index-v0.1.0"),
     get_codec_dpkg("hh_acs_measures-v1.1.1") |>
-      tibble::as_tibble() |>
       dplyr::filter(year == 2019)
   )
 

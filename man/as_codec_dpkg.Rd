@@ -36,18 +36,15 @@ against CoDEC data specifications:
 \details{
 \enumerate{
 \item The data must include a \href{https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf}{census tract}
-identifier column (i.e., \verb{census_tract_id_\{2000,2010,2020\}}).
+identifier column (i.e., \code{census_tract_id_2000}, \code{census_tract_id_2010}, or \code{census_tract_id_2020}).
 The column must contain 11-digit
 \href{https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html}{GEOID}
 identifiers for every census tract in Hamilton County, OH.
 \item The data includes a year column (\code{year}), an integer year representing the
-vintage of the data (e.g. "2020").
+vintage of the data (e.g. \code{2021}).
 The data can optionally include a month column (\code{month}), an integer month of the year.
 }
 
 Data must be structured in a tidy format such that each row is an observation
 for a specific census tract at a specific year (and month).
-
-Use this function to check the structure of a CoDEC data package before
-writing it to disk or uploading it to a repository.
 }
