@@ -1,3 +1,10 @@
+if (tryCatch(read.dcf("DESCRIPTION")[1, "Package"] == "codec", finally = FALSE)) {
+  devtools::load_all()
+} else {
+  library(codec)
+}
+message("Using CoDEC, version ", packageVersion("codec"))
+
 tf <- tempfile(fileext = ".zip")
 download.file("https://eji.cdc.gov/Documents/Data/2022/DBS/Ohio.zip", tf)
 dpkg_path <- unzip(tf, exdir = tempdir())

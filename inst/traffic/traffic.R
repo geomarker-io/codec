@@ -3,7 +3,7 @@ if (tryCatch(read.dcf("DESCRIPTION")[1, "Package"] == "codec", finally = FALSE))
 } else {
   library(codec)
 }
-packageVersion("codec")
+message("Using CoDEC, version ", packageVersion("codec"))
 
 dest_path <- tempfile(fileext = ".gdb.zip")
 

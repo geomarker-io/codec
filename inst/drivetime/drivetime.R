@@ -1,3 +1,10 @@
+if (tryCatch(read.dcf("DESCRIPTION")[1, "Package"] == "codec", finally = FALSE)) {
+  devtools::load_all()
+} else {
+  library(codec)
+}
+message("Using CoDEC, version ", packageVersion("codec"))
+
 isochrones <-
   s3::s3_get("s3://geomarker/drivetime/isochrones/cchmc_isochrones.rds") |>
   readRDS()

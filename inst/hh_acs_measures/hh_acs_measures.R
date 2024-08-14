@@ -1,3 +1,10 @@
+if (tryCatch(read.dcf("DESCRIPTION")[1, "Package"] == "codec", finally = FALSE)) {
+  devtools::load_all()
+} else {
+  library(codec)
+}
+message("Using CoDEC, version ", packageVersion("codec"))
+
 rd <- fr::read_fr_tdr("https://github.com/geomarker-io/hh_acs_measures/releases/download/v1.1.0/")
 
 out <-
