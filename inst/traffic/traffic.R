@@ -46,9 +46,10 @@ out_dpkg <-
   out |>
   as_codec_dpkg(
     name = "traffic",
-    version = "0.1.1",
+    version = "0.1.2",
     title = "Average Annual Daily Truck and Total Traffic Counts",
-    description = paste(readLines(fs::path_package("codec", "traffic", "README.md")), collapse = "\n")
+    description = paste(readLines(fs::path_package("codec", "traffic", "README.md")), collapse = "\n"),
+    homepage = "https://geomarker.io/codec"
   )
 
 codec_dpkg_s3_put(out_dpkg)
