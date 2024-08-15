@@ -42,7 +42,7 @@ out_dpkg <-
     version = "0.1.0",
     title = "Environmental Justice Index",
     homepage = "https://www.atsdr.cdc.gov/placeandhealth/eji/index.html",
-    description = paste(readLines(fs::path_package("codec", "environmental_justice_index", "README.md")), collapse = "\n")
+    description = paste(readLines(fs::path_package("codec", "codec_data", "environmental_justice_index", "README.md")), collapse = "\n")
   )
 
 codec_dpkg_s3_put(out_dpkg)

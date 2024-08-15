@@ -21,7 +21,7 @@ out_dpkg <-
     version = "0.1.0",
     title = "Landcover, Built Environment, and Greenness",
     homepage = "https://github.com/geomarker-io/hamilton_landcover",
-    description = paste(readLines(fs::path_package("codec", "landcover", "README.md")), collapse = "\n")
+    description = paste(readLines(fs::path_package("codec", "codec_data", "landcover", "README.md")), collapse = "\n")
   )
 
 codec_dpkg_s3_put(out_dpkg)

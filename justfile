@@ -7,7 +7,7 @@ login_aws:
 
 # make and release CoDEC data
 release_data codec_dpkg_name: login_aws
-  Rscript inst/{{codec_dpkg_name}}/{{codec_dpkg_name}}.R
+  Rscript inst/codec_data/{{codec_dpkg_name}}/{{codec_dpkg_name}}.R
 
 # print stuff
 debug:

@@ -21,7 +21,7 @@ out_dpkg <-
     version = "1.1.1",
     title = "Harmonized Historical American Community Survey Measures",
     homepage = "https://github.com/geomarker-io/hh_acs_measures",
-    description = paste(readLines(fs::path_package("codec", "hh_acs_measures", "README.md")), collapse = "\n")
+    description = paste(readLines(fs::path_package("codec", "codec_data", "hh_acs_measures", "README.md")), collapse = "\n")
   )
 
 codec_dpkg_s3_put(out_dpkg)
