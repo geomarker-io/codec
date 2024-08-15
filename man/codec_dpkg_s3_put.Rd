@@ -7,7 +7,8 @@
 codec_dpkg_s3_put(x)
 }
 \arguments{
-\item{x}{a data package (\code{dpkg::dpkg}) object}
+\item{x}{a data package (\code{dpkg}) object, ideally created with \code{as_codec_dpkg()} to ensure
+the data meets CoDEC specifications}
 }
 \value{
 character string URI of uploaded resource
