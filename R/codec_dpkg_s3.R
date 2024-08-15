@@ -3,7 +3,7 @@
 #' The [AWS CLI](https://aws.amazon.com/cli/) tool must be installed and authenticated to
 #' write to `s3://geomarker-io/codec_data`.
 #' The resulting data package will be available publicly.
-#' @param x a data package (`dpkg::dpkg`) object
+#' @param x a data package (`dpkg`) object
 #' @returns character string URI of uploaded resource
 #' @export
 #' @examples
@@ -14,19 +14,19 @@
 #' Sys.setenv("AWS_PROFILE" = "geomarker-io")
 #' }
 codec_dpkg_s3_put <- function(x) {
-  if (!inherits(x, "dpkg::dpkg")) rlang::abort("x must be a dpkg object")
-  the_file <- dpkg::write_dpkg(x, tempdir())
+  if (!inherits(x, "dpkg")) rlang::abort("x must be a dpkg object")
+  the_file <- dpkg::write_dpkg(as_codec_dpkg(x), tempdir())
   out <-
     system2(
       "aws",
       c(
         "s3", "cp", the_file,
-        glue::glue("s3://geomarker-io/codec_data/{x@name}-v{x@version}.parquet"),
+        glue::glue("s3://geomarker-io/codec_data/{attr(x, 'name')}-v{attr(x, 'version')}.parquet"),
         "--acl public-read"
       )
     )
   if (!out == 0L) rlang::abort("aws s3 cp command failed")
-  return(invisible(as.character(glue::glue("s3://geomarker-io/codec_data/{x@name}-v{x@version}.parquet"))))
+  return(as.character(glue::glue("s3://geomarker-io/codec_data/{attr(x, 'name')}-v{attr(x, 'version')}.parquet")))
 }
 
 #' Read a dpkg from the public CoDEC repository into R

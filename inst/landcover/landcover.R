@@ -24,5 +24,4 @@ out_dpkg <-
     description = paste(readLines(fs::path_package("codec", "landcover", "README.md")), collapse = "\n")
   )
 
-dpkg::dpkg_meta(out_dpkg)
 codec_dpkg_s3_put(out_dpkg)
