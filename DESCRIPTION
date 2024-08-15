@@ -14,7 +14,7 @@ Description: This repository serves as the definition of the CoDEC data specific
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Suggests: 
     testthat (>= 3.0.0),
     roxygen2,
