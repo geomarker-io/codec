@@ -8,16 +8,26 @@ tracts_sf <- cincy::tract_tigris_2010
 
 dpkgs <-
   list(
-    get_codec_dpkg("environmental_justice_index-v0.1.0"),
-    get_codec_dpkg("hh_acs_measures-v1.1.1") |>
-      dplyr::filter(year == 2019),
-    get_codec_dpkg("drivetime-v0.2.2"),
-    get_codec_dpkg("landcover-v0.1.0"),
-    get_codec_dpkg("traffic-v0.1.2")
+    environmental_justice_index =
+      get_codec_dpkg("environmental_justice_index-v0.1.0"),
+    hh_acs_measures =
+      get_codec_dpkg("hh_acs_measures-v1.1.1") |>
+        dplyr::filter(year == 2019),
+    drivetime =
+      get_codec_dpkg("drivetime-v0.2.2"),
+    landcover =
+      get_codec_dpkg("landcover-v0.1.0"),
+    traffic =
+      get_codec_dpkg("traffic-v0.1.2") |>
+        dplyr::left_join(cincy::tract_tigris_2020, by = "census_tract_id_2020") |>
+        st_as_sf() |>
+        interpolate(cincy::tract_tigris_2010) |>
+        st_drop_geometry() |>
+        tibble::as_tibble()
   )
 
 d <-
-  purrr::reduce(dpkgs, dplyr::left_join, by = "census_tract_id_2010", suffix = c("_eji", "_hh_acs"), .init = tracts_sf) |>
+  purrr::reduce(dpkgs, dplyr::left_join, by = "census_tract_id_2010", .init = tracts_sf) |>
   tibble::as_tibble() |>
   st_as_sf() |>
   st_transform(st_crs(4326))
@@ -51,4 +61,3 @@ rdeck(map_style = mapbox_light(), initial_bounds = st_bbox(d)) |>
   ) |>
   add_codec_map_layer(median_rent_to_income_percentage) |>
   add_codec_map_layer(prcnt_area_within_1mi_high_volume_road)
-
