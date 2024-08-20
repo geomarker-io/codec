@@ -1,0 +1,5 @@
+# Parcel Characteristics
+
+Census tract-level measures of parcel characteristics for all residential parcles in Hamilton County, Ohio. Tract-level measures are derived from the data packages stored in the [`parcel` repository](https://github.com/geomarker-io/parcel): `cagis_parcels`, `auditor_online_parcels`, and `property_code_enforcements`. View the metadata for each of these data packages for more information about their sources. 
+
+Parcel-level measures of market total value, acreage, year built, and number of rooms were summarized at the tract level using the median. Because not all parcels in a tract have housing violations, violations were summarized by calculating the number of violations (from 2104 to present) per parcel within each tract. Parcel land use was summarized by grouping more specific land use codes into more general categories (apartments, assisted housing, condominiums, single family homes, two to three family homes, and other) then calculating the fraction of parcels of each type. The fraction of parcels with a homestead flag was also included.
