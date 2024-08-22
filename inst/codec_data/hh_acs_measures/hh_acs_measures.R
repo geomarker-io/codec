@@ -27,6 +27,7 @@ get_acs_5yr_data <- function(acs_variables, state = "39", county = "061", year =
     httr2::req_url_query(`for` = "tract:*") |>
     httr2::req_url_query(`in` = glue::glue("state:{state} county:{county}")) |>
     httr2::req_url_query(`key` = Sys.getenv("CENSUS_API_KEY")) |>
+    httr2::req_retry() |>
     httr2::req_perform() |>
     httr2::resp_body_json()
   out <-
@@ -43,26 +44,100 @@ get_acs_5yr_data <- function(acs_variables, state = "39", county = "061", year =
   return(out)
 }
 
+## some that are not simple percentages:
+# n_children
+# insurance
+# rent at least 30% of income
+# substandard housing conditions
+# year built categories
+# primary langague at home is not english
+# adults with at least high school education
 
-list(
-  prcnt_poverty =
-    get_acs_5yr_data(c("B17001_001E", "B17001_002E")) |>
-    dplyr::mutate(prcnt_poverty = B17001_002E / B17001_001E, .keep = "unused"),
-  prcnt_public_assistance =
-    get_acs_5yr_data(c("B19058_001E", "B19058_002E")) |>
-    dplyr::mutate(prcnt_snap = B19058_001E / B19058_002E, .keep = "unused")
-)
+#' make ACS 5 year n data
+#' @param X formula: my_acs_var ~ B000000_000
+#' @examples
+#' make_acs_5y_n_data(n_households ~ B11005_001E)
+make_acs_5y_n_data <- function(x) {
+  var_name <- as.list(as.formula(x))[[2]]
+  var_census_name <- as.formula(x)[[3]]
+  out <-
+    get_acs_5yr_data(as.character(var_census_name)) |>
+    dplyr::rename({{ var_name }} := {{ var_census_name }})
+  return(out)
+}
 
+#' make ACS 5 year percentage data
+#' @param x formula: my_acs_var ~ B00000_000 / B00000_000
+#' @param .keep passed to dplyr::mutate when creating new percentage column
+#' @examples
+#' make_acs_5y_prcnt_data(prcnt_poverty ~ B17001_001E / B17001_002E)
+make_acs_5y_prcnt_data <- function(x, .keep = "unused") {
+  var_name <- as.list(as.formula(x))[[2]]
+  var_numerator <- as.formula(x)[[3]][[2]]
+  var_denominator <- as.formula(x)[[3]][[3]]
+  out <-
+    dplyr::left_join(
+      get_acs_5yr_data(as.character(var_numerator)),
+      get_acs_5yr_data(as.character(var_denominator)),
+      by = "census_tract_id_2020"
+    ) |>
+    dplyr::mutate(
+      {{ var_name }} := {{ var_numerator }} / {{ var_denominator }},
+      .keep = .keep
+    )
+  return(out)
+}
 
+#' make ACS 5 year n and percentage data
+#'
+#' ACS derived variables are expressed as formulas that use
+#' [ACS census variables] (https://api.census.gov/data/2022/acs/acs5/variables.json)
+#' Currently, two types of formulas are supported:
+#'
+#' - n, count, or median data are often available as an existing variable and can be expressed as: `my_acs_measure ~ B00000_000E`
+#' - percentage data are often computed using a numerator and denominator and can be expressed as: `my_acs_measure ~ B00000_000E / B00000_000E`
+#' @examples
+#' make_acs_5y_data(n_households ~ B11005_001E)
+#' make_acs_5y_data(prcnt_poverty ~ B17001_001E / B17001_002E)
+make_acs_5y_data <- function(x, .keep = "unused") {
+  if (inherits(as.formula(x)[[3]], "name")) {
+    return(make_acs_5y_n_data(x))
+  }
+  return(make_acs_5y_prcnt_data(x, .keep = .keep))
+}
 
+## future::plan("multicore", workers = 4)
+
+make_acs_5y_data(prcnt_poverty ~ B17001_001E / B17001_002E)
+
+out <-
+  list(
+    n_households ~ B11005_001E,
+    n_households_children ~ B11005_002E,
+    n_housing_units ~ B25001_001E,
+    median_home_value ~ B25077_001E,
+    prcnt_poverty ~ B17001_001E / B17001_002E,
+    prcnt_recieved_public_assistance_income ~ B19058_001E / B19058_002E,
+    prcnt_family_households_with_single_householder ~ B11001_004E / B11001_002E,
+    prcnt_employment_among_civilian_workforce ~ B23025_004E / B23025_003E,
+    prcnt_housing_units_occupied_by_renters ~ B25003_003E / B25003_001E,
+    prcnt_median_rent_to_income_ratio_among_renters ~ B25071_001E,
+    prcnt_housing_units_vacant ~ B25002_003E / B25002_001E,
+    prcnt_white_and_not_hispanic_or_latino ~ B03002_003E / B03002_001E,
+    prcnt_black_and_not_hispanic_or_latino ~ B03002_004E / B03002_001E,
+    prcnt_white_and_hispanic_or_latino ~ B03002_013E / B03002_001E,
+    prcnt_black_and_hispanic_or_latino ~ B03002_014E / B03002_001E
+  ) |>
+  purrr::map(make_acs_5y_data, .progress = "making acs data") |>
+  purrr::reduce(dplyr::left_join, by = "census_tract_id_2020")
 
 out_dpkg <-
   out |>
   as_codec_dpkg(
     name = "hh_acs_measures",
-    version = "1.1.1",
+    version = "0.0.1",
     title = "Harmonized Historical American Community Survey Measures",
-    homepage = "https://github.com/geomarker-io/hh_acs_measures",
+    homepage = "https://github.com/geomarker-io/codec",
     description = paste(readLines(fs::path_package("codec", "codec_data", "hh_acs_measures", "README.md")), collapse = "\n")
   )
 
