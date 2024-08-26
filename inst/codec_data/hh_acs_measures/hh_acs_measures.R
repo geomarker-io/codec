@@ -6,7 +6,7 @@ if (tryCatch(read.dcf("DESCRIPTION")[1, "Package"] == "codec", finally = FALSE))
 message("Using CoDEC, version ", packageVersion("codec"))
 
 all_acs5_variables <-
-  dpkg::stow_url("https://api.census.gov/data/2022/acs/acs5/variables.json") |>
+  dpkg::stow("https://api.census.gov/data/2022/acs/acs5/variables.json") |>
   jsonlite::read_json()
 
 get_acs_5yr_data <- function(acs_variables, state = "39", county = "061", year = "2022") {
@@ -41,6 +41,9 @@ get_acs_5yr_data <- function(acs_variables, state = "39", county = "061", year =
       ## census_blockgroup_id_2020 = paste0(state, county, tract, .data$`block group`),
       .keep = "none"
     )
+  out <-
+    out |>
+    dplyr::mutate(dplyr::across(tidyselect::all_of(acs_variables), \(.) dplyr::na_if(., -666666666)))
   return(out)
 }
 
@@ -62,7 +65,8 @@ make_acs_5y_n_data <- function(x) {
   var_census_name <- as.formula(x)[[3]]
   out <-
     get_acs_5yr_data(as.character(var_census_name)) |>
-    dplyr::rename({{ var_name }} := {{ var_census_name }})
+    dplyr::rename({{ var_name }} := {{ var_census_name }}) |>
+    dplyr::mutate({{ var_name }} := round({{ var_name }}, 0))
   return(out)
 }
 
@@ -82,7 +86,7 @@ make_acs_5y_prcnt_data <- function(x, .keep = "unused") {
       by = "census_tract_id_2020"
     ) |>
     dplyr::mutate(
-      {{ var_name }} := {{ var_numerator }} / {{ var_denominator }},
+      {{ var_name }} := round({{ var_numerator }} / {{ var_denominator }} * 100, 2),
       .keep = .keep
     )
   return(out)
@@ -108,7 +112,8 @@ make_acs_5y_data <- function(x, .keep = "unused") {
 
 ## future::plan("multicore", workers = 4)
 
-make_acs_5y_data(prcnt_poverty ~ B17001_001E / B17001_002E)
+make_acs_5y_data(prcnt_poverty ~ B17001_002E / B17001_001E)
+make_acs_5y_data(median_home_value ~ B25077_001E)
 
 out <-
   list(
@@ -116,8 +121,8 @@ out <-
     n_households_children ~ B11005_002E,
     n_housing_units ~ B25001_001E,
     median_home_value ~ B25077_001E,
-    prcnt_poverty ~ B17001_001E / B17001_002E,
-    prcnt_recieved_public_assistance_income ~ B19058_001E / B19058_002E,
+    prcnt_poverty ~ B17001_002E / B17001_001E,
+    prcnt_recieved_public_assistance_income ~ B19058_002E / B19058_001E,
     prcnt_family_households_with_single_householder ~ B11001_004E / B11001_002E,
     prcnt_employment_among_civilian_workforce ~ B23025_004E / B23025_003E,
     prcnt_housing_units_occupied_by_renters ~ B25003_003E / B25003_001E,
@@ -131,8 +136,11 @@ out <-
   purrr::map(make_acs_5y_data, .progress = "making acs data") |>
   purrr::reduce(dplyr::left_join, by = "census_tract_id_2020")
 
+summary(out)
+
 out_dpkg <-
   out |>
+  dplyr::mutate(year = 2022) |>
   as_codec_dpkg(
     name = "hh_acs_measures",
     version = "0.0.1",
