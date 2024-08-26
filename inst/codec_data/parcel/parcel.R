@@ -6,19 +6,17 @@ if (tryCatch(read.dcf("DESCRIPTION")[1, "Package"] == "codec", finally = FALSE))
 message("Using CoDEC, version ", packageVersion("codec"))
 library(dplyr)
 library(sf)
+library(dpkg)
 
-cagis_parcels <- dpkg::stow("https://github.com/geomarker-io/parcel/releases/download/cagis_parcels-v1.1.0/cagis_parcels-v1.1.0.parquet") |>
+cagis_parcels <- dpkg::stow("https://github.com/geomarker-io/parcel/releases/download/cagis_parcels-v1.1.1/cagis_parcels-v1.1.1.parquet") |>
   dpkg::read_dpkg() |>
-  tibble::as_tibble() |>
   select(parcel_id, centroid_lat, centroid_lon, land_use, condo_id, market_total_value, acreage, homestead, rental_registration)
 
-online_parcels <- dpkg::stow("https://github.com/geomarker-io/parcel/releases/download/auditor_online_parcels-v0.2.0/auditor_online_parcels-v0.2.0.parquet") |>
-  dpkg::read_dpkg() |>
-  tibble::as_tibble()
+online_parcels <- dpkg::stow("https://github.com/geomarker-io/parcel/releases/download/auditor_online_parcels-v0.2.1/auditor_online_parcels-v0.2.1.parquet") |>
+  dpkg::read_dpkg() 
 
-property_code_enforcements <- dpkg::stow("https://github.com/geomarker-io/parcel/releases/download/property_code_enforcements-v1.0.0/property_code_enforcements-v1.0.0.parquet") |>
+property_code_enforcements <- dpkg::stow("https://github.com/geomarker-io/parcel/releases/download/property_code_enforcements-v1.0.1/property_code_enforcements-v1.0.1.parquet") |>
   dpkg::read_dpkg() |>
-  tibble::as_tibble() |>
   mutate(
     parcel_id = stringr::str_sub(cagis_parcel_id, 2), 
     parcel_id = stringr::str_pad(parcel_id, width = 13, side = "right", pad = "0"),
