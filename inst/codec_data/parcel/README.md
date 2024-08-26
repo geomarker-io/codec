@@ -1,5 +1,18 @@
 # Parcel Characteristics
 
-Census tract-level measures of parcel characteristics for all residential parcles in Hamilton County, Ohio. Tract-level measures are derived from the data packages stored in the [`parcel` repository](https://github.com/geomarker-io/parcel): `cagis_parcels`, `auditor_online_parcels`, and `property_code_enforcements`. View the metadata for each of these data packages for more information about their sources. 
+Census tract-level measures of parcel characteristics for all residential parcles in Hamilton County, Ohio. Tract-level measures are derived from the data packages stored in the [`parcel` repository](https://github.com/geomarker-io/parcel). Version 0.1.0 of the `parcel` CoDEC data resource harmonizes `cagis_parcels-v1.1.1`, `auditor_online_parcels-v0.2.1`, and `property_code_enforcements-v1.0.1`. View the metadata for each of these data packages for more information about their sources. 
 
-Parcel-level measures of market total value, acreage, year built, and number of rooms were summarized at the tract level using the median. Because not all parcels in a tract have housing violations, violations were summarized by calculating the number of violations (from 2104 to present) per parcel within each tract. Parcel land use was summarized by grouping more specific land use codes into more general categories (apartments, assisted housing, condominiums, single family homes, two to three family homes, and other) then calculating the fraction of parcels of each type. The fraction of parcels with a homestead flag was also included.
+Parcel-level measures were aggregated to the tract level: 
+
+- median: `market_total_value`, `acreage`, `year_built`, and number of rooms
+- `violations_per_parcel` (as not all parcels in a tract have violations)
+- fraction of parcels: by land use type, by homestead flag
+
+Parcel land use types were grouped into more general categories as follows: 
+
+- apartments: `apartment, 4-19 units`, `apartment, 20-39 units`, `apartment, 40+ units`, `office / apartment over`
+- assisted housing: `metropolitan housing authority`, `lihtc res`
+- condominiums: `condominium unit`, `condo or pud garage`
+- single family homes: `single family dwelling`
+- two to three family homes: `two family dwelling`, `three family dwelling`
+- other
