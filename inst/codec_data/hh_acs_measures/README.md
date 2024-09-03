@@ -1,5 +1,7 @@
 # Harmonized Historical American Community Survey Measures
 
+[![latest github release for hh_acs_measures dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=hh_acs_measures-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=hh_acs_measures&expanded=false)
+
 ## About
 
 Select population, socioeconomic, and housing measures derived from the U.S. Census American Community Survey (ACS) are generally available from 2013 through 2022 and were selected to cover three domains:

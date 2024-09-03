@@ -131,10 +131,6 @@ out <-
   purrr::map(make_acs_5y_data, .progress = "making acs data") |>
   purrr::reduce(dplyr::left_join, by = "census_tract_id_2020")
 
-summary(out)
-
-dpkg::use_dpkg_badge(out_dpkg)
-
 out_dpkg <-
   out |>
   dplyr::mutate(year = 2022) |>
