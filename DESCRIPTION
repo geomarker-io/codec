@@ -35,7 +35,7 @@ Imports:
     stringr,
     purrr (>= 1.0.0),
     cincy (>= 1.1.0),
-    dpkg (>= 0.2.0)
+    dpkg (>= 0.5.0)
 Depends: 
     R (>= 2.10)
 LazyData: true
