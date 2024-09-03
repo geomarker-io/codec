@@ -1,5 +1,7 @@
 # Landcover, Built Environment, and Greenness
 
+[![latest github release for landcover dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=landcover-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=landcover&expanded=false)
+
 ## About
 
 Taken from https://github.com/geomarker-io/hamilton_landcover.
