@@ -32,5 +32,4 @@ out_dpkg <-
   )
 
 dpkg::use_dpkg_badge(out_dpkg)
-
 dpkg::dpkg_gh_release(out_dpkg)
