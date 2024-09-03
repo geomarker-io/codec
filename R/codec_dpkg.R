@@ -1,3 +1,17 @@
+#' Read a dpkg from the public CoDEC repository into R
+#'
+#' Public data packages are downloaded from `gh://geomarker-io/codec/` using 
+#' `dpkg::stow()` to cache a local copy in the user's data directory.
+#' @param codec_dpkg name of CoDEC dpkg
+#' @param overwrite logical; re-download the remote file even though
+#' a local file with the same name exists?
+#' @returns a CoDEC data package (see `dpkg::as_dpkg()`)
+#' @export
+get_codec_dpkg <- function(codec_dpkg, overwrite = FALSE) {
+  dpkg::read_dpkg(dpkg::stow(glue::glue("gh://geomarker-io/codec/{codec_dpkg}"),
+                             overwrite = overwrite))
+}
+
 #' as_codec_dpkg
 #'
 #' Convert a tibble to a data package (`dpkg`) object in R while checking it
