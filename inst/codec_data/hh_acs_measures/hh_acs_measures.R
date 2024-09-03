@@ -110,11 +110,6 @@ make_acs_5y_data <- function(x, .keep = "unused") {
   return(make_acs_5y_prcnt_data(x, .keep = .keep))
 }
 
-## future::plan("multicore", workers = 4)
-
-make_acs_5y_data(prcnt_poverty ~ B17001_002E / B17001_001E)
-make_acs_5y_data(median_home_value ~ B25077_001E)
-
 out <-
   list(
     n_households ~ B11005_001E,
@@ -138,6 +133,8 @@ out <-
 
 summary(out)
 
+dpkg::use_dpkg_badge(out_dpkg)
+
 out_dpkg <-
   out |>
   dplyr::mutate(year = 2022) |>
@@ -149,4 +146,5 @@ out_dpkg <-
     description = paste(readLines(fs::path_package("codec", "codec_data", "hh_acs_measures", "README.md")), collapse = "\n")
   )
 
-codec_dpkg_s3_put(out_dpkg)
+
+dpkg::dpkg_gh_release(out_dpkg)

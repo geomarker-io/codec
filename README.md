@@ -28,4 +28,8 @@ See https://geomarker.io/codec/reference/index.html for reference pages on inclu
 
 ### Developing
 
-Use `just` to login to aws using sso and to make and release a CoDEC data resource to `s3://geomarker-io/codec_data/`
+Use `just` to 
+
+- login to aws using sso
+- make and release a public CoDEC data package to the CoDEC GitHub releases
+- make and release a private CoDEC data package to `s3://geomarker-io/codec_data/`
