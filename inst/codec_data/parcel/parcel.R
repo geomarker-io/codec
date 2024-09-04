@@ -105,4 +105,4 @@ out_dpkg <-
   )
 
 use_dpkg_badge(out_dpkg)
-dpkg_gh_release(out_dpkg, release = FALSE)
+dpkg_gh_release(out_dpkg, draft = FALSE)
