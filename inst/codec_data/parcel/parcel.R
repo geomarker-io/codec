@@ -7,15 +7,19 @@ message("Using CoDEC, version ", packageVersion("codec"))
 library(dplyr)
 library(sf)
 library(dpkg)
+options(arrow.unsafe_metadata = TRUE)
 
-cagis_parcels <- dpkg::stow("https://github.com/geomarker-io/parcel/releases/download/cagis_parcels-v1.1.1/cagis_parcels-v1.1.1.parquet") |>
+cagis_parcels <-
+  dpkg::stow("gh://geomarker-io/parcel/cagis_parcels-v1.1.1") |>
   dpkg::read_dpkg() |>
   select(parcel_id, centroid_lat, centroid_lon, land_use, condo_id, market_total_value, acreage, homestead, rental_registration)
 
-online_parcels <- dpkg::stow("https://github.com/geomarker-io/parcel/releases/download/auditor_online_parcels-v0.2.1/auditor_online_parcels-v0.2.1.parquet") |>
+online_parcels <-
+  dpkg::stow("gh://geomarker-io/parcel/auditor_online_parcels-v0.2.1") |>
   dpkg::read_dpkg()
 
-property_code_enforcements <- dpkg::stow("https://github.com/geomarker-io/parcel/releases/download/property_code_enforcements-v1.0.1/property_code_enforcements-v1.0.1.parquet") |>
+property_code_enforcements <-
+  dpkg::stow("gh://geomarker-io/parcel/property_code_enforcements-v1.0.1") |>
   dpkg::read_dpkg() |>
   mutate(
     parcel_id = stringr::str_sub(cagis_parcel_id, 2),
@@ -100,4 +104,5 @@ out_dpkg <-
     description = paste(readLines(fs::path_package("codec", "codec_data", "parcel", "README.md")), collapse = "\n")
   )
 
-codec_dpkg_s3_put(out_dpkg)
+use_dpkg_badge(out_dpkg)
+dpkg_gh_release(out_dpkg, release = FALSE)
