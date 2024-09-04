@@ -45,5 +45,4 @@ out_dpkg <-
     description = paste(readLines(fs::path_package("codec", "codec_data", "environmental_justice_index", "README.md")), collapse = "\n")
   )
 
-dpkg::use_dpkg_badge(out_dpkg)
 dpkg::dpkg_gh_release(out_dpkg, draft = FALSE)

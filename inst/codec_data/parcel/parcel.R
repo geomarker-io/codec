@@ -104,5 +104,4 @@ out_dpkg <-
     description = paste(readLines(fs::path_package("codec", "codec_data", "parcel", "README.md")), collapse = "\n")
   )
 
-use_dpkg_badge(out_dpkg)
 dpkg_gh_release(out_dpkg, draft = FALSE)
