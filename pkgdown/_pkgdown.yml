@@ -11,9 +11,11 @@ template:
     border-radius: 0.5rem
     btn-border-radius: 0.25rem
     code_font: {google: "Source Code Pro"}
+  assets:
+    - vignettes/figs
 navbar:
   structure:
-    left:  [about, explore, reference]
+    left:  [about, explore, data, reference]
   components:
    about:
     text: About
@@ -21,15 +23,19 @@ navbar:
    explore:
      text: Explore
      href: https://grapph.shinyapps.io/codec_shiny
+   data:
+     text: Data
+     href: articles/codec-data.html
+
 reference:
-  - title: Developing CoDEC
-    contents:
-    - as_codec_dpkg
-    - codec_dpkg_s3_put
   - title: Accessing CoDEC data
     contents:
     - get_codec_dpkg
-  - title: CoDEC Resources
+  - title: Creating CoDEC data
+    contents:
+    - as_codec_dpkg
+    - codec_dpkg_s3_put
+  - title: CoDEC Developer Resources
     contents:
     - codec_colors
 

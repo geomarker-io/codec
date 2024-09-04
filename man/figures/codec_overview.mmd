@@ -1,42 +1,39 @@
 %%{init: { "fontFamily": "arial" } }%%
 
-flowchart TD
+flowchart LR
 
-classDef I fill:#E49865,stroke:#333,stroke-width:0px;
-classDef II fill:#EACEC5,stroke:#333,stroke-width:0px;
-classDef III fill:#CBD6D5,stroke:#333,stroke-width:0px;
-classDef IIII fill:#8CB4C3,stroke:#333,stroke-width:0px;
-classDef V fill:#396175,color:#F6EAD8,stroke:#333,stroke-width:0px;
+classDef I fill:#E49865,stroke:#333,stroke-width:1px;
+classDef II fill:#EACEC5,stroke:#333,stroke-width:1px;
+classDef III fill:#CBD6D5,stroke:#333,stroke-width:1px;
+classDef IIII fill:#8CB4C3,stroke:#333,stroke-width:1px;
+classDef V fill:#396175,color:#F6EAD8,stroke:#333,stroke-width:1px;
 
-subgraph source-box [data sources]
-    org(community \norganization):::I
-    jfs(government \n organization):::I
-    cchmc("healthcare \n organization"):::I
-    acs("built, natural, and \n social environment"):::I
+
+subgraph organization-data ["Organizational Data Silos"]
+org[(community)]:::I
+jfs[(government)]:::I
+cchmc[(healthcare)]:::I
 end
-class source-box II
+class organization-data II
 
-stage(collection of community-\nlevel data):::I
+auto[["automated interpolation \n and ingestion tools"]]:::IIII
+auto --"CoDEC Standards"--> d
 
-org --> |"data \n support"| stage
-jfs --> |decentralized \n geocoding| stage
-cchmc --> |spatiotemporal \n aggregation| stage
-acs --> |automatic \n interpolation| stage
-stage --> codec-box
+degauss[["decentralized geocoding \nand spatiotemporal \naggregation tools"]]:::III
+acs("built, natural, \nand social environment"):::I
+acs --> auto
 
-subgraph codec-box ["Community Data Explorer for Cincinnati (CoDEC)"]
-    ingest("(meta)data harmonization"):::IIII
-    data(community-level \n tabular data resource):::IIII
-    data-catalog("interactive data catalog\n geomarker.io/codec"):::IIII
-    ingest --> data
-    data --> data-catalog
-    data --> api(data API):::IIII
-    api --> bindings(R code \n for accessing data):::IIII
-    data-catalog --> download(explore, map, download):::V
+org & jfs & cchmc -..-> auto
+
+subgraph codec-box ["CoDEC"]
+  d[("CoDEC harmonized \ndata packages")]:::IIII
+  d <--> api((data API)):::IIII
+  api --> data-catalog("interactive data \ncatalog (explore, map, \nassociate, download)"):::V
 end
-
 class codec-box III
 
-bindings --> dashboard("dashboards and reports"):::V
-bindings --> qr(QI & research):::V
-api ---> anywhere(public access):::V
+api <-.-> c2d2("Other data catalogs \n(e.g., C2D2)"):::V
+api <-..-> external("External integrations \n (e.g., PowerBI)"):::V
+
+api --> publisher("QI analyst Research \nbiostat/epi \nCommunity scientist"):::II --SALT--> dashboard("dashboards, reports,\n scientific studies, \nintervention evaluation"):::V
+
