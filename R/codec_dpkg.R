@@ -7,9 +7,17 @@
 #' a local file with the same name exists?
 #' @returns a CoDEC data package (see `dpkg::as_dpkg()`)
 #' @export
+#' @examples
+#' get_codec_dpkg("drivetime-v0.2.2")
+#' get_codec_dpkg("environmental_justice_index-v0.1.0")
+#' get_codec_dpkg("traffic-v0.1.2")
+#' get_codec_dpkg("landcover-v0.1.0")
+#' get_codec_dpkg("hh_acs_measures-v0.0.1")
+#' get_codec_dpkg("parcel-v0.1.0")
 get_codec_dpkg <- function(codec_dpkg, overwrite = FALSE) {
-  dpkg::read_dpkg(dpkg::stow(glue::glue("gh://geomarker-io/codec/{codec_dpkg}"),
-                             overwrite = overwrite))
+  paste0("gh://geomarker-io/codec/", codec_dpkg) |>
+    dpkg::stow(overwrite = overwrite) |>
+    dpkg::read_dpkg()
 }
 
 #' as_codec_dpkg
