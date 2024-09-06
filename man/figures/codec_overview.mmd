@@ -1,39 +1,53 @@
 %%{init: { "fontFamily": "arial" } }%%
 
-flowchart LR
+flowchart TD
 
-classDef I fill:#E49865,stroke:#333,stroke-width:1px;
-classDef II fill:#EACEC5,stroke:#333,stroke-width:1px;
-classDef III fill:#CBD6D5,stroke:#333,stroke-width:1px;
-classDef IIII fill:#8CB4C3,stroke:#333,stroke-width:1px;
-classDef V fill:#396175,color:#F6EAD8,stroke:#333,stroke-width:1px;
+classDef red fill:#C28273,color:#f6edde,stroke:#333,stroke-width:1px;
+classDef orange fill:#E49865,stroke:#333,stroke-width:1px;
+classDef pink fill:#EACEC5,stroke:#333,stroke-width:1px;
+classDef grey-blue fill:#CBD6D5,stroke:#333,stroke-width:1px;
+classDef light-blue fill:#8CB4C3,stroke:#333,stroke-width:1px;
+classDef darkish-blue fill:#58829C,stroke:#333,stroke-width:1px;
+classDef dark-blue fill:#396175,color:#f6edde,stroke:#333,stroke-width:1px;
+classDef white fill:#f6edde,stroke:#333,stroke-width:1px;
 
 
-subgraph organization-data ["Organizational Data Silos"]
-org[(community)]:::I
-jfs[(government)]:::I
-cchmc[(healthcare)]:::I
+subgraph organization-data ["Organizational Data"]
+org[(Community)]:::pink
+healthcare[(Healthcare)]:::pink
+gov[(Government)]:::pink
 end
-class organization-data II
+class organization-data red
 
-auto[["automated interpolation \n and ingestion tools"]]:::IIII
-auto --"CoDEC Standards"--> d
+auto[["Automated interpolation"]]:::light-blue
 
-degauss[["decentralized geocoding \nand spatiotemporal \naggregation tools"]]:::III
-acs("built, natural, \nand social environment"):::I
-acs --> auto
+acs[("Built, \n natural, \n& social \nenvironment")]:::orange
+acs --- auto --> d
 
-org & jfs & cchmc -..-> auto
+limited(Sharing 'limited' data):::orange
+healthcare -.- limited -.-> d
 
-subgraph codec-box ["CoDEC"]
-  d[("CoDEC harmonized \ndata packages")]:::IIII
-  d <--> api((data API)):::IIII
-  api --> data-catalog("interactive data \ncatalog (explore, map, \nassociate, download)"):::V
+support(Data support):::grey-blue
+org -.- support -.-> d
+
+degauss[["Decentralized geocoding \nand spatiotemporal \naggregation tools"]]:::light-blue
+gov --- degauss --> d
+
+
+d[("Harmonized \ndata packages \n& data API")]:::light-blue
+
+d --- data-catalog[["Interactive \n data catalog \n & web app"]]:::light-blue
+d --- r-bindings[["R, python \nbindings"]]:::light-blue
+d -.- c2d2("PowerBI bindings &\n other data catalogs \n(e.g., C2D2 + Denodo)"):::white
+
+subgraph users ["Data Consumers"]
+comm(("Community \nMember")):::grey-blue
+research(("Research \nInvestigator")):::grey-blue
+qi(("Improvement \nAnalyst")):::grey-blue
 end
-class codec-box III
+class users dark-blue
 
-api <-.-> c2d2("Other data catalogs \n(e.g., C2D2)"):::V
-api <-..-> external("External integrations \n (e.g., PowerBI)"):::V
-
-api --> publisher("QI analyst Research \nbiostat/epi \nCommunity scientist"):::II --SALT--> dashboard("dashboards, reports,\n scientific studies, \nintervention evaluation"):::V
+data-catalog -.-> comm
+c2d2 -.-> qi
+r-bindings -.-> research
 
