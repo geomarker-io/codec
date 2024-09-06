@@ -25,7 +25,7 @@ navbar:
      href: https://grapph.shinyapps.io/codec_shiny
    data:
      text: Data
-     href: articles/codec-data.html
+     href: articles/CoDEC-Data.html
 
 reference:
   - title: Accessing CoDEC data
