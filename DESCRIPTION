@@ -22,8 +22,7 @@ Suggests:
     dplyr,
     curl,
     glue,
-    tibble,
-    knitr
+    tibble
 Remotes:
     geomarker-io/cincy,
     cole-brokamp/dpkg
@@ -40,4 +39,3 @@ Imports:
 Depends: 
     R (>= 2.10)
 LazyData: true
-VignetteBuilder: knitr
