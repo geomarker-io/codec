@@ -12,75 +12,124 @@ library(shinyWidgets)
 library(leaflet)
 
 {
-codec_data_installed <-
-  fs::path_package("codec") |>
-  fs::path("codec_data") |>
-  fs::dir_ls() |>
-  fs::path_file()
-
-codec_data_geography <- cincy::tract_tigris_2010
-codec_data_geography_name <- names(codec_data_geography)[[1]]
-
-d_prep <-
-  purrr::map(
-    codec_data_installed,
-    \(x) codec::codec_data(name = x, geography = codec_data_geography),
-    .progress = "interpolating codec data"
-  ) |>
-  purrr::set_names(codec_data_installed) 
-
-
-
-core_titles <- 
-  purrr::map(d_prep, as.list) |>
-  purrr::map(\(x) purrr::pluck(x, "name")) |> #just use the core names here
-  purrr::map(tibble::as_tibble) |> 
- # purrr::map(\(x) replace_na(x, purrr::pluck(x, "name"))) 
-  bind_rows() |> 
-  #tibble::add_row(value = "Hamilton County Drivetime", .after = 1) |> #hacky workaround to get drivetime in, give it a title
-  rename(name = "value")# |> 
-  #mutate(core_name = codec_data_installed)
-
-drop_na_cols <- function(df){
-  select(df, \(x) !all(is.na(x)))
-}
-
-schema_names <- d_prep |> 
-  purrr::map_df(\(x) as.data.frame(x), .id = "schema_name") |> 
-  select(-year, -census_tract_id_2010) |> 
-  group_by(schema_name) |> 
-  group_split() |> 
-  purrr::map(tibble::as_tibble) |> 
-  purrr::map(slice_head) |> 
-  purrr::map(\(x) drop_na_cols(x)) |> 
-  map(\(x) pivot_longer(x, cols = 2:last_col())) |> 
-  bind_rows() |> 
-  select(-value)
-
-md <-
-  purrr::map(d_prep, as.list) |>
-  purrr::map(\(x) purrr::pluck(x, "schema", "fields")) |> 
-  purrr::flatten() |> 
-  purrr::map(tibble::as_tibble) |> 
-  bind_rows() |> 
-  filter(!name == 'year' & !type == 'string') |> 
-  left_join(schema_names, by = 'name') |> 
-  mutate(title = coalesce(title, name),
-         description = replace_na(description, "No description available"))
-
-d_prep$hh_acs_measures <- filter(as.data.frame(d_prep$hh_acs_measures), year == 2019)
-
-d_all <- 
-  d_prep |> 
-  purrr::map(tibble::as_tibble) |>
-  purrr::map(select, -year) |> 
-  purrr::reduce(inner_join)
-
-d_all <- 
-  d_all |> 
-  left_join(cincy::tract_tigris_2010 , by = 'census_tract_id_2010') |> 
-  sf::st_as_sf() |> 
-  sf::st_transform(4326)
+  #----
+# codec_data_installed <-
+#   fs::path_package("codec") |>
+#   fs::path("codec_data") |>
+#   fs::dir_ls() |>
+#   fs::path_file()
+# 
+# codec_data_geography <- cincy::tract_tigris_2010
+# codec_data_geography_name <- names(codec_data_geography)[[1]]
+# 
+# d_prep <-
+#   purrr::map(
+#     codec_data_installed,
+#     \(x) codec::codec_data(name = x, geography = codec_data_geography),
+#     .progress = "interpolating codec data"
+#   ) |>
+#   purrr::set_names(codec_data_installed) 
+# 
+# 
+# 
+# core_titles <- 
+#   purrr::map(d_prep, as.list) |>
+#   purrr::map(\(x) purrr::pluck(x, "name")) |> #just use the core names here
+#   purrr::map(tibble::as_tibble) |> 
+#  # purrr::map(\(x) replace_na(x, purrr::pluck(x, "name"))) 
+#   bind_rows() |> 
+#   #tibble::add_row(value = "Hamilton County Drivetime", .after = 1) |> #hacky workaround to get drivetime in, give it a title
+#   rename(name = "value")# |> 
+#   #mutate(core_name = codec_data_installed)
+# 
+# drop_na_cols <- function(df){
+#   select(df, \(x) !all(is.na(x)))
+# }
+# 
+# schema_names <- d_prep |> 
+#   purrr::map_df(\(x) as.data.frame(x), .id = "schema_name") |> 
+#   select(-year, -census_tract_id_2010) |> 
+#   group_by(schema_name) |> 
+#   group_split() |> 
+#   purrr::map(tibble::as_tibble) |> 
+#   purrr::map(slice_head) |> 
+#   purrr::map(\(x) drop_na_cols(x)) |> 
+#   map(\(x) pivot_longer(x, cols = 2:last_col())) |> 
+#   bind_rows() |> 
+#   select(-value)
+# 
+# md <-
+#   purrr::map(d_prep, as.list) |>
+#   purrr::map(\(x) purrr::pluck(x, "schema", "fields")) |> 
+#   purrr::flatten() |> 
+#   purrr::map(tibble::as_tibble) |> 
+#   bind_rows() |> 
+#   filter(!name == 'year' & !type == 'string') |> 
+#   left_join(schema_names, by = 'name') |> 
+#   mutate(title = coalesce(title, name),
+#          description = replace_na(description, "No description available"))
+# 
+# d_prep$hh_acs_measures <- filter(as.data.frame(d_prep$hh_acs_measures), year == 2019)
+# 
+# d_all <- 
+#   d_prep |> 
+#   purrr::map(tibble::as_tibble) |>
+#   purrr::map(select, -year) |> 
+#   purrr::reduce(inner_join)
+# 
+# d_all <- 
+#   d_all |> 
+#   left_join(cincy::tract_tigris_2010 , by = 'census_tract_id_2010') |> 
+#   sf::st_as_sf() |> 
+#   sf::st_transform(4326)
+  #----
+  dpkgs <-
+    list(
+      environmental_justice_index =
+        get_codec_dpkg("environmental_justice_index-v0.1.0"),
+      hh_acs_measures =
+        get_codec_dpkg("hh_acs_measures-v0.0.1") |>
+        dplyr::left_join(cincy::tract_tigris_2020, by = "census_tract_id_2020") |>
+        st_as_sf() |>
+        interpolate(cincy::tract_tigris_2010) |>
+        st_drop_geometry() |>
+        tibble::as_tibble(),
+      drivetime =
+        get_codec_dpkg("drivetime-v0.2.2"),
+      landcover =
+        get_codec_dpkg("landcover-v0.1.0"),
+      traffic =
+        get_codec_dpkg("traffic-v0.1.2") |>
+        dplyr::left_join(cincy::tract_tigris_2020, by = "census_tract_id_2020") |>
+        st_as_sf() |>
+        interpolate(cincy::tract_tigris_2010) |>
+        st_drop_geometry() |>
+        tibble::as_tibble()
+    )
+  
+  
+  d <-
+    purrr::reduce(dpkgs, dplyr::left_join, by = "census_tract_id_2010", .init = tracts_sf) |>
+    tibble::as_tibble() |>
+    st_as_sf() |>
+    st_transform(st_crs(4326))
+  
+  badges <-
+    tibble::tibble(
+      dpkgs = 
+        c('drivetime', 'eji', 'hh_acs_measures', 'landcover', 'parcel', 'traffic'),
+      badge = 
+        c("[![latest github release for drivetime dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=drivetime-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/CODECtools/releases?q=drivetime&expanded=false)",
+          "[![latest github release for environmental_justice_index dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=environmental_justice_index-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=environmental_justice_index&expanded=false)",
+          "[![latest github release for hh_acs_measures dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=hh_acs_measures-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=hh_acs_measures&expanded=false)",
+          "[![latest github release for landcover dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=landcover-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=landcover&expanded=false)",
+          "[![latest github release for parcel dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=parcel-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=parcel&expanded=false)",
+          "[![latest github release for traffic dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=traffic-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=traffic&expanded=false)"
+        )
+    )
+      
+  
+  
 
 codec_bi_pal <- c(
   "1-1" = "#eddcc1",
@@ -111,8 +160,6 @@ codec_bi_pal_2 <- tibble(
 uni_colors <- c(codec_colors()[1], "#567D91", "#789BAC", "#9FBAC8", "#CCDCE3", "#F6EDDE")
 
 }
-  
-
 
 
 ##----
@@ -146,10 +193,10 @@ ex_card <- card(
                      choiceValues = c("tract", 'zcta', 'neighborhood'),
                      selected = "tract"),
         
-        checkboxGroupInput(inputId = "core",
-                           label = strong("Select the CoDEC cores you would like to include:"),
-                           choices = core_titles$name,
-                           selected = c("tract_indices", 'hamilton_landcover')),
+        checkboxGroupInput(inputId = "sel_dpkgs",
+                           label = strong("Select the CoDEC data packages you would like to include:"),
+                           choices = names(dpkgs),
+                           selected = c("hh_acs_measures")),
         layout_column_wrap(
           width = 1/2,
           actionButton('select_all', label = "Select All", style = "fill", color = "primary"),
@@ -163,9 +210,8 @@ ex_card <- card(
                                    status = "primary") |> 
           tagAppendAttributes(style = "float: right"),
         hr(),
-        htmlOutput('x_desc'),
+        uiOutput('badge_table'),
         hr(),
-        htmlOutput('y_desc'),
         width = '18%'
       ),
     leafletOutput("map"),
@@ -195,78 +241,72 @@ server <- function(input, output, session) {
 
   
   d <- reactive({
-    
-    if (input$sel_geo == 'tract') {
-      geo_option <- cincy::tract_tigris_2010
-    } else if (input$sel_geo == 'zcta') {
-      geo_option <- cincy::zcta_tigris_2010
-    } else {
-      geo_option <- cincy::neigh_cchmc_2010
-    }
-    
-    
-    temp <-
-      purrr::map(
-        codec_data_installed,
-        \(x) codec::codec_data(name = x, geography = geo_option),
-        .progress = "interpolating codec data"
-      ) |>
-      purrr::set_names(codec_data_installed)
-
-    
-    if(input$sel_geo == 'tract') {
-      temp$hh_acs_measures <- filter(as.data.frame(temp$hh_acs_measures), year == 2019)
-    }
-    
-    d <- 
-      temp |> 
-      purrr::map(tibble::as_tibble) |>
-      purrr::map(select, -year) |> 
-      purrr::reduce(inner_join)
-    
-    if (input$sel_geo == 'tract') {
-      d <- d |> left_join(cincy::tract_tigris_2010)
-    } else if (input$sel_geo == 'zcta') {
-      d <- d |> left_join(cincy::zcta_tigris_2010)
-    } else {
-      d <- d |> left_join(cincy::neigh_cchmc_2010)
-    }
-    
-    colnames(d)[1] <- 'geo_index'
-    
-    d <- 
-      d |> 
-      sf::st_as_sf() |> 
-      sf::st_transform(crs = sf::st_crs(d_all))
-    
-    
+    d
   })
+    #----
+  #   
+  #   if (input$sel_geo == 'tract') {
+  #     geo_option <- cincy::tract_tigris_2010
+  #   } else if (input$sel_geo == 'zcta') {
+  #     geo_option <- cincy::zcta_tigris_2010
+  #   } else {
+  #     geo_option <- cincy::neigh_cchmc_2010
+  #   }
+  #   
+  #   
+  #   temp <-
+  #     purrr::map(
+  #       codec_data_installed,
+  #       \(x) codec::codec_data(name = x, geography = geo_option),
+  #       .progress = "interpolating codec data"
+  #     ) |>
+  #     purrr::set_names(codec_data_installed)
+  # 
+  #   
+  #   if(input$sel_geo == 'tract') {
+  #     temp$hh_acs_measures <- filter(as.data.frame(temp$hh_acs_measures), year == 2019)
+  #   }
+  #   
+  #   d <- 
+  #     temp |> 
+  #     purrr::map(tibble::as_tibble) |>
+  #     purrr::map(select, -year) |> 
+  #     purrr::reduce(inner_join)
+  #   
+  #   if (input$sel_geo == 'tract') {
+  #     d <- d |> left_join(cincy::tract_tigris_2010)
+  #   } else if (input$sel_geo == 'zcta') {
+  #     d <- d |> left_join(cincy::zcta_tigris_2010)
+  #   } else {
+  #     d <- d |> left_join(cincy::neigh_cchmc_2010)
+  #   }
+  #   
+  #   colnames(d)[1] <- 'geo_index'
+  #   
+  #   d <- 
+  #     d |> 
+  #     sf::st_as_sf() |> 
+  #     sf::st_transform(crs = sf::st_crs(d_all))
+  #   
+  #   
+  # })
+    #----
 
   
   observeEvent(input$univariate_switch, {
     
     if (input$univariate_switch == T) {
       shinyjs::disable('y_sel')
-      shinyjs::hide(id = 'y_desc')
     } else {
       shinyjs::enable('y_sel')
-      shinyjs::show('y_desc')
     }
     
   })
   
   
-  d_sel_cores <- reactive({
+  d_sel_dpkgs <- reactive({
     
-    core_titles |> 
-      filter(name %in% input$core) 
-    
-  })
-  
-  d_sel_metrics <- reactive({
-    
-    md |> 
-      filter(schema_name %in% d_sel_cores()$name) 
+    dpkgs[input$sel_dpkgs] 
     
   })
   
@@ -275,9 +315,9 @@ server <- function(input, output, session) {
   output$x_sel <- renderUI({
     shinyWidgets::pickerInput(inputId = 'x',
                               label = "X Variable",
-                              choices = d_sel_metrics()$title,
+                              choices = purrr::map(d_sel_dpkgs, colnames),
                               multiple = FALSE,
-                              selected = 'Percent Greenspace 2019',
+                              selected = 'prcnt_poverty',
                               options = pickerOptions(
                                 liveSearch = TRUE
                               ))
@@ -287,9 +327,9 @@ server <- function(input, output, session) {
   output$y_sel <- renderUI({
     shinyWidgets::pickerInput(inputId = 'y',
                               label = "Y Variable", 
-                              choices = d_sel_metrics()$title,
+                              choices = purrr::map(d_sel_dpkgs, colnames),
                               multiple = FALSE,
-                              selected = 'Material Deprivation Index',
+                              selected = 'walkability_index_epa',
                               options = pickerOptions(
                                 liveSearch = TRUE
                               ))
@@ -297,39 +337,38 @@ server <- function(input, output, session) {
   
   
   
-  xvar <- reactive({
-    req(input$x)
-    
-    xvar <- md |> 
-      filter(title == input$x) |> 
-      pull(name)
-    
-    xvar
-    
-  })
+  # xvar <- reactive({
+  #   req(input$x)
+  #   
+  #   xvar <- md |> 
+  #     filter(title == input$x) |> 
+  #     pull(name)
+  #   
+  #   xvar
+  #   
+  # })
+  # 
+  # yvar <- reactive({
+  #   req(input$y)
+  #   
+  #   yvar <- md |> 
+  #     filter(title == input$y) |> 
+  #     pull(name)
+  #   
+  #   yvar
+  #   
+  # })
   
-  yvar <- reactive({
-    req(input$y)
+  output$badge_table <- renderUI({
+    req(d_sel_dpkgs)
     
-    yvar <- md |> 
-      filter(title == input$y) |> 
-      pull(name)
-    
-    yvar
+    badges |>
+      dplyr::filter(dpkgs %in% names(d_sel_dpkgs)) |>
+      gt::gt() |>
+      gt::fmt_markdown()
     
   })
-  
-  output$x_desc <- renderText({
-    req(input$x)
-    
-    paste0(strong(input$x), ": ", md |> filter(title == input$x) |> pull(description))
-  })
-  
-  output$y_desc <- renderText({
-    req(input$y)
-    
-    paste0(strong(input$y), ": ", md |> filter(title == input$y) |> pull(description))
-  })
+
   
   observeEvent(input$select_all, {
     updateCheckboxGroupInput(inputId = 'core', selected = core_titles$title)
