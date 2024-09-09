@@ -10,3 +10,4 @@
 ^Meta$
 index.md
 justfile
+^vignettes/articles$

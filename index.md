@@ -9,3 +9,8 @@ Using these tools, a collection of extant community-level data resources is auto
 
 ![](man/figures/codec_overview.svg)
 
+Data packages are created by **transparently** and **reproducibly** using code to assemble data and automatically validate data structures.
+A single point for data consumption provides ownership of the process of harmonizing data and integrates well with data governance, but most importantly, can provide data to be consumed in multiple ways (e.g., dashboard, tabular data file, API).
+Creating and maintaining an open community-level data resource equips the entire community for data-powered decision making *and* boosts organizational trustworthiness.
+Demonstrating reliability and capability of appropriately managing shared data helps earn the [trust](https://doi.org/10.1038/s41597-020-0486-7) of organizations and communities intended to be served.
+

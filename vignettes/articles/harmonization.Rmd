@@ -1,0 +1,31 @@
+---
+title: "Data Harmonization"
+---
+
+## Privacy and Security
+
+[Data are people](https://doi.org/10.1371/journal.pcbi.1005399) and when sharing data, privacy is a spectrum of the
+tradeoffs between risks and benefits to individuals and populations.
+Data collected at the individual-level by one organization often [cannot be shared](https://sharing.nih.gov/data-management-and-sharing-policy/protecting-participant-privacy-when-sharing-scientific-data/principles-and-best-practices-for-protecting-participant-privacy) with another organization due to legal restrictions or organization-specific data governance policies.
+
+We are often interested in community-level (e.g. neighborhood, census tract, ZIP code) data disaggregated by gender, race, or other sensitive attributes.
+Achieving data harmonization upstream of storage allows for contribution of disaggregated, community-level data without disclosing individual-level data when sharing across organizations.
+
+## Data Specifications
+
+Like its [namesake](https://en.wikipedia.org/wiki/Codec), CoDEC encodes data streams about the communities in which we live into a common format using census tract and month so that it can be decoded into different community-level geographies and different time frames.
+CoDEC relies on the [cincy](https://geomarker.io/cincy/index.html) R package to define Cincinnati-area [geographies](https://geomarker.io/cincy/articles/geographies.html) and [interpolate](https://geomarker.io/cincy/articles/interpolate.html) area-level data between census tracts, neighborhoods, and ZIP codes in different years.
+
+![](codec_harmonization.svg)
+
+Specifications are [defined and checked](https://geomarker.io/codec/reference/as_codec_dpkg.html) using the `as_codec_dpkg()` function in R.
+
+## Equitably Disaggregated Community-Level Data
+
+The White House's [Equitable Data Working Group](https://www.whitehouse.gov/briefing-room/statements-releases/2022/04/22/fact-sheet-biden-harris-administration-releases-recommendations-for-advancing-use-of-equitable-data/) has defined equitable data as "those that allow for rigorous assessment of the extent to which government programs and policies yield consistently fair, just, and impartial treatment of all individuals."
+They advise that equitable data should “illuminate opportunities for targeted actions that will result in demonstrably improved outcomes for underserved communities.”
+The group recommended to make disaggregated data the norm while being "... intentional about when data are collected and shared, as well as how data are protected so as not to exacerbate the vulnerability of members of underserved communities, many of whom face the heightened risk of harm if their privacy is not protected."
+
+The U.S. Chief Data Scientist, Denice Ross, has [declared](https://www.fedscoop.com/us-chief-data-scientist-interview/) that "open data is necessary and not sufficient to drive the type of action that we need to create a more equitable society."
+Open data can fall short of driving action if it is not equitable.
+[Disaggregating](https://doi.org/10.1377/forefront.20220323.555023) data by sensitive attributes, like race and ethnicity, can elucidate inequities that would otherwise remain hidden.

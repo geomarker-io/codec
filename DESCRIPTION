@@ -1,6 +1,6 @@
 Package: codec
 Title: Community Data Explorer for Cincinnati
-Version: 2.0.0.9100
+Version: 2.1.0
 Authors@R: c(
     person("Cole", "Brokamp",
            email = "cole.brokamp@gmail.com",

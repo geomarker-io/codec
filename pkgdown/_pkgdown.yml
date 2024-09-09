@@ -11,21 +11,22 @@ template:
     border-radius: 0.5rem
     btn-border-radius: 0.25rem
     code_font: {google: "Source Code Pro"}
-  assets:
-    - vignettes/figs
 navbar:
   structure:
-    left:  [about, explore, data, reference]
+    left:  [about, data, harmonization, explore, reference]
   components:
    about:
     text: About
     href: index.html
+   harmonization:
+     text: Harmonization
+     href: articles/harmonization.html
    explore:
      text: Explore
      href: https://grapph.shinyapps.io/codec_shiny
    data:
      text: Data
-     href: articles/CoDEC-Data.html
+     href: articles/data.html
 
 reference:
   - title: Accessing CoDEC data
