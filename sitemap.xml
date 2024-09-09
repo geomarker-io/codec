@@ -1,7 +1,8 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>http://geomarker.io/codec/404.html</loc></url>
 <url><loc>http://geomarker.io/codec/LICENSE.html</loc></url>
-<url><loc>http://geomarker.io/codec/articles/CoDEC-Data.html</loc></url>
+<url><loc>http://geomarker.io/codec/articles/data.html</loc></url>
+<url><loc>http://geomarker.io/codec/articles/harmonization.html</loc></url>
 <url><loc>http://geomarker.io/codec/articles/index.html</loc></url>
 <url><loc>http://geomarker.io/codec/authors.html</loc></url>
 <url><loc>http://geomarker.io/codec/index.html</loc></url>
