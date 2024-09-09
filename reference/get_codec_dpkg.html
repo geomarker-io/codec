@@ -33,7 +33,7 @@ dpkg::stow() to cache a local copy in the user's data directory."><meta property
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Read a dpkg from the public CoDEC repository into R</h1>
-      <small class="dont-index">Source: <a href="https://github.com/geomarker-io/codec/blob/v2.1.0/R/codec_dpkg.R" class="external-link"><code>R/codec_dpkg.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/geomarker-io/codec/blob/main/R/codec_dpkg.R" class="external-link"><code>R/codec_dpkg.R</code></a></small>
       <div class="d-none name"><code>get_codec_dpkg.Rd</code></div>
     </div>
 
@@ -86,120 +86,6 @@ a local file with the same name exists?</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 39061001900                    12    <span style="text-decoration: underline;">2</span>024</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 39061002000                    12.4  <span style="text-decoration: underline;">2</span>024</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 212 more rows</span></span>
-<span class="r-in"><span><span class="fu">get_codec_dpkg</span><span class="op">(</span><span class="st">"environmental_justice_index-v0.1.0"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # [☰] environmental_justice_index-v0.1.0</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # title: "Environmental Justice Index"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # homepage: https://www.atsdr.cdc.gov/placeandhealth/eji/index.html</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # ℹ Use `dpkg_meta() to get all metadata</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 222 × 15</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    census_tract_id_2010 prcnt_area_within_1mi_epa_npl_s…¹ prcnt_area_within_1m…²</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 39061000200                                          0                  100  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 39061000700                                          0                  100  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 39061000900                                          0                  100  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 39061001000                                          0                  100  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 39061001100                                          0                   90.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 39061001600                                          0                  100  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 39061001700                                          0                  100  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 39061001800                                          0                  100  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 39061001900                                          0                   99.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 39061002000                                          0                  100  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 212 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ abbreviated names: ¹​prcnt_area_within_1mi_epa_npl_site,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​prcnt_area_within_1mi_epa_tri_site</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 12 more variables: prcnt_area_within_1m_epa_tsd_site &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   prcnt_area_within_1mi_epa_rmp_site &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   prcnt_area_within_1mi_coal_mine &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   prcnt_area_within_1mi_lead_mine &lt;dbl&gt;, …</span></span>
-<span class="r-in"><span><span class="fu">get_codec_dpkg</span><span class="op">(</span><span class="st">"traffic-v0.1.2"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # [☰] traffic-v0.1.2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # title: "Average Annual Daily Truck and Total Traffic Counts"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # homepage: https://geomarker.io/codec</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # ℹ Use `dpkg_meta() to get all metadata</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 226 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    census_tract_id_2020    aadt aadt_truck  year</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 39061000200          2<span style="text-decoration: underline;">517</span>492     <span style="text-decoration: underline;">275</span>072  <span style="text-decoration: underline;">2</span>020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 39061000700          1<span style="text-decoration: underline;">324</span>921      <span style="text-decoration: underline;">26</span>893  <span style="text-decoration: underline;">2</span>020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 39061000900            <span style="text-decoration: underline;">93</span>234          0  <span style="text-decoration: underline;">2</span>020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 39061001000            <span style="text-decoration: underline;">30</span>069          0  <span style="text-decoration: underline;">2</span>020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 39061001100           <span style="text-decoration: underline;">972</span>325      <span style="text-decoration: underline;">43</span>600  <span style="text-decoration: underline;">2</span>020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 39061001600           <span style="text-decoration: underline;">119</span>094          0  <span style="text-decoration: underline;">2</span>020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 39061001700                0          0  <span style="text-decoration: underline;">2</span>020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 39061001800            <span style="text-decoration: underline;">20</span>040          0  <span style="text-decoration: underline;">2</span>020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 39061001900           <span style="text-decoration: underline;">648</span>109      <span style="text-decoration: underline;">25</span>401  <span style="text-decoration: underline;">2</span>020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 39061002000           <span style="text-decoration: underline;">165</span>142          0  <span style="text-decoration: underline;">2</span>020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 216 more rows</span></span>
-<span class="r-in"><span><span class="fu">get_codec_dpkg</span><span class="op">(</span><span class="st">"landcover-v0.1.0"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # [☰] landcover-v0.1.0</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # title: "Landcover, Built Environment, and Greenness"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # homepage: https://github.com/geomarker-io/hamilton_landcover</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # ℹ Use `dpkg_meta() to get all metadata</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 222 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    census_tract_id_2010 pct_green_2019 pct_impervious_2019 pct_treecanopy_2016</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 39061024800                      74                  27                  30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 39061024901                      76                  12                  24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 39061025002                      96                  12                  50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 39061025104                      86                  10                  52</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 39061025102                      85                  28                  22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 39061024902                      94                  11                  49</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 39061025101                      94                  13                  46</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 39061025001                      85                  23                  35</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 39061008601                      83                  20                  46</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 39061008800                      84                  22                  40</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 212 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 2 more variables: enhanced_vegatation_index_2018 &lt;dbl&gt;, year &lt;dbl&gt;</span></span>
-<span class="r-in"><span><span class="fu">get_codec_dpkg</span><span class="op">(</span><span class="st">"hh_acs_measures-v0.0.1"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # [☰] hh_acs_measures-v0.0.1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # title: "Harmonized Historical American Community Survey Measures"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # homepage: https://github.com/geomarker-io/codec</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # ℹ Use `dpkg_meta() to get all metadata</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 226 × 17</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    n_households census_tract_id_2020 n_households_children n_housing_units</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>          489 39061000200                            142             590</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>         <span style="text-decoration: underline;">1</span>717 39061000700                             94            <span style="text-decoration: underline;">1</span>904</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>          843 39061000900                            127            <span style="text-decoration: underline;">1</span>058</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>         <span style="text-decoration: underline;">1</span>036 39061001000                            114            <span style="text-decoration: underline;">1</span>227</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>          550 39061001100                            111             605</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>          506 39061001600                             47             870</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>          662 39061001700                            168            <span style="text-decoration: underline;">1</span>040</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>          678 39061001800                             63             871</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>         <span style="text-decoration: underline;">1</span>255 39061001900                             80            <span style="text-decoration: underline;">1</span>352</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>          930 39061002000                             32            <span style="text-decoration: underline;">1</span>024</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 216 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 13 more variables: median_home_value &lt;dbl&gt;, prcnt_poverty &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   prcnt_recieved_public_assistance_income &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   prcnt_family_households_with_single_householder &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   prcnt_employment_among_civilian_workforce &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   prcnt_housing_units_occupied_by_renters &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   prcnt_median_rent_to_income_ratio_among_renters &lt;dbl&gt;, …</span></span>
-<span class="r-in"><span><span class="fu">get_codec_dpkg</span><span class="op">(</span><span class="st">"parcel-v0.1.0"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # [☰] parcel-v0.1.0</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # title: "Parcel Characteristics"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # homepage: https://geomarker.io/codec</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> # ℹ Use `dpkg_meta() to get all metadata</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 222 × 20</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    census_tract_id_2010 fraction_apartment fraction_assisted_housing</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 39061000200                        0.67                      0.33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 39061000700                        0.14                     <span style="color: #BB0000;">NA</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 39061000900                        0.1                      <span style="color: #BB0000;">NA</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 39061001000                        0.14                      0.01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 39061001100                        0.27                      0.01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 39061001600                        0.27                      0.04</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 39061001700                        0.27                      0.02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 39061001800                        0.06                     <span style="color: #BB0000;">NA</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 39061001900                        0.06                      0.01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 39061002000                        0.08                     <span style="color: #BB0000;">NA</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 212 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 17 more variables: fraction_condominium &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   fraction_single_family_dwelling &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   fraction_two_to_three_family_dwelling &lt;dbl&gt;, fraction_other &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   n_parcels &lt;int&gt;, n_violations &lt;int&gt;, violations_per_parcel &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   fraction_homestead &lt;dbl&gt;, market_total_value &lt;dbl&gt;, acreage &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   year_built &lt;dbl&gt;, n_total_rooms &lt;dbl&gt;, n_bedrooms &lt;dbl&gt;, …</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
