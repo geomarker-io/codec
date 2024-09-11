@@ -112,6 +112,7 @@ devtools::load_all()
         tibble::as_tibble()
     )
   
+  tracts_sf <- cincy::tract_tigris_2010
   
   d_all <-
     purrr::reduce(dpkgs, dplyr::left_join, by = "census_tract_id_2010", .init = tracts_sf) |>
@@ -226,7 +227,8 @@ ex_card <- card(
         width = '18%'
       ),
     leafletOutput("map"),
-    uiOutput("plot_panel")
+    uiOutput("plot_panel"),
+    uiOutput("clear_button_panel")
   )
 )
 
@@ -267,7 +269,7 @@ server <- function(input, output, session) {
        d |>
        dplyr::rename("geo_index" = 1) |> 
        sf::st_as_sf() |>
-       sf::st_transform(crs = sf::st_crs(d))
+       sf::st_transform(crs = sf::st_crs(d_all))
      
    })
      
@@ -366,30 +368,30 @@ server <- function(input, output, session) {
   })
   
   
-  
-  xvar <- reactive({
-    req(input$x)
+  # 
+  # xvar <- reactive({
+  #   req(input$x)
+  # 
+  #   # xvar <- md |>
+  #   #   filter(title == input$x) |>
+  #   #   pull(name)
+  #   
+  #   #go here to insert full name of variable
+  # 
+  #   xvar <- input$x
+  # 
+  # })
 
-    # xvar <- md |>
-    #   filter(title == input$x) |>
-    #   pull(name)
-    
-    #go here to insert full name of variable
-
-    xvar <- input$x
-
-  })
-
-  yvar <- reactive({
-    req(input$y)
+#   yvar <- reactive({
+#     req(input$y)
+# # 
+# #     yvar <- md |>
+# #       filter(title == input$y) |>
+# #       pull(name)
 # 
-#     yvar <- md |>
-#       filter(title == input$y) |>
-#       pull(name)
-
-    yvar <- input$y
-
-  })
+#     yvar <- input$y
+# 
+#   })
   
   output$badge_table <- renderUI({
     req(d_sel_dpkgs)
@@ -444,8 +446,8 @@ server <- function(input, output, session) {
       
       out <- out |> 
         mutate(out_lab = paste(geo_index, "<br>",
-                               xvar(), ": ", round(get(xvar()),2), "<br>",
-                               yvar(), ": ", round(get(yvar()),2)))
+                               input$x, ": ", round(get(input$x),2), "<br>",
+                               input$y, ": ", round(get(input$y),2)))
       
       pal <- colorFactor(codec_bi_pal, factor(out$bi_class, levels = c("1-1","2-1","3-1",
                                                                        "1-2","2-2","3-2",
@@ -478,7 +480,7 @@ server <- function(input, output, session) {
       
       out <- out |> 
         mutate(out_lab = paste(geo_index, "<br>",
-                               xvar(), ": ", round(get(input$x),2)))
+                               input$x, ": ", round(get(input$x),2)))
       
       pal <- colorFactor(uni_colors, factor(out$x_class, levels = c("1", "2", "3",
                                                                     "4", "5", "6")))
@@ -624,7 +626,7 @@ server <- function(input, output, session) {
         mutate(bi_x = cut(get(input$x), breaks = bins_x, include.lowest = TRUE)) |> 
         mutate(x_class = paste0(as.numeric(bi_x)))
       
-      scatter_panels <- ggplot(out_scat, aes_string(x = xvar())) +
+      scatter_panels <- ggplot(out_scat, aes_string(x = input$x)) +
         annotate("rect", 
                  xmin = -Inf, xmax = bins_x[2],  
                  ymin = -Inf, ymax = Inf,
@@ -695,8 +697,8 @@ server <- function(input, output, session) {
         filter(geo_index == scat_click) 
       
       
-      bins_x <- pull(d(), xvar())
-      bins_y <- pull(d(), yvar())
+      bins_x <- pull(d(), input$x)
+      bins_y <- pull(d(), input$y)
       
       bins_x <- classInt::classIntervals(bins_x, n = 3, style = "quantile")
       bins_y <- classInt::classIntervals(bins_y, n = 3, style = "quantile")
@@ -706,16 +708,16 @@ server <- function(input, output, session) {
       
       # cut into groups defined above
       out <- d() |> 
-        mutate(bi_x = cut(get(xvar()), breaks = bins_x, include.lowest = TRUE))
+        mutate(bi_x = cut(get(input$x), breaks = bins_x, include.lowest = TRUE))
       out <- out |> 
-        mutate(bi_y = cut(get(yvar()), breaks = bins_y, include.lowest = TRUE))
+        mutate(bi_y = cut(get(input$y), breaks = bins_y, include.lowest = TRUE))
       out <- out|> 
         mutate(bi_class = paste0(as.numeric(bi_x), "-", as.numeric(bi_y)))
       
       out <- out |> 
         mutate(out_lab = paste(geo_index, "<br>",
-                               xvar(), ": ", round(get(xvar()),2), "<br>",
-                               yvar(), ": ", round(get(yvar()),2)))
+                               input$x, ": ", round(get(input$x),2), "<br>",
+                               input$y, ": ", round(get(input$y),2)))
       
       pal <- colorFactor(codec_bi_pal, factor(out$bi_class, levels = c("1-1","2-1","3-1",
                                                                        "1-2","2-2","3-2",
@@ -744,7 +746,7 @@ server <- function(input, output, session) {
         filter(geo_index == scat_click) 
       
       
-      bins_x <- pull(d(), xvar())
+      bins_x <- pull(d(), input$x)
       
       bins_x <- classInt::classIntervals(bins_x, n = 6, style = "quantile")
       
@@ -752,12 +754,12 @@ server <- function(input, output, session) {
       
       # cut into groups defined above
       out <- d() |> 
-        mutate(bi_x = cut(get(xvar()), breaks = bins_x, include.lowest = TRUE)) |> 
+        mutate(bi_x = cut(get(input$x), breaks = bins_x, include.lowest = TRUE)) |> 
         mutate(x_class = paste0(as.numeric(bi_x)))
       
       out <- out |> 
         mutate(out_lab = paste(geo_index, "<br>",
-                               xvar(), ": ", round(get(xvar()),2)))
+                               input$x, ": ", round(get(input$x),2)))
       
       
       
@@ -802,8 +804,8 @@ server <- function(input, output, session) {
       
       if (input$univariate_switch == F) {
         
-        bins_x <- pull(d(), xvar())
-        bins_y <- pull(d(), yvar())
+        bins_x <- pull(d(), input$x)
+        bins_y <- pull(d(), input$y)
         
         bins_x <- classInt::classIntervals(bins_x, n = 3, style = "quantile")
         bins_y <- classInt::classIntervals(bins_y, n = 3, style = "quantile")
@@ -813,13 +815,13 @@ server <- function(input, output, session) {
         
         # cut into groups defined above
         out_scat <- d() |> 
-          mutate(bi_x = cut(get(xvar()), breaks = bins_x, include.lowest = TRUE, labels = c("1", "2", "3")))
+          mutate(bi_x = cut(get(input$x), breaks = bins_x, include.lowest = TRUE, labels = c("1", "2", "3")))
         out_scat <- out_scat |> 
-          mutate(bi_y = cut(get(yvar()), breaks = bins_y, include.lowest = TRUE, labels = c("1", "2", "3")))
+          mutate(bi_y = cut(get(input$y), breaks = bins_y, include.lowest = TRUE, labels = c("1", "2", "3")))
         out_scat <- out_scat |> 
           mutate(bi_class = paste0(as.numeric(bi_x), "-", as.numeric(bi_y)))
         
-        scatter_panels <- ggplot(out_scat, aes_string(x = xvar(), y = yvar())) +
+        scatter_panels <- ggplot(out_scat, aes_string(x = input$x, y = input$y)) +
           annotate("rect", 
                    xmin = -Inf, xmax = bins_x[2],  
                    ymin = -Inf, ymax = bins_y[2],
@@ -867,7 +869,7 @@ server <- function(input, output, session) {
                    fill = codec_bi_pal_2$fill[9])
         
         scat <- scatter_panels +
-          geom_point_interactive(data = d(), aes_string(x = xvar(), y = yvar(),
+          geom_point_interactive(data = d(), aes_string(x = input$x, y = input$y,
                                                         data_id = "geo_index"),
                                  fill = codec_colors()[7], 
                                  alpha = .8,
@@ -875,13 +877,13 @@ server <- function(input, output, session) {
                                  color = "grey20", 
                                  stroke = .5) +
           geom_point_interactive(data = d_selected,
-                                 aes_string(x = xvar(), y = yvar(),
+                                 aes_string(x = input$x, y = input$y,
                                             data_id = "geo_index"),
                                  #  tooltip = paste0(
-                                 #   input$x, ": ", xvar(), "\n",
-                                 #    input$y, ": ", yvar()
+                                 #   input$x, ": ", input$x, "\n",
+                                 #    input$y, ": ", input$y
                                  #   )),
-                                 color = codec_colors()[1], size = 3, alpha = .6) +
+                                 color = "#FFF", size = 3, alpha = .6) +
           theme_light() +
           theme(aspect.ratio = 1, title = element_text(size = 8),
                 axis.title = element_text(size = if (input$big_plot == FALSE) {6} else {10}),
@@ -889,13 +891,13 @@ server <- function(input, output, session) {
           labs(x = paste0(input$x), y = paste0(input$y))
         
         hist1 <- ggplot(d()) +
-          geom_histogram_interactive(aes_string(x = xvar(), tooltip = "geo_index",
+          geom_histogram_interactive(aes_string(x = input$x, tooltip = "geo_index",
                                                 data_id = "geo_index"),
                                      fill = codec_colors()[2], bins = 20, color = codec_colors()[3]) +
           theme_minimal()
         
         hist2 <- ggplot(d()) +
-          geom_histogram_interactive(aes_string(x = yvar(), tooltip = "geo_index",
+          geom_histogram_interactive(aes_string(x = input$y, tooltip = "geo_index",
                                                 data_id = "geo_index"),
                                      fill = codec_colors()[2], bins = 20, color = codec_colors()[3]) +
           coord_flip() +
@@ -917,7 +919,7 @@ server <- function(input, output, session) {
         
       } else {
         
-        bins_x <- pull(d(), xvar())
+        bins_x <- pull(d(), input$x)
         
         bins_x <- classInt::classIntervals(bins_x, n = 6, style = "quantile")
         
@@ -925,10 +927,10 @@ server <- function(input, output, session) {
         
         # cut into groups defined above
         out_scat <- d() |> 
-          mutate(bi_x = cut(get(xvar()), breaks = bins_x, include.lowest = TRUE)) |> 
+          mutate(bi_x = cut(get(input$x), breaks = bins_x, include.lowest = TRUE)) |> 
           mutate(x_class = paste0(as.numeric(bi_x)))
         
-        scatter_panels <- ggplot(out_scat, aes_string(x = xvar())) +
+        scatter_panels <- ggplot(out_scat, aes_string(x = input$x)) +
           annotate("rect", 
                    xmin = -Inf, xmax = bins_x[2],  
                    ymin = -Inf, ymax = Inf,
@@ -961,16 +963,17 @@ server <- function(input, output, session) {
                    fill = "#F6EDDE") 
         
         scat <- scatter_panels +
-          geom_histogram_interactive(d(), mapping = aes_string(x = xvar(), tooltip = "geo_index",
-                                                               data_id = "geo_index"),
+          geom_histogram_interactive(d(), 
+                                     mapping = aes_string(x = input$x, tooltip = "geo_index",
+                                                          data_id = "geo_index"),
                                      bins = 20,
                                      alpha = .6,
                                      fill = "grey70", 
                                      color = "grey50") +
           geom_segment(d_selected, 
                        mapping = aes_string(
-                         x = xvar(), 
-                         xend = xvar(),
+                         x = input$x, 
+                         xend = input$x,
                          y = -1,
                          yend = 0),
                        arrow = arrow(length = unit(1, "mm"), type = "closed"),
@@ -1017,7 +1020,8 @@ server <- function(input, output, session) {
                   right = 20,
                   width = if (input$big_plot == FALSE) {"400px"} else { "1000px"},
                   style =
-                    "padding: 5px;
+                    "z-index: 10;
+                     padding: 5px;
                          border: 1px solid #000;
                          background: #FFFFFF;
                          opacity: .9;
@@ -1030,6 +1034,32 @@ server <- function(input, output, session) {
     
   })
   
+  output$clear_button_panel <- renderUI({
+    absolutePanel(id = "clear_button_panel",
+                  class = "panel panel-default",
+                  cursor = "auto",
+                  draggable = TRUE,
+                  top = 50,
+                  right = 20,
+                  style =
+                    "z-index: 10;
+                     padding: 5px;
+                         border: 1px solid #000;
+                         background: #FFFFFF;
+                         opacity: .9;
+                         margin: auto;
+                         border-radius: 5pt;
+                         box-shadow: 0pt 0pt 6pt 0px rgba(61,59,61,0.48);",
+                  fixedRow(
+                    shinyWidgets::actionBttn("clear_map_selection",
+                                             label = "Reset map",
+                                             size = 'xs',
+                                             style = 'simple',
+                                             status = "primary") |> 
+                      tagAppendAttributes(style = "color: #FFF; background-color: #396175;"),)
+    )
+    })
+  
   observeEvent(input$legend_modal, {
     showModal(
       modalDialog(
@@ -1039,6 +1069,23 @@ server <- function(input, output, session) {
         easyClose = TRUE
       )
     )
+  })
+  
+  observeEvent(input$clear_map_selection, {
+    
+    map <- 
+      leafletProxy("map", data = d()) |> 
+      clearShapes() |> 
+      setView(-84.55, 39.18, zoom = 11.5) |> 
+      addProviderTiles(provider = providers$CartoDB.Positron) |> 
+      addPolygons(fillColor = "#fff", 
+                  opacity = .4, 
+                  color = "#333333",
+                  weight = .5
+                  )
+    
+    map
+    
   })
   
   
