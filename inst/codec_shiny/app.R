@@ -10,6 +10,9 @@ library(cowplot)
 library(ggExtra)
 library(shinyWidgets)
 library(leaflet)
+library(sf)
+
+devtools::load_all()
 
 {
   #----
@@ -98,6 +101,8 @@ library(leaflet)
         get_codec_dpkg("drivetime-v0.2.2"),
       landcover =
         get_codec_dpkg("landcover-v0.1.0"),
+      parcel = 
+        get_codec_dpkg("parcel-v0.1.0"),
       traffic =
         get_codec_dpkg("traffic-v0.1.2") |>
         dplyr::left_join(cincy::tract_tigris_2020, by = "census_tract_id_2020") |>
@@ -108,7 +113,7 @@ library(leaflet)
     )
   
   
-  d <-
+  d_all <-
     purrr::reduce(dpkgs, dplyr::left_join, by = "census_tract_id_2010", .init = tracts_sf) |>
     tibble::as_tibble() |>
     st_as_sf() |>
@@ -117,7 +122,7 @@ library(leaflet)
   badges <-
     tibble::tibble(
       dpkgs = 
-        c('drivetime', 'eji', 'hh_acs_measures', 'landcover', 'parcel', 'traffic'),
+        c('drivetime', 'environmental_justice_index', 'hh_acs_measures', 'landcover', 'parcel', 'traffic'),
       badge = 
         c("[![latest github release for drivetime dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=drivetime-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/CODECtools/releases?q=drivetime&expanded=false)",
           "[![latest github release for environmental_justice_index dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=environmental_justice_index-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=environmental_justice_index&expanded=false)",
@@ -131,41 +136,41 @@ library(leaflet)
   
   
 
-codec_bi_pal <- c(
-  "1-1" = "#eddcc1",
-  "2-1" = "#d4aa92",
-  "3-1" = "#bb7964",
-  "1-2" = "#909992",
-  "2-2" = "#81766f",
-  "3-2" = "#71544c",
-  "1-3" = "#375a66",
-  "2-3" = "#31464d",
-  "3-3" = "#2b3135"
-)
-
-codec_bi_pal_2 <- tibble(
-  "1-1" = "#eddcc1",
-  "2-1" = "#d4aa92",
-  "3-1" = "#bb7964",
-  "1-2" = "#909992",
-  "2-2" = "#81766f",
-  "3-2" = "#71544c",
-  "1-3" = "#375a66",
-  "2-3" = "#31464d",
-  "3-3" = "#2b3135"
-) |> 
-  gather("group", "fill") |> 
-  arrange(group)
-
-uni_colors <- c(codec_colors()[1], "#567D91", "#789BAC", "#9FBAC8", "#CCDCE3", "#F6EDDE")
-
+  codec_bi_pal <- c(
+    "1-1" = "#eddcc1",
+    "2-1" = "#d4aa92",
+    "3-1" = "#bb7964",
+    "1-2" = "#909992",
+    "2-2" = "#81766f",
+    "3-2" = "#71544c",
+    "1-3" = "#375a66",
+    "2-3" = "#31464d",
+    "3-3" = "#2b3135"
+  )
+  
+  codec_bi_pal_2 <- tibble(
+    "1-1" = "#eddcc1",
+    "2-1" = "#d4aa92",
+    "3-1" = "#bb7964",
+    "1-2" = "#909992",
+    "2-2" = "#81766f",
+    "3-2" = "#71544c",
+    "1-3" = "#375a66",
+    "2-3" = "#31464d",
+    "3-3" = "#2b3135"
+  ) |> 
+    gather("group", "fill") |> 
+    arrange(group)
+  
+  uni_colors <- c(codec_colors()[1], "#567D91", "#789BAC", "#9FBAC8", "#CCDCE3", "#F6EDDE")
+  
 }
 
 
 ##----
 
 ex_card <- card(
-  card_header("Bivariate Map",
+  card_header("CoDEC Explorer",
               actionBttn('legend_modal',
                          style = "material-circle",
                          #color = "primary",
@@ -195,7 +200,14 @@ ex_card <- card(
         
         checkboxGroupInput(inputId = "sel_dpkgs",
                            label = strong("Select the CoDEC data packages you would like to include:"),
-                           choices = names(dpkgs),
+                           choiceValues = names(dpkgs),
+                           choiceNames = 
+                             c("Environmental Justice Index",
+                               "Harmonized Historical ACS Measures", 
+                               "Drivetime", 
+                               "Landcover",
+                               "Parcel",
+                               "Traffic"),
                            selected = c("hh_acs_measures")),
         layout_column_wrap(
           width = 1/2,
@@ -209,7 +221,6 @@ ex_card <- card(
                                    label = "Univariate view",
                                    status = "primary") |> 
           tagAppendAttributes(style = "float: right"),
-        hr(),
         uiOutput('badge_table'),
         hr(),
         width = '18%'
@@ -238,22 +249,29 @@ ui <- page_fillable(
 
 server <- function(input, output, session) {
   
+   d <- reactive({
 
-  
-  d <- reactive({
-    d
-  })
-    #----
-  #   
-  #   if (input$sel_geo == 'tract') {
-  #     geo_option <- cincy::tract_tigris_2010
-  #   } else if (input$sel_geo == 'zcta') {
-  #     geo_option <- cincy::zcta_tigris_2010
-  #   } else {
-  #     geo_option <- cincy::neigh_cchmc_2010
-  #   }
-  #   
-  #   
+     if (input$sel_geo == 'zcta') {
+       d <- d_all |> 
+         cincy::interpolate(to = cincy::zcta_tigris_2010)
+     } else if (input$sel_geo == 'neighborhood') {
+       d <- d_all |> 
+         cincy::interpolate(to = cincy::neigh_cchmc_2010)
+     } else {
+       d <- d_all
+     }
+     
+     #colnames(d)[1] <- 'geo_index'
+     
+     d <-
+       d |>
+       dplyr::rename("geo_index" = 1) |> 
+       sf::st_as_sf() |>
+       sf::st_transform(crs = sf::st_crs(d))
+     
+   })
+     
+  # ----
   #   temp <-
   #     purrr::map(
   #       codec_data_installed,
@@ -262,17 +280,17 @@ server <- function(input, output, session) {
   #     ) |>
   #     purrr::set_names(codec_data_installed)
   # 
-  #   
+  # 
   #   if(input$sel_geo == 'tract') {
   #     temp$hh_acs_measures <- filter(as.data.frame(temp$hh_acs_measures), year == 2019)
   #   }
-  #   
-  #   d <- 
-  #     temp |> 
+  # 
+  #   d <-
+  #     temp |>
   #     purrr::map(tibble::as_tibble) |>
-  #     purrr::map(select, -year) |> 
+  #     purrr::map(select, -year) |>
   #     purrr::reduce(inner_join)
-  #   
+  # 
   #   if (input$sel_geo == 'tract') {
   #     d <- d |> left_join(cincy::tract_tigris_2010)
   #   } else if (input$sel_geo == 'zcta') {
@@ -280,15 +298,15 @@ server <- function(input, output, session) {
   #   } else {
   #     d <- d |> left_join(cincy::neigh_cchmc_2010)
   #   }
-  #   
+  # 
   #   colnames(d)[1] <- 'geo_index'
-  #   
-  #   d <- 
-  #     d |> 
-  #     sf::st_as_sf() |> 
-  #     sf::st_transform(crs = sf::st_crs(d_all))
-  #   
-  #   
+  # 
+  #   d <-
+  #     d |>
+  #     sf::st_as_sf() |>
+  #     sf::st_transform(crs = sf::st_crs(d))
+  # 
+  # 
   # })
     #----
 
@@ -310,12 +328,24 @@ server <- function(input, output, session) {
     
   })
   
+  d_avail_vars <- reactive({
+    
+    vars <- unlist(purrr::map(d_sel_dpkgs(), colnames)) 
+    
+    vars <- vars[!vars %in% c('census_tract_id_2010', 'year')]
+    
+    named_vars <- set_names(vars, str_to_title(str_replace_all(vars, "_", " ")))
+    
+    
+  })
+  
+  #tools::toTitleCase(str_replace_all(names(dpkgs), "_", " ")),
   
   
   output$x_sel <- renderUI({
     shinyWidgets::pickerInput(inputId = 'x',
                               label = "X Variable",
-                              choices = purrr::map(d_sel_dpkgs, colnames),
+                              choices = d_avail_vars(),
                               multiple = FALSE,
                               selected = 'prcnt_poverty',
                               options = pickerOptions(
@@ -327,9 +357,9 @@ server <- function(input, output, session) {
   output$y_sel <- renderUI({
     shinyWidgets::pickerInput(inputId = 'y',
                               label = "Y Variable", 
-                              choices = purrr::map(d_sel_dpkgs, colnames),
+                              choices = d_avail_vars(),
                               multiple = FALSE,
-                              selected = 'walkability_index_epa',
+                              selected = 'median_home_value',
                               options = pickerOptions(
                                 liveSearch = TRUE
                               ))
@@ -337,48 +367,53 @@ server <- function(input, output, session) {
   
   
   
-  # xvar <- reactive({
-  #   req(input$x)
-  #   
-  #   xvar <- md |> 
-  #     filter(title == input$x) |> 
-  #     pull(name)
-  #   
-  #   xvar
-  #   
-  # })
-  # 
-  # yvar <- reactive({
-  #   req(input$y)
-  #   
-  #   yvar <- md |> 
-  #     filter(title == input$y) |> 
-  #     pull(name)
-  #   
-  #   yvar
-  #   
-  # })
+  xvar <- reactive({
+    req(input$x)
+
+    # xvar <- md |>
+    #   filter(title == input$x) |>
+    #   pull(name)
+    
+    #go here to insert full name of variable
+
+    xvar <- input$x
+
+  })
+
+  yvar <- reactive({
+    req(input$y)
+# 
+#     yvar <- md |>
+#       filter(title == input$y) |>
+#       pull(name)
+
+    yvar <- input$y
+
+  })
   
   output$badge_table <- renderUI({
     req(d_sel_dpkgs)
     
     badges |>
-      dplyr::filter(dpkgs %in% names(d_sel_dpkgs)) |>
+      dplyr::filter(dpkgs %in% names(d_sel_dpkgs())) |>
       gt::gt() |>
+      gt::tab_header(
+        title = "Links to data package READMEs") |> 
+      gt::tab_options(column_labels.hidden = TRUE) |> 
       gt::fmt_markdown()
     
   })
 
   
   observeEvent(input$select_all, {
-    updateCheckboxGroupInput(inputId = 'core', selected = core_titles$title)
+    updateCheckboxGroupInput(inputId = 'sel_dpkgs', selected = names(dpkgs))
     
   })
   
   
   observeEvent(input$deselect_all, {
     
-    updateCheckboxGroupInput(inputId = 'core', selected = "")
+    updateCheckboxGroupInput(inputId = 'sel_dpkgs', selected = "")
     
   })
   
@@ -390,8 +425,8 @@ server <- function(input, output, session) {
     if (input$univariate_switch == F) {
       
       
-      bins_x <- pull(d(), xvar())
-      bins_y <- pull(d(), yvar())
+      bins_x <- pull(d(), input$x)
+      bins_y <- pull(d(), input$y)
       
       bins_x <- classInt::classIntervals(bins_x, n = 3, style = "quantile")
       bins_y <- classInt::classIntervals(bins_y, n = 3, style = "quantile")
@@ -401,9 +436,9 @@ server <- function(input, output, session) {
       
       # cut into groups defined above
       out <- d() |> 
-        mutate(bi_x = cut(get(xvar()), breaks = bins_x, include.lowest = TRUE))
+        mutate(bi_x = cut(get(input$x), breaks = bins_x, include.lowest = TRUE))
       out <- out |> 
-        mutate(bi_y = cut(get(yvar()), breaks = bins_y, include.lowest = TRUE))
+        mutate(bi_y = cut(get(input$y), breaks = bins_y, include.lowest = TRUE))
       out <- out|> 
         mutate(bi_class = paste0(as.numeric(bi_x), "-", as.numeric(bi_y)))
       
@@ -416,7 +451,7 @@ server <- function(input, output, session) {
                                                                        "1-2","2-2","3-2",
                                                                        "1-3","2-3","3-3")))
       
-      out <- sf::st_transform(out, crs = sf::st_crs(d_all))
+      out <- sf::st_transform(out, crs = sf::st_crs(d()))
       
       map <- 
         leaflet(out) |>
@@ -430,7 +465,7 @@ server <- function(input, output, session) {
       map  
     } else {
       
-      bins_x <- pull(d(), xvar())
+      bins_x <- pull(d(), input$x)
       
       bins_x <- classInt::classIntervals(bins_x, n = 6, style = "quantile")
       
@@ -438,17 +473,17 @@ server <- function(input, output, session) {
       
       # cut into groups defined above
       out <- d() |> 
-        mutate(bi_x = cut(get(xvar()), breaks = bins_x, include.lowest = TRUE)) |> 
+        mutate(bi_x = cut(get(input$x), breaks = bins_x, include.lowest = TRUE)) |> 
         mutate(x_class = paste0(as.numeric(bi_x)))
       
       out <- out |> 
         mutate(out_lab = paste(geo_index, "<br>",
-                               xvar(), ": ", round(get(xvar()),2)))
+                               xvar(), ": ", round(get(input$x),2)))
       
       pal <- colorFactor(uni_colors, factor(out$x_class, levels = c("1", "2", "3",
                                                                     "4", "5", "6")))
       
-      out <- sf::st_transform(out, crs = sf::st_crs(d_all))
+      out <- sf::st_transform(out, crs = sf::st_crs(d()))
       
       map <- 
         leaflet(out) |> 
@@ -471,8 +506,8 @@ server <- function(input, output, session) {
     if (input$univariate_switch == F) {
       
       
-      bins_x <- pull(d(), xvar())
-      bins_y <- pull(d(), yvar())
+      bins_x <- pull(d(), input$x)
+      bins_y <- pull(d(), input$y)
       
       bins_x <- classInt::classIntervals(bins_x, n = 3, style = "quantile")
       bins_y <- classInt::classIntervals(bins_y, n = 3, style = "quantile")
@@ -482,13 +517,13 @@ server <- function(input, output, session) {
       
       # cut into groups defined above
       out_scat <- d() |> 
-        mutate(bi_x = cut(get(xvar()), breaks = bins_x, include.lowest = TRUE, labels = c("1", "2", "3")))
+        mutate(bi_x = cut(get(input$x), breaks = bins_x, include.lowest = TRUE, labels = c("1", "2", "3")))
       out_scat <- out_scat |> 
-        mutate(bi_y = cut(get(yvar()), breaks = bins_y, include.lowest = TRUE, labels = c("1", "2", "3")))
+        mutate(bi_y = cut(get(input$y), breaks = bins_y, include.lowest = TRUE, labels = c("1", "2", "3")))
       out_scat <- out_scat |> 
         mutate(bi_class = paste0(as.numeric(bi_x), "-", as.numeric(bi_y)))
       
-      scatter_panels <- ggplot(out_scat, aes_string(x = xvar(), y = yvar())) +
+      scatter_panels <- ggplot(out_scat, aes_string(x = input$x, y = input$y)) +
         annotate("rect", 
                  xmin = -Inf, xmax = bins_x[2],  
                  ymin = -Inf, ymax = bins_y[2],
@@ -537,7 +572,7 @@ server <- function(input, output, session) {
       
       
       scat <- scatter_panels +
-        geom_point_interactive(data = d(), aes_string(x = xvar(), y = yvar(),
+        geom_point_interactive(data = d(), aes_string(x = input$x, y = input$y,
                                                       data_id = "geo_index"), 
                                fill = codec_colors()[7], 
                                alpha = .8,
@@ -551,13 +586,13 @@ server <- function(input, output, session) {
         labs(x = paste0(input$x), y = paste0(input$y))
       
       hist1 <- ggplot(d()) +
-        geom_histogram_interactive(aes_string(x = xvar(), tooltip = "geo_index", 
+        geom_histogram_interactive(aes_string(x = input$x, tooltip = "geo_index", 
                                               data_id = "geo_index"), 
                                    fill = codec_colors()[2], bins = 20, color = codec_colors()[3]) +
         theme_minimal()
       
       hist2 <- ggplot(d()) +
-        geom_histogram_interactive(aes_string(x = yvar(), tooltip = "geo_index", 
+        geom_histogram_interactive(aes_string(x = input$y, tooltip = "geo_index", 
                                               data_id = "geo_index"), 
                                    fill = codec_colors()[2], bins = 20, color = codec_colors()[3]) +
         coord_flip() + 
@@ -578,7 +613,7 @@ server <- function(input, output, session) {
       
       gir_join
     } else {
-      bins_x <- pull(d(), xvar())
+      bins_x <- pull(d(), input$x)
       
       bins_x <- classInt::classIntervals(bins_x, n = 6, style = "quantile")
       
@@ -586,7 +621,7 @@ server <- function(input, output, session) {
       
       # cut into groups defined above
       out_scat <- d() |> 
-        mutate(bi_x = cut(get(xvar()), breaks = bins_x, include.lowest = TRUE)) |> 
+        mutate(bi_x = cut(get(input$x), breaks = bins_x, include.lowest = TRUE)) |> 
         mutate(x_class = paste0(as.numeric(bi_x)))
       
       scatter_panels <- ggplot(out_scat, aes_string(x = xvar())) +
@@ -622,7 +657,7 @@ server <- function(input, output, session) {
                  fill = "#F6EDDE") 
       
       scat <- scatter_panels +
-        geom_histogram_interactive(d(), mapping = aes_string(x = xvar(), tooltip = "geo_index",
+        geom_histogram_interactive(d(), mapping = aes_string(x = input$x, tooltip = "geo_index",
                                                              data_id = "geo_index"),
                                    bins = 20,
                                    alpha = .6,
@@ -686,8 +721,8 @@ server <- function(input, output, session) {
                                                                        "1-2","2-2","3-2",
                                                                        "1-3","2-3","3-3")))
       
-      out <- sf::st_transform(out, crs = sf::st_crs(d_all))
-      d_scat_click <- sf::st_transform(d_scat_click, crs = sf::st_crs(d_all))
+      out <- sf::st_transform(out, crs = sf::st_crs(d()))
+      d_scat_click <- sf::st_transform(d_scat_click, crs = sf::st_crs(d()))
       
       map <- 
         leafletProxy("map", data = out) |> 
@@ -757,7 +792,7 @@ server <- function(input, output, session) {
     
     
     click <- tibble(lng = map_click$lng, lat = map_click$lat) |> 
-      sf::st_as_sf(coords= c('lng', 'lat'), crs = sf::st_crs(d_all))
+      sf::st_as_sf(coords= c('lng', 'lat'), crs = sf::st_crs(d()))
     
     d_selected <- d() |> 
       sf::st_join(click, left = FALSE)
