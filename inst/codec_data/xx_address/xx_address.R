@@ -11,7 +11,7 @@ library(geoarrow)
 options(arrow.unsafe_metadata = TRUE)
 
 crime_incidents <-
-  dpkg::stow("https://github.com/geomarker-io/xx_address/releases/download/crime_incidents-v0.1.1/crime_incidents-v0.1.1.parquet") |>
+  dpkg::stow("gh://geomarker-io/xx_address/crime_incidents-v0.1.1") |>
   arrow::read_parquet() |>
   mutate(geometry = sf::st_as_sfc(geometry)) |>
   st_as_sf(crs = 4326) |>
