@@ -31,7 +31,7 @@ crime_incidents <-
   )
 
 shotspotter <-
-  dpkg::stow("https://github.com/geomarker-io/xx_address/releases/download/shotspotter-v0.1.1/shotspotter-v0.1.1.parquet") |>
+  dpkg::stow("gh://geomarker-io/xx_address/shotspotter-v0.1.1") |>
   arrow::read_parquet() |>
   mutate(geometry = sf::st_as_sfc(geometry)) |>
   st_as_sf(crs = 4326) |>
