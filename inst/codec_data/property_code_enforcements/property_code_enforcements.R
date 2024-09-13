@@ -39,8 +39,27 @@ property_code_enforcements <-
   left_join(addr_per_tract, by = "census_tract_id_2010") |>
   mutate(violations_per_addr = n_violations/n_addr)
 
+all_tracts <- 
+  cincy::tract_tigris_2010 |>
+  sf::st_drop_geometry() |>
+  as_tibble() |>
+  mutate(date = list(seq.Date(
+    from = as.Date("2001-04-01"), 
+    to = as.Date("2024-07-01"), 
+    by = "month"
+  ))) |>
+  tidyr::unnest(cols = c(date)) |>
+  mutate(
+    year = lubridate::year(date), 
+    month = lubridate::month(date)
+  ) |>
+  select(-date)
+
 out_dpkg <-
-  property_code_enforcements |>
+  left_join(
+    all_tracts, 
+    property_code_enforcements, 
+    by = c("census_tract_id_2010", "year", "month")) |>
   as_codec_dpkg(
     name = "property_code_enforcements",
     version = "0.1.0",
