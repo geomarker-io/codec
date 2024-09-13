@@ -47,11 +47,25 @@ shotspotter <-
   tally() |>
   rename(gunshots = n)
 
+all_tracts <- 
+  cincy::tract_tigris_2010 |>
+  st_drop_geometry() |>
+  as_tibble() |>
+  mutate(date = list(seq.Date(
+    from = as.Date("2011-01-01"), 
+    to = as.Date("2024-06-01"), 
+    by = "month"
+  ))) |>
+  tidyr::unnest(cols = c(date)) |>
+  mutate(
+    year = lubridate::year(date), 
+    month = lubridate::month(date)
+  ) |>
+  select(-date)
+
 d_out <-
-  full_join(
-    crime_incidents, 
-    shotspotter, 
-    by = c("census_tract_id_2010", "year", "month")) |>
+  left_join(all_tracts, crime_incidents, by = c("census_tract_id_2010", "year", "month")) |>
+  left_join(shotspotter, by = c("census_tract_id_2010", "year", "month")) |>
   mutate(
     across(c(property, violent, other, gunshots), 
     \(x) ifelse(is.na(x), 0, x))) |>
