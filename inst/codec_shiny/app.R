@@ -11,84 +11,13 @@ library(shinyWidgets)
 library(leaflet)
 library(sf)
 
- if (tryCatch(read.dcf("DESCRIPTION")[1, "Package"] == "codec", finally = FALSE)) {
+ if (tryCatch(read.dcf("../../DESCRIPTION")[1, "Package"] == "codec", finally = FALSE)) {
    devtools::load_all()
  } else {
    library(codec)
  }
 
 {
-  #----
-# codec_data_installed <-
-#   fs::path_package("codec") |>
-#   fs::path("codec_data") |>
-#   fs::dir_ls() |>
-#   fs::path_file()
-# 
-# codec_data_geography <- cincy::tract_tigris_2010
-# codec_data_geography_name <- names(codec_data_geography)[[1]]
-# 
-# d_prep <-
-#   purrr::map(
-#     codec_data_installed,
-#     \(x) codec::codec_data(name = x, geography = codec_data_geography),
-#     .progress = "interpolating codec data"
-#   ) |>
-#   purrr::set_names(codec_data_installed) 
-# 
-# 
-# 
-# core_titles <- 
-#   purrr::map(d_prep, as.list) |>
-#   purrr::map(\(x) purrr::pluck(x, "name")) |> #just use the core names here
-#   purrr::map(tibble::as_tibble) |> 
-#  # purrr::map(\(x) replace_na(x, purrr::pluck(x, "name"))) 
-#   bind_rows() |> 
-#   #tibble::add_row(value = "Hamilton County Drivetime", .after = 1) |> #hacky workaround to get drivetime in, give it a title
-#   rename(name = "value")# |> 
-#   #mutate(core_name = codec_data_installed)
-# 
-# drop_na_cols <- function(df){
-#   select(df, \(x) !all(is.na(x)))
-# }
-# 
-# schema_names <- d_prep |> 
-#   purrr::map_df(\(x) as.data.frame(x), .id = "schema_name") |> 
-#   select(-year, -census_tract_id_2010) |> 
-#   group_by(schema_name) |> 
-#   group_split() |> 
-#   purrr::map(tibble::as_tibble) |> 
-#   purrr::map(slice_head) |> 
-#   purrr::map(\(x) drop_na_cols(x)) |> 
-#   map(\(x) pivot_longer(x, cols = 2:last_col())) |> 
-#   bind_rows() |> 
-#   select(-value)
-# 
-# md <-
-#   purrr::map(d_prep, as.list) |>
-#   purrr::map(\(x) purrr::pluck(x, "schema", "fields")) |> 
-#   purrr::flatten() |> 
-#   purrr::map(tibble::as_tibble) |> 
-#   bind_rows() |> 
-#   filter(!name == 'year' & !type == 'string') |> 
-#   left_join(schema_names, by = 'name') |> 
-#   mutate(title = coalesce(title, name),
-#          description = replace_na(description, "No description available"))
-# 
-# d_prep$hh_acs_measures <- filter(as.data.frame(d_prep$hh_acs_measures), year == 2019)
-# 
-# d_all <- 
-#   d_prep |> 
-#   purrr::map(tibble::as_tibble) |>
-#   purrr::map(select, -year) |> 
-#   purrr::reduce(inner_join)
-# 
-# d_all <- 
-#   d_all |> 
-#   left_join(cincy::tract_tigris_2010 , by = 'census_tract_id_2010') |> 
-#   sf::st_as_sf() |> 
-#   sf::st_transform(4326)
-  #----
   dpkgs <-
     list(
       environmental_justice_index =
@@ -266,9 +195,7 @@ server <- function(input, output, session) {
      } else {
        d <- d_all
      }
-     
-     #colnames(d)[1] <- 'geo_index'
-     
+
      d <-
        d |>
        dplyr::rename("geo_index" = 1) |> 
@@ -277,45 +204,6 @@ server <- function(input, output, session) {
      
    })
      
-  # ----
-  #   temp <-
-  #     purrr::map(
-  #       codec_data_installed,
-  #       \(x) codec::codec_data(name = x, geography = geo_option),
-  #       .progress = "interpolating codec data"
-  #     ) |>
-  #     purrr::set_names(codec_data_installed)
-  # 
-  # 
-  #   if(input$sel_geo == 'tract') {
-  #     temp$hh_acs_measures <- filter(as.data.frame(temp$hh_acs_measures), year == 2019)
-  #   }
-  # 
-  #   d <-
-  #     temp |>
-  #     purrr::map(tibble::as_tibble) |>
-  #     purrr::map(select, -year) |>
-  #     purrr::reduce(inner_join)
-  # 
-  #   if (input$sel_geo == 'tract') {
-  #     d <- d |> left_join(cincy::tract_tigris_2010)
-  #   } else if (input$sel_geo == 'zcta') {
-  #     d <- d |> left_join(cincy::zcta_tigris_2010)
-  #   } else {
-  #     d <- d |> left_join(cincy::neigh_cchmc_2010)
-  #   }
-  # 
-  #   colnames(d)[1] <- 'geo_index'
-  # 
-  #   d <-
-  #     d |>
-  #     sf::st_as_sf() |>
-  #     sf::st_transform(crs = sf::st_crs(d))
-  # 
-  # 
-  # })
-    #----
-
   
   observeEvent(input$univariate_switch, {
     
@@ -345,8 +233,6 @@ server <- function(input, output, session) {
     
   })
   
-  #tools::toTitleCase(str_replace_all(names(dpkgs), "_", " ")),
-  
   
   output$x_sel <- renderUI({
     shinyWidgets::pickerInput(inputId = 'x',
@@ -370,32 +256,7 @@ server <- function(input, output, session) {
                                 liveSearch = TRUE
                               ))
   })
-  
-  
-  # 
-  # xvar <- reactive({
-  #   req(input$x)
-  # 
-  #   # xvar <- md |>
-  #   #   filter(title == input$x) |>
-  #   #   pull(name)
-  #   
-  #   #go here to insert full name of variable
-  # 
-  #   xvar <- input$x
-  # 
-  # })
 
-#   yvar <- reactive({
-#     req(input$y)
-# # 
-# #     yvar <- md |>
-# #       filter(title == input$y) |>
-# #       pull(name)
-# 
-#     yvar <- input$y
-# 
-#   })
   
   output$badge_table <- renderUI({
     req(d_sel_dpkgs)
