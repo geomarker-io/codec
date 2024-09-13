@@ -1,4 +1,3 @@
-library(codec)
 library(fr)
 library(shiny)
 library(cincy)
@@ -12,7 +11,11 @@ library(shinyWidgets)
 library(leaflet)
 library(sf)
 
-devtools::load_all()
+ if (tryCatch(read.dcf("DESCRIPTION")[1, "Package"] == "codec", finally = FALSE)) {
+   devtools::load_all()
+ } else {
+   library(codec)
+ }
 
 {
   #----
@@ -186,6 +189,7 @@ ex_card <- card(
                                          status = "primary") |> 
                 tagAppendAttributes(style = "float: right"),
   ),
+  card_footer(paste0("Built on CoDEC version ", packageVersion("codec"))),
   layout_sidebar(
     fillable = TRUE,
     sidebar = 
