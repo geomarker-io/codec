@@ -10,12 +10,8 @@ library(ggExtra)
 library(shinyWidgets)
 library(leaflet)
 library(sf)
+library(codec)
 
- if (tryCatch(read.dcf("../../DESCRIPTION")[1, "Package"] == "codec", finally = FALSE)) {
-   devtools::load_all()
- } else {
-   library(codec)
- }
 
 {
   dpkgs <-
