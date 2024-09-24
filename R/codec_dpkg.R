@@ -1,6 +1,6 @@
 #' Read a dpkg from the public CoDEC repository into R
 #'
-#' Public data packages are downloaded from `gh://geomarker-io/codec/` using 
+#' Public data packages are downloaded from `gh://geomarker-io/codec/` using
 #' `dpkg::stow()` to cache a local copy in the user's data directory.
 #' @param codec_dpkg name of CoDEC dpkg
 #' @param overwrite logical; re-download the remote file even though
@@ -10,10 +10,46 @@
 #' @examples
 #' get_codec_dpkg("drivetime-v0.2.2")
 get_codec_dpkg <- function(codec_dpkg, overwrite = FALSE) {
-  paste0("gh://geomarker-io/codec/", codec_dpkg) |>
+  out <-
+    paste0("gh://geomarker-io/codec/", codec_dpkg) |>
     dpkg::stow(overwrite = overwrite) |>
     dpkg::read_dpkg()
+  return(out)
 }
+
+
+#' Convert a CoDEC dpkg into an sf object
+#'
+#' The required census tract identifier column name is used to merge in tract geographies
+#' from the [cincy](https://geomarker.io/cincy) package.
+#'
+#' @param x a CoDEC dpkg
+#' @returns an `sf` object that is a codec dpkg with an added `geometry` column
+#' @export
+#' @examples
+#' get_codec_dpkg("drivetime-v0.2.2") |>
+#'   codec_dpkg_as_sf()
+codec_dpkg_as_sf <- function(x) {
+  x <- as_codec_dpkg(x,
+    name = attr(x, "name"),
+    version = attr(x, "version"),
+    title = attr(x, "title"),
+    description = attr(x, "description"),
+    homepage = attr(x, "homepage")
+  )
+  census_tract_id_names <- paste0("census_tract_id", c("_2000", "_2010", "_2020"))
+  census_tract_id_name <- census_tract_id_names[census_tract_id_names %in% names(x)]
+  census_tract_id_year <- stringr::str_extract(census_tract_id_name, "[0-9]+")
+  census_tract_geo <-
+    parse(text = paste0("cincy::tract_tigris_", census_tract_id_year)) |>
+    eval()
+  rlang::check_installed("sf", "return sf objects")
+  out <-
+    dplyr::left_join(x, census_tract_geo, by = census_tract_id_name) |>
+    sf::st_as_sf()
+  return(out)
+}
+
 
 #' as_codec_dpkg
 #'
@@ -28,7 +64,7 @@ get_codec_dpkg <- function(codec_dpkg, overwrite = FALSE) {
 #' 2. The data includes a year column (`year`), an integer year representing the
 #' vintage of the data (e.g. `2021`).
 #' The data can optionally include a month column (`month`), an integer month of the year.
-#' 
+#'
 #' Data must be structured in a tidy format such that each row is an observation
 #' for a specific census tract at a specific year (and month).
 #'

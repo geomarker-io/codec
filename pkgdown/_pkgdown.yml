@@ -32,6 +32,7 @@ reference:
   - title: Accessing CoDEC data
     contents:
     - get_codec_dpkg
+    - codec_dpkg_as_sf
   - title: Creating CoDEC data
     contents:
     - as_codec_dpkg
