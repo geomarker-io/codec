@@ -18,17 +18,18 @@ get_codec_dpkg <- function(codec_dpkg, overwrite = FALSE) {
 }
 
 
-#' Add a simple features geometry column to a CoDEC data package
+#' Convert a CoDEC dpkg into an sf object
 #'
 #' The required census tract identifier column name is used to merge in tract geographies
 #' from the [cincy](https://geomarker.io/cincy) package.
 #'
-#' @param x a codec data package
-#' @returns a codec data package with an additional simple features geometry column
+#' @param x a CoDEC dpkg
+#' @returns an `sf` object that is a codec dpkg with an added `geometry` column
+#' @export
 #' @examples
 #' get_codec_dpkg("drivetime-v0.2.2") |>
-#'   codec_dpkg_add_geog()
-codec_dpkg_add_geog <- function(x) {
+#'   codec_dpkg_as_sf()
+codec_dpkg_as_sf <- function(x) {
   x <- as_codec_dpkg(x,
     name = attr(x, "name"),
     version = attr(x, "version"),
