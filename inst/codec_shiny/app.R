@@ -17,29 +17,40 @@ library(codec)
   dpkgs <-
     list(
       environmental_justice_index =
-        get_codec_dpkg("environmental_justice_index-v0.1.0"),
+        get_codec_dpkg("environmental_justice_index-v0.1.0")|> 
+        select(-year),
       hh_acs_measures =
         get_codec_dpkg("hh_acs_measures-v0.0.1") |>
         dplyr::left_join(cincy::tract_tigris_2020, by = "census_tract_id_2020") |>
         st_as_sf() |>
         interpolate(cincy::tract_tigris_2010) |>
         st_drop_geometry() |>
-        tibble::as_tibble(),
+        tibble::as_tibble()|> 
+        select(-year),
       drivetime =
-        get_codec_dpkg("drivetime-v0.2.2"),
+        get_codec_dpkg("drivetime-v0.2.2")|> 
+        select(-year),
       landcover =
-        get_codec_dpkg("landcover-v0.1.0"),
+        get_codec_dpkg("landcover-v0.1.0")|> 
+        select(-year),
       parcel = 
-        get_codec_dpkg("parcel-v0.1.0"),
+        get_codec_dpkg("parcel-v0.1.0")|> 
+        select(-year) |> 
+        rename(n_parcel_violations = "n_violations"),
       traffic =
         get_codec_dpkg("traffic-v0.1.2") |>
         dplyr::left_join(cincy::tract_tigris_2020, by = "census_tract_id_2020") |>
         st_as_sf() |>
         interpolate(cincy::tract_tigris_2010) |>
         st_drop_geometry() |>
-        tibble::as_tibble()#,
-    #  property_code_enforcements = 
-     #   get_codec_dpkg("property_code_enforcements-v0.1.0")
+        tibble::as_tibble() |> 
+        select(-year),
+      property_code_enforcements = 
+        get_codec_dpkg("property_code_enforcements-v0.1.0") |> 
+        slice_max(year, by = census_tract_id_2010) |> 
+        slice_max(month, by = census_tract_id_2010) |> 
+        select(-year, -month) |> 
+        rename(n_property_violations = "n_violations")
     )
   
   tracts_sf <- cincy::tract_tigris_2010
@@ -85,9 +96,9 @@ library(codec)
         parcel = 
           get_codec_dpkg("parcel-v0.1.0"),
         traffic =
-          get_codec_dpkg("traffic-v0.1.2")
-        #property_code_enforcements = 
-          #get_codec_dpkg("property_code_enforcements-v0.1.0")
+          get_codec_dpkg("traffic-v0.1.2"),
+        property_code_enforcements = 
+          get_codec_dpkg("property_code_enforcements-v0.1.0")
         ) |> 
         purrr::map_chr(get_badge),
         
@@ -173,7 +184,8 @@ ex_card <- card(
                                "Drivetime", 
                                "Landcover",
                                "Parcel",
-                               "Traffic"),
+                               "Traffic",
+                               "Property Code Enforcements"),
                            selected = c("hh_acs_measures")),
         
         layout_column_wrap(
