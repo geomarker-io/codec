@@ -129,7 +129,12 @@ library(codec)
 ##----
 
 ex_card <- card(
-  card_header("CoDEC Explorer",
+  card_header(
+              div(img(src = "logo.svg", 
+                      width = "50px", height = "auto", style = "float: left")),
+              
+              h4(strong("CoDEC Explorer"), style = "float: left; margin-left: 10px; margin-top: 15px;"),
+              
               actionBttn('legend_modal',
                          style = "material-circle",
                          #color = "primary",
@@ -137,7 +142,7 @@ ex_card <- card(
                          size = 'xs',
                          block = FALSE,
                          icon = icon("question-circle")) |> 
-                tagAppendAttributes(style = "color: #C28273; background-color: #FFFFFF"),
+                tagAppendAttributes(style = "color: #C28273; background-color: #FFFFFF; float: right"),
               
               shinyWidgets::prettySwitch("big_plot",
                                          label = "Enlarge scatter plot",
@@ -149,14 +154,10 @@ ex_card <- card(
                                          status = "primary") |> 
                 tagAppendAttributes(style = "float: right")
   ),
-  card_footer(paste0("Built on CoDEC version ", packageVersion("codec"))),
   layout_sidebar(
     fillable = TRUE,
     sidebar = 
       sidebar(
-        div(img(src = "logo.svg", 
-                width = "125px", height = "auto", style = "display: block; margin-left: auto; margin-right: auto;")),
-        hr(),
         radioButtons(inputId = "sel_geo",
                      label = strong("Select your", a("geographic unit:", href = "https://geomarker.io/cincy/articles/geographies.html", target = "_blank")),
                      choiceNames = c("Census Tract", "Zip Code Tabulation Area", "Neighborhood"),
@@ -187,17 +188,17 @@ ex_card <- card(
                        color = "primary",
                        width = "130px"),
         ),
-        hr(),
+        hr(style = "margin-top: 5px; margin-bottom: 5px;"),
         uiOutput("x_sel"),
         uiOutput("y_sel"),
         uiOutput('badge_table'),
-        hr(),
         width = '18%'
       ),
     leafletOutput("map"),
     uiOutput("plot_panel"),
     uiOutput("clear_button_panel")
-  )
+  ),
+  card_footer(paste0("Built on CoDEC version ", packageVersion("codec"))),
 )
 
 ui <- page_fillable(
