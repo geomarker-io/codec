@@ -37,7 +37,9 @@ library(codec)
         st_as_sf() |>
         interpolate(cincy::tract_tigris_2010) |>
         st_drop_geometry() |>
-        tibble::as_tibble()
+        tibble::as_tibble()#,
+    #  property_code_enforcements = 
+     #   get_codec_dpkg("property_code_enforcements-v0.1.0")
     )
   
   tracts_sf <- cincy::tract_tigris_2010
@@ -83,7 +85,12 @@ library(codec)
         parcel = 
           get_codec_dpkg("parcel-v0.1.0"),
         traffic =
-          get_codec_dpkg("traffic-v0.1.2")) |> purrr::map_chr(get_badge)
+          get_codec_dpkg("traffic-v0.1.2")
+        #property_code_enforcements = 
+          #get_codec_dpkg("property_code_enforcements-v0.1.0")
+        ) |> 
+        purrr::map_chr(get_badge),
+        
         
     )
   
@@ -136,6 +143,11 @@ ex_card <- card(
                                          label = "Enlarge scatter plot",
                                          status = "primary") |> 
                 tagAppendAttributes(style = "float: right"),
+              
+              shinyWidgets::prettySwitch("univariate_switch",
+                                         label = "Univariate view",
+                                         status = "primary") |> 
+                tagAppendAttributes(style = "float: right")
   ),
   card_footer(paste0("Built on CoDEC version ", packageVersion("codec"))),
   layout_sidebar(
@@ -170,10 +182,6 @@ ex_card <- card(
         hr(),
         uiOutput("x_sel"),
         uiOutput("y_sel"),
-        shinyWidgets::prettySwitch("univariate_switch",
-                                   label = "Univariate view",
-                                   status = "primary") |> 
-          tagAppendAttributes(style = "float: right"),
         uiOutput('badge_table'),
         hr(),
         width = '18%'
