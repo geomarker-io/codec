@@ -175,6 +175,7 @@ ex_card <- card(
                                "Parcel",
                                "Traffic"),
                            selected = c("hh_acs_measures")),
+        
         layout_column_wrap(
           width = 1/2,
           actionButton('select_all', 
@@ -260,17 +261,30 @@ server <- function(input, output, session) {
   
   d_avail_vars <- reactive({
     
+    if (is.null(input$sel_dpkgs)) {
+      sendSweetAlert(
+        session = session,
+        title = "No Selection",
+        text = "Please select at least one data package",
+        type = "warning"
+      )
+      
+    } else {
+    
     vars <- unlist(purrr::map(d_sel_dpkgs(), colnames)) 
     
     vars <- vars[!vars %in% c('census_tract_id_2010', 'year')]
     
     named_vars <- set_names(vars, str_to_title(str_replace_all(vars, "_", " ")))
-    
+    }
     
   })
   
   
   output$x_sel <- renderUI({
+    
+   
+    
     shinyWidgets::pickerInput(inputId = 'x',
                               label = "X Variable",
                               choices = d_avail_vars(),
@@ -283,6 +297,8 @@ server <- function(input, output, session) {
   })
   
   output$y_sel <- renderUI({
+    req(d_avail_vars())
+    
     shinyWidgets::pickerInput(inputId = 'y',
                               label = "Y Variable", 
                               choices = d_avail_vars(),
@@ -988,6 +1004,7 @@ server <- function(input, output, session) {
     map
     
   })
+  
   
   
   
