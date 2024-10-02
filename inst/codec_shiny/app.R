@@ -1,3 +1,10 @@
+if (tryCatch(read.dcf("../../DESCRIPTION")[1, "Package"] == "codec", finally = FALSE)) {
+  devtools::load_all()
+} else {
+  library(codec)
+}
+message("Using CoDEC, version ", packageVersion("codec"))
+
 library(fr)
 library(shiny)
 library(cincy)
