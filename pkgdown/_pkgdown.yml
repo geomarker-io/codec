@@ -13,23 +13,31 @@ template:
     code_font: {google: "Source Code Pro"}
 navbar:
   structure:
-    left:  [about, explore, reference]
+    left:  [about, data, harmonization, explore, reference]
   components:
    about:
     text: About
     href: index.html
+   harmonization:
+     text: Harmonization
+     href: articles/harmonization.html
    explore:
      text: Explore
      href: https://grapph.shinyapps.io/codec_shiny
+   data:
+     text: Data
+     href: articles/data.html
+
 reference:
-  - title: Developing CoDEC
-    contents:
-    - as_codec_dpkg
-    - codec_dpkg_s3_put
   - title: Accessing CoDEC data
     contents:
     - get_codec_dpkg
-  - title: CoDEC Resources
+    - codec_dpkg_as_sf
+  - title: Creating CoDEC data
+    contents:
+    - as_codec_dpkg
+    - codec_dpkg_s3_put
+  - title: CoDEC Developer Resources
     contents:
     - codec_colors
 

@@ -1,0 +1,20 @@
+---
+title: "Data"
+---
+
+## Public
+
+Several publicly available and community-maintained data sources have been adapted to integrate with the CoDEC specifications.
+Click the latest release badge for more information about the data package, including its source code and metadata.
+
+| | |
+|:-----:|:----|
+| Parcel Characteristics |[![latest github release for parcel dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=parcel-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=parcel&expanded=false)|
+| Property Code Enforcements |[![latest github release for property code enforcements dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=property_code_enforcements-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=property_code_enforcements&expanded=false)|
+| Crime |[![latest github release for xx_address dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=xx_address-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=xx_address&expanded=false)|
+| Average Drive Time to Cincinnati Children's |[![latest github release for drivetime dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=drivetime-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/CODECtools/releases?q=drivetime&expanded=false)|
+| Environmental Justice Index |[![latest github release for environmental_justice_index dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=environmental_justice_index-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=environmental_justice_index&expanded=false)|
+| Landcover, Built Environment, and Greenness |[![latest github release for landcover dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=landcover-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=landcover&expanded=false)|
+| Harmonized Historical American Community Survey Measures |[![latest github release for hh_acs_measures dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=hh_acs_measures-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=hh_acs_measures&expanded=false)|
+| Average Annual Daily Truck and Total Traffic Counts |[![latest github release for traffic dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=traffic-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=traffic&expanded=false)|
+
