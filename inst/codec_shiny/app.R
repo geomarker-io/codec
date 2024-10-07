@@ -172,43 +172,34 @@ ex_card <- card(
     fillable = TRUE,
     sidebar =
       sidebar(
-        radioButtons(
+        selectInput(
           inputId = "sel_geo",
-          label = strong("Select your", a("geographic unit:", href = "https://geomarker.io/cincy/articles/geographies.html", target = "_blank")),
-          choiceNames = c("Census Tract", "Zip Code Tabulation Area", "Neighborhood"),
-          choiceValues = c("tract", "zcta", "neighborhood"),
-          selected = "tract"
+          label = a("geography", href = "https://geomarker.io/cincy/articles/geographies.html", target = "_blank"),
+          choices = c(
+            "census tract" = "tract",
+            "ZCTA" = "zcta",
+            "neighborhood" = "neighborhood"
+          ),
+          selected = "tract",
+          selectize = TRUE,
+          width = "50%"
         ),
-        checkboxGroupInput(
+        selectInput(
           inputId = "sel_dpkgs",
-          label = strong("Select the CoDEC data packages you would like to include:"),
-          choiceValues = names(dpkgs),
-          choiceNames =
-            c(
-              "Environmental Justice Index",
-              "Harmonized Historical ACS Measures",
-              "Drivetime",
-              "Landcover",
-              "Parcel",
-              "Traffic",
-              "Property Code Enforcements"
-            ),
-          selected = c("hh_acs_measures")
-        ),
-        layout_column_wrap(
-          width = 1 / 2,
-          actionButton("select_all",
-            label = "Select All",
-            style = "fill",
-            color = "primary",
-            width = "120px"
-          ),
-          actionButton("deselect_all",
-            label = "Deselect All",
-            style = "fill",
-            color = "primary",
-            width = "130px"
-          ),
+          label = "CoDEC Data Packages:",
+          choices = setNames(names(dpkgs), c(
+            "Environmental Justice Index",
+            "Harmonized Historical ACS Measures",
+            "Drivetime",
+            "Landcover",
+            "Parcel",
+            "Traffic",
+            "Property Code Enforcements"
+          )),
+          selected = c("hh_acs_measures"),
+          multiple = TRUE,
+          selectize = FALSE,
+          size = 8
         ),
         hr(style = "margin-top: 5px; margin-bottom: 5px;"),
         uiOutput("x_sel"),
