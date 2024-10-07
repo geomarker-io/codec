@@ -67,48 +67,6 @@ d_all <-
   st_as_sf() |>
   st_transform(st_crs(4326))
 
-get_badge <- function(x) {
-  # if (!inherits(x, "dpkg")) rlang::abort("x must be a `dpkg` object`")
-  gh_owner <- "geomarker-io"
-  gh_repo <- "codec"
-
-  badge_src <- glue::glue(
-    "https://img.shields.io/github/v/release/",
-    "{gh_owner}/{gh_repo}",
-    "?sort=date&filter={attr(x, 'name')}-*",
-    "&display_name=tag",
-    "&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175"
-  )
-  badge_href <- glue::glue("https://github.com/{gh_owner}/{gh_repo}/releases?q={attr(x, 'name')}&expanded=false")
-  # rlang::check_installed("usethis", "insert markdown badges into README")
-  badge <- glue::glue("[![]({badge_src})]({badge_href})")
-
-  return(badge)
-}
-
-badges <-
-  tibble::tibble(
-    dpkgs = names(dpkgs),
-    badge = list(
-      environmental_justice_index =
-        get_codec_dpkg("environmental_justice_index-v0.1.0"),
-      hh_acs_measures =
-        get_codec_dpkg("hh_acs_measures-v0.0.1"),
-      drivetime =
-        get_codec_dpkg("drivetime-v0.2.2"),
-      landcover =
-        get_codec_dpkg("landcover-v0.1.0"),
-      parcel =
-        get_codec_dpkg("parcel-v0.1.0"),
-      traffic =
-        get_codec_dpkg("traffic-v0.1.2"),
-      property_code_enforcements =
-        get_codec_dpkg("property_code_enforcements-v0.1.0")
-    ) |>
-      purrr::map_chr(get_badge),
-  )
-
-
 codec_bi_pal <- c(
   "1-1" = "#eddcc1",
   "2-1" = "#d4aa92",
@@ -202,7 +160,6 @@ ex_card <- card(
         hr(style = "margin-top: 5px; margin-bottom: 5px;"),
         uiOutput("x_sel"),
         uiOutput("y_sel"),
-        uiOutput("badge_table"),
         width = "18%"
       ),
     leafletOutput("map"),
@@ -307,21 +264,6 @@ server <- function(input, output, session) {
       )
     )
   })
-
-
-  output$badge_table <- renderUI({
-    req(d_sel_dpkgs)
-
-    badges |>
-      dplyr::filter(dpkgs %in% names(d_sel_dpkgs())) |>
-      gt::gt() |>
-      gt::tab_header(
-        title = "Links to data package READMEs"
-      ) |>
-      gt::tab_options(column_labels.hidden = TRUE) |>
-      gt::fmt_markdown()
-  })
-
 
   observeEvent(input$select_all, {
     updateCheckboxGroupInput(inputId = "sel_dpkgs", selected = names(dpkgs))
