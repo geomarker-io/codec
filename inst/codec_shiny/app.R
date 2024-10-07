@@ -20,123 +20,121 @@ library(sf)
 library(codec)
 
 
-{
-  dpkgs <-
-    list(
-      environmental_justice_index =
-        get_codec_dpkg("environmental_justice_index-v0.1.0") |>
-          select(-year),
-      hh_acs_measures =
-        get_codec_dpkg("hh_acs_measures-v0.0.1") |>
-          dplyr::left_join(cincy::tract_tigris_2020, by = "census_tract_id_2020") |>
-          st_as_sf() |>
-          interpolate(cincy::tract_tigris_2010) |>
-          st_drop_geometry() |>
-          tibble::as_tibble() |>
-          select(-year),
-      drivetime =
-        get_codec_dpkg("drivetime-v0.2.2") |>
-          select(-year),
-      landcover =
-        get_codec_dpkg("landcover-v0.1.0") |>
-          select(-year),
-      parcel =
-        get_codec_dpkg("parcel-v0.1.0") |>
-          select(-year) |>
-          rename(n_parcel_violations = "n_violations"),
-      traffic =
-        get_codec_dpkg("traffic-v0.1.2") |>
-          dplyr::left_join(cincy::tract_tigris_2020, by = "census_tract_id_2020") |>
-          st_as_sf() |>
-          interpolate(cincy::tract_tigris_2010) |>
-          st_drop_geometry() |>
-          tibble::as_tibble() |>
-          select(-year),
-      property_code_enforcements =
-        get_codec_dpkg("property_code_enforcements-v0.1.0") |>
-          slice_max(year, by = census_tract_id_2010) |>
-          slice_max(month, by = census_tract_id_2010) |>
-          select(-year, -month) |>
-          rename(n_property_violations = "n_violations")
-    )
-
-  tracts_sf <- cincy::tract_tigris_2010
-
-  d_all <-
-    purrr::reduce(dpkgs, dplyr::left_join, by = "census_tract_id_2010", .init = tracts_sf) |>
-    tibble::as_tibble() |>
-    st_as_sf() |>
-    st_transform(st_crs(4326))
-
-  get_badge <- function(x) {
-    # if (!inherits(x, "dpkg")) rlang::abort("x must be a `dpkg` object`")
-    gh_owner <- "geomarker-io"
-    gh_repo <- "codec"
-
-    badge_src <- glue::glue(
-      "https://img.shields.io/github/v/release/",
-      "{gh_owner}/{gh_repo}",
-      "?sort=date&filter={attr(x, 'name')}-*",
-      "&display_name=tag",
-      "&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175"
-    )
-    badge_href <- glue::glue("https://github.com/{gh_owner}/{gh_repo}/releases?q={attr(x, 'name')}&expanded=false")
-    # rlang::check_installed("usethis", "insert markdown badges into README")
-    badge <- glue::glue("[![]({badge_src})]({badge_href})")
-
-    return(badge)
-  }
-
-  badges <-
-    tibble::tibble(
-      dpkgs = names(dpkgs),
-      badge = list(
-        environmental_justice_index =
-          get_codec_dpkg("environmental_justice_index-v0.1.0"),
-        hh_acs_measures =
-          get_codec_dpkg("hh_acs_measures-v0.0.1"),
-        drivetime =
-          get_codec_dpkg("drivetime-v0.2.2"),
-        landcover =
-          get_codec_dpkg("landcover-v0.1.0"),
-        parcel =
-          get_codec_dpkg("parcel-v0.1.0"),
-        traffic =
-          get_codec_dpkg("traffic-v0.1.2"),
-        property_code_enforcements =
-          get_codec_dpkg("property_code_enforcements-v0.1.0")
-      ) |>
-        purrr::map_chr(get_badge),
-    )
-
-
-  codec_bi_pal <- c(
-    "1-1" = "#eddcc1",
-    "2-1" = "#d4aa92",
-    "3-1" = "#bb7964",
-    "1-2" = "#909992",
-    "2-2" = "#81766f",
-    "3-2" = "#71544c",
-    "1-3" = "#375a66",
-    "2-3" = "#31464d",
-    "3-3" = "#2b3135"
+dpkgs <-
+  list(
+    environmental_justice_index =
+      get_codec_dpkg("environmental_justice_index-v0.1.0") |>
+        select(-year),
+    hh_acs_measures =
+      get_codec_dpkg("hh_acs_measures-v0.0.1") |>
+        dplyr::left_join(cincy::tract_tigris_2020, by = "census_tract_id_2020") |>
+        st_as_sf() |>
+        interpolate(cincy::tract_tigris_2010) |>
+        st_drop_geometry() |>
+        tibble::as_tibble() |>
+        select(-year),
+    drivetime =
+      get_codec_dpkg("drivetime-v0.2.2") |>
+        select(-year),
+    landcover =
+      get_codec_dpkg("landcover-v0.1.0") |>
+        select(-year),
+    parcel =
+      get_codec_dpkg("parcel-v0.1.0") |>
+        select(-year) |>
+        rename(n_parcel_violations = "n_violations"),
+    traffic =
+      get_codec_dpkg("traffic-v0.1.2") |>
+        dplyr::left_join(cincy::tract_tigris_2020, by = "census_tract_id_2020") |>
+        st_as_sf() |>
+        interpolate(cincy::tract_tigris_2010) |>
+        st_drop_geometry() |>
+        tibble::as_tibble() |>
+        select(-year),
+    property_code_enforcements =
+      get_codec_dpkg("property_code_enforcements-v0.1.0") |>
+        slice_max(year, by = census_tract_id_2010) |>
+        slice_max(month, by = census_tract_id_2010) |>
+        select(-year, -month) |>
+        rename(n_property_violations = "n_violations")
   )
 
-  codec_bi_pal_2 <- tibble::tribble(
-    ~ group, ~ fill,
-    "1-1" , "#eddcc1",
-    "2-1" , "#d4aa92",
-    "3-1" , "#bb7964",
-    "1-2" , "#909992",
-    "2-2" , "#81766f",
-    "3-2" , "#71544c",
-    "1-3" , "#375a66",
-    "2-3" , "#31464d",
-    "3-3" , "#2b3135"
-  )
+tracts_sf <- cincy::tract_tigris_2010
 
-  uni_colors <- c(codec_colors()[1], "#567D91", "#789BAC", "#9FBAC8", "#CCDCE3", "#F6EDDE")
+d_all <-
+  purrr::reduce(dpkgs, dplyr::left_join, by = "census_tract_id_2010", .init = tracts_sf) |>
+  tibble::as_tibble() |>
+  st_as_sf() |>
+  st_transform(st_crs(4326))
+
+get_badge <- function(x) {
+  # if (!inherits(x, "dpkg")) rlang::abort("x must be a `dpkg` object`")
+  gh_owner <- "geomarker-io"
+  gh_repo <- "codec"
+
+  badge_src <- glue::glue(
+    "https://img.shields.io/github/v/release/",
+    "{gh_owner}/{gh_repo}",
+    "?sort=date&filter={attr(x, 'name')}-*",
+    "&display_name=tag",
+    "&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175"
+  )
+  badge_href <- glue::glue("https://github.com/{gh_owner}/{gh_repo}/releases?q={attr(x, 'name')}&expanded=false")
+  # rlang::check_installed("usethis", "insert markdown badges into README")
+  badge <- glue::glue("[![]({badge_src})]({badge_href})")
+
+  return(badge)
 }
+
+badges <-
+  tibble::tibble(
+    dpkgs = names(dpkgs),
+    badge = list(
+      environmental_justice_index =
+        get_codec_dpkg("environmental_justice_index-v0.1.0"),
+      hh_acs_measures =
+        get_codec_dpkg("hh_acs_measures-v0.0.1"),
+      drivetime =
+        get_codec_dpkg("drivetime-v0.2.2"),
+      landcover =
+        get_codec_dpkg("landcover-v0.1.0"),
+      parcel =
+        get_codec_dpkg("parcel-v0.1.0"),
+      traffic =
+        get_codec_dpkg("traffic-v0.1.2"),
+      property_code_enforcements =
+        get_codec_dpkg("property_code_enforcements-v0.1.0")
+    ) |>
+      purrr::map_chr(get_badge),
+  )
+
+
+codec_bi_pal <- c(
+  "1-1" = "#eddcc1",
+  "2-1" = "#d4aa92",
+  "3-1" = "#bb7964",
+  "1-2" = "#909992",
+  "2-2" = "#81766f",
+  "3-2" = "#71544c",
+  "1-3" = "#375a66",
+  "2-3" = "#31464d",
+  "3-3" = "#2b3135"
+)
+
+codec_bi_pal_2 <- tibble::tribble(
+  ~group, ~fill,
+  "1-1", "#eddcc1",
+  "2-1", "#d4aa92",
+  "3-1", "#bb7964",
+  "1-2", "#909992",
+  "2-2", "#81766f",
+  "3-2", "#71544c",
+  "1-3", "#375a66",
+  "2-3", "#31464d",
+  "3-3", "#2b3135"
+)
+
+uni_colors <- c(codec_colors()[1], "#567D91", "#789BAC", "#9FBAC8", "#CCDCE3", "#F6EDDE")
 
 
 ## ----
