@@ -112,8 +112,8 @@ geography_selector <-
 codec_dpkg_selector <-
   selectInput(
     inputId = "sel_dpkgs",
-    label = NULL,
-    ## label = "CoDEC Data Packages",
+    ## label = NULL,
+    label = "CoDEC Data Packages",
     choices = setNames(names(dpkgs), c(
       "Environmental Justice Index",
       "Harmonized Historical ACS Measures",
@@ -244,9 +244,11 @@ server <- function(input, output, session) {
   output$x_sel <- renderUI({
     shinyWidgets::pickerInput(
       inputId = "x",
-      label = "X Variable",
+      label = "X: ",
       choices = d_avail_vars(),
       multiple = FALSE,
+      inline = TRUE,
+      width = "fit",
       selected = "prcnt_poverty",
       options = pickerOptions(
         liveSearch = TRUE
@@ -259,9 +261,11 @@ server <- function(input, output, session) {
 
     shinyWidgets::pickerInput(
       inputId = "y",
-      label = "Y Variable",
+      label = "Y: ",
       choices = d_avail_vars(),
       multiple = FALSE,
+      inline = TRUE,
+      width = "fit",
       selected = "median_home_value",
       options = pickerOptions(
         liveSearch = TRUE
