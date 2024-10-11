@@ -109,7 +109,7 @@ geography_selector <-
     width = "20%"
   )
 
-codec_dpkg_selector <-
+selector_codec_dpkgs <-
   selectInput(
     inputId = "sel_dpkgs",
     ## label = NULL,
@@ -145,33 +145,34 @@ switch_plot_size <-
     status = "primary"
   )
 
-switch_bivariate <-
-  shinyWidgets::prettySwitch("univariate_switch",
-    label = "Univariate view",
-    status = "primary"
+selector_view <-
+  selectInput(
+    inputId = "view_method",
+    label = "View",
+    choices = c("One Variable" = "univariate", "Associate Two Variables" = "bivariate")
   )
 
 ex_card <- card(
   card_header(
     a("Community Data Explorer for Cincinnati", href = "https://geomarker.io/codec", target = "_blank"),
     geography_selector |> tagAppendAttributes(style = "float: right"),
+    selector_view,
     paste0("CoDEC version ", packageVersion("codec")),
     div(img(
       src = "logo.svg",
-      width = "75px", height = "auto", style = "float: right"
+      width = "75px", height = "auto", style = "float: left"
     ))
   ),
   layout_sidebar(
     fillable = TRUE,
     sidebar =
       sidebar(
-        codec_dpkg_selector,
+        selector_codec_dpkgs,
         uiOutput("x_sel"),
         uiOutput("y_sel"),
         hr(style = "margin-top: 5px; margin-bottom: 5px;"),
         button_help_bivariate,
         switch_plot_size,
-        switch_bivariate,
         width = "30%"
       ),
     leafletOutput("map"),
@@ -218,7 +219,7 @@ server <- function(input, output, session) {
 
 
   observeEvent(input$univariate_switch, {
-    if (input$univariate_switch == T) {
+    if (input$view_method == "univariate") {
       shinyjs::disable("y_sel")
     } else {
       shinyjs::enable("y_sel")
@@ -292,7 +293,7 @@ server <- function(input, output, session) {
   output$map <- renderLeaflet({
     req(input$x)
 
-    if (input$univariate_switch == F) {
+    if (input$view_method == "bivariate") {
       bins_x <- pull(d(), input$x)
       bins_y <- pull(d(), input$y)
 
@@ -382,7 +383,7 @@ server <- function(input, output, session) {
   output$scatter <- renderGirafe({
     req(input$x)
 
-    if (input$univariate_switch == F) {
+    if (input$view_method == "bivariate") {
       bins_x <- pull(d(), input$x)
       bins_y <- pull(d(), input$y)
 
@@ -627,7 +628,7 @@ server <- function(input, output, session) {
   scat_click <- reactiveVal()
 
   observeEvent(input$scatter_selected, {
-    if (input$univariate_switch == F) {
+    if (input$view_method == "bivariate") {
       scat_click <- c(input$scatter_selected)
 
       d_scat_click <- d() |>
@@ -748,7 +749,7 @@ server <- function(input, output, session) {
     output$scatter <- renderGirafe({
       req(input$x)
 
-      if (input$univariate_switch == F) {
+      if (input$view_method == "bivariate") {
         bins_x <- pull(d(), input$x)
         bins_y <- pull(d(), input$y)
 
