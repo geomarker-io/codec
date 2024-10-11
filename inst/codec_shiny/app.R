@@ -3,7 +3,6 @@ if (tryCatch(read.dcf("../../DESCRIPTION")[1, "Package"] == "codec", finally = F
 } else {
   library(codec)
 }
-message("Using CoDEC, version ", packageVersion("codec"))
 
 library(fr)
 library(shiny)
@@ -97,70 +96,75 @@ uni_colors <- c(codec_colors()[1], "#567D91", "#789BAC", "#9FBAC8", "#CCDCE3", "
 
 ## ----
 
+geography_selector <-
+  radioButtons(
+    inputId = "sel_geo",
+    label = a("geography", href = "https://geomarker.io/cincy/articles/geographies.html", target = "_blank"),
+    choices = c(
+      "census tract" = "tract",
+      "ZCTA" = "zcta",
+      "neighborhood" = "neighborhood"
+    ),
+    selected = "tract",
+    width = "100%"
+  )
+
+codec_dpkg_selector <-
+  selectInput(
+    inputId = "sel_dpkgs",
+    label = NULL,
+    ## label = "CoDEC Data Packages",
+    choices = setNames(names(dpkgs), c(
+      "Environmental Justice Index",
+      "Harmonized Historical ACS Measures",
+      "Drivetime",
+      "Landcover",
+      "Parcel",
+      "Traffic",
+      "Property Code Enforcements"
+    )),
+    selected = c("hh_acs_measures"),
+    multiple = TRUE,
+    selectize = TRUE
+  )
+
 ex_card <- card(
+  title = "CoDEC Data Packages",
   card_header(
     div(img(
       src = "logo.svg",
-      width = "50px", height = "auto", style = "float: left"
-    )),
-    h4(strong("CoDEC Explorer"), style = "float: left; margin-left: 10px; margin-top: 15px;"),
-    actionBttn("legend_modal",
-      style = "material-circle",
-      # color = "primary",
-      label = NULL,
-      size = "xs",
-      block = FALSE,
-      icon = icon("question-circle")
-    ) |>
-      tagAppendAttributes(style = "color: #C28273; background-color: #FFFFFF; float: right"),
-    shinyWidgets::prettySwitch("big_plot",
-      label = "Enlarge scatter plot",
-      status = "primary"
-    ) |>
-      tagAppendAttributes(style = "float: right"),
-    shinyWidgets::prettySwitch("univariate_switch",
-      label = "Univariate view",
-      status = "primary"
-    ) |>
-      tagAppendAttributes(style = "float: right")
+      width = "120px", height = "auto", style = "float: right"
+    ))
   ),
   layout_sidebar(
     fillable = TRUE,
     sidebar =
       sidebar(
-        selectInput(
-          inputId = "sel_geo",
-          label = a("geography", href = "https://geomarker.io/cincy/articles/geographies.html", target = "_blank"),
-          choices = c(
-            "census tract" = "tract",
-            "ZCTA" = "zcta",
-            "neighborhood" = "neighborhood"
-          ),
-          selected = "tract",
-          selectize = TRUE,
-          width = "50%"
-        ),
-        selectInput(
-          inputId = "sel_dpkgs",
-          label = "CoDEC Data Packages:",
-          choices = setNames(names(dpkgs), c(
-            "Environmental Justice Index",
-            "Harmonized Historical ACS Measures",
-            "Drivetime",
-            "Landcover",
-            "Parcel",
-            "Traffic",
-            "Property Code Enforcements"
-          )),
-          selected = c("hh_acs_measures"),
-          multiple = TRUE,
-          selectize = FALSE,
-          size = 8
-        ),
-        hr(style = "margin-top: 5px; margin-bottom: 5px;"),
+        codec_dpkg_selector,
         uiOutput("x_sel"),
         uiOutput("y_sel"),
-        width = "18%"
+        hr(style = "margin-top: 5px; margin-bottom: 5px;"),
+        geography_selector,
+        actionBttn("legend_modal",
+          style = "material-circle",
+          # color = "primary",
+          label = NULL,
+          size = "xs",
+          block = FALSE,
+          icon = icon("question-circle")
+        ) |>
+          tagAppendAttributes(style = "color: #C28273; background-color: #FFFFFF; float: right"),
+        shinyWidgets::prettySwitch("big_plot",
+          label = "Enlarge scatter plot",
+          status = "primary"
+        ) |>
+          tagAppendAttributes(style = "float: right"),
+        shinyWidgets::prettySwitch("univariate_switch",
+          label = "Univariate view",
+          status = "primary"
+        ) |>
+          tagAppendAttributes(style = "float: right"),
+        width = "33%"
       ),
     leafletOutput("map"),
     uiOutput("plot_panel"),
