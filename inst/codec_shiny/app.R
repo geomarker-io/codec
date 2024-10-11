@@ -130,10 +130,9 @@ selector_codec_dpkgs <-
 
 button_help_bivariate <-
   actionBttn("legend_modal",
-    style = "material-circle",
-    # color = "primary",
-    label = NULL,
-    size = "xs",
+    style = "simple",
+    label = "Bivariate",
+    size = "sm",
     block = FALSE,
     icon = icon("question-circle")
   ) |>
@@ -148,20 +147,23 @@ switch_plot_size <-
 selector_view <-
   selectInput(
     inputId = "view_method",
-    label = "View",
-    choices = c("One Variable" = "univariate", "Associate Two Variables" = "bivariate")
+    label = button_help_bivariate,
+    choices = c("univariate" = "univariate", "bivariate" = "bivariate"),
+    selected = "bivariate",
+    width = "10%"
   )
 
 ex_card <- card(
   card_header(
     a("Community Data Explorer for Cincinnati", href = "https://geomarker.io/codec", target = "_blank"),
     geography_selector |> tagAppendAttributes(style = "float: right"),
-    selector_view,
+    selector_view |> tagAppendAttributes(style = "float: right"),
+    ## button_help_bivariate |> tagAppendAttributes(style = "float: right"),
     paste0("CoDEC version ", packageVersion("codec")),
-    div(img(
+    img(
       src = "logo.svg",
-      width = "75px", height = "auto", style = "float: left"
-    ))
+      width = "75px", height = "auto", style = "float: middle"
+    )
   ),
   layout_sidebar(
     fillable = TRUE,
@@ -171,7 +173,6 @@ ex_card <- card(
         uiOutput("x_sel"),
         uiOutput("y_sel"),
         hr(style = "margin-top: 5px; margin-bottom: 5px;"),
-        button_help_bivariate,
         switch_plot_size,
         width = "30%"
       ),
