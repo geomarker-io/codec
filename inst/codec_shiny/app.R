@@ -97,7 +97,7 @@ uni_colors <- c(codec_colors()[1], "#567D91", "#789BAC", "#9FBAC8", "#CCDCE3", "
 ## ----
 
 geography_selector <-
-  radioButtons(
+  selectInput(
     inputId = "sel_geo",
     label = a("geography", href = "https://geomarker.io/cincy/articles/geographies.html", target = "_blank"),
     choices = c(
@@ -106,7 +106,7 @@ geography_selector <-
       "neighborhood" = "neighborhood"
     ),
     selected = "tract",
-    width = "100%"
+    width = "20%"
   )
 
 codec_dpkg_selector <-
@@ -131,6 +131,8 @@ codec_dpkg_selector <-
 ex_card <- card(
   card_header(
     a("Community Data Explorer for Cincinnati", href = "https://geomarker.io/codec", target = "_blank"),
+    geography_selector |>
+   tagAppendAttributes(style = "float: right"),
     ## div(img(
     ##   src = "logo.svg",
     ##   width = "75px", height = "auto", style = "float: right"
@@ -144,7 +146,6 @@ ex_card <- card(
         uiOutput("x_sel"),
         uiOutput("y_sel"),
         hr(style = "margin-top: 5px; margin-bottom: 5px;"),
-        geography_selector,
         actionBttn("legend_modal",
           style = "material-circle",
           # color = "primary",
