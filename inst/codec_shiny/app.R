@@ -128,15 +128,38 @@ codec_dpkg_selector <-
     selectize = TRUE
   )
 
+button_help_bivariate <-
+  actionBttn("legend_modal",
+    style = "material-circle",
+    # color = "primary",
+    label = NULL,
+    size = "xs",
+    block = FALSE,
+    icon = icon("question-circle")
+  ) |>
+  tagAppendAttributes(style = "color: #C28273; background-color: #FFFFFF")
+
+switch_plot_size <-
+  shinyWidgets::prettySwitch("big_plot",
+    label = "Enlarge scatter plot",
+    status = "primary"
+  )
+
+switch_bivariate <-
+  shinyWidgets::prettySwitch("univariate_switch",
+    label = "Univariate view",
+    status = "primary"
+  )
+
 ex_card <- card(
   card_header(
     a("Community Data Explorer for Cincinnati", href = "https://geomarker.io/codec", target = "_blank"),
-    geography_selector |>
-   tagAppendAttributes(style = "float: right"),
-    ## div(img(
-    ##   src = "logo.svg",
-    ##   width = "75px", height = "auto", style = "float: right"
-    ## ))
+    geography_selector |> tagAppendAttributes(style = "float: right"),
+    paste0("CoDEC version ", packageVersion("codec")),
+    div(img(
+      src = "logo.svg",
+      width = "75px", height = "auto", style = "float: right"
+    ))
   ),
   layout_sidebar(
     fillable = TRUE,
@@ -146,32 +169,15 @@ ex_card <- card(
         uiOutput("x_sel"),
         uiOutput("y_sel"),
         hr(style = "margin-top: 5px; margin-bottom: 5px;"),
-        actionBttn("legend_modal",
-          style = "material-circle",
-          # color = "primary",
-          label = NULL,
-          size = "xs",
-          block = FALSE,
-          icon = icon("question-circle")
-        ) |>
-          tagAppendAttributes(style = "color: #C28273; background-color: #FFFFFF; float: right"),
-        shinyWidgets::prettySwitch("big_plot",
-          label = "Enlarge scatter plot",
-          status = "primary"
-        ) |>
-          tagAppendAttributes(style = "float: right"),
-        shinyWidgets::prettySwitch("univariate_switch",
-          label = "Univariate view",
-          status = "primary"
-        ) |>
-          tagAppendAttributes(style = "float: right"),
-        width = "33%"
+        button_help_bivariate,
+        switch_plot_size,
+        switch_bivariate,
+        width = "30%"
       ),
     leafletOutput("map"),
     uiOutput("plot_panel"),
     uiOutput("clear_button_panel")
-  ),
-  card_footer(paste0("Built on CoDEC version ", packageVersion("codec"))),
+  )
 )
 
 ui <- page_fillable(
