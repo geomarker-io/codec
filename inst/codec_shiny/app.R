@@ -129,12 +129,12 @@ codec_dpkg_selector <-
   )
 
 ex_card <- card(
-  title = "CoDEC Data Packages",
   card_header(
-    div(img(
-      src = "logo.svg",
-      width = "120px", height = "auto", style = "float: right"
-    ))
+    a("Community Data Explorer for Cincinnati", href = "https://geomarker.io/codec", target = "_blank"),
+    ## div(img(
+    ##   src = "logo.svg",
+    ##   width = "75px", height = "auto", style = "float: right"
+    ## ))
   ),
   layout_sidebar(
     fillable = TRUE,
