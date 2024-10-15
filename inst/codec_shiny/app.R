@@ -1,8 +1,8 @@
-if (tryCatch(read.dcf("../../DESCRIPTION")[1, "Package"] == "codec", finally = FALSE)) {
-  devtools::load_all()
-} else {
+# if (tryCatch(read.dcf("../../DESCRIPTION")[1, "Package"] == "codec", finally = FALSE)) {
+#   devtools::load_all()
+# } else {
   library(codec)
-}
+#}
 
 library(fr)
 library(shiny)
@@ -99,14 +99,23 @@ uni_colors <- c(codec_colors()[1], "#567D91", "#789BAC", "#9FBAC8", "#CCDCE3", "
 geography_selector <-
   selectInput(
     inputId = "sel_geo",
-    label = a("geography", href = "https://geomarker.io/cincy/articles/geographies.html", target = "_blank"),
+    label = 
+      actionBttn(
+        inputId = "geography_sel_label",
+        style = "simple",
+        size = "sm",
+        block = FALSE,
+        label = a("Geography", href = "https://geomarker.io/cincy/articles/geographies.html", target = "_blank")
+      ) |>
+      tagAppendAttributes(style = "color: #C28273; background-color: #FFFFFF;"),
+      
     choices = c(
       "census tract" = "tract",
       "ZCTA" = "zcta",
       "neighborhood" = "neighborhood"
     ),
     selected = "tract",
-    width = "20%"
+    width = "100%"
   )
 
 selector_codec_dpkgs <-
@@ -136,7 +145,7 @@ button_help_bivariate <-
     block = FALSE,
     icon = icon("question-circle")
   ) |>
-  tagAppendAttributes(style = "color: #C28273; background-color: #FFFFFF")
+  tagAppendAttributes(style = "color: #C28273; background-color: #FFFFFF;")
 
 switch_plot_size <-
   shinyWidgets::prettySwitch("big_plot",
@@ -150,21 +159,32 @@ selector_view <-
     label = button_help_bivariate,
     choices = c("univariate" = "univariate", "bivariate" = "bivariate"),
     selected = "bivariate",
-    width = "10%"
+    width = "100%"
   )
 
 ex_card <- card(
   card_header(
-    a("Community Data Explorer for Cincinnati", href = "https://geomarker.io/codec", target = "_blank"),
-    geography_selector |> tagAppendAttributes(style = "float: right"),
-    selector_view |> tagAppendAttributes(style = "float: right"),
-    ## button_help_bivariate |> tagAppendAttributes(style = "float: right"),
-    paste0("CoDEC version ", packageVersion("codec")),
     img(
       src = "logo.svg",
-      width = "75px", height = "auto", style = "float: middle"
+      width = "75px", height = "auto", style = "float: left; margin-right: 15px;"
+    ),
+    layout_column_wrap(width = 1/2,
+                       height = 80,
+
+                       p(
+                         br(),
+                         a("Community Data Explorer for Cincinnati", href = "https://geomarker.io/codec", target = "_blank"),
+                         br(),
+                         paste0("CoDEC version ", packageVersion("codec"))
+                       ),
+                       
+                       layout_column_wrap(width = 1/2,
+                                          height = 75,
+                                          geography_selector ,
+                                          selector_view 
+                       ) |> tagAppendAttributes(style = "float: right")
     )
-  ),
+),
   layout_sidebar(
     fillable = TRUE,
     sidebar =
@@ -679,7 +699,7 @@ server <- function(input, output, session) {
           label = ~ lapply(out$out_lab, HTML),
           weight = .5, color = "#333333"
         ) |>
-        addPolygons(data = d_scat_click, color = "#FFF", stroke = T, weight = 5, opacity = 1) |>
+        addPolygons(data = d_scat_click, color = "#FFFFFF", stroke = T, weight = 5, opacity = 1) |>
         removeLayersControl()
 
       map
@@ -727,7 +747,7 @@ server <- function(input, output, session) {
           label = ~ lapply(out$out_lab, HTML),
           weight = .5, color = "#333333"
         ) |>
-        addPolygons(data = d_scat_click, color = "#FFF", stroke = T, weight = 5, opacity = 1) |>
+        addPolygons(data = d_scat_click, color = "#FFFFFF", stroke = T, weight = 5, opacity = 1) |>
         removeLayersControl()
 
       map
@@ -846,7 +866,7 @@ server <- function(input, output, session) {
             #   input$x, ": ", input$x, "\n",
             #    input$y, ": ", input$y
             #   )),
-            color = "#FFF", size = 3, alpha = .6
+            color = "#FFFFFF", size = 3, alpha = .6
           ) +
           theme_light() +
           theme(
@@ -1091,7 +1111,7 @@ server <- function(input, output, session) {
           style = "simple",
           status = "primary"
         ) |>
-          tagAppendAttributes(style = "color: #FFF; background-color: #396175;"),
+          tagAppendAttributes(style = "color: #FFFFFF; background-color: #396175;"),
       )
     )
   })
@@ -1114,7 +1134,7 @@ server <- function(input, output, session) {
       setView(-84.55, 39.18, zoom = 11.5) |>
       addProviderTiles(provider = providers$CartoDB.Positron) |>
       addPolygons(
-        fillColor = "#fff",
+        fillColor = "#ffffff",
         opacity = .4,
         color = "#333333",
         weight = .5
