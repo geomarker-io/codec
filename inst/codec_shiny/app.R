@@ -147,10 +147,12 @@ button_help_bivariate <-
   ) |>
   tagAppendAttributes(style = "color: #C28273; background-color: #FFFFFF;")
 
-switch_plot_size <-
-  shinyWidgets::prettySwitch("big_plot",
-    label = "Enlarge scatter plot",
-    status = "primary"
+switch_plots <-
+  selectInput("side_plot_selector",
+    label = "Focus",
+    choices =  c("map" = "main_map", "scatterplot" = "main_scatterplot"),
+    selected = "main_map",
+    width = "25%"
   )
 
 selector_view <-
@@ -192,12 +194,28 @@ ex_card <- card(
         selector_codec_dpkgs,
         uiOutput("x_sel"),
         uiOutput("y_sel"),
-        hr(style = "margin-top: 5px; margin-bottom: 5px;"),
-        switch_plot_size,
+        #hr(style = "margin-top: 5px; margin-bottom: 5px;"),
+        switch_plots,
+        conditionalPanel(
+          condition = "input.side_plot_selector == 'main_map'",
+          girafeOutput("side_scatter")
+        ),
+        conditionalPanel(
+          condition = "input.side_plot_selector == 'main_scatterplot'",
+          leafletOutput("big_map")
+        ),
+        #uiOutput("sidebar_plot"),
         width = "30%"
       ),
-    leafletOutput("map"),
-    uiOutput("plot_panel"),
+    #uiOutput("main_plot"),
+    conditionalPanel(
+      condition = "input.side_plot_selector == 'main_map'",
+      leafletOutput("side_map")
+    ),
+    conditionalPanel(
+      condition = "input.side_plot_selector == 'main_scatterplot'",
+      girafeOutput("big_scatter")
+    ),
     uiOutput("clear_button_panel")
   )
 )
@@ -220,6 +238,8 @@ ui <- page_fillable(
 )
 
 server <- function(input, output, session) {
+  
+  
   d <- reactive({
     if (input$sel_geo == "zcta") {
       d <- d_all |>
@@ -239,7 +259,7 @@ server <- function(input, output, session) {
   })
 
 
-  observeEvent(input$univariate_switch, {
+  observeEvent(input$view_method, {
     if (input$view_method == "univariate") {
       shinyjs::disable("y_sel")
     } else {
@@ -266,12 +286,15 @@ server <- function(input, output, session) {
       vars <- vars[!vars %in% c("census_tract_id_2010", "year")]
 
       named_vars <- set_names(vars, str_to_title(str_replace_all(vars, "_", " ")))
+      
+      d_avail_vars <- named_vars
     }
   })
 
 
   output$x_sel <- renderUI({
-    shinyWidgets::pickerInput(
+
+   shinyWidgets::pickerInput(
       inputId = "x",
       label = "X: ",
       choices = d_avail_vars(),
@@ -280,13 +303,12 @@ server <- function(input, output, session) {
       width = "fit",
       selected = "prcnt_poverty",
       options = pickerOptions(
-        liveSearch = TRUE
+         liveSearch = TRUE
       )
-    )
+   )
   })
 
   output$y_sel <- renderUI({
-    req(d_avail_vars())
 
     shinyWidgets::pickerInput(
       inputId = "y",
@@ -310,8 +332,11 @@ server <- function(input, output, session) {
   observeEvent(input$deselect_all, {
     updateCheckboxGroupInput(inputId = "sel_dpkgs", selected = "")
   })
-
-  output$map <- renderLeaflet({
+  
+  
+  # output$ifelse(input$side_plot_selector == "main_map", "big_map", "side_map") <- 
+  #   renderLeaflet({
+  map_ready <- renderLeaflet({#reactive({
     req(input$x)
 
     if (input$view_method == "bivariate") {
@@ -401,7 +426,9 @@ server <- function(input, output, session) {
 
 
 
-  output$scatter <- renderGirafe({
+  #output$scatter <- renderGirafe({
+  #reactive({
+  scatter_ready <- renderGirafe({#reactive({
     req(input$x)
 
     if (input$view_method == "bivariate") {
@@ -494,7 +521,7 @@ server <- function(input, output, session) {
         theme_light() +
         theme(
           aspect.ratio = 1, title = element_text(size = 8),
-          axis.title = element_text(size = if (input$big_plot == FALSE) {
+          axis.title = element_text(size = if (input$side_plot_selector == "main_map") {
             6
           } else {
             10
@@ -533,12 +560,12 @@ server <- function(input, output, session) {
 
       gir_join <- girafe(
         ggobj = finalScat,
-        width_svg = if (input$big_plot == FALSE) {
+        width_svg = if (input$side_plot_selector == "main_map") {
           3
         } else {
           6
         },
-        height_svg = if (input$big_plot == FALSE) {
+        height_svg = if (input$side_plot_selector == "main_map") {
           3
         } else {
           6
@@ -614,7 +641,7 @@ server <- function(input, output, session) {
         theme_light() +
         theme(
           aspect.ratio = 1, title = element_text(size = 8),
-          axis.title = element_text(size = if (input$big_plot == FALSE) {
+          axis.title = element_text(size = if (input$side_plot_selector == "main_map") {
             6
           } else {
             10
@@ -625,12 +652,12 @@ server <- function(input, output, session) {
 
       gir_join <- girafe(
         ggobj = scat,
-        width_svg = if (input$big_plot == FALSE) {
+        width_svg = if (input$side_plot_selector == "main_map") {
           3
         } else {
           6
         },
-        height_svg = if (input$big_plot == FALSE) {
+        height_svg = if (input$side_plot_selector == "main_map") {
           3
         } else {
           6
@@ -767,7 +794,8 @@ server <- function(input, output, session) {
     d_selected <- d() |>
       sf::st_join(click, left = FALSE)
 
-    output$scatter <- renderGirafe({
+    #output$scatter <- renderGirafe({
+    scatter_ready <- renderGirafe({
       req(input$x)
 
       if (input$view_method == "bivariate") {
@@ -871,7 +899,7 @@ server <- function(input, output, session) {
           theme_light() +
           theme(
             aspect.ratio = 1, title = element_text(size = 8),
-            axis.title = element_text(size = if (input$big_plot == FALSE) {
+            axis.title = element_text(size = if (input$side_plot_selector == "main_map") {
               6
             } else {
               10
@@ -910,12 +938,12 @@ server <- function(input, output, session) {
 
         gir_join <- girafe(
           ggobj = finalScat,
-          width_svg = if (input$big_plot == FALSE) {
+          width_svg = if (input$side_plot_selector == "main_map") {
             3
           } else {
             6
           },
-          height_svg = if (input$big_plot == FALSE) {
+          height_svg = if (input$side_plot_selector == "main_map") {
             3
           } else {
             6
@@ -1000,7 +1028,7 @@ server <- function(input, output, session) {
           theme_light() +
           theme(
             aspect.ratio = 1, title = element_text(size = 8),
-            axis.title = element_text(size = if (input$big_plot == FALSE) {
+            axis.title = element_text(size = if (input$side_plot_selector == "main_map") {
               6
             } else {
               10
@@ -1012,12 +1040,12 @@ server <- function(input, output, session) {
 
         gir_join <- girafe(
           ggobj = scat,
-          width_svg = if (input$big_plot == FALSE) {
+          width_svg = if (input$side_plot_selector == "main_map") {
             3
           } else {
             6
           },
-          height_svg = if (input$big_plot == FALSE) {
+          height_svg = if (input$side_plot_selector == "main_map") {
             3
           } else {
             6
@@ -1044,48 +1072,79 @@ server <- function(input, output, session) {
 
     legend
   })
+  
+  #   
+   output$side_scatter <- reactive({scatter_ready()})
 
-  output$plot_panel <- renderUI({
-    absolutePanel(
-      id = "plot_panel",
-      class = "panel panel-default",
-      cursor = "auto",
-      draggable = TRUE,
-      top = 100,
-      height = if (input$big_plot == FALSE) {
-        "400px"
-      } else {
-        "900px"
-      },
-      right = 20,
-      width = if (input$big_plot == FALSE) {
-        "400px"
-      } else {
-        "1000px"
-      },
-      style =
-        "z-index: 10;
-                     padding: 5px;
-                         border: 1px solid #000;
-                         background: #FFFFFF;
-                         opacity: .9;
-                         margin: auto;
-                         border-radius: 5pt;
-                         box-shadow: 0pt 0pt 6pt 0px rgba(61,59,61,0.48);",
-      fixedRow(girafeOutput("scatter",
-        height = if (input$big_plot == FALSE) {
-          "350px"
-        } else {
-          "800px"
-        },
-        width = if (input$big_plot == FALSE) {
-          "350px"
-        } else {
-          "800px"
-        }
-      ))
-    )
-  })
+   #   if (input$side_plot_selector == "main_map") {
+   #     scatter_ready()
+   #   } else if (input$side_plot_selector == "main_scatterplot") {
+   #     NULL
+   #   }
+   # 
+   # })
+   
+  output$big_scatter <- reactive({scatter_ready()})
+
+  #   if (input$side_plot_selector == "main_map") {
+  #     NULL
+  #   } else if (input$side_plot_selector == "main_scatterplot") {
+  #     scatter_ready()
+  #   }
+  # })
+  
+  output$side_map <- reactive({map_ready()})
+    
+  #   if (input$side_plot_selector == "main_map") {
+  #     NULL
+  #   } else if (input$side_plot_selector == "main_scatterplot") {
+  #     map_ready()
+  #   }
+  #   
+  # })
+  
+  output$big_map <- reactive({map_ready()})
+    
+  #   if (input$side_plot_selector == "main_map") {
+  #     map_ready()
+  #   } else if (input$side_plot_selector == "main_scatterplot") {
+  #     NULL
+  #   }
+  # })
+  
+
+    
+  #   if (input$side_plot_selector == "side_scatterplot") {
+  #     renderUI({girafeOutput("scatter")})
+  #   } else if (input$side_plot_selector == "side_map") {
+  #     renderUI({leafletOutput("map")})
+  #   }
+  # })
+  
+
+  
+    
+  #   if (input$side_plot_selector == "side_scatterplot") {
+  #     renderUI({leafletOutput("map")})
+  #   } else if (input$side_plot_selector == "side_map") {
+  #     renderUI({girafeOutput("scatter")})
+  #   }
+  # })
+  #   
+    
+   
+      # if (side_plot_val() == "side_scatterplot") {
+      #   output$sidebar_plot <- renderUI({girafeOutput("scatter")})
+      #   output$main_plot <- renderUI({leafletOutput("map")})
+      # } else if (side_plot_val() == "side_map") {
+      #   output$sidebar_plot <- renderUI({leafletOutput("map")})
+      #   output$main_plot <- renderUI({girafeOutput("scatter")})
+      # }
+    
+
+    
+    
+    
 
   output$clear_button_panel <- renderUI({
     absolutePanel(
@@ -1115,6 +1174,7 @@ server <- function(input, output, session) {
       )
     )
   })
+  
 
   observeEvent(input$legend_modal, {
     showModal(
