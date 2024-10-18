@@ -202,21 +202,23 @@ ex_card <- card(
         ),
         conditionalPanel(
           condition = "input.side_plot_selector == 'main_scatterplot'",
-          leafletOutput("big_map")
+          leafletOutput("side_map", height= "50vh")
         ),
         #uiOutput("sidebar_plot"),
         width = "30%"
       ),
     #uiOutput("main_plot"),
+   
     conditionalPanel(
       condition = "input.side_plot_selector == 'main_map'",
-      leafletOutput("side_map")
+      leafletOutput("big_map", height = "80vh")
     ),
     conditionalPanel(
       condition = "input.side_plot_selector == 'main_scatterplot'",
-      girafeOutput("big_scatter")
+      girafeOutput("big_scatter", height = "78%", width = "78%")
     ),
     uiOutput("clear_button_panel")
+    
   )
 )
 
@@ -374,7 +376,7 @@ server <- function(input, output, session) {
 
       map <-
         leaflet(out) |>
-        setView(-84.55, 39.18, zoom = 11.5) |>
+        setView(-84.55, 39.18, zoom = if (input$side_plot_selector == "main_map") {11.5} else {10}) |>
         addProviderTiles(provider = providers$CartoDB.Positron) |>
         addPolygons(
           fillColor = ~ pal(bi_class), fillOpacity = 0.7, stroke = T,
@@ -411,7 +413,7 @@ server <- function(input, output, session) {
 
       map <-
         leaflet(out) |>
-        setView(-84.55, 39.18, zoom = 11.5) |>
+        setView(-84.55, 39.18, zoom = if (input$side_plot_selector == "main_map") {11.5} else {10}) |>
         addProviderTiles(provider = providers$CartoDB.Positron) |>
         addPolygons(
           fillColor = ~ pal(x_class), fillOpacity = 0.7, stroke = T,
@@ -719,7 +721,7 @@ server <- function(input, output, session) {
       map <-
         leafletProxy("map", data = out) |>
         clearShapes() |>
-        setView(-84.55, 39.18, zoom = 11.5) |>
+        setView(-84.55, 39.18, zoom = if (input$side_plot_selector == "main_map") {11.5} else {10}) |>
         addProviderTiles(provider = providers$CartoDB.Positron) |>
         addPolygons(
           fillColor = ~ pal(bi_class), fillOpacity = 0.7, stroke = T,
@@ -767,7 +769,7 @@ server <- function(input, output, session) {
       map <-
         leafletProxy("map", data = out) |>
         clearShapes() |>
-        setView(-84.55, 39.18, zoom = 11.5) |>
+        setView(-84.55, 39.18, zoom = if (input$side_plot_selector == "main_map") {11.5} else {10}) |>
         addProviderTiles(provider = providers$CartoDB.Positron) |>
         addPolygons(
           fillColor = ~ pal(x_class), fillOpacity = 0.7, stroke = T,
