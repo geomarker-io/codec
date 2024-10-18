@@ -335,10 +335,8 @@ server <- function(input, output, session) {
     updateCheckboxGroupInput(inputId = "sel_dpkgs", selected = "")
   })
   
-  
-  # output$ifelse(input$side_plot_selector == "main_map", "big_map", "side_map") <- 
-  #   renderLeaflet({
-  map_ready <- renderLeaflet({#reactive({
+
+  map_ready <- renderLeaflet({
     req(input$x)
 
     if (input$view_method == "bivariate") {
@@ -428,9 +426,7 @@ server <- function(input, output, session) {
 
 
 
-  #output$scatter <- renderGirafe({
-  #reactive({
-  scatter_ready <- renderGirafe({#reactive({
+  scatter_ready <- renderGirafe({
     req(input$x)
 
     if (input$view_method == "bivariate") {
@@ -676,10 +672,18 @@ server <- function(input, output, session) {
 
   d_scat_click <- reactiveVal()
   scat_click <- reactiveVal()
+  # listen_for_click <- reactive({
+  #   list(input$side_scatter_selected, input$big_scatter_selected)
+  # })
 
-  observeEvent(input$scatter_selected, {
+  observeEvent(ignoreInit = TRUE, list(input$side_scatter_selected, input$big_scatter_selected),  {
     if (input$view_method == "bivariate") {
-      scat_click <- c(input$scatter_selected)
+      
+      if (input$side_plot_selector == "main_map") {
+        scat_click <- input$side_scatter_selected
+      } else {
+        scat_click <-input$big_scatter_selected
+        }
 
       d_scat_click <- d() |>
         filter(geo_index == scat_click)
@@ -719,7 +723,7 @@ server <- function(input, output, session) {
       d_scat_click <- sf::st_transform(d_scat_click, crs = sf::st_crs(d()))
 
       map <-
-        leafletProxy("map", data = out) |>
+        leafletProxy(mapId = if (input$side_plot_selector == "main_map") {"big_map"} else {"side_map"}, data = out) |>
         clearShapes() |>
         setView(-84.55, 39.18, zoom = if (input$side_plot_selector == "main_map") {11.5} else {10}) |>
         addProviderTiles(provider = providers$CartoDB.Positron) |>
@@ -733,7 +737,7 @@ server <- function(input, output, session) {
 
       map
     } else {
-      scat_click <- c(input$scatter_selected)
+      scat_click <- c(input$side_scatter_selected)
 
       d_scat_click <- d() |>
         filter(geo_index == scat_click)
@@ -767,7 +771,7 @@ server <- function(input, output, session) {
       d_scat_click <- sf::st_transform(d_scat_click, crs = sf::st_crs(d()))
 
       map <-
-        leafletProxy("map", data = out) |>
+        leafletProxy(mapId = if (input$side_plot_selector == "main_map") {"big_map"} else {"side_map"}, data = out) |>
         clearShapes() |>
         setView(-84.55, 39.18, zoom = if (input$side_plot_selector == "main_map") {11.5} else {10}) |>
         addProviderTiles(provider = providers$CartoDB.Positron) |>
@@ -785,9 +789,9 @@ server <- function(input, output, session) {
 
   d_selected <- reactiveVal()
 
-  observeEvent(input$map_click, {
+  observeEvent(input$big_map_click, {
     map_click <- reactiveVal()
-    map_click <- input$map_shape_click
+    map_click <- input$big_map_click
 
 
     click <- tibble(lng = map_click$lng, lat = map_click$lat) |>
@@ -796,7 +800,6 @@ server <- function(input, output, session) {
     d_selected <- d() |>
       sf::st_join(click, left = FALSE)
 
-    #output$scatter <- renderGirafe({
     scatter_ready <- renderGirafe({
       req(input$x)
 
@@ -1075,77 +1078,13 @@ server <- function(input, output, session) {
     legend
   })
   
-  #   
-   output$side_scatter <- reactive({scatter_ready()})
-
-   #   if (input$side_plot_selector == "main_map") {
-   #     scatter_ready()
-   #   } else if (input$side_plot_selector == "main_scatterplot") {
-   #     NULL
-   #   }
-   # 
-   # })
+  output$side_scatter <- reactive({scatter_ready()})
    
   output$big_scatter <- reactive({scatter_ready()})
 
-  #   if (input$side_plot_selector == "main_map") {
-  #     NULL
-  #   } else if (input$side_plot_selector == "main_scatterplot") {
-  #     scatter_ready()
-  #   }
-  # })
-  
   output$side_map <- reactive({map_ready()})
-    
-  #   if (input$side_plot_selector == "main_map") {
-  #     NULL
-  #   } else if (input$side_plot_selector == "main_scatterplot") {
-  #     map_ready()
-  #   }
-  #   
-  # })
   
   output$big_map <- reactive({map_ready()})
-    
-  #   if (input$side_plot_selector == "main_map") {
-  #     map_ready()
-  #   } else if (input$side_plot_selector == "main_scatterplot") {
-  #     NULL
-  #   }
-  # })
-  
-
-    
-  #   if (input$side_plot_selector == "side_scatterplot") {
-  #     renderUI({girafeOutput("scatter")})
-  #   } else if (input$side_plot_selector == "side_map") {
-  #     renderUI({leafletOutput("map")})
-  #   }
-  # })
-  
-
-  
-    
-  #   if (input$side_plot_selector == "side_scatterplot") {
-  #     renderUI({leafletOutput("map")})
-  #   } else if (input$side_plot_selector == "side_map") {
-  #     renderUI({girafeOutput("scatter")})
-  #   }
-  # })
-  #   
-    
-   
-      # if (side_plot_val() == "side_scatterplot") {
-      #   output$sidebar_plot <- renderUI({girafeOutput("scatter")})
-      #   output$main_plot <- renderUI({leafletOutput("map")})
-      # } else if (side_plot_val() == "side_map") {
-      #   output$sidebar_plot <- renderUI({leafletOutput("map")})
-      #   output$main_plot <- renderUI({girafeOutput("scatter")})
-      # }
-    
-
-    
-    
     
 
   output$clear_button_panel <- renderUI({
@@ -1191,7 +1130,7 @@ server <- function(input, output, session) {
 
   observeEvent(input$clear_map_selection, {
     map <-
-      leafletProxy("map", data = d()) |>
+      leafletProxy(mapId = if (input$side_plot_selector == "main_map") {"big_map"} else {"side_map"}, data = d()) |>
       clearShapes() |>
       setView(-84.55, 39.18, zoom = 11.5) |>
       addProviderTiles(provider = providers$CartoDB.Positron) |>
@@ -1204,6 +1143,12 @@ server <- function(input, output, session) {
 
     map
   })
+  
+  outputOptions(output, 'big_map', suspendWhenHidden=TRUE)
+  outputOptions(output, 'side_map', suspendWhenHidden=TRUE)
+  outputOptions(output, 'big_scatter', suspendWhenHidden=TRUE)
+  outputOptions(output, 'side_scatter', suspendWhenHidden=TRUE)
+  
 }
 
 shinyApp(ui, server)
