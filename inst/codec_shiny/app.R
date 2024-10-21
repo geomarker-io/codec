@@ -446,7 +446,7 @@ server <- function(input, output, session) {
         mutate(bi_y = cut(get(input$y), breaks = bins_y, include.lowest = TRUE, labels = c("1", "2", "3")))
       out_scat <- out_scat |>
         mutate(bi_class = paste0(as.numeric(bi_x), "-", as.numeric(bi_y)))
-
+      
       scatter_panels <- ggplot(out_scat, aes_string(x = input$x, y = input$y)) +
         annotate("rect",
           xmin = -Inf, xmax = bins_x[2],
@@ -458,31 +458,31 @@ server <- function(input, output, session) {
           xmin = -Inf, xmax = bins_x[2],
           ymin = bins_y[2], ymax = bins_y[3],
           alpha = 1,
-          fill = codec_bi_pal_2$fill[2]
+          fill = codec_bi_pal_2$fill[2]#2
         ) +
         annotate("rect",
           xmin = -Inf, xmax = bins_x[2],
           ymin = bins_y[3], ymax = Inf,
           alpha = 1,
-          fill = codec_bi_pal_2$fill[3]
+          fill = codec_bi_pal_2$fill[3]#3
         ) +
         annotate("rect",
           xmin = bins_x[2], xmax = bins_x[3],
           ymin = -Inf, ymax = bins_y[2],
           alpha = 1,
-          fill = codec_bi_pal_2$fill[4]
+          fill = codec_bi_pal_2$fill[4]#4
         ) +
         annotate("rect",
           xmin = bins_x[2], xmax = bins_x[3],
           ymin = bins_y[2], ymax = bins_y[3],
           alpha = 1,
-          fill = codec_bi_pal_2$fill[5]
+          fill = codec_bi_pal_2$fill[5]#5
         ) +
         annotate("rect",
           xmin = bins_x[2], xmax = bins_x[3],
           ymin = bins_y[3], ymax = Inf,
           alpha = 1,
-          fill = codec_bi_pal_2$fill[6]
+          fill = codec_bi_pal_2$fill[6]#6
         ) +
         annotate("rect",
           xmin = bins_x[3], xmax = Inf,
@@ -494,7 +494,7 @@ server <- function(input, output, session) {
           xmin = bins_x[3], xmax = Inf,
           ymin = bins_y[2], ymax = bins_y[3],
           alpha = 1,
-          fill = codec_bi_pal_2$fill[8]
+          fill = codec_bi_pal_2$fill[8]#8
         ) +
         annotate("rect",
           xmin = bins_x[3], xmax = Inf,
@@ -788,10 +788,16 @@ server <- function(input, output, session) {
   })
 
   d_selected <- reactiveVal()
-
-  observeEvent(input$big_map_click, {
+  
+  observeEvent(ignoreInit = TRUE, list(input$big_map_click, input$side_map_click), {
     map_click <- reactiveVal()
-    map_click <- input$big_map_click
+    
+    
+    if (input$side_plot_selector == "main_map") {
+      map_click <- input$big_map_click
+    } else {
+      map_click <- input$side_map_click
+    }
 
 
     click <- tibble(lng = map_click$lng, lat = map_click$lat) |>
@@ -799,6 +805,7 @@ server <- function(input, output, session) {
 
     d_selected <- d() |>
       sf::st_join(click, left = FALSE)
+    
 
     scatter_ready <- renderGirafe({
       req(input$x)
@@ -1064,6 +1071,11 @@ server <- function(input, output, session) {
         gir_join
       }
     })
+    
+    output$side_scatter <- reactive({scatter_ready()})
+    
+    output$big_scatter <- reactive({scatter_ready()})
+    
   })
 
   output$legend <- renderPlot({
@@ -1106,7 +1118,7 @@ server <- function(input, output, session) {
                          box-shadow: 0pt 0pt 6pt 0px rgba(61,59,61,0.48);",
       fixedRow(
         shinyWidgets::actionBttn("clear_map_selection",
-          label = "Reset map",
+          label = "Reset",
           size = "xs",
           style = "simple",
           status = "primary"
@@ -1142,6 +1154,10 @@ server <- function(input, output, session) {
       )
 
     map
+    
+    output$side_scatter <- reactive({scatter_ready()})
+    
+    output$big_scatter <- reactive({scatter_ready()})
   })
   
   outputOptions(output, 'big_map', suspendWhenHidden=TRUE)
