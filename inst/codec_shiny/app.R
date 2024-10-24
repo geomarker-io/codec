@@ -194,29 +194,28 @@ ex_card <- card(
         selector_codec_dpkgs,
         uiOutput("x_sel"),
         uiOutput("y_sel"),
-        #hr(style = "margin-top: 5px; margin-bottom: 5px;"),
         switch_plots,
         conditionalPanel(
-          condition = "input.side_plot_selector == 'main_map'",
+        condition = "input.side_plot_selector == 'main_map'",
           girafeOutput("side_scatter")
-        ),
-        conditionalPanel(
-          condition = "input.side_plot_selector == 'main_scatterplot'",
-          leafletOutput("side_map", height= "50vh")
-        ),
+      ),
+       conditionalPanel(
+        condition = "input.side_plot_selector == 'main_scatterplot'",
+       leafletOutput("side_map", height= "50vh")
+      ),
         #uiOutput("sidebar_plot"),
         width = "30%"
       ),
     #uiOutput("main_plot"),
-   
-    conditionalPanel(
-      condition = "input.side_plot_selector == 'main_map'",
+
+   conditionalPanel(
+   condition = "input.side_plot_selector == 'main_map'",
       leafletOutput("big_map", height = "80vh")
-    ),
-    conditionalPanel(
-      condition = "input.side_plot_selector == 'main_scatterplot'",
-      girafeOutput("big_scatter", height = "78%", width = "78%")
-    ),
+  ),
+   conditionalPanel(
+    condition = "input.side_plot_selector == 'main_scatterplot'",
+   girafeOutput("big_scatter", height = "78%", width = "78%")
+  ),
     uiOutput("clear_button_panel")
     
   )
@@ -349,6 +348,7 @@ server <- function(input, output, session) {
       bins_x <- bins_x$brks
       bins_y <- bins_y$brks
 
+
       # cut into groups defined above
       out <- d() |>
         mutate(bi_x = cut(get(input$x), breaks = bins_x, include.lowest = TRUE))
@@ -432,7 +432,8 @@ server <- function(input, output, session) {
     if (input$view_method == "bivariate") {
       bins_x <- pull(d(), input$x)
       bins_y <- pull(d(), input$y)
-
+      
+     
       bins_x <- classInt::classIntervals(bins_x, n = 3, style = "quantile")
       bins_y <- classInt::classIntervals(bins_y, n = 3, style = "quantile")
 
@@ -447,67 +448,67 @@ server <- function(input, output, session) {
       out_scat <- out_scat |>
         mutate(bi_class = paste0(as.numeric(bi_x), "-", as.numeric(bi_y)))
       
-      scatter_panels <- ggplot(out_scat, aes_string(x = input$x, y = input$y)) +
+      scatter_panels <- ggplot(out_scat, aes_string(x = x, y= y))+#$x, y = input$y)) +
         annotate("rect",
           xmin = -Inf, xmax = bins_x[2],
           ymin = -Inf, ymax = bins_y[2],
           alpha = 1,
-          fill = codec_bi_pal_2$fill[1]
+          fill = codec_bi_pal[1]
         ) +
         annotate("rect",
           xmin = -Inf, xmax = bins_x[2],
           ymin = bins_y[2], ymax = bins_y[3],
           alpha = 1,
-          fill = codec_bi_pal_2$fill[2]#2
+          fill = codec_bi_pal[4]
         ) +
         annotate("rect",
           xmin = -Inf, xmax = bins_x[2],
           ymin = bins_y[3], ymax = Inf,
           alpha = 1,
-          fill = codec_bi_pal_2$fill[3]#3
+          fill = codec_bi_pal[7]
         ) +
         annotate("rect",
           xmin = bins_x[2], xmax = bins_x[3],
           ymin = -Inf, ymax = bins_y[2],
           alpha = 1,
-          fill = codec_bi_pal_2$fill[4]#4
+          fill = codec_bi_pal[2]
         ) +
         annotate("rect",
           xmin = bins_x[2], xmax = bins_x[3],
           ymin = bins_y[2], ymax = bins_y[3],
           alpha = 1,
-          fill = codec_bi_pal_2$fill[5]#5
+          fill = codec_bi_pal[5]
         ) +
         annotate("rect",
           xmin = bins_x[2], xmax = bins_x[3],
           ymin = bins_y[3], ymax = Inf,
           alpha = 1,
-          fill = codec_bi_pal_2$fill[6]#6
+          fill = codec_bi_pal[8]
         ) +
         annotate("rect",
           xmin = bins_x[3], xmax = Inf,
           ymin = -Inf, ymax = bins_y[2],
           alpha = 1,
-          fill = codec_bi_pal_2$fill[7]
+          fill = codec_bi_pal[3]
         ) +
         annotate("rect",
           xmin = bins_x[3], xmax = Inf,
           ymin = bins_y[2], ymax = bins_y[3],
           alpha = 1,
-          fill = codec_bi_pal_2$fill[8]#8
+          fill = codec_bi_pal[6]
         ) +
         annotate("rect",
           xmin = bins_x[3], xmax = Inf,
           ymin = bins_y[3], ymax = Inf,
           alpha = 1,
-          fill = codec_bi_pal_2$fill[9]
+          fill = codec_bi_pal[9]
         )
 
 
       scat <- scatter_panels +
         geom_point_interactive(
-          data = d(), aes_string(
-            x = input$x, y = input$y,
+           data = d(), aes_string(
+             x = input$x, y = input$y,
             data_id = "geo_index"
           ),
           fill = codec_colors()[7],
@@ -525,8 +526,7 @@ server <- function(input, output, session) {
             10
           }),
           legend.key.size = unit(3, "mm")
-        ) +
-        labs(x = paste0(input$x), y = paste0(input$y))
+        ) +labs(x = paste0(input$x), y = paste0(input$y))
 
       hist1 <- ggplot(d()) +
         geom_histogram_interactive(
@@ -828,60 +828,60 @@ server <- function(input, output, session) {
         out_scat <- out_scat |>
           mutate(bi_class = paste0(as.numeric(bi_x), "-", as.numeric(bi_y)))
 
-        scatter_panels <- ggplot(out_scat, aes_string(x = input$x, y = input$y)) +
+        scatter_panels <- ggplot(out_scat, aes_string(x = x, y= y))+#$x, y = input$y)) +
           annotate("rect",
-            xmin = -Inf, xmax = bins_x[2],
-            ymin = -Inf, ymax = bins_y[2],
-            alpha = 1,
-            fill = codec_bi_pal_2$fill[1]
+                   xmin = -Inf, xmax = bins_x[2],
+                   ymin = -Inf, ymax = bins_y[2],
+                   alpha = 1,
+                   fill = codec_bi_pal[1]
           ) +
           annotate("rect",
-            xmin = -Inf, xmax = bins_x[2],
-            ymin = bins_y[2], ymax = bins_y[3],
-            alpha = 1,
-            fill = codec_bi_pal_2$fill[2]
+                   xmin = -Inf, xmax = bins_x[2],
+                   ymin = bins_y[2], ymax = bins_y[3],
+                   alpha = 1,
+                   fill = codec_bi_pal[4]
           ) +
           annotate("rect",
-            xmin = -Inf, xmax = bins_x[2],
-            ymin = bins_y[3], ymax = Inf,
-            alpha = 1,
-            fill = codec_bi_pal_2$fill[3]
+                   xmin = -Inf, xmax = bins_x[2],
+                   ymin = bins_y[3], ymax = Inf,
+                   alpha = 1,
+                   fill = codec_bi_pal[7]
           ) +
           annotate("rect",
-            xmin = bins_x[2], xmax = bins_x[3],
-            ymin = -Inf, ymax = bins_y[2],
-            alpha = 1,
-            fill = codec_bi_pal_2$fill[4]
+                   xmin = bins_x[2], xmax = bins_x[3],
+                   ymin = -Inf, ymax = bins_y[2],
+                   alpha = 1,
+                   fill = codec_bi_pal[2]
           ) +
           annotate("rect",
-            xmin = bins_x[2], xmax = bins_x[3],
-            ymin = bins_y[2], ymax = bins_y[3],
-            alpha = 1,
-            fill = codec_bi_pal_2$fill[5]
+                   xmin = bins_x[2], xmax = bins_x[3],
+                   ymin = bins_y[2], ymax = bins_y[3],
+                   alpha = 1,
+                   fill = codec_bi_pal[5]
           ) +
           annotate("rect",
-            xmin = bins_x[2], xmax = bins_x[3],
-            ymin = bins_y[3], ymax = Inf,
-            alpha = 1,
-            fill = codec_bi_pal_2$fill[6]
+                   xmin = bins_x[2], xmax = bins_x[3],
+                   ymin = bins_y[3], ymax = Inf,
+                   alpha = 1,
+                   fill = codec_bi_pal[8]
           ) +
           annotate("rect",
-            xmin = bins_x[3], xmax = Inf,
-            ymin = -Inf, ymax = bins_y[2],
-            alpha = 1,
-            fill = codec_bi_pal_2$fill[7]
+                   xmin = bins_x[3], xmax = Inf,
+                   ymin = -Inf, ymax = bins_y[2],
+                   alpha = 1,
+                   fill = codec_bi_pal[3]
           ) +
           annotate("rect",
-            xmin = bins_x[3], xmax = Inf,
-            ymin = bins_y[2], ymax = bins_y[3],
-            alpha = 1,
-            fill = codec_bi_pal_2$fill[8]
+                   xmin = bins_x[3], xmax = Inf,
+                   ymin = bins_y[2], ymax = bins_y[3],
+                   alpha = 1,
+                   fill = codec_bi_pal[6]
           ) +
           annotate("rect",
-            xmin = bins_x[3], xmax = Inf,
-            ymin = bins_y[3], ymax = Inf,
-            alpha = 1,
-            fill = codec_bi_pal_2$fill[9]
+                   xmin = bins_x[3], xmax = Inf,
+                   ymin = bins_y[3], ymax = Inf,
+                   alpha = 1,
+                   fill = codec_bi_pal[9]
           )
 
         scat <- scatter_panels +
