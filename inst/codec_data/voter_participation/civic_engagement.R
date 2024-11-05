@@ -104,4 +104,4 @@ out_dpkg <-
     description = paste(readLines(fs::path_package("codec", "codec_data", "voter_participation", "README.md")), collapse = "\n")
   )
 
-dpkg::dpkg_gh_release(out_dpkg, draft = FALSE)
+dpkg_gh_release(out_dpkg, draft = FALSE)
