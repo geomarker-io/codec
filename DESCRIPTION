@@ -25,8 +25,7 @@ Suggests:
     tibble,
     sf
 Remotes:
-    geomarker-io/cincy,
-    cole-brokamp/dpkg
+    geomarker-io/cincy
 Config/testthat/edition: 3
 URL: https://github.com/geomarker-io/codec,
     http://geomarker.io/codec/
@@ -36,7 +35,7 @@ Imports:
     stringr,
     purrr (>= 1.0.0),
     cincy (>= 1.1.0),
-    dpkg (>= 0.5.1)
+    dpkg
 Depends: 
     R (>= 2.10)
 LazyData: true
