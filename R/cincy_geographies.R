@@ -1,5 +1,8 @@
-#' cincy_census_geo()
-#' cincy_census_geo("bg", "2019", s2_geography = FALSE)
+#' cincy_census_geo("tract", "2024")
+#' cincy_census_geo("tract", "2020")
+#' cincy_census_geo("tract", "2019")
+#' cincy_census_geo("bg", "2020")
+#' cincy_census_geo("bg", "2019")
 cincy_census_geo <- function(geography = c("tract", "bg"), vintage = as.character(2024:2013)) {
   geography <- rlang::arg_match(geography)
   vintage <- rlang::arg_match(vintage)
@@ -18,8 +21,9 @@ cincy_census_geo <- function(geography = c("tract", "bg"), vintage = as.characte
   return(out)
 }
 
-#' get_cincy_county()
-get_cincy_county <- function(vintage = "2024") {
+#' cincy_county_geo("2024")
+cincy_county_geo <- function(vintage = as.character(2024:2013)) {
+  vintage <- rlang::arg_match(vintage)
   tiger_url <- glue::glue("https://www2.census.gov/geo/tiger/TIGER{vintage}/COUNTY/tl_{vintage}_us_county.zip")
   tiger_local <- dpkg::stow_url(tiger_url)
   out <-
@@ -29,14 +33,15 @@ get_cincy_county <- function(vintage = "2024") {
   return(sf::st_as_s2(out$geometry))
 }
 
-get_cincy_neighborhoods <- function(vintage) {
+cincy_neighborhood_geo <- function(vintage, type = c("tract", "community_council", "sna")) {
 }
 
 ## get_cincy_city
 
-#' get_cincy_zctas()
-#' get_cincy_zctas("2018")
-get_cincy_zctas <- function(vintage = "2024") {
+#' cincy_zcta_geo()
+#' cincy_zcta_geo("2018")
+cincy_zcta_geo <- function(vintage = as.character(2024:2013)) {
+  vintage <- rlang::arg_match(vintage)
   is_vintage_old <- vintage %in% as.character(2013:2019)
   tiger_url <- glue::glue(
     "https://www2.census.gov/geo/tiger/TIGER{vintage}/",
@@ -58,7 +63,7 @@ get_cincy_zctas <- function(vintage = "2024") {
         " IN ({paste(paste0(\"'\", cincy_zip_codes, \"'\"), collapse = \", \")})"
       )
     )
-  names(out) <- tolower(names(out))
+  names(out) <- gsub("[0-9]", "", tolower(names(out)))
   out$s2_geography <- sf::st_as_s2(out$geometry)
   out <- sf::st_drop_geometry(out)
   return(out)
