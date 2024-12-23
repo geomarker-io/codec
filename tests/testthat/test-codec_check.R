@@ -49,3 +49,8 @@ test_that("as_codec_dpkg works", {
     as_codec_dpkg(name = "foofy", version = "0.0.0") |>
     expect_error("does not contain")
 })
+
+test_that("is_codec_dpkg works", {
+  expect_false(is_codec_dpkg(mtcars))
+  expect_true(is_codec_dpkg(get_codec_dpkg("drivetime-v0.2.2")))
+})

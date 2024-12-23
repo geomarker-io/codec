@@ -40,7 +40,7 @@ get_codec_dpkg <- function(codec_dpkg, overwrite = FALSE) {
 #' @param title see `dpkg::as_dpkg()`
 #' @param description see `dpkg::as_dpkg()`
 #' @param homepage see `dpkg::as_dpkg()`
-#' @returns a dpkg object
+#' @returns for as_codec_dpkg, a dpkg object
 #' @export
 as_codec_dpkg <- function(x, name, version, title = character(), description = character(), homepage = character()) {
   chk1 <- check_census_tract_id(x)
@@ -48,6 +48,26 @@ as_codec_dpkg <- function(x, name, version, title = character(), description = c
   chk2 <- check_date(x)
   if (!is.null(chk2)) rlang::abort(chk2)
   out <- dpkg::as_dpkg(x, name = name, version = version, title = title, description = description, homepage = homepage)
+  return(out)
+}
+
+#' is_codec_dpkg
+#' @rdname as_codec_dpkg
+#' @returns for is_codec_dpkg, a logical
+#' @export
+#' @examples
+#' is_codec_dpkg(mtcars)
+is_codec_dpkg <- function(x) {
+  list_dpkg <- dpkg::dpkg_meta(x)
+  list_dpkg$x <- tibble::as_tibble(x)
+  out <-
+    tryCatch(
+      {
+        do.call(as_codec_dpkg, list_dpkg)
+        TRUE
+      },
+      error = function(x) FALSE
+    )
   return(out)
 }
 
