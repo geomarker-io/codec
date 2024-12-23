@@ -17,40 +17,6 @@ get_codec_dpkg <- function(codec_dpkg, overwrite = FALSE) {
   return(out)
 }
 
-
-#' Convert a CoDEC dpkg into an sf object
-#'
-#' The required census tract identifier column name is used to merge in tract geographies
-#' from the [cincy](https://geomarker.io/cincy) package.
-#'
-#' @param x a CoDEC dpkg
-#' @returns an `sf` object that is a codec dpkg with an added `geometry` column
-#' @export
-#' @examples
-#' get_codec_dpkg("drivetime-v0.2.2") |>
-#'   codec_dpkg_as_sf()
-codec_dpkg_as_sf <- function(x) {
-  x <- as_codec_dpkg(x,
-    name = attr(x, "name"),
-    version = attr(x, "version"),
-    title = attr(x, "title"),
-    description = attr(x, "description"),
-    homepage = attr(x, "homepage")
-  )
-  census_tract_id_names <- paste0("census_tract_id", c("_2000", "_2010", "_2020"))
-  census_tract_id_name <- census_tract_id_names[census_tract_id_names %in% names(x)]
-  census_tract_id_year <- stringr::str_extract(census_tract_id_name, "[0-9]+")
-  census_tract_geo <-
-    parse(text = paste0("cincy::tract_tigris_", census_tract_id_year)) |>
-    eval()
-  rlang::check_installed("sf", "return sf objects")
-  out <-
-    dplyr::left_join(x, census_tract_geo, by = census_tract_id_name) |>
-    sf::st_as_sf()
-  return(out)
-}
-
-
 #' as_codec_dpkg
 #'
 #' Convert a tibble to a data package (`dpkg`) object in R while checking it
