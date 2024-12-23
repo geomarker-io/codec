@@ -57,7 +57,7 @@ codec_dpkg_as_sf <- function(x) {
 #' against CoDEC data specifications:
 #'
 #' 1. The data must include a [census tract](https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf)
-#' identifier column (i.e., `census_tract_id_2000`, `census_tract_id_2010`, or `census_tract_id_2020`).
+#' identifier column (i.e., `census_tract_id_2010`, or `census_tract_id_2020`).
 #' The column must contain 11-digit
 #' [GEOID](https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html)
 #' identifiers for every census tract in Hamilton County, OH.
@@ -86,37 +86,42 @@ as_codec_dpkg <- function(x, name, version, title = character(), description = c
 }
 
 check_census_tract_id <- function(x) {
-  census_tract_id_names <- paste0("census_tract_id", c("_2000", "_2010", "_2020"))
+  census_tract_id_names <- paste0("census_tract_id", c("_2010", "_2020"))
   # has census_tract_id_{year} or census_tract_id column
   if (sum(names(x) %in% census_tract_id_names) != 1) {
-    return("must contain one census tract id column called census_tract_id_2000, census_tract_id_2010, or census_tract_id_2020")
+    return("must contain one census tract id column called census_tract_id_2010 or census_tract_id_2020")
   }
   census_tract_id_name <- census_tract_id_names[census_tract_id_names %in% names(x)]
   census_tract_id_year <- stringr::str_extract(census_tract_id_name, "[0-9]+")
-  required_census_tract_ids <-
-    parse(text = paste0("cincy::tract_tigris_", census_tract_id_year)) |>
-    eval() |>
-    purrr::pluck(paste0("census_tract_id_", census_tract_id_year))
+  if (census_tract_id_year == "2010") {
+    required_census_tract_ids <- cincy_census_geo("tract", "2019")$geoid
+  } else if (census_tract_id_year == "2020") {
+    required_census_tract_ids <- cincy_census_geo("tract", "2020")$geoid
+  }
 
   if (!all(required_census_tract_ids %in% x[[census_tract_id_name]])) {
-    return(glue::glue("the census tract id column, {census_tract_id_name}, does not contain every census tract in `cincy::tract_tigris_{census_tract_id_year}`"))
+    return(glue::glue("the census tract id column, {census_tract_id_name},",
+      "does not contain every census tract for that vintage;",
+      "Check for missing census tract observations and",
+      "check that you are using the correct vintage.",
+      .sep = " "
+    ))
   }
   return(invisible(NULL))
 }
 
 check_date <- function(x) {
-  if (! "year" %in% names(x)) {
+  if (!"year" %in% names(x)) {
     return("must contain a 'year' column")
   }
   years <- unique(x$year)
-  if (! all(years %in% 1970:2099)) {
+  if (!all(years %in% 1970:2099)) {
     return("the 'year' field must only contain integer years between 1970 and 2099")
   }
   if ("month" %in% names(x)) {
-    if (! all(x$month %in% 1:12)) {
+    if (!all(x$month %in% 1:12)) {
       return("the 'month' field  must only contain integer values 1-12")
     }
   }
   return(invisible(NULL))
 }
-

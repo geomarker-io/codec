@@ -7,12 +7,12 @@ test_that("check census tract id", {
   readRDS(testthat::test_path("drivetime", "drivetime.rds")) |>
     dplyr::rename(census_tract_id = census_tract_id_2010) |>
     check_census_tract_id() |>
-    expect_identical("must contain one census tract id column called census_tract_id_2000, census_tract_id_2010, or census_tract_id_2020")
+    expect_identical("must contain one census tract id column called census_tract_id_2010 or census_tract_id_2020")
 
   readRDS(testthat::test_path("drivetime", "drivetime.rds")) |>
     dplyr::slice_head(n = 5) |>
     check_census_tract_id() |>
-    expect_identical("the census tract id column, census_tract_id_2010, does not contain every census tract in `cincy::tract_tigris_2010`")
+    expect_identical("the census tract id column, census_tract_id_2010, does not contain every census tract for that vintage; Check for missing census tract observations and check that you are using the correct vintage.")
 })
 
 test_that("check date", {
