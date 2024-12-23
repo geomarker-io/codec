@@ -1,3 +1,17 @@
+#' Cincy census tracts and block groups
+#'
+#' Read tract and block group ("bg") geographies from the online Census
+#' [TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
+#' files into R
+#' @param geography which type of cincy census geography to return
+#' @param vintage a character vector of a year corresponding to the vintage of TIGER/Line data
+#' @details
+#' Compressed shapefiles are downloaded from TIGER into an R user data directory and will be cached
+#' for use across other R sessions (see `?dpkg::stow` for more details).
+#' @returns a simple features object with a geographic identifier column (`geoid`)
+#' and a geometry column (`s2_geography`)
+#' @export
+#' @examples
 #' cincy_census_geo("tract", "2024")
 #' cincy_census_geo("tract", "2020")
 #' cincy_census_geo("tract", "2019")
@@ -18,9 +32,14 @@ cincy_census_geo <- function(geography = c("tract", "bg"), vintage = as.characte
   names(out) <- tolower(names(out))
   out$s2_geography <- sf::st_as_s2(out$geometry)
   out <- sf::st_drop_geometry(out)
+  out <- sf::st_as_sf(out)
   return(out)
 }
 
+#' Cincy county
+#' @rdname cincy_census_geo
+#' @export
+#' @examples
 #' cincy_county_geo("2024")
 cincy_county_geo <- function(vintage = as.character(2024:2013)) {
   vintage <- rlang::arg_match(vintage)
@@ -33,11 +52,103 @@ cincy_county_geo <- function(vintage = as.character(2024:2013)) {
   return(sf::st_as_s2(out$geometry))
 }
 
-cincy_neighborhood_geo <- function(vintage, type = c("tract", "community_council", "sna")) {
+#' Install CAGIS GIS database
+#' 
+#' This installs the CAGIS Open Data GIS database (`.gdb`) into the data
+#' directory for the codec package. Once downloaded, it will be reused
+#' across R sessions on the same computer.
+#' The geodatabase contains many [layers](https://www.cagis.org/Opendata/Quarterly_GIS_Data/OpenData_Layer_List.txt) that are
+#' updated quarterly. (Historical geodatabases are not available here.)
+#' @seealso This function is called by `cincy_neighborhood_geo()`, `cincy_city_geo()` and others that import individual layers.
+#' @param cagis_data_url the url to the CAGIS Open Data .gdb.zip file; this changes quarterly, so
+#' [check](https://www.cagis.org/Opendata/Quarterly_GIS_Data) for something more recent if the file cannot be found
+#' @examples
+#' options(timeout = max(2500, getOption("timeout")), download.file.method = "libcurl")
+#' install_cagis_data()
+#' sf::st_layers(install_cagis_data())$name
+install_cagis_data <- function(cagis_data_url = "https://www.cagis.org/Opendata/Quarterly_GIS_Data/CAGISOpenDataQ4_2024.gdb.zip") {
+  cagis_gdb_name <- tools::file_path_sans_ext(basename(cagis_data_url))
+  dest <- file.path(tools::R_user_dir(package = "codec", "data"), cagis_gdb_name)
+  if (file.exists(dest)) {
+    return(dest)
+  }
+  tmp <- tempfile(fileext = ".zip")
+  utils::download.file(cagis_data_url, destfile = tmp, mode = "wb")
+  unzip(tmp, exdir = dirname(dest))
+  return(dest)
 }
 
-## get_cincy_city
+#' Cincy neighborhood geographies
+#'
+#' CAGIS data (see `install_cagis_data()`) provides community council boundaries, but these boundaries can
+#' overlap and do not align with census geographies or ZIP codes.
+#' By default, the statistical neighborhood approximations are instead returned,
+#' which are calculated by aggregating census tracts into 50 matching neighborhoods.
+#' @param geography which type of cincy neighborhood geography to return
+#' @returns a simple features object with a geographic identifier column (`geoid`)
+#' and a geometry column (`s2_geography`)
+#' @export
+#' @examples
+#' cincy_neighborhood_geo("statistical_neighborhood_approximations")
+#' cincy_neighborhood_geo("community_council")
+cincy_neighborhood_geo <- function(geography = c("statistical_neighborhood_approximations", "community_council")) {
+  geography <- rlang::arg_match(geography)
+  if (geography == "statistical_neighborhood_approximations") {
+    noi <- c("Cincinnati_Statistical_Neighborhood_Approximations" = "SNA_NAME")
+  }
+  if (geography == "community_council") {
+    noi <- c("Cincinnati_Community_Council_Neighborhoods" = "NEIGH")
+  }
+  d <- sf::st_read(install_cagis_data(), names(noi), quiet = TRUE)
+  out <- tibble::tibble(
+    geoid = sf::st_drop_geometry(d)[, noi],
+    s2_geography = sf::st_as_s2(sf::st_cast(sf::st_zm(d$SHAPE), "MULTIPOLYGON"))
+  ) |>
+    sf::st_as_sf()
+  return(out)
+}
 
+#' cincy_city_geo()
+#' @export
+#' @rdname cincy_neighorhood_geo
+cincy_city_geo <- function() {
+  cagis_db <- install_cagis_data()
+  out <- sf::st_read(cagis_db, layer = "Cincinnati_City_Boundary", quiet = TRUE)
+  return(sf::st_as_s2(out$SHAPE))
+}
+
+
+#' Cincy census tracts and block groups
+#'
+#' Read tract and block group ("bg") geographies from the online Census
+#' [TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
+#' files into R
+#' @param geography which type of cincy census geography to return
+#' @param vintage a character vector of a year corresponding to the vintage of TIGER/Line data
+#' @details
+#' Compressed shapefiles are downloaded from TIGER into an R user data directory and will be cached
+#' for use across other R sessions (see `?dpkg::stow` for more details).
+#' @returns a simple features object with a geographic identifier column (`geoid`)
+#' and a geometry column (`s2_geography`)
+#' @export
+#' @examples
+#' cincy_census_geo("tract", "2024")
+#' cincy_census_geo("tract", "2020")
+#' cincy_census_geo("tract", "2019")
+#' cincy_census_geo("bg", "2020")
+#' cincy_census_geo("bg", "2019")
+
+#' Cincy ZIP Code Tabulation Areas
+#'
+#' Read [ZIP Code Tabulation Areas (ZCTAs)](https://www.census.gov/programs-surveys/geography/guidance/geo-areas/zctas.html)
+#' geographies from the online Census
+#' [TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
+#' files into R
+#' @param vintage a character vector of a year corresponding to the vintage of TIGER/Line data
+#' @export
+#' @returns a simple features object with a geographic identifier column (`geoid`)
+#' and a geometry column (`s2_geography`)
+#' @examples
 #' cincy_zcta_geo()
 #' cincy_zcta_geo("2018")
 cincy_zcta_geo <- function(vintage = as.character(2024:2013)) {
@@ -66,6 +177,7 @@ cincy_zcta_geo <- function(vintage = as.character(2024:2013)) {
   names(out) <- gsub("[0-9]", "", tolower(names(out)))
   out$s2_geography <- sf::st_as_s2(out$geometry)
   out <- sf::st_drop_geometry(out)
+  out <- sf::st_as_sf(out)
   return(out)
 }
 

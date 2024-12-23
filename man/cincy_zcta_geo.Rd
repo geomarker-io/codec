@@ -2,12 +2,43 @@
 % Please edit documentation in R/cincy_geographies.R
 \name{cincy_zcta_geo}
 \alias{cincy_zcta_geo}
-\title{cincy_zcta_geo()
-cincy_zcta_geo("2018")}
+\title{Cincy census tracts and block groups}
 \usage{
 cincy_zcta_geo(vintage = as.character(2024:2013))
 }
+\arguments{
+\item{vintage}{a character vector of a year corresponding to the vintage of TIGER/Line data}
+
+\item{geography}{which type of cincy census geography to return}
+}
+\value{
+a simple features object with a geographic identifier column (\code{geoid})
+and a geometry column (\code{s2_geography})
+
+a simple features object with a geographic identifier column (\code{geoid})
+and a geometry column (\code{s2_geography})
+}
 \description{
+Read tract and block group ("bg") geographies from the online Census
+\href{https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html}{TIGER/Line}
+files into R
+}
+\details{
+Compressed shapefiles are downloaded from TIGER into an R user data directory and will be cached
+for use across other R sessions (see \code{?dpkg::stow} for more details).
+}
+\examples{
+cincy_census_geo("tract", "2024")
+cincy_census_geo("tract", "2020")
+cincy_census_geo("tract", "2019")
+cincy_census_geo("bg", "2020")
+cincy_census_geo("bg", "2019")
+Cincy ZIP Code Tabulation Areas
+
+Read [ZIP Code Tabulation Areas (ZCTAs)](https://www.census.gov/programs-surveys/geography/guidance/geo-areas/zctas.html)
+geographies from the online Census
+[TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
+files into R
 cincy_zcta_geo()
 cincy_zcta_geo("2018")
 }
