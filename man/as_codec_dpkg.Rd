@@ -2,6 +2,7 @@
 % Please edit documentation in R/codec_dpkg.R
 \name{as_codec_dpkg}
 \alias{as_codec_dpkg}
+\alias{is_codec_dpkg}
 \title{as_codec_dpkg}
 \usage{
 as_codec_dpkg(
@@ -12,6 +13,8 @@ as_codec_dpkg(
   description = character(),
   homepage = character()
 )
+
+is_codec_dpkg(x)
 }
 \arguments{
 \item{x}{data.frame or tibble meeting CoDEC data specifications above}
@@ -27,7 +30,9 @@ as_codec_dpkg(
 \item{homepage}{see \code{dpkg::as_dpkg()}}
 }
 \value{
-a dpkg object
+for as_codec_dpkg, a dpkg object
+
+for is_codec_dpkg, a logical
 }
 \description{
 Convert a tibble to a data package (\code{dpkg}) object in R while checking it
@@ -47,4 +52,7 @@ The data can optionally include a month column (\code{month}), an integer month 
 
 Data must be structured in a tidy format such that each row is an observation
 for a specific census tract at a specific year (and month).
+}
+\examples{
+is_codec_dpkg(mtcars)
 }
