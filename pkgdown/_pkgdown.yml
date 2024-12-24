@@ -32,11 +32,17 @@ reference:
   - title: Accessing CoDEC data
     contents:
     - get_codec_dpkg
-    - codec_dpkg_as_sf
   - title: Creating CoDEC data
     contents:
     - as_codec_dpkg
-    - codec_dpkg_s3_put
+  - title: Cincinnati Geographies
+    contents:
+    - cincy_census_geo
+    - cincy_county_geo
+    - cincy_neighborhood_geo
+    - cincy_city_geo
+    - install_cagis_data
+    - cincy_zcta_geo
   - title: CoDEC Developer Resources
     contents:
     - codec_colors
