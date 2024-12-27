@@ -13,7 +13,7 @@ template:
     code_font: {google: "Source Code Pro"}
 navbar:
   structure:
-    left:  [about, data, harmonization, explore, reference]
+    left:  [about, harmonization,reference, data, explore]
   components:
    about:
     text: About
@@ -29,13 +29,13 @@ navbar:
      href: articles/data.html
 
 reference:
-  - title: Accessing CoDEC data
+  - title: CoDEC data
     contents:
     - get_codec_dpkg
-  - title: Creating CoDEC data
-    contents:
+    - codec_interpolate
     - as_codec_dpkg
-  - title: Cincinnati Geographies
+    - codec_as_sf
+  - title: cincy geographies
     contents:
     - cincy_census_geo
     - cincy_county_geo
@@ -43,7 +43,7 @@ reference:
     - cincy_city_geo
     - install_cagis_data
     - cincy_zcta_geo
-  - title: CoDEC Developer Resources
+  - title: CoDEC developer tools
     contents:
     - codec_colors
 

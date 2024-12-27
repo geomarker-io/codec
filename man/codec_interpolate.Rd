@@ -4,21 +4,26 @@
 \alias{codec_interpolate}
 \title{Spatially interpolate community-level data}
 \usage{
-codec_interpolate(from, to = "zcta", weights = c("pop", "homes", "area"))
+codec_interpolate(
+  from,
+  to = c("neigh", "zcta", "bg"),
+  weights = c("pop", "homes", "area")
+)
 }
 \arguments{
 \item{from}{a CoDEC data package}
 
-\item{to}{name of target geography}
+\item{to}{character string naming a target geography}
 
 \item{weights}{which census block-level weights to use; see details}
 }
 \value{
-a simple features object with a geographic identifier column (\code{geoid})
-and a geometry column (\code{s2_geography}) in addition to the (interpolated) columns in \code{from}
+a tibble with a new geographic identifier column for the \code{to} target geography (\code{geoid})
+in addition to the (interpolated) columns in \code{from}
 }
 \description{
-Census block-level weights are used to spatially interpolate different geographies.
+Census block-level weights are used to spatially interpolate CoDEC data packages from 2020
+census tract geographies to 2020 neighborhoods (\code{neigh}), ZIP code tabulation areas (\code{zcta}), or block groups (\code{bg}).
 }
 \details{
 Block-level total population (\code{pop}), total number of homes (\code{homes}), or total land area (\code{area})

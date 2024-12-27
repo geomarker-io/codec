@@ -1,14 +1,14 @@
 #' Coerce CoDEC data package into a simple features object
 #'
 #' This functions uses the name of the census tract column in
-#' the CoDEC data package to add the appropriate `cincy_census_geo()`
-#' and convert it into a sf object.
-#' @param x a CoDEC data package
-#' @returns a simple features object with a geographic identifier column (`geoid`)
+#' the CoDEC data package to add the approe features object with a geographic identifier column (`geoid`)
 #' and a geometry column (`s2_geography`) in addition to the existing columns in x
+#' @param x a CoDEC data package
 #' @details Tract identifers do not change across decennial censuses, but the digital representation of their boundaries
 #' may be improved over time.  Here, data packages using 2010 tract identifers use the TIGER/Line 2019 tract shapefiles
 #' and data packages using 2020 tract identifiers use the TIGER/Line 2020 tract shapefiles
+#' @returns a simple features object with a geographic identifier column (`geoid`)
+#' and a geometry column (`s2_geography`) in addition to the columns in `x`
 #' @export
 #' @examples
 #' codec_as_sf(get_codec_dpkg("property_code_enforcements-v0.2.0"))
@@ -28,12 +28,13 @@ codec_as_sf <- function(x) {
 
 #' Spatially interpolate community-level data
 #'
-#' Census block-level weights are used to spatially interpolate different geographies.
+#' Census block-level weights are used to spatially interpolate CoDEC data packages from 2020
+#' census tract geographies to 2020 neighborhoods (`neigh`), ZIP code tabulation areas (`zcta`), or block groups (`bg`).
 #' @param from a CoDEC data package
-#' @param to name of target geography
+#' @param to character string naming a target geography
 #' @param weights which census block-level weights to use; see details
-#' @returns a simple features object with a geographic identifier column (`geoid`)
-#' and a geometry column (`s2_geography`) in addition to the (interpolated) columns in `from`
+#' @returns a tibble with a new geographic identifier column for the `to` target geography (`geoid`)
+#' in addition to the (interpolated) columns in `from`
 #' @details
 #' Block-level total population (`pop`), total number of homes (`homes`), or total land area (`area`)
 #' from the 2020 Census can be chosen to use for the weights.

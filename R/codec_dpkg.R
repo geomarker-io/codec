@@ -1,4 +1,4 @@
-#' Read a dpkg from the public CoDEC repository into R
+#' Read a dpkg from CoDEC into R
 #'
 #' Public data packages are downloaded from `gh://geomarker-io/codec/` using
 #' `dpkg::stow()` to cache a local copy in the user's data directory.
@@ -17,11 +17,10 @@ get_codec_dpkg <- function(codec_dpkg, overwrite = FALSE) {
   return(out)
 }
 
-#' as_codec_dpkg
-#'
 #' Convert a tibble to a data package (`dpkg`) object in R while checking it
-#' against CoDEC data specifications:
+#' against CoDEC data specifications.
 #'
+#' **CoDEC Specifications:**
 #' 1. The data must include a [census tract](https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf)
 #' identifier column (i.e., `census_tract_id_2010`, or `census_tract_id_2020`).
 #' The column must contain 11-digit

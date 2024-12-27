@@ -3,7 +3,8 @@
 \name{as_codec_dpkg}
 \alias{as_codec_dpkg}
 \alias{is_codec_dpkg}
-\title{as_codec_dpkg}
+\title{Convert a tibble to a data package (\code{dpkg}) object in R while checking it
+against CoDEC data specifications.}
 \usage{
 as_codec_dpkg(
   x,
@@ -35,10 +36,7 @@ for as_codec_dpkg, a dpkg object
 for is_codec_dpkg, a logical
 }
 \description{
-Convert a tibble to a data package (\code{dpkg}) object in R while checking it
-against CoDEC data specifications:
-}
-\details{
+\strong{CoDEC Specifications:}
 \enumerate{
 \item The data must include a \href{https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf}{census tract}
 identifier column (i.e., \code{census_tract_id_2010}, or \code{census_tract_id_2020}).
@@ -49,7 +47,8 @@ identifiers for every census tract in Hamilton County, OH.
 vintage of the data (e.g. \code{2021}).
 The data can optionally include a month column (\code{month}), an integer month of the year.
 }
-
+}
+\details{
 Data must be structured in a tidy format such that each row is an observation
 for a specific census tract at a specific year (and month).
 }

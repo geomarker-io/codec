@@ -2,7 +2,7 @@
 % Please edit documentation in R/codec_dpkg.R
 \name{get_codec_dpkg}
 \alias{get_codec_dpkg}
-\title{Read a dpkg from the public CoDEC repository into R}
+\title{Read a dpkg from CoDEC into R}
 \usage{
 get_codec_dpkg(codec_dpkg, overwrite = FALSE)
 }
