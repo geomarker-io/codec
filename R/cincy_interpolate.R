@@ -45,7 +45,8 @@ codec_as_sf <- function(x) {
 #' @examples
 #' codec_interpolate(from = get_codec_dpkg("acs_measures-v0.1.0"))
 #' # TODO codec_interpolate(from = get_codec_dpkg("property_code_enforcements-v0.2.0"))
-codec_interpolate <- function(from, to = "zcta", weights = c("pop", "homes", "area")) {
+codec_interpolate <- function(from, to = c("neigh", "zcta", "bg"), weights = c("pop", "homes", "area")) {
+  to <- rlang::arg_match(to)
   weights <- rlang::arg_match(weights)
   from_sf <-
     from |>
@@ -55,15 +56,18 @@ codec_interpolate <- function(from, to = "zcta", weights = c("pop", "homes", "ar
     sf::st_transform(5072)
 
   if (to == "zcta") {
-    to_sf <-
-      cincy_zcta_geo("2020") |>
-      sf::st_transform(5072)
+    to_sf <- cincy_zcta_geo("2020")
+  } else if (to == "neigh") {
+    to_sf <- cincy_neighborhood_geo("statistical_neighborhood_approximations")
+  } else if (to == "bg") {
+    to_sf <- cincy_census_geo("bg", "2020")
   }
+  to_sf <- sf::st_transform(to_sf, 5072)
 
   bw <-
     cincy_block_weights() |>
     sf::st_transform(5072) |>
-    dplyr::select(the_weight = pop, s2_geography)
+    dplyr::select(the_weight = {{ weights}}, s2_geography)
   # TODO add back in choice for weights
 
   interpolation_weights <-
