@@ -1,30 +1,99 @@
-#' Spatially interpolate community-level data
+#' Coerce CoDEC data package into a simple features object
 #'
-#' Weights at the census block-level are used to spatially interpolate different geographies.
-#' Block-level total population, total number of homes, or total land area from the 2020 Census
-#' can be chosen to use for the weights.
-#' @param from a CoDEC data package
-#' @param to ; if NULL, tract geographies are returned without data interpolation
+#' This functions uses the name of the census tract column in
+#' the CoDEC data package to add the appropriate `cincy_census_geo()`
+#' and convert it into a sf object.
+#' @param x a CoDEC data package
+#' @returns a simple features object with a geographic identifier column (`geoid`)
+#' and a geometry column (`s2_geography`) in addition to the existing columns in x
 #' @details Tract identifers do not change across decennial censuses, but the digital representation of their boundaries
 #' may be improved over time.  Here, data packages using 2010 tract identifers use the TIGER/Line 2019 tract shapefiles
 #' and data packages using 2020 tract identifiers use the TIGER/Line 2020 tract shapefiles
+#' @examples
+#' codec_as_sf(get_codec_dpkg("property_code_enforcements-v0.2.0"))
+codec_as_sf <- function(x) {
+  if (!is_codec_dpkg(x)) rlang::abort("x must be a CoDEC data package")
+  codec_tract_id_name <-
+    ifelse(
+      any(grepl("census_tract_id_2010", names(x), fixed = TRUE)),
+      "census_tract_id_2010", "census_tract_id_2020"
+    )
+  tiger_vintage <- ifelse(codec_tract_id_name == "census_tract_id_2020", "2020", "2019")
+  gd <-
+    cincy_census_geo("tract", tiger_vintage) |>
+    dplyr::left_join(x, by = c("geoid" = codec_tract_id_name))
+  return(gd)
+}
+
+#' Spatially interpolate community-level data
+#'
+#' Census block-level weights are used to spatially interpolate different geographies.
+#' Block-level total population, total number of homes, or total land area from the 2020 Census
+#' can be chosen to use for the weights.
+#'
+#' @param from a CoDEC data package
+#' @param to
 #' @returns a simple features object with a geographic identifier column (`geoid`)
 #' and a geometry column (`s2_geography`) in addition to the (interpolated) columns in `from`
+#' @details
+#' Geospatial intersection happens after transforming geographies to epsg:5072.
+#' See `codec_as_sf()` for adding geography to a CoDEC data package.
+#' Variables beginning with "n_" are interpolated using a weighted sum;
+#' all other variables are interpolated using a weighted mean.
 #' @examples
+#' codec_interpolate(from = get_codec_dpkg("acs_measures-v0.1.0"))
 #' codec_interpolate(from = get_codec_dpkg("property_code_enforcements-v0.2.0"))
 #' codec_interpolate(get_codec_dpkg("property_code_enforcements-v0.2.0"), to = "zcta")
-codec_interpolate <- function(from, to = NULL, weights = c("pop", "homes", "area")) {
+codec_interpolate <- function(from, to = "zcta", weights = c("pop", "homes", "area")) {
   weights <- rlang::arg_match(weights)
-  if (!is_codec_dpkg(from)) rlang::abort("from must be a CoDEC data package")
-  md <- dpkg::dpkg_meta(from)
-  gd_vintage <- ifelse(any(grepl("census_tract_id_2010", names(from), fixed = TRUE)), "2019", "2020")
-  gd <-
-    cincy_census_geo("tract", gd_vintage) |>
-    dplyr::left_join(from, by = c("geoid" = paste0("census_tract_id_", ifelse(gd_vintage == "2019", "2010", "2020"))))
-  if (is.null(to)) {
-    return(gd)
+  from_sf <-
+    from |>
+    codec_as_sf() |>
+    dplyr::slice_sample(n = 1, by = "geoid") |>
+    dplyr::select(geoid) |>
+    sf::st_transform(5072)
+
+  if (to == "zcta") {
+    to_sf <-
+      cincy_zcta_geo("2020") |>
+      sf::st_transform(5072)
   }
-  return("interpolation is under construction.....")
+
+  bw <-
+    cincy_block_weights() |>
+    sf::st_transform(5072) |>
+    dplyr::select(the_weight = pop, s2_geography)
+  # TODO add back in choice for weights
+
+  interpolation_weights <-
+    sf::st_intersection(dplyr::select(to_sf, geoid), dplyr::select(from_sf, geoid)) |>
+    dplyr::filter(sf::st_is(s2_geography, c("POLYGON", "MULTIPOLYGON", "GEOMETRYCOLLECTION"))) |>
+    sf::st_join(bw) |>
+    sf::st_drop_geometry() |>
+    dplyr::arrange(geoid) |>
+    na.omit() |>
+    dplyr::filter(the_weight > 0) |>
+    dplyr::mutate(weight_coef = the_weight / sum(the_weight), .by = c("geoid")) |>
+    dplyr::summarize(weight = sum(weight_coef), .by = c("geoid", "geoid.1")) |>
+    suppressWarnings()
+
+  out <-
+    from |>
+    dplyr::left_join(interpolation_weights, by = c("census_tract_id_2020" = "geoid.1")) |>
+    dplyr::group_by(geoid, year) |>
+    ## TODO
+    ## dplyr::left_join(interpolation_weights, by = c("census_tract_id_2010" = "geoid.1")) |>
+    ## dplyr::group_by(geoid, year, month) |>
+    dplyr::summarize(
+      dplyr::across(
+        c(-tidyselect::starts_with("n_"), -tidyselect::starts_with("census_tract_id_"), -weight),
+        \(x) weighted.mean(x, weight, na.rm = TRUE)
+      ),
+      dplyr::across(tidyselect::starts_with("n_"), \(x) sum(x * weight, na.rm = TRUE))
+    ) |>
+    dplyr::ungroup()
+
+  return(out)
 }
 
 cincy_block_weights <- function() {
@@ -45,54 +114,3 @@ cincy_block_weights <- function() {
   out <- sf::st_as_sf(out)
   return(out)
 }
-
-from <-
-  cincy_census_geo("tract", "2020") |>
-  sf::st_transform(5072) |>
-  dplyr::mutate(n = 0.1)
-to <- sf::st_transform(cincy_zcta_geo("2020"), 5072)
-
-bw <-
-  cincy_block_weights() |>
-  sf::st_transform(5072) |>
-  dplyr::select(weight = pop, s2_geography)
-  
-# from 'total weights'
-fromm <-
-  sf::st_join(from, bw, left = FALSE) |>
-  sf::st_drop_geometry() |>
-  dplyr::summarize(total_weight = sum(weight, na.rm = TRUE), .by = "geoid") |>
-  dplyr::right_join(from, by = "geoid") |>
-  sf::st_as_sf()
-
-# calculate intersections and intersection proportions
-intersections <-
-  fromm |>
-  sf::st_intersection(to) |>
-  dplyr::filter(sf::st_is(s2_geography, c("POLYGON", "MULTIPOLYGON", "GEOMETRYCOLLECTION"))) |>
-  dplyr::mutate(intersection_id = dplyr::row_number())
-
-weights <-
-  sf::st_join(bw, intersections) |>
-  sf::st_drop_geometry() |>
-  dplyr::summarize(
-    weight = sum(weight, na.rm = TRUE),
-    weight_coef = weight / total_weight,
-    .by = "intersection_id"
-  ) |>
-  dplyr::distinct(weight_coef, .keep_all = TRUE) |>
-  dplyr::right_join(intersections, by = "intersection_id") |>
-  dplyr::select(geoid, geoid.1, weight, weight_coef)
-
-# non-extensive (same total)
-fromm |>
-  sf::st_drop_geometry() |>
-  dplyr::left_join(weights, by = "geoid") |>
-  dplyr::summarize(n_interpolated = sum(n * weight_coef, na.rm = TRUE), .by = "geoid.1")
-
-# extensive (same average)
-fromm |>
-  sf::st_drop_geometry() |>
-  dplyr::left_join(weights, by = "geoid") |>
-  dplyr::summarize(n_interpolated = weighted.mean(n, weight, na.rm = TRUE), .by = "geoid.1")
-
