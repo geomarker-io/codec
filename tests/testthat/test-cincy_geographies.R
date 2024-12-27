@@ -50,14 +50,14 @@ test_that("cincy county", {
   d <- cincy_county_geo("2024")
   expect_equal(length(d), 1)
   expect_s3_class(d, c("s2_geography", "wk_vctr"))
-  expect_equal(s2::s2_area(d), 1067799848L)
+  expect_equal(round(s2::s2_area(d)), 1067799848L)
 })
 
 test_that("cincy city", {
   d <- cincy_city_geo()
   expect_equal(length(d), 1)
   expect_s3_class(d, c("s2_geography", "wk_vctr"))
-  expect_equal(s2::s2_area(d), 206352433L)
+  expect_equal(round(s2::s2_area(d)), 206352433L)
 })
 
 test_that("cincy zcta", {
