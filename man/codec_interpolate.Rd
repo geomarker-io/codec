@@ -4,28 +4,31 @@
 \alias{codec_interpolate}
 \title{Spatially interpolate community-level data}
 \usage{
-codec_interpolate(from, to = NULL, weights = c("pop", "homes", "area"))
+codec_interpolate(from, to = "zcta", weights = c("pop", "homes", "area"))
 }
 \arguments{
 \item{from}{a CoDEC data package}
 
-\item{to}{; if NULL, tract geographies are returned without data interpolation}
+\item{to}{name of target geography}
+
+\item{weights}{which census block-level weights to use; see details}
 }
 \value{
 a simple features object with a geographic identifier column (\code{geoid})
 and a geometry column (\code{s2_geography}) in addition to the (interpolated) columns in \code{from}
 }
 \description{
-Weights at the census block-level are used to spatially interpolate different geographies.
-Block-level total population, total number of homes, or total land area from the 2020 Census
-can be chosen to use for the weights.
+Census block-level weights are used to spatially interpolate different geographies.
 }
 \details{
-Tract identifers do not change across decennial censuses, but the digital representation of their boundaries
-may be improved over time.  Here, data packages using 2010 tract identifers use the TIGER/Line 2019 tract shapefiles
-and data packages using 2020 tract identifiers use the TIGER/Line 2020 tract shapefiles
+Block-level total population (\code{pop}), total number of homes (\code{homes}), or total land area (\code{area})
+from the 2020 Census can be chosen to use for the weights.
+Geospatial intersection happens after transforming geographies to epsg:5072.
+See \code{codec_as_sf()} for adding geography to a CoDEC data package.
+Variables beginning with "n_" are interpolated using a weighted sum;
+all other variables are interpolated using a weighted mean.
 }
 \examples{
-codec_interpolate(get_codec_dpkg("property_code_enforcements-v0.2.0"))
-codec_interpolate(get_codec_dpkg("property_code_enforcements-v0.2.0"), to = "zcta")
+codec_interpolate(from = get_codec_dpkg("acs_measures-v0.1.0"))
+# TODO codec_interpolate(from = get_codec_dpkg("property_code_enforcements-v0.2.0"))
 }

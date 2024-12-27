@@ -9,6 +9,7 @@
 #' @details Tract identifers do not change across decennial censuses, but the digital representation of their boundaries
 #' may be improved over time.  Here, data packages using 2010 tract identifers use the TIGER/Line 2019 tract shapefiles
 #' and data packages using 2020 tract identifiers use the TIGER/Line 2020 tract shapefiles
+#' @export
 #' @examples
 #' codec_as_sf(get_codec_dpkg("property_code_enforcements-v0.2.0"))
 codec_as_sf <- function(x) {
@@ -28,22 +29,22 @@ codec_as_sf <- function(x) {
 #' Spatially interpolate community-level data
 #'
 #' Census block-level weights are used to spatially interpolate different geographies.
-#' Block-level total population, total number of homes, or total land area from the 2020 Census
-#' can be chosen to use for the weights.
-#'
 #' @param from a CoDEC data package
-#' @param to
+#' @param to name of target geography
+#' @param weights which census block-level weights to use; see details
 #' @returns a simple features object with a geographic identifier column (`geoid`)
 #' and a geometry column (`s2_geography`) in addition to the (interpolated) columns in `from`
 #' @details
+#' Block-level total population (`pop`), total number of homes (`homes`), or total land area (`area`)
+#' from the 2020 Census can be chosen to use for the weights.
 #' Geospatial intersection happens after transforming geographies to epsg:5072.
 #' See `codec_as_sf()` for adding geography to a CoDEC data package.
 #' Variables beginning with "n_" are interpolated using a weighted sum;
 #' all other variables are interpolated using a weighted mean.
+#' @export
 #' @examples
 #' codec_interpolate(from = get_codec_dpkg("acs_measures-v0.1.0"))
-#' codec_interpolate(from = get_codec_dpkg("property_code_enforcements-v0.2.0"))
-#' codec_interpolate(get_codec_dpkg("property_code_enforcements-v0.2.0"), to = "zcta")
+#' # TODO codec_interpolate(from = get_codec_dpkg("property_code_enforcements-v0.2.0"))
 codec_interpolate <- function(from, to = "zcta", weights = c("pop", "homes", "area")) {
   weights <- rlang::arg_match(weights)
   from_sf <-
@@ -71,7 +72,7 @@ codec_interpolate <- function(from, to = "zcta", weights = c("pop", "homes", "ar
     sf::st_join(bw) |>
     sf::st_drop_geometry() |>
     dplyr::arrange(geoid) |>
-    na.omit() |>
+    stats::na.omit() |>
     dplyr::filter(the_weight > 0) |>
     dplyr::mutate(weight_coef = the_weight / sum(the_weight), .by = c("geoid")) |>
     dplyr::summarize(weight = sum(weight_coef), .by = c("geoid", "geoid.1")) |>
@@ -87,7 +88,7 @@ codec_interpolate <- function(from, to = "zcta", weights = c("pop", "homes", "ar
     dplyr::summarize(
       dplyr::across(
         c(-tidyselect::starts_with("n_"), -tidyselect::starts_with("census_tract_id_"), -weight),
-        \(x) weighted.mean(x, weight, na.rm = TRUE)
+        \(x) stats::weighted.mean(x, weight, na.rm = TRUE)
       ),
       dplyr::across(tidyselect::starts_with("n_"), \(x) sum(x * weight, na.rm = TRUE))
     ) |>
@@ -114,3 +115,10 @@ cincy_block_weights <- function() {
   out <- sf::st_as_sf(out)
   return(out)
 }
+
+utils::globalVariables(c(
+  "POP20", "HOUSING20", "ALAND20",
+  "geoid", "pop", "s2_geography",
+  "the_weight", "weight_coef",
+  "year", "month", "weight"
+))

@@ -57,11 +57,14 @@ cincy_county_geo <- function(vintage = as.character(2024:2013)) {
 #' This installs the CAGIS Open Data GIS database (`.gdb`) into the data
 #' directory for the codec package. Once downloaded, it will be reused
 #' across R sessions on the same computer.
-#' The geodatabase contains many [layers](https://www.cagis.org/Opendata/Quarterly_GIS_Data/OpenData_Layer_List.txt) that are
+#' The geodatabase contains many
+#' [layers](https://www.cagis.org/Opendata/Quarterly_GIS_Data/OpenData_Layer_List.txt) that are
 #' updated quarterly. (Historical geodatabases are not available here.)
-#' @seealso This function is called by `cincy_neighborhood_geo()`, `cincy_city_geo()` and others that import individual layers.
+#' @seealso This function is called by `cincy_neighborhood_geo()`, `cincy_city_geo()`
+#' and others that import individual layers.
 #' @param cagis_data_url the url to the CAGIS Open Data .gdb.zip file; this changes quarterly, so
 #' [check](https://www.cagis.org/Opendata/Quarterly_GIS_Data) for something more recent if the file cannot be found
+#' @export
 #' @examples
 #' options(timeout = max(2500, getOption("timeout")), download.file.method = "libcurl")
 #' install_cagis_data()
@@ -74,7 +77,7 @@ install_cagis_data <- function(cagis_data_url = "https://www.cagis.org/Opendata/
   }
   tmp <- tempfile(fileext = ".zip")
   utils::download.file(cagis_data_url, destfile = tmp, mode = "wb")
-  unzip(tmp, exdir = dirname(dest))
+  utils::unzip(tmp, exdir = dirname(dest))
   return(dest)
 }
 
@@ -117,30 +120,10 @@ cincy_city_geo <- function() {
   return(sf::st_as_s2(out$SHAPE))
 }
 
-
-#' Cincy census tracts and block groups
-#'
-#' Read tract and block group ("bg") geographies from the online Census
-#' [TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
-#' files into R
-#' @param geography which type of cincy census geography to return
-#' @param vintage a character vector of a year corresponding to the vintage of TIGER/Line data
-#' @details
-#' Compressed shapefiles are downloaded from TIGER into an R user data directory and will be cached
-#' for use across other R sessions (see `?dpkg::stow` for more details).
-#' @returns a simple features object with a geographic identifier column (`geoid`)
-#' and a geometry column (`s2_geography`)
-#' @export
-#' @examples
-#' cincy_census_geo("tract", "2024")
-#' cincy_census_geo("tract", "2020")
-#' cincy_census_geo("tract", "2019")
-#' cincy_census_geo("bg", "2020")
-#' cincy_census_geo("bg", "2019")
-
 #' Cincy ZIP Code Tabulation Areas
 #'
-#' Read [ZIP Code Tabulation Areas (ZCTAs)](https://www.census.gov/programs-surveys/geography/guidance/geo-areas/zctas.html)
+#' Read [ZIP Code Tabulation Areas
+#' (ZCTAs)](https://www.census.gov/programs-surveys/geography/guidance/geo-areas/zctas.html)
 #' geographies from the online Census
 #' [TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
 #' files into R

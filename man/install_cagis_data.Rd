@@ -17,7 +17,8 @@ install_cagis_data(
 This installs the CAGIS Open Data GIS database (\code{.gdb}) into the data
 directory for the codec package. Once downloaded, it will be reused
 across R sessions on the same computer.
-The geodatabase contains many \href{https://www.cagis.org/Opendata/Quarterly_GIS_Data/OpenData_Layer_List.txt}{layers} that are
+The geodatabase contains many
+\href{https://www.cagis.org/Opendata/Quarterly_GIS_Data/OpenData_Layer_List.txt}{layers} that are
 updated quarterly. (Historical geodatabases are not available here.)
 }
 \examples{
@@ -26,5 +27,6 @@ install_cagis_data()
 sf::st_layers(install_cagis_data())$name
 }
 \seealso{
-This function is called by \code{cincy_neighborhood_geo()}, \code{cincy_city_geo()} and others that import individual layers.
+This function is called by \code{cincy_neighborhood_geo()}, \code{cincy_city_geo()}
+and others that import individual layers.
 }
