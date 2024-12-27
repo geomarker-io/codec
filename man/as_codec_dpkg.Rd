@@ -3,8 +3,7 @@
 \name{as_codec_dpkg}
 \alias{as_codec_dpkg}
 \alias{is_codec_dpkg}
-\title{Convert a tibble to a data package (\code{dpkg}) object in R while checking it
-against CoDEC data specifications.}
+\title{Convert a tibble to a CoDEC data package}
 \usage{
 as_codec_dpkg(
   x,
@@ -46,11 +45,9 @@ identifiers for every census tract in Hamilton County, OH.
 \item The data includes a year column (\code{year}), an integer year representing the
 vintage of the data (e.g. \code{2021}).
 The data can optionally include a month column (\code{month}), an integer month of the year.
-}
-}
-\details{
-Data must be structured in a tidy format such that each row is an observation
+\item Data must be structured in a tidy format such that each row is an observation
 for a specific census tract at a specific year (and month).
+}
 }
 \examples{
 is_codec_dpkg(mtcars)

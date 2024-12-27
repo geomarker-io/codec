@@ -1,8 +1,7 @@
 #' Coerce CoDEC data package into a simple features object
 #'
-#' This functions uses the name of the census tract column in
-#' the CoDEC data package to add the approe features object with a geographic identifier column (`geoid`)
-#' and a geometry column (`s2_geography`) in addition to the existing columns in x
+#' The name of the census tract column in the CoDEC data package is used to add
+#' the appropriate cincy geography.
 #' @param x a CoDEC data package
 #' @details Tract identifers do not change across decennial censuses, but the digital representation of their boundaries
 #' may be improved over time.  Here, data packages using 2010 tract identifers use the TIGER/Line 2019 tract shapefiles

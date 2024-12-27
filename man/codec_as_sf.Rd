@@ -14,9 +14,8 @@ a simple features object with a geographic identifier column (\code{geoid})
 and a geometry column (\code{s2_geography}) in addition to the columns in \code{x}
 }
 \description{
-This functions uses the name of the census tract column in
-the CoDEC data package to add the approe features object with a geographic identifier column (\code{geoid})
-and a geometry column (\code{s2_geography}) in addition to the existing columns in x
+The name of the census tract column in the CoDEC data package is used to add
+the appropriate cincy geography.
 }
 \details{
 Tract identifers do not change across decennial censuses, but the digital representation of their boundaries

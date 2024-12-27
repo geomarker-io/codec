@@ -9,3 +9,6 @@ cincy_city_geo()
 \description{
 cincy_city_geo()
 }
+\examples{
+cincy_city_geo()
+}

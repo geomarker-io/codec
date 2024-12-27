@@ -114,6 +114,8 @@ cincy_neighborhood_geo <- function(geography = c("statistical_neighborhood_appro
 #' cincy_city_geo()
 #' @export
 #' @rdname cincy_neighorhood_geo
+#' @examples
+#' cincy_city_geo()
 cincy_city_geo <- function() {
   cagis_db <- install_cagis_data()
   out <- sf::st_read(cagis_db, layer = "Cincinnati_City_Boundary", quiet = TRUE)
