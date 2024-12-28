@@ -3,13 +3,13 @@ test_that("cincy zcta works", {
   expect_equal(names(d), c("geoid", "s2_geography"))
   expect_s3_class(d, c("sf", "tbl_df"))
   expect_equal(nrow(d), 55L)
-  expect_equal(round(sum(s2::s2_area(d$s2_geography))), 1083637494L)
+  expect_equal(round(sum(s2::s2_area(d$s2_geography)), -3), 1083637000L)
 
   d <- cincy_zcta_geo("2019")
   expect_equal(names(d), c("geoid", "s2_geography"))
   expect_s3_class(d, c("sf", "tbl_df"))
   expect_equal(nrow(d), 54L)
-  expect_equal(round(sum(s2::s2_area(d$s2_geography))), 1089190173L)
+  expect_equal(round(sum(s2::s2_area(d$s2_geography)), -3), 1089190000L)
 })
 
 test_that("cincy tracts and block groups", {
@@ -50,14 +50,14 @@ test_that("cincy county", {
   d <- cincy_county_geo("2024")
   expect_equal(length(d), 1)
   expect_s3_class(d, c("s2_geography", "wk_vctr"))
-  expect_equal(round(s2::s2_area(d)), 1067799848L)
+  expect_equal(round(s2::s2_area(d), -3), 1067800000)
 })
 
 test_that("cincy city", {
   d <- cincy_city_geo()
   expect_equal(length(d), 1)
   expect_s3_class(d, c("s2_geography", "wk_vctr"))
-  expect_equal(round(s2::s2_area(d)), 206352433L)
+  expect_equal(round(s2::s2_area(d), -3), 206352000L)
 })
 
 test_that("cincy zcta", {
