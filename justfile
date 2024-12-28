@@ -7,3 +7,7 @@ release_data codec_dpkg_name:
 build_shiny:
   Rscript -e "shiny::runApp('./inst/codec_shiny', launch.browser = TRUE)"
 
+# build and view shiny application
+build_catalog:
+  Rscript -e "shiny::runApp('./inst/codec_catalog', launch.browser = TRUE)"
+

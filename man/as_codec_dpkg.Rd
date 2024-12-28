@@ -2,7 +2,8 @@
 % Please edit documentation in R/codec_dpkg.R
 \name{as_codec_dpkg}
 \alias{as_codec_dpkg}
-\title{as_codec_dpkg}
+\alias{is_codec_dpkg}
+\title{Convert a tibble to a CoDEC data package}
 \usage{
 as_codec_dpkg(
   x,
@@ -12,6 +13,8 @@ as_codec_dpkg(
   description = character(),
   homepage = character()
 )
+
+is_codec_dpkg(x)
 }
 \arguments{
 \item{x}{data.frame or tibble meeting CoDEC data specifications above}
@@ -27,24 +30,25 @@ as_codec_dpkg(
 \item{homepage}{see \code{dpkg::as_dpkg()}}
 }
 \value{
-a dpkg object
+for as_codec_dpkg, a dpkg object
+
+for is_codec_dpkg, a logical
 }
 \description{
-Convert a tibble to a data package (\code{dpkg}) object in R while checking it
-against CoDEC data specifications:
-}
-\details{
+\strong{CoDEC Specifications:}
 \enumerate{
 \item The data must include a \href{https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf}{census tract}
-identifier column (i.e., \code{census_tract_id_2000}, \code{census_tract_id_2010}, or \code{census_tract_id_2020}).
+identifier column (i.e., \code{census_tract_id_2010}, or \code{census_tract_id_2020}).
 The column must contain 11-digit
 \href{https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html}{GEOID}
 identifiers for every census tract in Hamilton County, OH.
 \item The data includes a year column (\code{year}), an integer year representing the
 vintage of the data (e.g. \code{2021}).
 The data can optionally include a month column (\code{month}), an integer month of the year.
-}
-
-Data must be structured in a tidy format such that each row is an observation
+\item Data must be structured in a tidy format such that each row is an observation
 for a specific census tract at a specific year (and month).
+}
+}
+\examples{
+is_codec_dpkg(mtcars)
 }
