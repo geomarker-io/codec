@@ -47,8 +47,10 @@ get_codec_tract_id_name <- function(x) {
 #' all other variables are interpolated using a weighted mean.
 #' @export
 #' @examples
-#' codec_interpolate(get_codec_dpkg("acs_measures-v0.1.0"), cincy_neighborhood_geo())
-#' codec_interpolate(get_codec_dpkg("property_code_enforcements-v0.2.0"), cincy_census_geo("tract", "2020"))
+#' codec_interpolate(get_codec_dpkg("acs_measures-v0.1.0"),
+#'                   cincy_neighborhood_geo())
+#' codec_interpolate(get_codec_dpkg("property_code_enforcements-v0.2.0"),
+#'                   cincy_census_geo("tract", "2020"))
 codec_interpolate <- function(from, to, weights = c("pop", "homes", "area")) {
   if (!is_codec_dpkg(from)) rlang::abort("x must be a CoDEC data package")
   codec_tract_id_name <- get_codec_tract_id_name(from)
