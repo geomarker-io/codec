@@ -125,5 +125,6 @@ utils::globalVariables(c(
   "POP20", "HOUSING20", "ALAND20",
   "geoid", "pop", "s2_geography",
   "the_weight", "weight_coef",
-  "year", "month", "weight"
+  "year", "month", "weight",
+  ":="
 ))
