@@ -4,16 +4,13 @@
 \alias{codec_interpolate}
 \title{Spatially interpolate community-level data}
 \usage{
-codec_interpolate(
-  from,
-  to = c("neigh", "zcta", "bg"),
-  weights = c("pop", "homes", "area")
-)
+codec_interpolate(from, to, weights = c("pop", "homes", "area"))
 }
 \arguments{
 \item{from}{a CoDEC data package}
 
-\item{to}{character string naming a target geography}
+\item{to}{A simple features object returned by one of the \verb{cincy_*_geo()} functions
+(i.e., \code{cincy_census_geo()}, \code{cincy_neighborhood_geo()}, or cincy_zcta_geo()`)}
 
 \item{weights}{which census block-level weights to use; see details}
 }
@@ -22,8 +19,8 @@ a tibble with a new geographic identifier column for the \code{to} target geogra
 in addition to the (interpolated) columns in \code{from}
 }
 \description{
-Census block-level weights are used to spatially interpolate CoDEC data packages from 2020
-census tract geographies to 2020 neighborhoods (\code{neigh}), ZIP code tabulation areas (\code{zcta}), or block groups (\code{bg}).
+Census block-level weights are used to spatially interpolate CoDEC data packages from the census tract-level
+to other Cincy geographies.
 }
 \details{
 Block-level total population (\code{pop}), total number of homes (\code{homes}), or total land area (\code{area})
@@ -34,6 +31,8 @@ Variables beginning with "n_" are interpolated using a weighted sum;
 all other variables are interpolated using a weighted mean.
 }
 \examples{
-codec_interpolate(from = get_codec_dpkg("acs_measures-v0.1.0"))
-# TODO codec_interpolate(from = get_codec_dpkg("property_code_enforcements-v0.2.0"))
+codec_interpolate(get_codec_dpkg("acs_measures-v0.1.0"),
+                  cincy_neighborhood_geo())
+codec_interpolate(get_codec_dpkg("property_code_enforcements-v0.2.0"),
+                  cincy_census_geo("tract", "2020"))
 }

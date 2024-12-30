@@ -10,9 +10,6 @@
 #' @keywords internal
 "_PACKAGE"
 
-#' @import cincy
-NULL
-
 ## usethis namespace: start
 ## usethis namespace: end
 NULL
