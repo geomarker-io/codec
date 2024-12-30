@@ -9,5 +9,7 @@ build_shiny:
 
 # build and view shiny application
 build_catalog:
-  Rscript -e "shiny::runApp('./inst/codec_catalog', launch.browser = TRUE)"
+  Rscript -e "shinylive::export('inst/codec_shiny', 'inst/codec_catalog_site')" \
+    -e "httpuv::runStaticServer('inst/codec_catalog_site')"
+  # Rscript -e "shiny::runApp('./inst/codec_catalog', launch.browser = TRUE)"
 
