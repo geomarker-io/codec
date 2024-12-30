@@ -1,5 +1,4 @@
-devtools::load_all()
-
+library(codec)
 library(shiny)
 library(bslib)
 
@@ -11,6 +10,7 @@ library(bslib)
 ## library(rdeck)
 ## library(sf)
 
+## dpkgs <- readRDS("inst/codec_catalog/all_codec_dpkg.rds")
 dpkgs <- readRDS("all_codec_dpkg.rds")
 
 names(dpkgs) <- vapply(dpkgs, \(.) dpkg::dpkg_meta(.)$title, character(1))
