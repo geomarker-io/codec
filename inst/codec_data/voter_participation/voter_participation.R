@@ -35,8 +35,7 @@ rd <- read_csv(
       PRIMARY_MAY_2022 = col_factor(),
       GENERAL_NOV_2021 = col_factor(),
       PRIMARY_MAY_2021 = col_factor(),
-      GENERAL_NOV_2020 = col_factor(),
-      SPECIAL_AUG_2020 = col_factor()
+      GENERAL_NOV_2020 = col_factor()
     )
 )
 
@@ -82,23 +81,24 @@ d_rates <-
       PRIMARY_MAY_2023, GENERAL_NOV_2022,
       `AUG PRIMARY ELECTION 2022`, PRIMARY_MAY_2022,
       GENERAL_NOV_2021, PRIMARY_MAY_2021,
-      GENERAL_NOV_2020, SPECIAL_AUG_2020
+      GENERAL_NOV_2020
     ),
     \(.) sum(!is.na(.)) / length(.)
   ))
 
 out <-
-  cincy::tract_tigris_2020 |>
+  cincy_census_geo("tract", "2020") |>
   sf::st_drop_geometry() |>
   as_tibble() |>
-  left_join(d_rates, by = c("census_tract_id_2020" = "tract"))
+  left_join(d_rates, by = c("geoid" = "tract"))
 
 out_dpkg <-
   out |>
-  mutate(year = "2024") |>
+  mutate(year = "2025") |>
+  rename(census_tract_id_2020 = geoid) |>
   as_codec_dpkg(
     name = "voter_participation",
-    version = glue::glue("0.1-", format(Sys.Date(), "%Y%m%d")),
+    version = "0.2.0",
     title = "Voter Participation Rates",
     homepage = "https://geomarker.io/codec",
     description = paste(readLines(fs::path_package("codec", "codec_data", "voter_participation", "README.md")), collapse = "\n")
