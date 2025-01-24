@@ -35,8 +35,7 @@ rd <- read_csv(
       PRIMARY_MAY_2022 = col_factor(),
       GENERAL_NOV_2021 = col_factor(),
       PRIMARY_MAY_2021 = col_factor(),
-      GENERAL_NOV_2020 = col_factor(),
-      SPECIAL_AUG_2020 = col_factor()
+      GENERAL_NOV_2020 = col_factor()
     )
 )
 
@@ -98,7 +97,7 @@ out_dpkg <-
   mutate(year = "2024") |>
   as_codec_dpkg(
     name = "voter_participation",
-    version = glue::glue("0.1-", format(Sys.Date(), "%Y%m%d")),
+    version = "0.2.0",
     title = "Voter Participation Rates",
     homepage = "https://geomarker.io/codec",
     description = paste(readLines(fs::path_package("codec", "codec_data", "voter_participation", "README.md")), collapse = "\n")
