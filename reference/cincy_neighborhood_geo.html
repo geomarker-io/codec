@@ -72,45 +72,13 @@ and a geometry column (<code>s2_geography</code>)</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">cincy_neighborhood_geo</span><span class="op">(</span><span class="st">"statistical_neighborhood_approximations"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 50 features and 1 field</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: MULTIPOLYGON</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -84.71216 ymin: 39.05206 xmax: -84.36955 ymax: 39.22101</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 50 × 2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    geoid                                                            s2_geography</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                      <span style="color: #949494; font-style: italic;">&lt;MULTIPOLYGON [°]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> South Fairmount (((-84.57299 39.13404, -84.57322 39.13188, -84.57328 39.1313…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Roselawn        (((-84.45447 39.18302, -84.45447 39.18307, -84.45463 39.1830…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Mt. Lookout     (((-84.41474 39.13997, -84.41494 39.13998, -84.41501 39.1392…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Westwood        (((-84.56772 39.15794, -84.56827 39.15795, -84.56888 39.1580…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Mt. Adams       (((-84.49349 39.10796, -84.49361 39.10808, -84.49359 39.1082…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Millvale        (((-84.54839 39.13769, -84.54846 39.13777, -84.54849 39.1378…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> North Fairmount (((-84.56189 39.14178, -84.5623 39.14177, -84.56281 39.1418,…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Sayler Park     (((-84.68074 39.10714, -84.68075 39.10715, -84.68076 39.1071…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Carthage        (((-84.47734 39.20546, -84.47914 39.20546, -84.47934 39.2049…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Pendleton       (((-84.5002 39.11306, -84.50034 39.11308, -84.50048 39.1131,…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 40 more rows</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>downloaded length 0 != reported length 12579</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>cannot open URL 'https://www.cagis.org/Opendata/Quarterly_GIS_Data/CAGISOpenDataQ4_2024.gdb.zip': HTTP status was '404 Not Found'</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in utils::download.file(cagis_data_url, destfile = tmp, mode = "wb"):</span> cannot open URL 'https://www.cagis.org/Opendata/Quarterly_GIS_Data/CAGISOpenDataQ4_2024.gdb.zip'</span>
 <span class="r-in"><span><span class="fu">cincy_neighborhood_geo</span><span class="op">(</span><span class="st">"community_council"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 75 features and 1 field</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: MULTIPOLYGON</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -84.7124 ymin: 39.052 xmax: -84.36884 ymax: 39.2211</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 75 × 2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    geoid                                                            s2_geography</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                      <span style="color: #949494; font-style: italic;">&lt;MULTIPOLYGON [°]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Paddock Hills                (((-84.47808 39.17352, -84.47824 39.17355, -84.…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Corryville - Heights         (((-84.51413 39.1385, -84.51438 39.13852, -84.5…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> South Cumminsville           (((-84.54421 39.15189, -84.54402 39.15211, -84.…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Avondale - North Avondale    (((-84.50068 39.15816, -84.50088 39.15825, -84.…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Corryville                   (((-84.50976 39.14284, -84.50979 39.14288, -84.…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Spring Grove Village         (((-84.53863 39.18173, -84.53862 39.18172, -84.…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> CUF - Mount Auburn           (((-84.51412 39.12557, -84.51412 39.12557, -84.…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Columbia Tusculum - East End (((-84.44062 39.11659, -84.4405 39.11662, -84.4…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Mount Lookout                (((-84.42838 39.12023, -84.4293 39.11988, -84.4…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Riverside - Sayler Park      (((-84.6767 39.10206, -84.67652 39.10201, -84.6…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 65 more rows</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>downloaded length 0 != reported length 12579</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>cannot open URL 'https://www.cagis.org/Opendata/Quarterly_GIS_Data/CAGISOpenDataQ4_2024.gdb.zip': HTTP status was '404 Not Found'</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in utils::download.file(cagis_data_url, destfile = tmp, mode = "wb"):</span> cannot open URL 'https://www.cagis.org/Opendata/Quarterly_GIS_Data/CAGISOpenDataQ4_2024.gdb.zip'</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
