@@ -6,7 +6,6 @@ dpkgs <-
     get_codec_dpkg("acs_measures-v0.1.0") |>
       filter(year == "2022"),
     get_codec_dpkg("voter_participation-v0.2.0") |>
-      filter(year == "2024") |>
       mutate(census_tract_id_2020,
         year,
         voter_participation_rate = `2023 General Election`,
