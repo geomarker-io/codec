@@ -81,6 +81,38 @@ install_cagis_data <- function(cagis_data_url = "https://www.cagis.org/Opendata/
   return(dest)
 }
 
+#' Cincy address geographies
+#'
+#' CAGIS data (see `install_cagis_data()`) provides a list of all addresses in Hamilton County. 
+#' Addresses are filtered for the following criteria: 
+#' - use only addresses that have `STATUS` of `ASSIGNED` or `USING` and are not orphaned (`ORPHANFLG == "N"`)
+#' - omit addresses with `ADDRTYPE`s that are milemarkers (`MM`), parks (`PAR`), infrastructure projects (`PRJ`),
+#'   cell towers (`CTW`), vacant or commercial lots (`LOT`), and other miscellaneous non-residential addresses (`MIS`, `RR`, `TBA`)
+#' - s2 cell is derived from LONGITUDE and LATITUDE fields in CAGIS address database
+#' @returns a simple features object with columns `cagis_address`, `cagis_address_place`, `cagis_address_type`,
+#' `cagis_s2`, `cagis_parcel_id`, `cagis_is_condo`, and a geometry column (`s2_geography`)
+#' @export
+#' @examples
+#' cincy_addr_geo()
+cincy_addr_geo <- function() {
+  install_cagis_data() |>
+  sf::st_read(layer = "Addresses") |>
+  tibble::as_tibble() |>
+  dplyr::filter(STATUS %in% c("ASSIGNED", "USING")) |>
+  dplyr::filter(ORPHANFLG == "N") |>
+  dplyr::filter(!ADDRTYPE %in% c("MM", "PAR", "PRJ", "CTW", "LOT", "MIS", "RR", "TBA")) |>
+  dplyr::transmute(
+    cagis_address = FULLMAILADR,
+    cagis_address_place = BLDGPLACE,
+    cagis_address_type = ADDRTYPE,
+    cagis_s2 = s2::as_s2_cell(s2::s2_geog_point(LONGITUDE, LATITUDE)),
+    cagis_parcel_id = PARCELID,
+    cagis_is_condo = CONDOFLG %in% c("Y")
+  ) |>
+  dplyr::mutate(s2_geography = s2::s2_cell_to_lnglat(cagis_s2)) |>
+  sf::st_as_sf()
+}
+
 #' Cincy neighborhood geographies
 #'
 #' CAGIS data (see `install_cagis_data()`) provides community council boundaries, but these boundaries can
