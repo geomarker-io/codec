@@ -69,7 +69,7 @@ cincy_county_geo <- function(vintage = as.character(2024:2013)) {
 #' options(timeout = max(2500, getOption("timeout")), download.file.method = "libcurl")
 #' install_cagis_data()
 #' sf::st_layers(install_cagis_data())$name
-install_cagis_data <- function(cagis_data_url = "https://www.cagis.org/Opendata/Quarterly_GIS_Data/CAGISOpenDataQ4_2024.gdb.zip") {
+install_cagis_data <- function(cagis_data_url = "https://www.cagis.org/Opendata/Quarterly_GIS_Data/CAGISOpenDataQ1_2025.gdb.zip") {
   cagis_gdb_name <- tools::file_path_sans_ext(basename(cagis_data_url))
   dest <- file.path(tools::R_user_dir(package = "codec", "data"), cagis_gdb_name)
   if (file.exists(dest)) {
