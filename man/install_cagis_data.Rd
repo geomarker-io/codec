@@ -6,7 +6,7 @@
 \usage{
 install_cagis_data(
   cagis_data_url =
-    "https://www.cagis.org/Opendata/Quarterly_GIS_Data/CAGISOpenDataQ4_2024.gdb.zip"
+    "https://www.cagis.org/Opendata/Quarterly_GIS_Data/CAGISOpenDataQ1_2025.gdb.zip"
 )
 }
 \arguments{
