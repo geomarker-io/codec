@@ -15,11 +15,12 @@ infrastructure through
 
 ### Installation
 
-You can install the development version of codec from
-[GitHub](https://github.com/) with:
+You can install the latest version of codec from
+[R-universe](https://geomarker-io.r-universe.dev/codec) in R with:
 
-    # install.packages("devtools")
-    devtools::install_github("geomarker-io/codec")
+```r
+install.packages("codec", repos = c("https://geomarker-io.r-universe.dev", "https://cloud.r-project.org"))
+```
 
 ### Usage
 
