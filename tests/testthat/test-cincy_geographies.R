@@ -87,3 +87,12 @@ test_that("cincy neighborhoods", {
   expect_s3_class(d$s2_geography, "sfc")
   expect_true(is.character(d$geoid))
 })
+
+test_that("cincy addresses", {
+  d <- cincy_addr_geo()
+  expect_s3_class(d, c("sf", "tbl_df"))
+  expect_s3_class(d$s2_geography, "sfc")
+  expect_true(is.character(d$cagis_address))
+  expect_true(is.character(d$cagis_parcel_id))
+  expect_true(is.logical(d$cagis_is_condo))
+})
