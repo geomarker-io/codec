@@ -1,3 +1,7 @@
+# build pkgdown site
+build_pkgdown_site:
+  Rscript -e "devtools::build_site()"
+
 # make and release CoDEC data
 release_data codec_dpkg_name:
   cd inst/codec_data/{{codec_dpkg_name}} &&
