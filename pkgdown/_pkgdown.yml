@@ -43,6 +43,7 @@ reference:
     - cincy_city_geo
     - install_cagis_data
     - cincy_zcta_geo
+    - cincy_addr_geo
   - title: CoDEC developer tools
     contents:
     - codec_colors
