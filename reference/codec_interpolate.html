@@ -9,7 +9,7 @@ to other Cincy geographies."><meta property="og:image" content="http://geomarker
 
     <a class="navbar-brand me-2" href="../index.html">codec</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3.0.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3.0.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,9 +83,26 @@ all other variables are interpolated using a weighted mean.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">codec_interpolate</span><span class="op">(</span><span class="fu"><a href="get_codec_dpkg.html">get_codec_dpkg</a></span><span class="op">(</span><span class="st">"acs_measures-v0.1.0"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                  <span class="fu"><a href="cincy_neighborhood_geo.html">cincy_neighborhood_geo</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>downloaded length 0 != reported length 12579</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>cannot open URL 'https://www.cagis.org/Opendata/Quarterly_GIS_Data/CAGISOpenDataQ4_2024.gdb.zip': HTTP status was '404 Not Found'</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in utils::download.file(cagis_data_url, destfile = tmp, mode = "wb"):</span> cannot open URL 'https://www.cagis.org/Opendata/Quarterly_GIS_Data/CAGISOpenDataQ4_2024.gdb.zip'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 51 × 24</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    geoid              year median_home_value prop_poverty prop_recieved_public…¹</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Avondale           <span style="text-decoration: underline;">2</span>022           <span style="text-decoration: underline;">186</span>638.       0.436                  0.380 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Bond Hill          <span style="text-decoration: underline;">2</span>022           <span style="text-decoration: underline;">156</span>866.       0.194                  0.154 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> CUF                <span style="text-decoration: underline;">2</span>022           <span style="text-decoration: underline;">191</span>368.       0.462                  0.052<span style="text-decoration: underline;">8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> California         <span style="text-decoration: underline;">2</span>022           <span style="text-decoration: underline;">597</span>200        0.052<span style="text-decoration: underline;">3</span>                 0.027<span style="text-decoration: underline;">4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Camp Washington    <span style="text-decoration: underline;">2</span>022           <span style="text-decoration: underline;">100</span>000        0.272                  0.253 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Carthage           <span style="text-decoration: underline;">2</span>022            <span style="text-decoration: underline;">90</span>500        0.173                  0.277 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Clifton            <span style="text-decoration: underline;">2</span>022           <span style="text-decoration: underline;">384</span>430.       0.150                  0.070<span style="text-decoration: underline;">4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> College Hill       <span style="text-decoration: underline;">2</span>022           <span style="text-decoration: underline;">148</span>486.       0.197                  0.180 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Columbia Tusculum  <span style="text-decoration: underline;">2</span>022           <span style="text-decoration: underline;">412</span>000        0.036<span style="text-decoration: underline;">6</span>                 0.049<span style="text-decoration: underline;">8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Corryville         <span style="text-decoration: underline;">2</span>022           <span style="text-decoration: underline;">200</span>113.       0.523                  0.039<span style="text-decoration: underline;">3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 41 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ abbreviated name: ¹​prop_recieved_public_assistance_income</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 19 more variables: prop_family_households_with_single_householder &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   prop_employment_among_civilian_workforce &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   prop_housing_units_occupied_by_renters &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   prop_median_rent_to_income_ratio_among_renters &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   prop_housing_units_vacant &lt;dbl&gt;, …</span></span>
 <span class="r-in"><span><span class="fu">codec_interpolate</span><span class="op">(</span><span class="fu"><a href="get_codec_dpkg.html">get_codec_dpkg</a></span><span class="op">(</span><span class="st">"property_code_enforcements-v0.2.0"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                  <span class="fu"><a href="cincy_census_geo.html">cincy_census_geo</a></span><span class="op">(</span><span class="st">"tract"</span>, <span class="st">"2020"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5,876 × 6</span></span>
