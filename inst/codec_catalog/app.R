@@ -1,9 +1,7 @@
 library(codec)
 library(shiny)
 library(bslib)
-library(leaflet)
 
-#' dpkgs <- readRDS("inst/codec_catalog/all_codec_dpkg.rds")
 dpkgs <- readRDS("all_codec_dpkg.rds")
 
 names(dpkgs) <- vapply(dpkgs, \(.) dpkg::dpkg_meta(.)$title, character(1))
@@ -19,11 +17,13 @@ ui <- page_sidebar(
       selectize = FALSE,
       size = NULL
     ),
-    uiOutput("codec_dpkg_desc"),
-    downloadButton("download_excel", "Download Excel"),
-    width = "30%"
+    downloadButton("download_excel",
+                   "Download Excel",
+                   style = "width: 200px; padding: 3px 3px; font-size: 12px; text-align: center; background-color: #396175; color: #ffffff; border: none;"),
+    uiOutput("field_names"),
+    width = "425px"
   ),
-  tableOutput("data_table")
+  uiOutput("codec_dpkg_desc")
 )
 
 server <- function(input, output) {
@@ -38,10 +38,16 @@ server <- function(input, output) {
           "-v", dpkg::dpkg_meta(codec_dpkg())$version, ".xlsx"
         )
       },
-      content = function(file) readxl::write_xlsx(codec_dpkg(), path = file)
+      content = function(file) writexl::write_xlsx(codec_dpkg(), path = file)
     )
 
-  output$data_table <- renderTable(head(codec_dpkg(), n = 25))
+  output$field_names <-
+    renderUI({
+      tibble::tibble(`Field Names` = names(codec_dpkg())) |>
+        knitr::kable() |>
+        markdown::markdownToHTML(fragment.only = TRUE) |>
+        HTML()
+    })
 
   output$codec_dpkg_desc <- renderUI({
     attr(codec_dpkg(), "description") |>
