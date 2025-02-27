@@ -20,6 +20,7 @@ ui <- page_sidebar(
       size = NULL
     ),
     uiOutput("codec_dpkg_desc"),
+    downloadButton("download_excel", "Download Excel"),
     width = "30%"
   ),
   tableOutput("data_table")
@@ -27,6 +28,18 @@ ui <- page_sidebar(
 
 server <- function(input, output) {
   codec_dpkg <- reactive(dpkgs[[input$codec_dpkg]])
+
+  output$download_excel <-
+    downloadHandler(
+      filename = function() {
+        paste0(
+          "CoDEC-",
+          dpkg::dpkg_meta(codec_dpkg())$name,
+          "-v", dpkg::dpkg_meta(codec_dpkg())$version, ".xlsx"
+        )
+      },
+      content = function(file) readxl::write_xlsx(codec_dpkg(), path = file)
+    )
 
   output$data_table <- renderTable(head(codec_dpkg(), n = 25))
 
