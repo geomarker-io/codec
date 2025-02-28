@@ -13,8 +13,11 @@ template:
     code_font: {google: "Source Code Pro"}
 navbar:
   structure:
-    left:  [about, harmonization,reference, data, explore]
+    left:  [about, harmonization, data, explore, reference]
   components:
+   reference:
+     text: R Package
+     href: reference/index.html
    about:
     text: About
     href: index.html
@@ -24,6 +27,7 @@ navbar:
    explore:
      text: Explore
      href: https://grapph.shinyapps.io/codec_shiny
+     target: _blank
    data:
      text: Data
      href: articles/data.html
