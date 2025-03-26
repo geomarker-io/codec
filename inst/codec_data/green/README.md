@@ -14,11 +14,11 @@ The National Landcover Database (NLCD) classifies land at a 30 m x 30 m resoluti
 
 ### tree canopy and impervious surface
 
-Percentage [tree canopy](https://www.mrlc.gov/data/type/tree-canopy) and [impervious surface](https://www.mrlc.gov/data/type/fractional-impervious-surface) coverage at 30 m x 30 m resolution were obtained from NLCD and aggregated to census tract by calculating the median tree canopy percentage for grid cells overlapping each tract.
+Percentage [tree canopy](https://www.mrlc.gov/data/type/tree-canopy) and [impervious surface](https://www.mrlc.gov/data/type/fractional-impervious-surface) coverage at 30 m x 30 m resolution were obtained from NLCD and aggregated to census tract by calculating the mean tree canopy percentage for grid cells overlapping each tract.
 
 ### EVI
 
-The Enhanced Vegetation Index (EVI) is a measure of greenness that ranges from -0.2 to 1, with higher values corresponding to more vegetation. A cloud-free composite EVI raster at a resolution of 250 × 250 m was created by assembling individual images collected via remote sensing between June 9 and June 24, 2024. Tract averages were calculated using the median EVI of overlapping grid cells. The EVI raster file (`MOD13Q1.A2024161.h11v05.061.2024181211403.hdf`) was downloaded from https://search.earthdata.nasa.gov/search on 2025-03-12, scaled by 0.0001, and rounded to 3 decimal points 
+The Enhanced Vegetation Index (EVI) is a measure of greenness that ranges from -0.2 to 1, with higher values corresponding to more vegetation. A cloud-free composite EVI raster at a resolution of 250 × 250 m was created by assembling individual images collected via remote sensing between June 9 and June 24, 2024. Tract averages were calculated using the mean EVI of overlapping grid cells. The EVI raster file (`MOD13Q1.A2024161.h11v05.061.2024181211403.hdf`) was downloaded from https://search.earthdata.nasa.gov/search on 2025-03-12, scaled by 0.0001, and rounded to 3 decimal points 
 
 ### park service area coverage and park greenspace coverage
 

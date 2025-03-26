@@ -49,7 +49,7 @@ tract <-
 out <- tibble::tibble(census_tract_id_2020 = tract$geoid)
 
 # land cover - greenspace
-out$greenspace <-
+out$greenspace_2023 <-
   green_rast |>
   terra::crop(hc) |>
   terra::extract(tract) |>
@@ -60,31 +60,31 @@ out$greenspace <-
   dplyr::pull(greenspace)
 
 # tree canopy
-out$treecanopy <- 
+out$treecanopy_2021 <- 
   dpkg::stow("https://s3-us-west-2.amazonaws.com/mrlc/nlcd_tcc_CONUS_2021_v2021-4.zip") |>
   unzip(files = "nlcd_tcc_conus_2021_v2021-4.tif", exdir = "/Users/RASV5G/Library/Application Support/org.R-project.R/R/stow/") |>
   terra::rast() |>
   terra::crop(hc) |>
-  terra::extract(tract, fun = median, ID = FALSE) |>
+  terra::extract(tract, fun = mean, ID = FALSE) |>
   dplyr::pull(1)
 
 # impervious
-out$impervious <- 
+out$impervious_2023 <- 
   get_dv_url(
       persistent_id = "doi:10.7910/DVN/KXETFC",
       filename = glue::glue("Annual_NLCD_FctImp_2023_CU_C1V0_COG.tif"),
       version = "latest"
     ) |>
   terra::rast(vsi = TRUE) |>
-  terra::extract(tract, fun = median, ID = FALSE) |>
+  terra::extract(tract, fun = mean, ID = FALSE) |>
   dplyr::pull(1)
 
 # EVI 
-out$evi <- 
+out$evi_2024 <- 
   terra::sds("data-raw/MOD13Q1.A2024161.h11v05.061.2024181211403.hdf")[2] |> 
   terra::project(terra::crs(hc)) |>
   terra::crop(hc) |>
-  terra::extract(tract, fun = median) |>
+  terra::extract(tract, fun = mean) |>
   dplyr::mutate(evi = round(`250m 16 days EVI`*0.0001, 3)) |>
   dplyr::pull(evi)
 
@@ -130,6 +130,8 @@ out$park_greenspace <-
       \(x) get_area_pct(tract_sf[x,], parks_green)
     )
 
+# city tree canopy - aggregate to tract
+
 # dpkg
 out_dpkg <-
   out |>
@@ -142,4 +144,4 @@ out_dpkg <-
     description = paste(readLines(fs::path_package("codec", "codec_data", "green", "README.md")), collapse = "\n")
   )
 
-dpkg::dpkg_gh_release(out_dpkg, draft = FALSE)
+dpkg::dpkg_gh_release(out_dpkg, draft = TRUE)
