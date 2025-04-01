@@ -130,7 +130,37 @@ out$park_greenspace <-
       \(x) get_area_pct(tract_sf[x,], parks_green)
     )
 
-# city tree canopy - aggregate to tract
+# city tree canopy
+city_canopy <- 
+  sf::st_read("data-raw//Cincinnati Canopy Inforamtion 2/CincinnatiCanopyInformation.gdb", layer = "Block_Group_Canopy_Change", quiet = TRUE) |> 
+  sf::st_drop_geometry() |>
+  dplyr::select(
+    block_group_id_2010 = ID, 
+    TreeCanopy_2020_Area
+  ) |>
+  dplyr::mutate(census_tract_id_2010 = stringr::str_sub(block_group_id_2010, 1, 11)) |>
+  dplyr::group_by(census_tract_id_2010) |>  #2010 tract/bgs 
+  dplyr::summarize(TreeCanopy_2020_Area = sum(TreeCanopy_2020_Area)) |>
+  dplyr::left_join(codec::cincy_census_geo("tract", "2013"), by = c("census_tract_id_2010" = "geoid")) |>
+  sf::st_as_sf() |>
+  sf::st_transform(3735) |>
+  dplyr::mutate(
+    tract_area = sf::st_area(s2_geography), 
+    city_treecanopy_2020 = as.numeric(round(TreeCanopy_2020_Area/tract_area*100))
+) |>
+  sf::st_drop_geometry() |>
+  dplyr::select(census_tract_id_2010, city_treecanopy_2020)
+
+out$city_treecanopy_2020 <- 
+  dplyr::left_join(codec::cincy_census_geo("tract", "2013"), city_canopy, by = c("geoid" = "census_tract_id_2010")) |>
+  dplyr::rename(
+    census_tract_id_2010 = geoid, 
+    geometry = s2_geography
+  ) |>
+  sf::st_transform(5072) |>
+  cincy::interpolate(to = cincy::tract_tigris_2020, weights = "area") |>
+  sf::st_drop_geometry() |>
+  dplyr::pull(city_treecanopy_2020)
 
 # dpkg
 out_dpkg <-

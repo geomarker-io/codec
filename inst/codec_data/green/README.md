@@ -4,7 +4,7 @@
 
 ## About
 
-Annual measures of greenness and built environment. The codec dpkg includes the most recently available vintage for each data product (2023 greenspace and impervious, 2021 tree canopy, and 2024 EVI)
+Annual measures of greenness and built environment. The codec dpkg includes the most recently available vintage for each data product (2023 greenspace and impervious, 2021 tree canopy, 2024 EVI, and 2020 city treecanopy)
 
 ## Data
 
@@ -23,3 +23,7 @@ The Enhanced Vegetation Index (EVI) is a measure of greenness that ranges from -
 ### park service area coverage and park greenspace coverage
 
 The percentage of area covered by at least one park service area (defined as a 10-minute walk or 0.25 mile buffer around each park) and the percentage of area covered by park greenspace was calculated for each tract. Data was obtained from correspondence with Cincinnati Parks in August 2024.
+
+### city tree canopy 
+
+2020 LIDAR measured tree canopy area by 2010 census block groups summed by 2010 census tracts then interpolated to 2020 census tract using area weighting. City tree canopy is only available for census tracts within the City of Cincinnati.
