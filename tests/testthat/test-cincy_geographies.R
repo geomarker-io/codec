@@ -1,34 +1,21 @@
 test_that("cincy zcta works", {
   ## withr::local_envvar(list(R_USER_DIR = tempdir()))
-  withr::local_options(timeout = 2500)
   d <- cincy_zcta_geo("2024")
   expect_equal(names(d), c("geoid", "s2_geography"))
   expect_s3_class(d, c("sf", "tbl_df"))
   expect_equal(nrow(d), 55L)
   expect_equal(round(sum(s2::s2_area(d$s2_geography)), -3), 1083637000L)
+  expect_s3_class(d$s2_geography, "sfc")
+  expect_true(is.character(d$geoid))
 
   d <- cincy_zcta_geo("2019")
   expect_equal(names(d), c("geoid", "s2_geography"))
   expect_s3_class(d, c("sf", "tbl_df"))
   expect_equal(nrow(d), 54L)
   expect_equal(round(sum(s2::s2_area(d$s2_geography)), -3), 1089190000L)
-})
-
-test_that("cincy zcta", {
-  withr::local_options(timeout = 2500)
-  d <- cincy_zcta_geo("2024")
-  expect_equal(nrow(d), 55)
-  expect_s3_class(d, c("sf", "tbl_df"))
-  expect_s3_class(d$s2_geography, "sfc")
-  expect_true(is.character(d$geoid))
-
-  d <- cincy_zcta_geo("2018")
-  expect_equal(nrow(d), 54)
-  expect_s3_class(d, c("sf", "tbl_df"))
   expect_s3_class(d$s2_geography, "sfc")
   expect_true(is.character(d$geoid))
 })
-
 
 test_that("cincy tracts and block groups", {
   d <- cincy_census_geo("tract", "2024")

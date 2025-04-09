@@ -2,6 +2,7 @@
 #' @param x filename relative to ftp://ftp2.census.gov/geo/tiger/
 #' @keywords internal
 tiger_download <- function(x) {
+  withr::local_options(timeout = 2500)
   tiger_url <- paste0("ftp://ftp2.census.gov/geo/tiger/", x)
   dest <- file.path(tools::R_user_dir("codec", "cache"), x)
   dir.create(dirname(dest), showWarnings = FALSE, recursive = TRUE)
@@ -177,7 +178,6 @@ cincy_city_geo <- function() {
 #' @returns a simple features object with a geographic identifier column (`geoid`)
 #' and a geometry column (`s2_geography`)
 #' @examples
-#' options(timeout = max(2500, getOption("timeout")), download.file.method = "libcurl")
 #' cincy_zcta_geo()
 #' cincy_zcta_geo("2018")
 cincy_zcta_geo <- function(vintage = as.character(2024:2013)) {

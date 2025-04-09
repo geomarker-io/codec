@@ -103,7 +103,7 @@ codec_interpolate <- function(from, to, weights = c("pop", "homes", "area")) {
 }
 
 cincy_block_weights <- function() {
-  tiger_local <- tiger_download("ftp://ftp2.census.gov/geo/tiger/TIGER2020/TABBLOCK20/tl_2020_39_tabblock20.zip")
+  tiger_local <- tiger_download("TIGER2020/TABBLOCK20/tl_2020_39_tabblock20.zip")
   rd <-
     sf::read_sf(glue::glue("/vsizip/", tiger_local),
       query = glue::glue("SELECT GEOID20,ALAND20,HOUSING20,POP20 FROM tl_2020_39_tabblock20 WHERE COUNTYFP20 = '061'")
