@@ -222,3 +222,9 @@ cincy_zip_codes <-
     "45246", "45111", "45147", "45052", "45240", "45241", "45243",
     "45251", "45001", "45204", "45231", "45230", "45233"
   )
+
+utils::globalVariables(c(
+  "STATUS", "ORPHANFLG", "ADDRTYPE", "FULLMAILADR",
+  "BLDGPLACE", "LONGITUDE", "LATITUDE",
+  "PARCELID", "CONDOFLG", "cagis_s2"
+))
