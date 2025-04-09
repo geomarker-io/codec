@@ -1,5 +1,4 @@
 test_that("cincy zcta works", {
-  ## withr::local_envvar(list(R_USER_DIR = tempdir()))
   d <- cincy_zcta_geo("2024")
   expect_equal(names(d), c("geoid", "s2_geography"))
   expect_s3_class(d, c("sf", "tbl_df"))
@@ -17,7 +16,10 @@ test_that("cincy zcta works", {
   expect_true(is.character(d$geoid))
 })
 
-test_that("cincy tracts and block groups", {
+test_that("cincy tracts and block groups can be downloaded and work", {
+
+  withr::local_envvar(list(R_USER_DIR = tempdir()))
+
   d <- cincy_census_geo("tract", "2024")
   expect_equal(nrow(d), 226)
   expect_s3_class(d, c("sf", "tbl_df"))
