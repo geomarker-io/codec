@@ -62,6 +62,7 @@ test_that("cincy city", {
 })
 
 test_that("cincy zcta", {
+  withr::local_options(timeout = 360)
   d <- cincy_zcta_geo("2024")
   expect_equal(nrow(d), 55)
   expect_s3_class(d, c("sf", "tbl_df"))

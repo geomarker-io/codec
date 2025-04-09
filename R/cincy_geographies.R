@@ -175,6 +175,7 @@ cincy_city_geo <- function() {
 #' @returns a simple features object with a geographic identifier column (`geoid`)
 #' and a geometry column (`s2_geography`)
 #' @examples
+#' options(timeout = 360)
 #' cincy_zcta_geo()
 #' cincy_zcta_geo("2018")
 cincy_zcta_geo <- function(vintage = as.character(2024:2013)) {
