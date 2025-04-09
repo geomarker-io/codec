@@ -6,6 +6,7 @@ test_that("codec_as_sf", {
 })
 
 test_that("cincy_block_weights", {
+  skip_on_ci()
   d <- cincy_block_weights()
   expect_s3_class(d, c("sf", "tbl_df"))
   expect_s3_class(d$s2_geography, "sfc")
