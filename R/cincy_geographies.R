@@ -29,10 +29,7 @@ tiger_download <- function(x) {
 #' @export
 #' @examples
 #' cincy_census_geo("tract", "2024")
-#' cincy_census_geo("tract", "2020")
-#' cincy_census_geo("tract", "2019")
 #' cincy_census_geo("bg", "2020")
-#' cincy_census_geo("bg", "2019")
 cincy_census_geo <- function(geography = c("tract", "bg"), vintage = as.character(2024:2013)) {
   geography <- rlang::arg_match(geography)
   vintage <- rlang::arg_match(vintage)
