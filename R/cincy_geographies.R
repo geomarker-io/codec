@@ -1,3 +1,16 @@
+#' download tiger files
+#' @param x filename relative to ftp://ftp2.census.gov/geo/tiger/
+#' @keywords internal
+tiger_download <- function(x) {
+  tiger_url <- paste0("ftp://ftp2.census.gov/geo/tiger/", x)
+  dest <- file.path(tools::R_user_dir("codec", "cache"), x)
+  dir.create(dirname(dest), showWarnings = FALSE, recursive = TRUE)
+  if (!file.exists(dest)) {
+    utils::download.file(tiger_url, dest)
+  }
+  return(dest)
+}
+
 #' Cincy census tracts and block groups
 #'
 #' Read tract and block group ("bg") geographies from the online Census
@@ -20,11 +33,7 @@
 cincy_census_geo <- function(geography = c("tract", "bg"), vintage = as.character(2024:2013)) {
   geography <- rlang::arg_match(geography)
   vintage <- rlang::arg_match(vintage)
-  tiger_url <- glue::glue(
-    "https://www2.census.gov/geo/tiger/TIGER{vintage}",
-    "/{toupper(geography)}/tl_{vintage}_39_{geography}.zip"
-  )
-  tiger_local <- dpkg::stow_url(tiger_url)
+  tiger_local <- tiger_download(glue::glue("TIGER{vintage}", "/{toupper(geography)}/tl_{vintage}_39_{geography}.zip"))
   out <-
     sf::read_sf(glue::glue("/vsizip/", tiger_local),
       query = glue::glue("SELECT GEOID FROM tl_{vintage}_39_{geography} WHERE COUNTYFP = '061'")
@@ -43,8 +52,7 @@ cincy_census_geo <- function(geography = c("tract", "bg"), vintage = as.characte
 #' cincy_county_geo("2024")
 cincy_county_geo <- function(vintage = as.character(2024:2013)) {
   vintage <- rlang::arg_match(vintage)
-  tiger_url <- glue::glue("https://www2.census.gov/geo/tiger/TIGER{vintage}/COUNTY/tl_{vintage}_us_county.zip")
-  tiger_local <- dpkg::stow_url(tiger_url)
+  tiger_local <- tiger_download(glue::glue("TIGER{vintage}/COUNTY/tl_{vintage}_us_county.zip"))
   out <-
     sf::read_sf(glue::glue("/vsizip/", tiger_local),
       query = glue::glue("SELECT GEOID FROM tl_{vintage}_us_county WHERE GEOID = '39061'")
@@ -173,13 +181,13 @@ cincy_zcta_geo <- function(vintage = as.character(2024:2013)) {
   vintage <- rlang::arg_match(vintage)
   is_vintage_old <- vintage %in% as.character(2013:2019)
   tiger_url <- glue::glue(
-    "https://www2.census.gov/geo/tiger/TIGER{vintage}/",
+    "TIGER{vintage}/",
     ifelse(is_vintage_old, "ZCTA5", "ZCTA520"),
     "/tl_{vintage}_us_zcta",
     ifelse(is_vintage_old, "510", "520"),
     ".zip"
   )
-  tiger_local <- dpkg::stow_url(tiger_url)
+  tiger_local <- tiger_download(tiger_url)
   out <-
     sf::read_sf(glue::glue("/vsizip/", tiger_local),
       query = glue::glue(

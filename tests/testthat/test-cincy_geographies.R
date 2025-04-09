@@ -1,4 +1,5 @@
 test_that("cincy zcta works", {
+  withr::local_envvar(list(R_USER_DIR = tempdir()))
   d <- cincy_zcta_geo("2024")
   expect_equal(names(d), c("geoid", "s2_geography"))
   expect_s3_class(d, c("sf", "tbl_df"))
