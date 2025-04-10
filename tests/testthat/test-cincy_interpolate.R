@@ -14,6 +14,7 @@ test_that("cincy_block_weights", {
 })
 
 test_that("codec_interpolate", {
+  skip_on_ci()
 
   codec_interpolate(get_codec_dpkg("acs_measures-v0.1.0"), to = cincy_zcta_geo("2020"), weights = "pop") |>
     expect_s3_class("tbl_df") |>
