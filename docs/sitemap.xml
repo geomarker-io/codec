@@ -13,6 +13,12 @@
     <loc>http://geomarker.io/codec/articles/articles/harmonization.html</loc>
   </url>
   <url>
+    <loc>http://geomarker.io/codec/articles/codec_catalog_site/edit/index.html</loc>
+  </url>
+  <url>
+    <loc>http://geomarker.io/codec/articles/codec_catalog_site/index.html</loc>
+  </url>
+  <url>
     <loc>http://geomarker.io/codec/articles/data.html</loc>
   </url>
   <url>
@@ -80,5 +86,8 @@
   </url>
   <url>
     <loc>http://geomarker.io/codec/reference/install_cagis_data.html</loc>
+  </url>
+  <url>
+    <loc>http://geomarker.io/codec/reference/tiger_download.html</loc>
   </url>
 </urlset>
