@@ -32,9 +32,6 @@ for use across other R sessions (see \code{?dpkg::stow} for more details).
 }
 \examples{
 cincy_census_geo("tract", "2024")
-cincy_census_geo("tract", "2020")
-cincy_census_geo("tract", "2019")
 cincy_census_geo("bg", "2020")
-cincy_census_geo("bg", "2019")
 cincy_county_geo("2024")
 }
