@@ -1,3 +1,19 @@
+#' download tiger files
+#' @param x filename relative to ftp://ftp2.census.gov/geo/tiger/
+#' @keywords internal
+tiger_download <- function(x) {
+  withr::local_options(timeout = 2500)
+  tiger_url <- paste0("ftp://ftp2.census.gov/geo/tiger/", x)
+  dest <- file.path(tools::R_user_dir("codec", "cache"), x)
+  dir.create(dirname(dest), showWarnings = FALSE, recursive = TRUE)
+  if (!file.exists(dest)) {
+    tf <- tempfile()
+    utils::download.file(tiger_url, tf)
+    file.copy(tf, dest)
+  }
+  return(dest)
+}
+
 #' Cincy census tracts and block groups
 #'
 #' Read tract and block group ("bg") geographies from the online Census
@@ -13,18 +29,11 @@
 #' @export
 #' @examples
 #' cincy_census_geo("tract", "2024")
-#' cincy_census_geo("tract", "2020")
-#' cincy_census_geo("tract", "2019")
 #' cincy_census_geo("bg", "2020")
-#' cincy_census_geo("bg", "2019")
 cincy_census_geo <- function(geography = c("tract", "bg"), vintage = as.character(2024:2013)) {
   geography <- rlang::arg_match(geography)
   vintage <- rlang::arg_match(vintage)
-  tiger_url <- glue::glue(
-    "https://www2.census.gov/geo/tiger/TIGER{vintage}",
-    "/{toupper(geography)}/tl_{vintage}_39_{geography}.zip"
-  )
-  tiger_local <- dpkg::stow_url(tiger_url)
+  tiger_local <- tiger_download(glue::glue("TIGER{vintage}", "/{toupper(geography)}/tl_{vintage}_39_{geography}.zip"))
   out <-
     sf::read_sf(glue::glue("/vsizip/", tiger_local),
       query = glue::glue("SELECT GEOID FROM tl_{vintage}_39_{geography} WHERE COUNTYFP = '061'")
@@ -43,8 +52,7 @@ cincy_census_geo <- function(geography = c("tract", "bg"), vintage = as.characte
 #' cincy_county_geo("2024")
 cincy_county_geo <- function(vintage = as.character(2024:2013)) {
   vintage <- rlang::arg_match(vintage)
-  tiger_url <- glue::glue("https://www2.census.gov/geo/tiger/TIGER{vintage}/COUNTY/tl_{vintage}_us_county.zip")
-  tiger_local <- dpkg::stow_url(tiger_url)
+  tiger_local <- tiger_download(glue::glue("TIGER{vintage}/COUNTY/tl_{vintage}_us_county.zip"))
   out <-
     sf::read_sf(glue::glue("/vsizip/", tiger_local),
       query = glue::glue("SELECT GEOID FROM tl_{vintage}_us_county WHERE GEOID = '39061'")
@@ -66,11 +74,10 @@ cincy_county_geo <- function(vintage = as.character(2024:2013)) {
 #' [check](https://www.cagis.org/Opendata/Quarterly_GIS_Data) for something more recent if the file cannot be found
 #' @export
 #' @examples
-#' options(timeout = max(2500, getOption("timeout")), download.file.method = "libcurl")
 #' install_cagis_data()
 #' sf::st_layers(install_cagis_data())$name
 install_cagis_data <- function(cagis_data_url = "https://www.cagis.org/Opendata/Quarterly_GIS_Data/CAGISOpenDataQ1_2025.gdb.zip") {
-  withr::local_options(timeout = 600)
+  withr::local_options(timeout = 2500)
   cagis_gdb_name <- tools::file_path_sans_ext(basename(cagis_data_url))
   dest <- file.path(tools::R_user_dir(package = "codec", "data"), cagis_gdb_name)
   if (file.exists(dest)) {
@@ -173,13 +180,13 @@ cincy_zcta_geo <- function(vintage = as.character(2024:2013)) {
   vintage <- rlang::arg_match(vintage)
   is_vintage_old <- vintage %in% as.character(2013:2019)
   tiger_url <- glue::glue(
-    "https://www2.census.gov/geo/tiger/TIGER{vintage}/",
+    "TIGER{vintage}/",
     ifelse(is_vintage_old, "ZCTA5", "ZCTA520"),
     "/tl_{vintage}_us_zcta",
     ifelse(is_vintage_old, "510", "520"),
     ".zip"
   )
-  tiger_local <- dpkg::stow_url(tiger_url)
+  tiger_local <- tiger_download(tiger_url)
   out <-
     sf::read_sf(glue::glue("/vsizip/", tiger_local),
       query = glue::glue(
@@ -211,3 +218,9 @@ cincy_zip_codes <-
     "45246", "45111", "45147", "45052", "45240", "45241", "45243",
     "45251", "45001", "45204", "45231", "45230", "45233"
   )
+
+utils::globalVariables(c(
+  "STATUS", "ORPHANFLG", "ADDRTYPE", "FULLMAILADR",
+  "BLDGPLACE", "LONGITUDE", "LATITUDE",
+  "PARCELID", "CONDOFLG", "cagis_s2"
+))

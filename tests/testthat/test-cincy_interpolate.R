@@ -6,6 +6,7 @@ test_that("codec_as_sf", {
 })
 
 test_that("cincy_block_weights", {
+  skip_on_ci()
   d <- cincy_block_weights()
   expect_s3_class(d, c("sf", "tbl_df"))
   expect_s3_class(d$s2_geography, "sfc")
@@ -13,6 +14,7 @@ test_that("cincy_block_weights", {
 })
 
 test_that("codec_interpolate", {
+  skip_on_ci()
 
   codec_interpolate(get_codec_dpkg("acs_measures-v0.1.0"), to = cincy_zcta_geo("2020"), weights = "pop") |>
     expect_s3_class("tbl_df") |>
