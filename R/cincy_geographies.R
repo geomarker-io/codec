@@ -66,7 +66,6 @@ cincy_county_geo <- function(vintage = as.character(2024:2013)) {
 #' [check](https://www.cagis.org/Opendata/Quarterly_GIS_Data) for something more recent if the file cannot be found
 #' @export
 #' @examples
-#' options(timeout = max(2500, getOption("timeout")), download.file.method = "libcurl")
 #' install_cagis_data()
 #' sf::st_layers(install_cagis_data())$name
 install_cagis_data <- function(cagis_data_url = "https://www.cagis.org/Opendata/Quarterly_GIS_Data/CAGISOpenDataQ1_2025.gdb.zip") {

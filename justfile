@@ -7,10 +7,6 @@ release_data codec_dpkg_name:
   cd inst/codec_data/{{codec_dpkg_name}} &&
   Rscript {{codec_dpkg_name}}.R
 
-# build and view codec explorer shiny application
-build_shiny_explorer:
-  Rscript -e "shiny::runApp('./inst/codec_shiny', launch.browser = TRUE)"
-
 # build shinylive data catalog
 build_shinylive_catalog:
   Rscript -e "devtools::load_all()" \
