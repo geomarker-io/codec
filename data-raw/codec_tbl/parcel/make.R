@@ -1,10 +1,7 @@
-if (tryCatch(read.dcf("DESCRIPTION")[1, "Package"] == "codec", finally = FALSE)) {
-  devtools::load_all()
-} else {
-  library(codec)
-}
-message("Using CoDEC, version ", packageVersion("codec"))
-library(dplyr)
+devtools::load_all()
+codec_name <- "parcel"
+
+library(dplyr, warn.conflicts = FALSE)
 library(sf)
 library(dpkg)
 options(arrow.unsafe_metadata = TRUE)
@@ -12,7 +9,17 @@ options(arrow.unsafe_metadata = TRUE)
 cagis_parcels <-
   dpkg::stow("gh://geomarker-io/parcel/cagis_parcels-v1.1.1") |>
   dpkg::read_dpkg() |>
-  select(parcel_id, centroid_lat, centroid_lon, land_use, condo_id, market_total_value, acreage, homestead, rental_registration)
+  select(
+    parcel_id,
+    centroid_lat,
+    centroid_lon,
+    land_use,
+    condo_id,
+    market_total_value,
+    acreage,
+    homestead,
+    rental_registration
+  )
 
 online_parcels <-
   dpkg::stow("gh://geomarker-io/parcel/auditor_online_parcels-v0.2.1") |>
@@ -29,15 +36,24 @@ d_land_use <-
   d |>
   # collapse land_use categories
   mutate(
-    land_use_collapsed =
-      case_when(
-        land_use %in% c("apartment, 40+ units", "apartment, 4-19 units", "office / apartment over", "apartment, 20-39 units") ~ "apartment",
-        land_use %in% c("single family dwelling") ~ "single_family_dwelling",
-        land_use %in% c("two family dwelling", "three family dwelling") ~ "two_to_three_family_dwelling",
-        land_use %in% c("condominium unit", "condo or pud garage") ~ "condominium",
-        land_use %in% c("metropolitan housing authority", "lihtc res") ~ "assisted_housing",
-        TRUE ~ "other"
-      )
+    land_use_collapsed = case_when(
+      land_use %in%
+        c(
+          "apartment, 40+ units",
+          "apartment, 4-19 units",
+          "office / apartment over",
+          "apartment, 20-39 units"
+        ) ~
+        "apartment",
+      land_use %in% c("single family dwelling") ~ "single_family_dwelling",
+      land_use %in% c("two family dwelling", "three family dwelling") ~
+        "two_to_three_family_dwelling",
+      land_use %in% c("condominium unit", "condo or pud garage") ~
+        "condominium",
+      land_use %in% c("metropolitan housing authority", "lihtc res") ~
+        "assisted_housing",
+      TRUE ~ "other"
+    )
   ) |>
   group_by(census_tract_id_2010, land_use_collapsed) |>
   tally() |>
@@ -62,7 +78,7 @@ d_medians <-
   group_by(census_tract_id_2010) |>
   summarize(
     across(where(is.numeric), \(x) median(x, na.rm = TRUE))
-  ) 
+  )
 
 d_out <-
   full_join(d_land_use, d_homestead, by = "census_tract_id_2010") |>
@@ -70,14 +86,18 @@ d_out <-
   filter(!is.na(census_tract_id_2010)) |>
   mutate(year = "2024")
 
-out_dpkg <-
-  d_out |>
-  as_codec_dpkg(
-    name = "parcel",
-    version = "0.1.1",
-    title = "Parcel Characteristics",
-    homepage = "https://geomarker.io/codec",
-    description = paste(readLines(fs::path_package("codec", "codec_data", "parcel", "README.md")), collapse = "\n")
-  )
-
-dpkg_gh_release(out_dpkg, draft = FALSE)
+d_out |>
+  as_codec_tbl(
+    name = codec_name,
+    description = paste(
+      readLines(fs::path_package(
+        "codec",
+        "data-raw",
+        "codec_tbl",
+        codec_name,
+        "README.md"
+      )),
+      collapse = "\n"
+    )
+  ) |>
+  write_codec_pin()

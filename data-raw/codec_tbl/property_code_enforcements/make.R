@@ -1,12 +1,7 @@
-if (
-  tryCatch(read.dcf("DESCRIPTION")[1, "Package"] == "codec", finally = FALSE)
-) {
-  devtools::load_all()
-} else {
-  library(codec)
-}
-message("Using CoDEC, version ", packageVersion("codec"))
-library(dplyr)
+devtools::load_all()
+codec_name <- "property_code_enforcements"
+
+library(dplyr, warn.conflicts = FALSE)
 library(dpkg)
 library(addr)
 library(sf)
@@ -79,26 +74,24 @@ all_tracts <-
   ) |>
   select(-date)
 
-out_dpkg <-
-  left_join(
-    all_tracts,
-    property_code_enforcements,
-    by = c("census_tract_id_2010", "year", "month")
-  ) |>
-  as_codec_dpkg(
-    name = "property_code_enforcements",
-    version = "0.2.0",
-    title = "Property Code Enforcements",
-    homepage = "https://geomarker.io/codec",
+d_out <- left_join(
+  all_tracts,
+  property_code_enforcements,
+  by = c("census_tract_id_2010", "year", "month")
+)
+
+d_out |>
+  as_codec_tbl(
+    name = codec_name,
     description = paste(
       readLines(fs::path_package(
         "codec",
-        "codec_data",
-        "property_code_enforcements",
+        "data-raw",
+        "codec_tbl",
+        codec_name,
         "README.md"
       )),
       collapse = "\n"
     )
-  )
-
-dpkg_gh_release(out_dpkg, draft = FALSE)
+  ) |>
+  write_codec_pin()
