@@ -1,12 +1,18 @@
-# Average Annual Daily Truck and Total Traffic Counts
+# Average Annual Vehicle-Meters Driven
 
-[![latest github release for traffic dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=traffic-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=traffic&expanded=false)
+AADT stands for **A**verage **A**nual **D**aily **T**raffic.
+Aggregated at the census tract-level, AADT is measured in vehicle-meter counts (`aadtm`) and grouped by class (`passenger`, `trucks_buses`, `tractor_trailer`).
 
-AADT stands for **A**verage **A**nual **D**aily **T**raffic. Aggregated at the neighborhood level, AADT is measured in vehicle-meter counts.
-Data is downloaded from the 2020 Highway Performance Monitoring System geodatabase hosted by ESRI and AADT from `F_SYSTEM` 1, 2, and 3 is harmonized at the census tract level by summing the total (and truck-only) average annual daily vehicle-meter counts within census tracts in Hamilton County, OH.
+## Data
 
-More details:
+Data is downloaded from the 2020 Highway Performance Monitoring System (HPMS) geodatabase hosted by ESRI using the {[appc](https://github.com/geomarker-io/appc)} package for R.
+For more details about the HPMS, see:
 
 - <https://www.fhwa.dot.gov/policyinformation/hpms.cfm>
 - <https://data-usdot.opendata.arcgis.com/datasets/usdot::highway-performance-monitoring-system-hpms-2020/about>
 - <https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/hpms_field_manual_dec2016.pdf>
+
+Only roads with `F_SYSTEM` classification of 1 ("interstate") or 2 ("principal arterial - other freeways and expressways") are used.
+Passenger vehicles (FHWA 1-3) are calculated as the total minus FHWA class 4-7 (single unit) and 8-13 (combo).
+
+For each 2020 census tract geography, sum the class-specific AADT for all intersecting roads, weighted by their intersecting lengths.

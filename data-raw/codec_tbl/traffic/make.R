@@ -1,55 +1,76 @@
-if (tryCatch(read.dcf("DESCRIPTION")[1, "Package"] == "codec", finally = FALSE)) {
-  devtools::load_all()
-} else {
-  library(codec)
-}
-message("Using CoDEC, version ", packageVersion("codec"))
+devtools::load_all()
+codec_name <- "traffic"
 
-dest_path <- tempfile(fileext = ".gdb.zip")
+library(dplyr, warn.conflicts = FALSE)
+library(s2)
 
-"https://www.arcgis.com/sharing/rest/content/items/c199f2799b724ffbacf4cafe3ee03e55/data" |>
-  utils::download.file(dest_path, mode = "wb", method = "wget")
+hpms_gpkg <-
+  pins::board_url(c(
+    hpms = "https://github.com/geomarker-io/appc/releases/download/hpms_2020_f12_aadt-2025-07-16/hpms_2020_f12_aadt.gpkg"
+  )) |>
+  pins::pin_download("hpms")
 
-#' sf::st_layers(dsn = dest_path)$name |>
-#'   strsplit("_", fixed = TRUE) |>
-#'   purrr::map_chr(3)
-
-rd <-
+hpms <-
   sf::st_read(
-    dsn = dest_path,
-    query = paste(
-      "SELECT F_SYSTEM, AADT, AADT_SINGLE_UNIT, AADT_COMBINATION",
-      "FROM HPMS_FULL_OH_2020",
-      "WHERE F_SYSTEM IN ('1', '2', '3')"
-    ),
-    quiet = FALSE
-  )
-
-aadt <-
-  rd |>
-  sf::st_transform(sf::st_crs(cincy::tract_tigris_2020)) |>
-  sf::st_zm()
-
-out <-
-  sf::st_join(cincy::tract_tigris_2020, aadt) |>
+    hpms_gpkg,
+    layer = sf::st_layers(hpms_gpkg)$name[1],
+    quiet = TRUE
+  ) |>
+  mutate(s2_geography = s2::as_s2_geography(geom)) |>
   sf::st_drop_geometry() |>
+  tibble::as_tibble()
+
+aoi <- cincy_census_geo("tract", "2020")
+
+withins <-
+  aoi$s2_geography |>
+  purrr::map(
+    \(x) {
+      s2_prepared_dwithin(hpms$s2_geography, x, 200) |>
+        which()
+    },
+    .progress = "intersecting HPMS with areas of interest"
+  )
+
+get_intersection_aadtm <- function(the_tract, the_s2_withins) {
+  hpms_withins <- hpms[the_s2_withins, ]
+  lengths <- s2::s2_intersection(hpms_withins$s2_geography, the_tract) |>
+    s2::s2_length()
+  out <- c(
+    aadtm_trucks_buses = sum(hpms_withins$AADT_SINGLE_UNIT * lengths),
+    aadtm_tractor_trailer = sum(hpms_withins$AADT_COMBINATION * lengths),
+    aadtm_passenger = with(
+      hpms_withins,
+      sum((AADT - AADT_SINGLE_UNIT - AADT_COMBINATION) * lengths)
+    )
+  )
+  return(out)
+}
+
+aadtm <- purrr::pmap_dfr(
+  list(the_tract = aoi$s2_geography, the_s2_withins = withins),
+  get_intersection_aadtm
+)
+
+d <-
+  bind_cols(aoi, aadtm) |>
   tibble::as_tibble() |>
-  dplyr::group_by(census_tract_id_2020) |>
-  dplyr::summarize(
-    aadt = sum(AADT, na.rm = TRUE),
-    aadt_truck = sum(AADT_SINGLE_UNIT, AADT_COMBINATION, na.rm = TRUE)
-  )
+  select(-s2_geography) |>
+  rename(census_tract_id_2020 = geoid) |>
+  mutate(year = 2020)
 
-out$year <- 2020
-
-out_dpkg <-
-  out |>
-  as_codec_dpkg(
-    name = "traffic",
-    version = "0.1.2",
-    title = "Average Annual Daily Truck and Total Traffic Counts",
-    description = paste(readLines(fs::path_package("codec", "codec_data", "traffic", "README.md")), collapse = "\n"),
-    homepage = "https://geomarker.io/codec"
-  )
-
-dpkg::dpkg_gh_release(out_dpkg, draft = FALSE)
+d |>
+  as_codec_tbl(
+    name = codec_name,
+    description = paste(
+      readLines(fs::path_package(
+        "codec",
+        "data-raw",
+        "codec_tbl",
+        codec_name,
+        "README.md"
+      )),
+      collapse = "\n"
+    )
+  ) |>
+  write_codec_pin()

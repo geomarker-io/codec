@@ -8,3 +8,5 @@ landcover:
 - landcover/20250828T024022Z-5a480/
 parcel:
 - parcel/20250828T024230Z-146a7/
+traffic:
+- traffic/20250828T164046Z-32c9c/
