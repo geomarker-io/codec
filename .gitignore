@@ -9,5 +9,3 @@ inst/doc
 /doc/
 /Meta/
 /.env
-/data-raw/
-inst/codec_data/green/green-v0.1.0.parquet
