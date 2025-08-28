@@ -1,15 +1,9 @@
-if (tryCatch(read.dcf("DESCRIPTION")[1, "Package"] == "codec", finally = FALSE)) {
-  devtools::load_all()
-} else {
-  library(codec)
-}
+devtools::load_all()
+codec_name <- "voter_participation"
 
 library(dplyr, warn.conflicts = FALSE)
 library(readr, warn.conflicts = FALSE)
-library(addr)
-library(dpkg)
-
-sessionInfo()
+library(s2)
 
 rd <- read_csv(
   glue::glue(
@@ -17,91 +11,107 @@ rd <- read_csv(
     format(Sys.Date(), "%Y%m%d"),
     "-no.csv"
   ),
-  col_types =
-    cols_only(
-      AddressPreDirectional = col_character(),
-      AddressNumber = col_double(),
-      AddressStreet = col_character(),
-      AddressSuffix = col_character(),
-      CityName = col_character(),
-      AddressZip = col_character(),
-      `2024 General Election` = col_factor(),
-      `2024 Primary Election` = col_factor(),
-      `2023 General Election` = col_factor(),
-      `2023 August Election` = col_factor(),
-      PRIMARY_MAY_2023 = col_factor(),
-      GENERAL_NOV_2022 = col_factor(),
-      `AUG PRIMARY ELECTION 2022` = col_factor(),
-      PRIMARY_MAY_2022 = col_factor(),
-      GENERAL_NOV_2021 = col_factor(),
-      PRIMARY_MAY_2021 = col_factor(),
-      GENERAL_NOV_2020 = col_factor()
-    )
+  col_types = cols_only(
+    AddressPreDirectional = col_character(),
+    AddressNumber = col_double(),
+    AddressStreet = col_character(),
+    AddressSuffix = col_character(),
+    CityName = col_character(),
+    AddressZip = col_character(),
+    `2024 General Election` = col_factor(),
+    `2024 Primary Election` = col_factor(),
+    `2023 General Election` = col_factor(),
+    `2023 August Election` = col_factor(),
+    PRIMARY_MAY_2023 = col_factor(),
+    GENERAL_NOV_2022 = col_factor(),
+    `AUG PRIMARY ELECTION 2022` = col_factor(),
+    PRIMARY_MAY_2022 = col_factor(),
+    GENERAL_NOV_2021 = col_factor(),
+    PRIMARY_MAY_2021 = col_factor(),
+    GENERAL_NOV_2020 = col_factor()
+  )
 )
 
 d <-
   rd |>
   mutate(foofy_state = "OH") |>
-  tidyr::unite("voter_address",
+  tidyr::unite(
+    "voter_address",
     c(
-      AddressPreDirectional, AddressNumber, AddressStreet,
-      AddressSuffix, CityName, foofy_state, AddressZip
+      AddressPreDirectional,
+      AddressNumber,
+      AddressStreet,
+      AddressSuffix,
+      CityName,
+      foofy_state,
+      AddressZip
     ),
     sep = " ",
     remove = TRUE,
     na.rm = TRUE
   )
 
-cagis_s2 <-
-  cagis_addr()$cagis_addr_data |>
-  purrr::modify_if(\(.) length(.) > 0 && nrow(.) > 1, dplyr::slice_sample, n = 1) |>
-  purrr::map_vec(purrr::pluck, "cagis_s2", .default = NA, .ptype = s2::s2_cell())
-
-d_geocode <- addr::addr_match_geocode(
-  x = d$voter_address,
-  ref_addr = cagis_addr()$cagis_addr,
-  ref_s2 = cagis_s2,
-  county = "39061",
-  year = "2022"
+source(
+  fs::path_package(
+    "codec",
+    "data-raw",
+    "codec_tbl",
+    codec_name,
+    "geocode_degauss.R"
+  )
 )
 
-d_geocode <- d_geocode |>
+d_gcd <- geocode_degauss(d$voter_address)
+
+
+d_gcd <-
+  d_gcd |>
   mutate(
-    bg = s2_join_tiger_bg(s2, "2023"),
-    tract = substr(bg, 1, 11)
+    s2_cell = as_s2_cell(s2_lnglat(lon, lat)),
+    census_tract_id_2020 = substr(s2_join_tiger_bg(s2_cell, "2020"), 1, 11),
   )
 
 d_rates <-
-  bind_cols(d, d_geocode) |>
-  group_by(tract) |>
-  summarize(across(
-    c(
-      `2024 General Election`, `2024 Primary Election`,
-      `2023 General Election`, `2023 August Election`,
-      PRIMARY_MAY_2023, GENERAL_NOV_2022,
-      `AUG PRIMARY ELECTION 2022`, PRIMARY_MAY_2022,
-      GENERAL_NOV_2021, PRIMARY_MAY_2021,
-      GENERAL_NOV_2020
+  d |>
+  mutate(census_tract_id_2020 = d_gcd$census_tract_id_2020) |>
+  summarize(
+    across(
+      c(
+        `2024 General Election`,
+        `2024 Primary Election`,
+        `2023 General Election`,
+        `2023 August Election`,
+        PRIMARY_MAY_2023,
+        GENERAL_NOV_2022,
+        `AUG PRIMARY ELECTION 2022`,
+        PRIMARY_MAY_2022,
+        GENERAL_NOV_2021,
+        PRIMARY_MAY_2021
+      ),
+      \(.) sum(!is.na(.)) / length(.)
     ),
-    \(.) sum(!is.na(.)) / length(.)
-  ))
+    .by = census_tract_id_2020
+  )
 
 out <-
   cincy_census_geo("tract", "2020") |>
+  select(census_tract_id_2020 = geoid) |>
   sf::st_drop_geometry() |>
-  as_tibble() |>
-  left_join(d_rates, by = c("geoid" = "tract"))
+  left_join(d_rates, by = "census_tract_id_2020") |>
+  mutate(year = 2025)
 
-out_dpkg <-
-  out |>
-  mutate(year = "2025") |>
-  rename(census_tract_id_2020 = geoid) |>
-  as_codec_dpkg(
-    name = "voter_participation",
-    version = "0.2.0",
-    title = "Voter Participation Rates",
-    homepage = "https://geomarker.io/codec",
-    description = paste(readLines(fs::path_package("codec", "codec_data", "voter_participation", "README.md")), collapse = "\n")
-  )
-
-dpkg_gh_release(out_dpkg, draft = FALSE)
+out |>
+  as_codec_tbl(
+    name = codec_name,
+    description = paste(
+      readLines(fs::path_package(
+        "codec",
+        "data-raw",
+        "codec_tbl",
+        codec_name,
+        "README.md"
+      )),
+      collapse = "\n"
+    )
+  ) |>
+  write_codec_pin()
