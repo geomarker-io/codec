@@ -22,7 +22,6 @@ The geodatabase contains many
 updated quarterly. (Historical geodatabases are not available here.)
 }
 \examples{
-options(timeout = max(2500, getOption("timeout")), download.file.method = "libcurl")
 install_cagis_data()
 sf::st_layers(install_cagis_data())$name
 }
