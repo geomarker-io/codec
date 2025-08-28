@@ -1,7 +1,6 @@
 devtools::load_all()
 codec_name <- "drivetime"
 
-
 library(dplyr, warn.conflicts = FALSE)
 library(sf)
 

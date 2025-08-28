@@ -1,6 +1,6 @@
+devtools::load_all()
 codec_name <- "environmental_justice_index"
 
-devtools::load_all()
 library(dplyr, warn.conflicts = FALSE)
 
 
