@@ -2,85 +2,47 @@ devtools::load_all()
 codec_name <- "property_code_enforcements"
 
 library(dplyr, warn.conflicts = FALSE)
-library(dpkg)
+library(s2)
 library(addr)
-library(sf)
-options(arrow.unsafe_metadata = TRUE)
 
-addr_per_tract <-
-  addr::cagis_addr() |>
-  mutate(cagis_s2 = purrr::map(cagis_addr_data, \(d) pull(d, cagis_s2))) |>
-  select(-cagis_addr_data) |>
-  tidyr::unnest(cols = c(cagis_s2)) |>
-  filter(!is.na(cagis_s2)) |>
-  distinct(cagis_addr, .keep_all = TRUE) |>
+d_pce <-
+  pins::board_url(c(
+    x = "https://github.com/geomarker-io/parcel/releases/download/property_code_enforcements-v1.1.1/property_code_enforcements-v1.1.1.parquet"
+  )) |>
+  pins::pin_download("x") |>
+  arrow::read_parquet()
+
+pce_tract_year <-
+  d_pce |>
   mutate(
-    census_tract_id_2010 = tract::get_census_tract_id(cagis_s2, year = "2010")
+    s2_cell = as_s2_cell(s2_lnglat(lon_jittered, lat_jittered)),
+    date = as.Date(date),
+    census_bg_id_2020 = addr::s2_join_tiger_bg(s2_cell, "2020"),
+    .keep = "none"
   ) |>
-  distinct(cagis_addr, .keep_all = TRUE) |>
-  group_by(census_tract_id_2010) |>
-  summarize(n_addr = n())
-
-# read in parcel data resource
-property_code_enforcements <-
-  dpkg::stow("gh://geomarker-io/parcel/property_code_enforcements-v1.1.1") |>
-  dpkg::read_dpkg() |>
-  filter(!is.na(lon_jittered), !is.na(lat_jittered)) |>
-  st_as_sf(coords = c("lon_jittered", "lat_jittered"), crs = 4326) |>
-  st_transform(st_crs(cincy::tract_tigris_2010)) |>
-  st_join(cincy::tract_tigris_2010, largest = TRUE) |>
-  st_drop_geometry() |>
   mutate(
-    year = lubridate::year(date),
-    month = lubridate::month(date)
+    year = as.integer(format(date, "%Y")),
+    census_tract_id_2020 = substr(census_bg_id_2020, 1, 11)
   ) |>
-  group_by(census_tract_id_2010, year, month) |>
-  summarize(n_violations = n()) |>
-  filter(!is.na(census_tract_id_2010)) |>
-  left_join(addr_per_tract, by = "census_tract_id_2010") |>
-  mutate(violations_per_addr = n_violations / n_addr)
+  filter(year > 2016) |>
+  summarize(
+    n_property_code_enforcements = n(),
+    .by = c(year, census_tract_id_2020)
+  )
 
-min_year_month <-
-  property_code_enforcements |>
-  ungroup() |>
-  arrange(year, month) |>
-  slice(1)
+out <- expand.grid(
+  census_tract_id_2020 = cincy_census_geo("tract", "2020")$geoid,
+  year = 2017:2025
+) |>
+  left_join(pce_tract_year, by = c("census_tract_id_2020", "year"))
 
-max_year_month <-
-  property_code_enforcements |>
-  ungroup() |>
-  arrange(desc(year), desc(month)) |>
-  slice(1)
 
-all_tracts <-
-  cincy::tract_tigris_2010 |>
-  sf::st_drop_geometry() |>
-  as_tibble() |>
-  mutate(
-    date = list(seq.Date(
-      from = as.Date(glue::glue(
-        "{min_year_month$year}-{min_year_month$month}-01"
-      )),
-      to = as.Date(glue::glue(
-        "{max_year_month$year}-{max_year_month$month}-01"
-      )),
-      by = "month"
-    ))
-  ) |>
-  tidyr::unnest(cols = c(date)) |>
-  mutate(
-    year = lubridate::year(date),
-    month = lubridate::month(date)
-  ) |>
-  select(-date)
+out[
+  is.na(out$n_property_code_enforcements),
+  "n_property_code_enforcements"
+] <- 0
 
-d_out <- left_join(
-  all_tracts,
-  property_code_enforcements,
-  by = c("census_tract_id_2010", "year", "month")
-)
-
-d_out |>
+out |>
   as_codec_tbl(
     name = codec_name,
     description = paste(
