@@ -1,3 +1,46 @@
+#' CoDEC pin board hosted on GitHub
+#'
+#' A shortcut to create a pins board using the url of the CoDEC pins
+#' board manifest file on GitHub.
+#' Use this function with the {pins} package to get CoDEC data tables.
+#' (See examples.)
+#'
+#' @export
+#' @return a pins_board object
+#' @inheritParams pins::board_url
+#' @examples
+#' library(pins)
+#' pin_list(codec_board())
+#' pin_read(codec_board(), "property_code_enforcements")
+#' pin_meta(codec_board(), "property_code_enforcements")
+codec_board <- function(cache, use_cache_on_failure, headers)
+  pins::board_url(
+    "https://raw.githubusercontent.com/geomarker-io/codec/refs/heads/pins/assets/data/"
+  )
+
+#' use pins to read from the CoDEC pins board, transforming the object back into a CoDEC tbl
+#'
+#' This function uses {pins} to read from the online CoDEC data catalog,
+#' ensuring that metadata is present in the returned codec_tbl object.
+#' Installing {codec} is not required to read from the online data;
+#' read data (and metadata) directly using {pins} with `codec_board()`.
+#' @param name name of CoDEC table in the online CoDEC data catalog
+#' @return a codec_tbl object (see `as_codec_tbl()`)
+#' @export
+#' @examples
+#' d <- codec_read("traffic")
+#' head(d)
+#' attr(d, "title")
+#' attr(d, "description")
+codec_read <- function(name) {
+  stopifnot(length(name) == 1, inherits(name, "character"))
+  codec_pins <- pins::pin_list(codec_board())
+  stopifnot(name %in% codec_pins)
+  d <- pins::pin_read(codec_board(), name)
+  md <- pins::pin_meta(codec_board(), name)
+  as_codec_tbl(d, name = md$name, description = md$description)
+}
+
 #' Convert a data frame, name, and description into a CoDEC table
 #'
 #' **CoDEC Specifications:**
@@ -49,7 +92,7 @@ as_codec_tbl <- function(x, name, description = character()) {
   return(out)
 }
 
-codec_board <- function() {
+codec_board_local_dev <- function() {
   pins::board_folder("assets/data")
 }
 
@@ -62,7 +105,7 @@ write_codec_pin <- function(x) {
     rlang::abort("x must be a codec_tbl object created with as_codec_tbl()")
   }
   pins::pin_write(
-    board = codec_board(),
+    board = codec_board_local_dev(),
     x = x,
     type = "json",
     name = attr(x, "name"),
@@ -72,12 +115,12 @@ write_codec_pin <- function(x) {
     description = attr(x, "description")
   )
 
-  pins::write_board_manifest(codec_board())
+  pins::write_board_manifest(codec_board_local_dev())
 
   rlang::inform(c(
     " ",
     "Board manifest updated; versions now include:",
-    knitr::kable(pins::pin_versions(codec_board(), attr(x, "name"))),
+    knitr::kable(pins::pin_versions(codec_board_local_dev(), attr(x, "name"))),
     " ",
     "When you are ready, commit the changes and push to GitHub to update the data catalog."
   ))
