@@ -1,5 +1,7 @@
 acs_measures:
 - acs_measures/20250828T023008Z-0ef1f/
+crime:
+- crime/20250829T181659Z-bf502/
 drivetime:
 - drivetime/20250828T023328Z-69555/
 environmental_justice_index:
