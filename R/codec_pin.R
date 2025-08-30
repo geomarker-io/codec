@@ -2,8 +2,7 @@
 #'
 #' A shortcut to create a pins board using the url of the CoDEC pins
 #' board manifest file on GitHub.
-#' Use this function with the {pins} package to get CoDEC data tables.
-#' (See examples.)
+#' Use this function with the pins package to get CoDEC data tables.
 #'
 #' @export
 #' @return a pins_board object
@@ -20,10 +19,10 @@ codec_board <- function(cache, use_cache_on_failure, headers)
 
 #' use pins to read from the CoDEC pins board, transforming the object back into a CoDEC tbl
 #'
-#' This function uses {pins} to read from the online CoDEC data catalog,
+#' This function uses the pins package to read from the online CoDEC data catalog,
 #' ensuring that metadata is present in the returned codec_tbl object.
-#' Installing {codec} is not required to read from the online data;
-#' read data (and metadata) directly using {pins} with `codec_board()`.
+#' Read from the online data without installing this package directly
+#' using {pins} with `codec_board()`.
 #' @param name name of CoDEC table in the online CoDEC data catalog
 #' @return a codec_tbl object (see `as_codec_tbl()`)
 #' @export

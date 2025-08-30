@@ -25,8 +25,7 @@ a pins_board object
 \description{
 A shortcut to create a pins board using the url of the CoDEC pins
 board manifest file on GitHub.
-Use this function with the {pins} package to get CoDEC data tables.
-(See examples.)
+Use this function with the pins package to get CoDEC data tables.
 }
 \examples{
 library(pins)

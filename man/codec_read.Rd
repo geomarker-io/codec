@@ -13,10 +13,10 @@ codec_read(name)
 a codec_tbl object (see \code{as_codec_tbl()})
 }
 \description{
-This function uses {pins} to read from the online CoDEC data catalog,
+This function uses the pins package to read from the online CoDEC data catalog,
 ensuring that metadata is present in the returned codec_tbl object.
-Installing {codec} is not required to read from the online data;
-read data (and metadata) directly using {pins} with \code{codec_board()}.
+Read from the online data without installing this package directly
+using {pins} with \code{codec_board()}.
 }
 \examples{
 d <- codec_read("traffic")
