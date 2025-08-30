@@ -22,7 +22,7 @@ codec_board <- function(cache, use_cache_on_failure, headers)
 #' This function uses the pins package to read from the online CoDEC data catalog,
 #' ensuring that metadata is present in the returned codec_tbl object.
 #' Read from the online data without installing this package directly
-#' using {pins} with `codec_board()`.
+#' using the pins package with `codec_board()`.
 #' @param name name of CoDEC table in the online CoDEC data catalog
 #' @return a codec_tbl object (see `as_codec_tbl()`)
 #' @export
@@ -62,6 +62,7 @@ codec_read <- function(name) {
 #' @returns a codec_tbl object
 #' @export
 as_codec_tbl <- function(x, name, description = character()) {
+  if (inherits(x, "codec_tbl")) return(x)
   chk1 <- check_census_tract_id(x)
   if (!is.null(chk1)) rlang::abort(chk1)
   chk2 <- check_date(x)
@@ -89,6 +90,12 @@ as_codec_tbl <- function(x, name, description = character()) {
     description = description
   )
   return(out)
+}
+
+check_codec_tbl <- function(x) {
+  if (!inherits(x, "codec_tbl")) {
+    rlang::abort("x must be a codec_tbl object")
+  }
 }
 
 codec_board_local_dev <- function() {

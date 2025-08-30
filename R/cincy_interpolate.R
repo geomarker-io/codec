@@ -12,9 +12,17 @@
 #' @examples
 #' codec_as_sf(get_codec_dpkg("property_code_enforcements-v0.2.0"))
 codec_as_sf <- function(x) {
-  if (!is_codec_dpkg(x)) rlang::abort("x must be a CoDEC data package")
+  if (!inherits(x, "codec_tbl")) {
+    rlang::abort(
+      "x must be a CoDEC data package; convert with `as_codec_tbl()` first"
+    )
+  }
   codec_tract_id_name <- get_codec_tract_id_name(x)
-  tiger_vintage <- ifelse(codec_tract_id_name == "census_tract_id_2020", "2020", "2019")
+  tiger_vintage <- ifelse(
+    codec_tract_id_name == "census_tract_id_2020",
+    "2020",
+    "2019"
+  )
   gd <-
     cincy_census_geo("tract", tiger_vintage) |>
     dplyr::left_join(x, by = c("geoid" = codec_tract_id_name))
@@ -22,9 +30,13 @@ codec_as_sf <- function(x) {
 }
 
 get_codec_tract_id_name <- function(x) {
-  if (!is_codec_dpkg(x)) rlang::abort("x must be a CoDEC data package")
-  ifelse(any(grepl("census_tract_id_2010", names(x), fixed = TRUE)),
-    "census_tract_id_2010", "census_tract_id_2020"
+  if (!is_codec_dpkg(x)) {
+    rlang::abort("x must be a CoDEC data package")
+  }
+  ifelse(
+    any(grepl("census_tract_id_2010", names(x), fixed = TRUE)),
+    "census_tract_id_2010",
+    "census_tract_id_2020"
   )
 }
 
@@ -61,8 +73,12 @@ codec_interpolate <- function(from, to, weights = c("pop", "homes", "area")) {
     dplyr::slice_sample(n = 1, by = "geoid") |>
     dplyr::select(geoid) |>
     sf::st_transform(5072)
-  if (!grepl("^cincy_(census|neighborhood|zcta)_geo\\(", deparse(substitute(to)))) {
-    rlang::abort("`to` must be supplied via `cincy_census_geo()`, `cincy_neighborhood_geo()`, or `cincy_zcta_geo()`")
+  if (
+    !grepl("^cincy_(census|neighborhood|zcta)_geo\\(", deparse(substitute(to)))
+  ) {
+    rlang::abort(
+      "`to` must be supplied via `cincy_census_geo()`, `cincy_neighborhood_geo()`, or `cincy_zcta_geo()`"
+    )
   }
   to_sf <- sf::st_transform(to, 5072)
 
@@ -72,14 +88,23 @@ codec_interpolate <- function(from, to, weights = c("pop", "homes", "area")) {
     dplyr::select(the_weight = {{ weights }}, s2_geography)
 
   interpolation_weights <-
-    sf::st_intersection(dplyr::select(to_sf, geoid), dplyr::select(from_sf, geoid)) |>
-    dplyr::filter(sf::st_is(s2_geography, c("POLYGON", "MULTIPOLYGON", "GEOMETRYCOLLECTION"))) |>
+    sf::st_intersection(
+      dplyr::select(to_sf, geoid),
+      dplyr::select(from_sf, geoid)
+    ) |>
+    dplyr::filter(sf::st_is(
+      s2_geography,
+      c("POLYGON", "MULTIPOLYGON", "GEOMETRYCOLLECTION")
+    )) |>
     sf::st_join(bw) |>
     sf::st_drop_geometry() |>
     dplyr::arrange(geoid) |>
     stats::na.omit() |>
     dplyr::filter(the_weight > 0) |>
-    dplyr::mutate(weight_coef = the_weight / sum(the_weight), .by = c("geoid")) |>
+    dplyr::mutate(
+      weight_coef = the_weight / sum(the_weight),
+      .by = c("geoid")
+    ) |>
     dplyr::summarize(weight = sum(weight_coef), .by = c("geoid", "geoid.1")) |>
     suppressWarnings()
 
@@ -92,10 +117,17 @@ codec_interpolate <- function(from, to, weights = c("pop", "homes", "area")) {
     ## dplyr::group_by(geoid, year, month) |>
     dplyr::summarize(
       dplyr::across(
-        c(-tidyselect::starts_with("n_"), -tidyselect::starts_with("geoid.1"), -weight),
+        c(
+          -tidyselect::starts_with("n_"),
+          -tidyselect::starts_with("geoid.1"),
+          -weight
+        ),
         \(x) stats::weighted.mean(x, weight, na.rm = TRUE)
       ),
-      dplyr::across(tidyselect::starts_with("n_"), \(x) sum(x * weight, na.rm = TRUE))
+      dplyr::across(
+        tidyselect::starts_with("n_"),
+        \(x) sum(x * weight, na.rm = TRUE)
+      )
     ) |>
     dplyr::ungroup()
 
@@ -103,10 +135,15 @@ codec_interpolate <- function(from, to, weights = c("pop", "homes", "area")) {
 }
 
 cincy_block_weights <- function() {
-  tiger_local <- tiger_download("TIGER2020/TABBLOCK20/tl_2020_39_tabblock20.zip")
+  tiger_local <- tiger_download(
+    "TIGER2020/TABBLOCK20/tl_2020_39_tabblock20.zip"
+  )
   rd <-
-    sf::read_sf(glue::glue("/vsizip/", tiger_local),
-      query = glue::glue("SELECT GEOID20,ALAND20,HOUSING20,POP20 FROM tl_2020_39_tabblock20 WHERE COUNTYFP20 = '061'")
+    sf::read_sf(
+      glue::glue("/vsizip/", tiger_local),
+      query = glue::glue(
+        "SELECT GEOID20,ALAND20,HOUSING20,POP20 FROM tl_2020_39_tabblock20 WHERE COUNTYFP20 = '061'"
+      )
     )
   out <-
     rd |>
@@ -121,9 +158,16 @@ cincy_block_weights <- function() {
 }
 
 utils::globalVariables(c(
-  "POP20", "HOUSING20", "ALAND20",
-  "geoid", "pop", "s2_geography",
-  "the_weight", "weight_coef",
-  "year", "month", "weight",
+  "POP20",
+  "HOUSING20",
+  "ALAND20",
+  "geoid",
+  "pop",
+  "s2_geography",
+  "the_weight",
+  "weight_coef",
+  "year",
+  "month",
+  "weight",
   ":="
 ))

@@ -10,7 +10,8 @@ The CoDEC data package specifications provide a set of patterns designed to make
 Examples of this type of data include the pediatric hospitalization rate per month per census tract, the total number of gunshots per season per neighborhood, and the housing code enforcement density per year per ZIP code.
 
 Data is specified as average values or total counts for census tract geographies during a specific year (or year and month).
-The required \strong{census tract identifer} and \strong{year} (or \emph{year} and \emph{month}) columns in a CoDEC TDR contain the spatiotemporal information that can be used to link other data.
+The required \strong{census tract identifer} and \strong{year} (or \emph{year} and \emph{month})
+columns in a CoDEC table contain the spatiotemporal information that can be used to link other data.
 }
 \seealso{
 Useful links:
