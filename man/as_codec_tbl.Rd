@@ -33,3 +33,14 @@ The data can optionally include a month column (\code{month}), an integer month 
 the CoDEC data table as a level one header (e.g., \verb{# My Community Data}). Titles must be less than 80 characters.
 }
 }
+\examples{
+tibble::tibble(
+  census_tract_id_2020 = cincy_census_geo("tract", "2020")$geoid,
+  n_things = 823,
+  year = 2024L
+) |>
+  as_codec_tbl(
+    name = "n_things",
+    "# Number of Things\n Number of things were averaged by census tract using the survey from 2024"
+  )
+}

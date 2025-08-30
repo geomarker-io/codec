@@ -19,6 +19,16 @@
 #' @param description markdown text describing the CoDEC table
 #' @returns a codec_tbl object
 #' @export
+#' @examples
+#' tibble::tibble(
+#'   census_tract_id_2020 = cincy_census_geo("tract", "2020")$geoid,
+#'   n_things = 823,
+#'   year = 2024L
+#' ) |>
+#'   as_codec_tbl(
+#'     name = "n_things",
+#'     "# Number of Things\n Number of things were averaged by census tract using the survey from 2024"
+#'   )
 as_codec_tbl <- function(x, name, description = character()) {
   if (inherits(x, "codec_tbl")) return(x)
   codec_check_census_tract_id(x)
@@ -107,15 +117,17 @@ codec_check_census_tract_id <- function(x) {
 
 codec_check_date <- function(x) {
   if (!"year" %in% names(x)) {
-    rlang::abort("must contain a 'year' column")
+    rlang::abort("codec_tbl must contain a 'year' column")
   }
   if (!is.integer(x$year)) {
-    rlang::abort(glue::glue("`year` must be <integer>, not <{class(x$year)}>"))
+    rlang::abort(glue::glue(
+      "`year` field must be <integer>, not <{class(x$year)}>"
+    ))
   }
   years <- unique(x$year)
   if (!all(years %in% 1970:2099)) {
     rlang::abort(
-      "the 'year' field must be between 1970 and 2099"
+      "'year' field must be between 1970 and 2099"
     )
   }
   if ("month" %in% names(x)) {
