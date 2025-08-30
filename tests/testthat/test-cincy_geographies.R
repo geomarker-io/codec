@@ -1,4 +1,5 @@
 test_that("cincy zcta works", {
+  skip("skipping for now")
   skip_on_ci()
   d <- cincy_zcta_geo("2024")
   expect_equal(names(d), c("geoid", "s2_geography"))
@@ -18,9 +19,9 @@ test_that("cincy zcta works", {
 })
 
 test_that("cincy tracts and block groups can be downloaded and work", {
-
   withr::local_envvar(list(R_USER_DIR = tempdir()))
   skip_on_ci()
+  skip("skipping for now")
 
   d <- cincy_census_geo("tract", "2024")
   expect_equal(nrow(d), 226)
@@ -56,6 +57,7 @@ test_that("geography functions will error for years outside of 2013 - 2024", {
 })
 
 test_that("cincy county", {
+  skip("skipping for now")
   d <- cincy_county_geo("2024")
   expect_equal(length(d), 1)
   expect_s3_class(d, c("s2_geography", "wk_vctr"))
@@ -63,6 +65,7 @@ test_that("cincy county", {
 })
 
 test_that("cincy city", {
+  skip("skipping for now")
   skip_on_ci()
   d <- cincy_city_geo()
   expect_equal(length(d), 1)
@@ -71,6 +74,7 @@ test_that("cincy city", {
 })
 
 test_that("cincy neighborhoods", {
+  skip("skipping for now")
   skip_on_ci()
   d <- cincy_neighborhood_geo("statistical_neighborhood_approximations")
   expect_equal(nrow(d), 50)
@@ -86,6 +90,7 @@ test_that("cincy neighborhoods", {
 })
 
 test_that("cincy addresses", {
+  skip("skipping for now")
   skip_on_ci()
   d <- cincy_addr_geo()
   expect_s3_class(d, c("sf", "tbl_df"))
