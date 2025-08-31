@@ -64,18 +64,28 @@ write_codec_pin <- function(x) {
     type = "json",
     name = attr(x, "name"),
     title = attr(x, "title"),
+    metadata = list(sesh = sesh()),
     urls = c("https://github.com/geomarker-io/codec"),
     versioned = TRUE,
-    description = attr(x, "description")
+    description = attr(x, "description"),
+    force_identical_write = TRUE
   )
 
   pins::write_board_manifest(codec_board_local_dev())
 
   rlang::inform(c(
     " ",
-    "Board manifest updated; versions now include:",
-    knitr::kable(pins::pin_versions(codec_board_local_dev(), attr(x, "name"))),
+    "Board manifest updated; versions include:",
     " ",
-    "When you are ready, commit the changes and push to GitHub to update the data catalog."
+    knitr::kable(pins::pin_versions(codec_board_local_dev(), attr(x, "name")))
   ))
+}
+
+sesh <- function() {
+  list(
+    r_version = R.Version()$version.string,
+    platform = R.Version()$platform,
+    date = Sys.Date(),
+    loaded_packages = sapply(sessionInfo()$otherPkgs, function(pkg) pkg$Version)
+  )
 }
