@@ -26,6 +26,7 @@ codec_board <- function(cache, use_cache_on_failure, headers)
 #' Read from the online data without installing this package directly
 #' using the pins package with `codec_board()`.
 #' @param name name of CoDEC table in the online CoDEC data catalog
+#' @param board codec board to read from
 #' @return a codec_tbl object (see `as_codec_tbl()`)
 #' @export
 #' @examples
@@ -33,7 +34,7 @@ codec_board <- function(cache, use_cache_on_failure, headers)
 #' head(d)
 #' attr(d, "title")
 #' attr(d, "description")
-codec_read <- function(name) {
+codec_read <- function(name, board = codec_board()) {
   stopifnot(length(name) == 1, inherits(name, "character"))
   codec_pins <- pins::pin_list(codec_board())
   stopifnot(name %in% codec_pins)

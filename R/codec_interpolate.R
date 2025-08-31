@@ -14,7 +14,7 @@
 codec_as_sf <- function(x) {
   if (!inherits(x, "codec_tbl")) {
     rlang::abort(
-      "x must be a CoDEC data package; convert with `as_codec_tbl()` first"
+      "x must be a CoDEC data table; convert with `as_codec_tbl()` first"
     )
   }
   codec_tract_id_name <- get_codec_tract_id_name(x)
@@ -66,7 +66,7 @@ get_codec_tract_id_name <- function(x) {
 #'                   cincy_census_geo("tract", "2019"))
 codec_interpolate <- function(from, to, weights = c("pop", "homes", "area")) {
   if (!inherits(from, "codec_tbl"))
-    rlang::abort("from must be a CoDEC data package")
+    rlang::abort("from must be a CoDEC data table")
   codec_tract_id_name <- get_codec_tract_id_name(from)
   weights <- rlang::arg_match(weights)
   from_sf <-
@@ -114,7 +114,7 @@ codec_interpolate <- function(from, to, weights = c("pop", "homes", "area")) {
     from |>
     dplyr::rename("geoid.1" := {{ codec_tract_id_name }}) |>
     dplyr::left_join(interpolation_weights, by = "geoid.1") |>
-    dplyr::group_by(geoid, year) |>
+    dplyr::group_by(geoid, year, dplyr::across(dplyr::any_of("month"))) |>
     dplyr::summarize(
       dplyr::across(
         c(
