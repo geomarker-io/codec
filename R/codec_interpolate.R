@@ -1,16 +1,16 @@
-#' Coerce CoDEC data package into a simple features object
+#' Coerce a CoDEC data table into a simple features object
 #'
-#' The name of the census tract column in the CoDEC data package is used to add
-#' the appropriate cincy geography.
-#' @param x a CoDEC data package
+#' The name of the census tract column in the CoDEC data table is used to add
+#' the appropriate census tract s2 geography column.
+#' @param x a CoDEC data table
 #' @details Tract identifers do not change across decennial censuses, but the digital representation of their boundaries
-#' may be improved over time.  Here, data packages using 2010 tract identifers use the TIGER/Line 2019 tract shapefiles
-#' and data packages using 2020 tract identifiers use the TIGER/Line 2020 tract shapefiles
-#' @returns a simple features object with a geographic identifier column (`geoid`)
-#' and a geometry column (`s2_geography`) in addition to the columns in `x`
+#' may be improved over time.  Here, data tables using 2010 tract identifers use the TIGER/Line 2019 tract shapefiles
+#' and data tables using 2020 tract identifiers use the TIGER/Line 2020 tract shapefiles
+#' @returns a simple features object with a geometry column (`s2_geography`)
+#' in addition to the columns in `x`
 #' @export
 #' @examples
-#' codec_as_sf(get_codec_dpkg("property_code_enforcements-v0.2.0"))
+#' codec_as_sf(codec_read("property_code_enforcements"))
 codec_as_sf <- function(x) {
   if (!inherits(x, "codec_tbl")) {
     rlang::abort(
@@ -25,12 +25,13 @@ codec_as_sf <- function(x) {
   )
   gd <-
     cincy_census_geo("tract", tiger_vintage) |>
-    dplyr::left_join(x, by = c("geoid" = codec_tract_id_name))
+    dplyr::left_join(x, by = c("geoid" = codec_tract_id_name)) |>
+    dplyr::rename(!!codec_tract_id_name := geoid)
   return(gd)
 }
 
 get_codec_tract_id_name <- function(x) {
-  if (!is_codec_dpkg(x)) {
+  if (!inherits(x, "codec_tbl")) {
     rlang::abort("x must be a CoDEC data package")
   }
   ifelse(
@@ -59,19 +60,20 @@ get_codec_tract_id_name <- function(x) {
 #' all other variables are interpolated using a weighted mean.
 #' @export
 #' @examples
-#' codec_interpolate(get_codec_dpkg("acs_measures-v0.1.0"),
+#' codec_interpolate(codec_read("acs_measures"),
 #'                   cincy_neighborhood_geo())
-#' codec_interpolate(get_codec_dpkg("property_code_enforcements-v0.2.0"),
-#'                   cincy_census_geo("tract", "2020"))
+#' codec_interpolate(codec_read("property_code_enforcements"),
+#'                   cincy_census_geo("tract", "2019"))
 codec_interpolate <- function(from, to, weights = c("pop", "homes", "area")) {
-  if (!is_codec_dpkg(from)) rlang::abort("x must be a CoDEC data package")
+  if (!inherits(from, "codec_tbl"))
+    rlang::abort("from must be a CoDEC data package")
   codec_tract_id_name <- get_codec_tract_id_name(from)
   weights <- rlang::arg_match(weights)
   from_sf <-
     from |>
     codec_as_sf() |>
-    dplyr::slice_sample(n = 1, by = "geoid") |>
-    dplyr::select(geoid) |>
+    dplyr::slice_sample(n = 1, by = codec_tract_id_name) |>
+    dplyr::select(geoid = !!codec_tract_id_name) |>
     sf::st_transform(5072)
   if (
     !grepl("^cincy_(census|neighborhood|zcta)_geo\\(", deparse(substitute(to)))
@@ -113,8 +115,6 @@ codec_interpolate <- function(from, to, weights = c("pop", "homes", "area")) {
     dplyr::rename("geoid.1" := {{ codec_tract_id_name }}) |>
     dplyr::left_join(interpolation_weights, by = "geoid.1") |>
     dplyr::group_by(geoid, year) |>
-    ## TODO
-    ## dplyr::group_by(geoid, year, month) |>
     dplyr::summarize(
       dplyr::across(
         c(
