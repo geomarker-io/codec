@@ -17,6 +17,8 @@ landcover:
 parcel:
 - parcel/20250828T024230Z-146a7/
 - parcel/20250831T023639Z-25a36/
+- parcel/20250831T024452Z-25a36/
+- parcel/20250831T134113Z-25a36/
 property_code_enforcements:
 - property_code_enforcements/20250829T135720Z-390be/
 - property_code_enforcements/20250831T023731Z-390be/

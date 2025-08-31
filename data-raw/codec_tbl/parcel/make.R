@@ -23,7 +23,8 @@ cagis_parcels <-
 
 online_parcels <-
   dpkg::stow("gh://geomarker-io/parcel/auditor_online_parcels-v0.2.1") |>
-  dpkg::read_dpkg()
+  dpkg::read_dpkg() |>
+  suppressWarnings()
 
 d <-
   left_join(cagis_parcels, online_parcels, by = "parcel_id") |>
