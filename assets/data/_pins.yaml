@@ -14,6 +14,7 @@ environmental_justice_index:
 landcover:
 - landcover/20250828T024022Z-5a480/
 - landcover/20250831T023527Z-5a480/
+- landcover/20250831T152227Z-97558/
 parcel:
 - parcel/20250828T024230Z-146a7/
 - parcel/20250831T023639Z-25a36/

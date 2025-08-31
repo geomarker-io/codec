@@ -2,7 +2,8 @@ devtools::load_all()
 codec_name <- "landcover"
 
 rd <- readr::read_csv(
-  "https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0/hamilton_landcover.csv"
+  "https://github.com/geomarker-io/hamilton_landcover/releases/download/v0.1.0/hamilton_landcover.csv",
+  col_types = "cdddd"
 )
 
 out <-
