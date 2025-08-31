@@ -84,7 +84,7 @@ d_out <-
   full_join(d_land_use, d_homestead, by = "census_tract_id_2010") |>
   full_join(d_medians, by = "census_tract_id_2010") |>
   filter(!is.na(census_tract_id_2010)) |>
-  mutate(year = "2024")
+  mutate(year = 2024L)
 
 d_out |>
   as_codec_tbl(

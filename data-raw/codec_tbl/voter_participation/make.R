@@ -98,7 +98,7 @@ out <-
   select(census_tract_id_2020 = geoid) |>
   sf::st_drop_geometry() |>
   left_join(d_rates, by = "census_tract_id_2020") |>
-  mutate(year = 2025)
+  mutate(year = 2025L)
 
 out |>
   as_codec_tbl(

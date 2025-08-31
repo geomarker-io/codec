@@ -32,7 +32,7 @@ out <-
     prcnt_area_huc12_watershed = E_IMPWTR
   )
 
-out$year <- 2022
+out$year <- 2022L
 
 out |>
   as_codec_tbl(
@@ -41,8 +41,8 @@ out |>
       readLines(fs::path_package(
         "codec",
         "data-raw",
-	"codec_tbl",
-	codec_name,
+        "codec_tbl",
+        codec_name,
         "README.md"
       )),
       collapse = "\n"

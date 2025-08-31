@@ -57,7 +57,7 @@ d <-
   tibble::as_tibble() |>
   select(-s2_geography) |>
   rename(census_tract_id_2020 = geoid) |>
-  mutate(year = 2020)
+  mutate(year = 2020L)
 
 d |>
   as_codec_tbl(

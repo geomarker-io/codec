@@ -6,7 +6,8 @@ dpkgs <-
     get_codec_dpkg("acs_measures-v0.1.0") |>
       filter(year == "2022"),
     get_codec_dpkg("voter_participation-v0.2.0") |>
-      mutate(census_tract_id_2020,
+      mutate(
+        census_tract_id_2020,
         year,
         voter_participation_rate = `2023 General Election`,
         .keep = "none"
@@ -26,3 +27,7 @@ saveRDS(dpkgs, "inst/codec_catalog/all_codec_dpkg.rds")
 ##   dpkgs |>
 ##   purrr::map(names) |>
 ##   purrr::map(\(.) setNames(., vapply(., snake_title, character(1))))
+
+codec_tbls <- pins::pin_list(codec_board())
+
+d <- lapply(codec_tbls, codec_read)

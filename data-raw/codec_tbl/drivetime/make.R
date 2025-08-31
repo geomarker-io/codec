@@ -19,7 +19,7 @@ out <-
   dplyr::mutate(wt_drive_time = drive_time * area / sum(area)) |>
   dplyr::summarize(drive_time_avg = round(sum(wt_drive_time), 1)) |>
   sf::st_drop_geometry() |>
-  dplyr::mutate(year = 2024)
+  dplyr::mutate(year = 2024L)
 
 out |>
   as_codec_tbl(

@@ -12,7 +12,7 @@ out <-
     enhanced_vegatation_index_2018 = evi_2018,
     census_tract_id_2010 = census_tract_id
   ) |>
-  dplyr::mutate(year = 2019)
+  dplyr::mutate(year = 2019L)
 
 out |>
   as_codec_tbl(
