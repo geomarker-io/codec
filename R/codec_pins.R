@@ -33,7 +33,7 @@ codec_board <- function(cache, use_cache_on_failure, headers)
 #' d <- codec_read("traffic")
 #' head(d)
 #' attr(d, "title")
-#' attr(d, "description")
+#' glue::glue(attr(d, "description"))
 codec_read <- function(name, board = codec_board()) {
   stopifnot(length(name) == 1, inherits(name, "character"))
   codec_pins <- pins::pin_list(codec_board())
@@ -87,6 +87,8 @@ sesh <- function() {
     r_version = R.Version()$version.string,
     platform = R.Version()$platform,
     date = Sys.Date(),
-    loaded_packages = sapply(sessionInfo()$otherPkgs, function(pkg) pkg$Version)
+    loaded_packages = sessionInfo()$otherPkgs |>
+      lapply(\(x) x[c("Package", "Version")]) |>
+      vapply(\(x) glue::glue("{x$Package}-v{x$Version}"), character(1))
   )
 }
