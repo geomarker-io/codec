@@ -2,7 +2,7 @@ library(codec)
 library(shiny)
 library(bslib)
 
-dpkgs <- readRDS("all_codec_dpkg.rds")
+dpkgs <- readRDS("codec_latest_annual.rds")
 
 names(dpkgs) <- vapply(dpkgs, \(.) dpkg::dpkg_meta(.)$title, character(1))
 
@@ -17,9 +17,11 @@ ui <- page_sidebar(
       selectize = FALSE,
       size = NULL
     ),
-    downloadButton("download_excel",
-                   "Download Excel",
-                   style = "width: 200px; padding: 3px 3px; font-size: 12px; text-align: center; background-color: #396175; color: #ffffff; border: none;"),
+    downloadButton(
+      "download_excel",
+      "Download Excel",
+      style = "width: 200px; padding: 3px 3px; font-size: 12px; text-align: center; background-color: #396175; color: #ffffff; border: none;"
+    ),
     uiOutput("field_names"),
     width = "425px"
   ),
@@ -35,7 +37,9 @@ server <- function(input, output) {
         paste0(
           "CoDEC-",
           dpkg::dpkg_meta(codec_dpkg())$name,
-          "-v", dpkg::dpkg_meta(codec_dpkg())$version, ".xlsx"
+          "-v",
+          dpkg::dpkg_meta(codec_dpkg())$version,
+          ".xlsx"
         )
       },
       content = function(file) writexl::write_xlsx(codec_dpkg(), path = file)
