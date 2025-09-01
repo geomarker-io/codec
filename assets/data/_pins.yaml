@@ -2,9 +2,11 @@ acs_measures:
 - acs_measures/20250828T023008Z-0ef1f/
 - acs_measures/20250831T021158Z-8f122/
 - acs_measures/20250831T023115Z-8f122/
+- acs_measures/20250901T032818Z-8f122/
 crime:
 - crime/20250829T181659Z-bf502/
 - crime/20250831T023010Z-bf502/
+- crime/20250901T033049Z-bf502/
 drivetime:
 - drivetime/20250828T023328Z-69555/
 - drivetime/20250831T023414Z-69555/
