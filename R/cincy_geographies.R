@@ -198,7 +198,6 @@ cincy_city_geo <- function() {
 #' and a geometry column (`s2_geography`)
 #' @examples
 #' cincy_zcta_geo()
-#' cincy_zcta_geo("2018")
 cincy_zcta_geo <- function(vintage = as.character(2024:2013)) {
   vintage <- rlang::arg_match(vintage)
   is_vintage_old <- vintage %in% as.character(2013:2019)

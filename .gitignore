@@ -7,5 +7,6 @@
 CODECtools.Rproj
 inst/doc
 /doc/
+/docs/
 /Meta/
 /.env

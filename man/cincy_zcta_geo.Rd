@@ -21,5 +21,4 @@ files into R
 }
 \examples{
 cincy_zcta_geo()
-cincy_zcta_geo("2018")
 }

@@ -33,7 +33,7 @@ codec_board <- function(cache, use_cache_on_failure, headers)
 #' d <- codec_read("traffic")
 #' head(d)
 #' attr(d, "title")
-#' glue::glue(attr(d, "description"))
+#' message(attr(d, "description"))
 codec_read <- function(name, board = codec_board()) {
   stopifnot(length(name) == 1, inherits(name, "character"))
   codec_pins <- pins::pin_list(codec_board())
@@ -74,6 +74,8 @@ write_codec_pin <- function(x) {
 
   pins::write_board_manifest(codec_board_local_dev())
 
+  rlang::check_installed("knitr", "pretty printing tables")
+
   rlang::inform(c(
     " ",
     "Board manifest updated; versions include:",
@@ -87,7 +89,7 @@ sesh <- function() {
     r_version = R.Version()$version.string,
     platform = R.Version()$platform,
     date = Sys.Date(),
-    loaded_packages = sessionInfo()$otherPkgs |>
+    loaded_packages = utils::sessionInfo()$otherPkgs |>
       lapply(\(x) x[c("Package", "Version")]) |>
       vapply(\(x) glue::glue("{x$Package}-v{x$Version}"), character(1))
   )

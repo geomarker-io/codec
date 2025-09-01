@@ -26,5 +26,5 @@ using the pins package with \code{codec_board()}.
 d <- codec_read("traffic")
 head(d)
 attr(d, "title")
-glue::glue(attr(d, "description"))
+message(attr(d, "description"))
 }

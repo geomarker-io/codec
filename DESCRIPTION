@@ -22,6 +22,7 @@ Suggests:
     dpkg,
     dplyr,
     tibble,
+    knitr,
     s2
 Config/testthat/edition: 3
 URL: https://github.com/geomarker-io/codec,
