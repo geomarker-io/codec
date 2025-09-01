@@ -30,13 +30,22 @@ tiger_download <- function(x) {
 #' @examples
 #' cincy_census_geo("tract", "2024")
 #' cincy_census_geo("bg", "2020")
-cincy_census_geo <- function(geography = c("tract", "bg"), vintage = as.character(2024:2013)) {
+cincy_census_geo <- function(
+  geography = c("tract", "bg"),
+  vintage = as.character(2024:2013)
+) {
   geography <- rlang::arg_match(geography)
   vintage <- rlang::arg_match(vintage)
-  tiger_local <- tiger_download(glue::glue("TIGER{vintage}", "/{toupper(geography)}/tl_{vintage}_39_{geography}.zip"))
+  tiger_local <- tiger_download(glue::glue(
+    "TIGER{vintage}",
+    "/{toupper(geography)}/tl_{vintage}_39_{geography}.zip"
+  ))
   out <-
-    sf::read_sf(glue::glue("/vsizip/", tiger_local),
-      query = glue::glue("SELECT GEOID FROM tl_{vintage}_39_{geography} WHERE COUNTYFP = '061'")
+    sf::read_sf(
+      glue::glue("/vsizip/", tiger_local),
+      query = glue::glue(
+        "SELECT GEOID FROM tl_{vintage}_39_{geography} WHERE COUNTYFP = '061'"
+      )
     )
   names(out) <- tolower(names(out))
   out$s2_geography <- sf::st_as_s2(out$geometry)
@@ -52,16 +61,21 @@ cincy_census_geo <- function(geography = c("tract", "bg"), vintage = as.characte
 #' cincy_county_geo("2024")
 cincy_county_geo <- function(vintage = as.character(2024:2013)) {
   vintage <- rlang::arg_match(vintage)
-  tiger_local <- tiger_download(glue::glue("TIGER{vintage}/COUNTY/tl_{vintage}_us_county.zip"))
+  tiger_local <- tiger_download(glue::glue(
+    "TIGER{vintage}/COUNTY/tl_{vintage}_us_county.zip"
+  ))
   out <-
-    sf::read_sf(glue::glue("/vsizip/", tiger_local),
-      query = glue::glue("SELECT GEOID FROM tl_{vintage}_us_county WHERE GEOID = '39061'")
+    sf::read_sf(
+      glue::glue("/vsizip/", tiger_local),
+      query = glue::glue(
+        "SELECT GEOID FROM tl_{vintage}_us_county WHERE GEOID = '39061'"
+      )
     )
   return(sf::st_as_s2(out$geometry))
 }
 
 #' Install CAGIS GIS database
-#' 
+#'
 #' This installs the CAGIS Open Data GIS database (`.gdb`) into the data
 #' directory for the codec package. Once downloaded, it will be reused
 #' across R sessions on the same computer.
@@ -76,10 +90,15 @@ cincy_county_geo <- function(vintage = as.character(2024:2013)) {
 #' @examples
 #' install_cagis_data()
 #' sf::st_layers(install_cagis_data())$name
-install_cagis_data <- function(cagis_data_url = "https://www.cagis.org/Opendata/Quarterly_GIS_Data/CAGISOpenDataQ1_2025.gdb.zip") {
+install_cagis_data <- function(
+  cagis_data_url = "https://www.cagis.org/Opendata/Quarterly_GIS_Data/CAGISOpenDataQ1_2025.gdb.zip"
+) {
   withr::local_options(timeout = 2500)
   cagis_gdb_name <- tools::file_path_sans_ext(basename(cagis_data_url))
-  dest <- file.path(tools::R_user_dir(package = "codec", "data"), cagis_gdb_name)
+  dest <- file.path(
+    tools::R_user_dir(package = "codec", "data"),
+    cagis_gdb_name
+  )
   if (file.exists(dest)) {
     return(dest)
   }
@@ -91,8 +110,8 @@ install_cagis_data <- function(cagis_data_url = "https://www.cagis.org/Opendata/
 
 #' Cincy address geographies
 #'
-#' CAGIS data (see `install_cagis_data()`) provides a list of all addresses in Hamilton County. 
-#' Addresses are filtered for the following criteria: 
+#' CAGIS data (see `install_cagis_data()`) provides a list of all addresses in Hamilton County.
+#' Addresses are filtered for the following criteria:
 #' - use only addresses that have `STATUS` of `ASSIGNED` or `USING` and are not orphaned (`ORPHANFLG == "N"`)
 #' - omit addresses with `ADDRTYPE`s that are milemarkers (`MM`), parks (`PAR`), infrastructure projects (`PRJ`),
 #'   cell towers (`CTW`), vacant or commercial lots (`LOT`), and other miscellaneous non-residential addresses (`MIS`, `RR`, `TBA`)
@@ -104,21 +123,23 @@ install_cagis_data <- function(cagis_data_url = "https://www.cagis.org/Opendata/
 #' cincy_addr_geo()
 cincy_addr_geo <- function() {
   install_cagis_data() |>
-  sf::st_read(layer = "Addresses") |>
-  tibble::as_tibble() |>
-  dplyr::filter(STATUS %in% c("ASSIGNED", "USING")) |>
-  dplyr::filter(ORPHANFLG == "N") |>
-  dplyr::filter(!ADDRTYPE %in% c("MM", "PAR", "PRJ", "CTW", "LOT", "MIS", "RR", "TBA")) |>
-  dplyr::transmute(
-    cagis_address = FULLMAILADR,
-    cagis_address_place = BLDGPLACE,
-    cagis_address_type = ADDRTYPE,
-    cagis_s2 = s2::as_s2_cell(s2::s2_geog_point(LONGITUDE, LATITUDE)),
-    cagis_parcel_id = PARCELID,
-    cagis_is_condo = CONDOFLG %in% c("Y")
-  ) |>
-  dplyr::mutate(s2_geography = s2::s2_cell_to_lnglat(cagis_s2)) |>
-  sf::st_as_sf()
+    sf::st_read(layer = "Addresses") |>
+    tibble::as_tibble() |>
+    dplyr::filter(STATUS %in% c("ASSIGNED", "USING")) |>
+    dplyr::filter(ORPHANFLG == "N") |>
+    dplyr::filter(
+      !ADDRTYPE %in% c("MM", "PAR", "PRJ", "CTW", "LOT", "MIS", "RR", "TBA")
+    ) |>
+    dplyr::transmute(
+      cagis_address = FULLMAILADR,
+      cagis_address_place = BLDGPLACE,
+      cagis_address_type = ADDRTYPE,
+      cagis_s2 = s2::as_s2_cell(s2::s2_geog_point(LONGITUDE, LATITUDE)),
+      cagis_parcel_id = PARCELID,
+      cagis_is_condo = CONDOFLG %in% c("Y")
+    ) |>
+    dplyr::mutate(s2_geography = s2::s2_cell_to_lnglat(cagis_s2)) |>
+    sf::st_as_sf()
 }
 
 #' Cincy neighborhood geographies
@@ -134,7 +155,9 @@ cincy_addr_geo <- function() {
 #' @examples
 #' cincy_neighborhood_geo("statistical_neighborhood_approximations")
 #' cincy_neighborhood_geo("community_council")
-cincy_neighborhood_geo <- function(geography = c("statistical_neighborhood_approximations", "community_council")) {
+cincy_neighborhood_geo <- function(
+  geography = c("statistical_neighborhood_approximations", "community_council")
+) {
   geography <- rlang::arg_match(geography)
   if (geography == "statistical_neighborhood_approximations") {
     noi <- c("Cincinnati_Statistical_Neighborhood_Approximations" = "SNA_NAME")
@@ -188,7 +211,8 @@ cincy_zcta_geo <- function(vintage = as.character(2024:2013)) {
   )
   tiger_local <- tiger_download(tiger_url)
   out <-
-    sf::read_sf(glue::glue("/vsizip/", tiger_local),
+    sf::read_sf(
+      glue::glue("/vsizip/", tiger_local),
       query = glue::glue(
         "SELECT ",
         ifelse(is_vintage_old, "GEOID10", "GEOID20"),
@@ -209,18 +233,72 @@ cincy_zcta_geo <- function(vintage = as.character(2024:2013)) {
 # from cincy::zcta_tiger_2020 (version 1.1.0) on 2024-11-08
 cincy_zip_codes <-
   c(
-    "45214", "45208", "45236", "45247", "45225", "45205", "45220",
-    "45206", "45223", "45232", "45174", "45207", "45209", "45212",
-    "45213", "45217", "45218", "45229", "45238", "45242", "45051",
-    "45002", "45227", "45211", "45215", "45216", "45219", "45224",
-    "45033", "45237", "45239", "45248", "45041", "45267", "45030",
-    "45252", "45244", "45202", "45249", "45255", "45226", "45203",
-    "45246", "45111", "45147", "45052", "45240", "45241", "45243",
-    "45251", "45001", "45204", "45231", "45230", "45233"
+    "45214",
+    "45208",
+    "45236",
+    "45247",
+    "45225",
+    "45205",
+    "45220",
+    "45206",
+    "45223",
+    "45232",
+    "45174",
+    "45207",
+    "45209",
+    "45212",
+    "45213",
+    "45217",
+    "45218",
+    "45229",
+    "45238",
+    "45242",
+    "45051",
+    "45002",
+    "45227",
+    "45211",
+    "45215",
+    "45216",
+    "45219",
+    "45224",
+    "45033",
+    "45237",
+    "45239",
+    "45248",
+    "45041",
+    "45267",
+    "45030",
+    "45252",
+    "45244",
+    "45202",
+    "45249",
+    "45255",
+    "45226",
+    "45203",
+    "45246",
+    "45111",
+    "45147",
+    "45052",
+    "45240",
+    "45241",
+    "45243",
+    "45251",
+    "45001",
+    "45204",
+    "45231",
+    "45230",
+    "45233"
   )
 
 utils::globalVariables(c(
-  "STATUS", "ORPHANFLG", "ADDRTYPE", "FULLMAILADR",
-  "BLDGPLACE", "LONGITUDE", "LATITUDE",
-  "PARCELID", "CONDOFLG", "cagis_s2"
+  "STATUS",
+  "ORPHANFLG",
+  "ADDRTYPE",
+  "FULLMAILADR",
+  "BLDGPLACE",
+  "LONGITUDE",
+  "LATITUDE",
+  "PARCELID",
+  "CONDOFLG",
+  "cagis_s2"
 ))
