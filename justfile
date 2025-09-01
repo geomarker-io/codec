@@ -2,16 +2,10 @@
 build_pkgdown_site:
     Rscript -e "devtools::build_site(quiet = FALSE, preview = FALSE)"
 
-# make and release CoDEC data
-update_data codec_tbl_name:
+# make CoDEC tables
+make codec_tbl_name:
     Rscript data-raw/codec_tbl/{{ codec_tbl_name }}/make.R
 
-# build shinylive data catalog
-build_shinylive_catalog:
-    Rscript -e "devtools::load_all()" \
-    -e "source('inst/codec_catalog/make_all_codec_dpkg.R')" && \
-    Rscript -e "shinylive::export('inst/codec_catalog', 'docs/articles/codec_catalog_site')" \
-
-# serve pkgdown page
-serve_pkgdown_site: build_pkgdown_site build_shinylive_catalog
-    Rscript -e "httpuv::runStaticServer('docs/')"
+# make CoDEC latest annual
+make_codec_latest_annual:
+    Rscript data-raw/make_codec_latest_annual.R
