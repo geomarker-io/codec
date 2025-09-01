@@ -19,6 +19,7 @@ Suggests:
     testthat (>= 3.0.0),
     roxygen2,
     rmarkdown,
+    dpkg,
     dplyr,
     tibble,
     s2
@@ -31,7 +32,7 @@ Imports:
     tidyselect,
     stringr,
     glue,
-    dpkg,
+    here,
     pins,
     sf,
     withr

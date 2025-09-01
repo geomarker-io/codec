@@ -46,7 +46,7 @@ codec_read <- function(name, board = codec_board()) {
 
 #' @rdname write_codec_pin
 codec_board_local_dev <- function() {
-  pins::board_folder("assets/data")
+  pins::board_folder(here::here("assets/data"))
 }
 
 

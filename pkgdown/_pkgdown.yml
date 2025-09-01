@@ -35,9 +35,7 @@ navbar:
 reference:
   - title: CoDEC data
     contents:
-      - get_codec_dpkg
       - codec_interpolate
-      - as_codec_dpkg
       - as_codec_tbl
       - codec_board
       - codec_read
