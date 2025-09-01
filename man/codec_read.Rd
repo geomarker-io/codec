@@ -4,10 +4,12 @@
 \alias{codec_read}
 \title{Read a CoDEC table from the online data catalog}
 \usage{
-codec_read(name)
+codec_read(name, board = codec_board())
 }
 \arguments{
 \item{name}{name of CoDEC table in the online CoDEC data catalog}
+
+\item{board}{codec board to read from}
 }
 \value{
 a codec_tbl object (see \code{as_codec_tbl()})
@@ -24,5 +26,5 @@ using the pins package with \code{codec_board()}.
 d <- codec_read("traffic")
 head(d)
 attr(d, "title")
-attr(d, "description")
+glue::glue(attr(d, "description"))
 }
