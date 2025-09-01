@@ -1,0 +1,26 @@
+file: drivetime.json
+file_size: 16043
+pin_hash: 695551cd0720ef50
+type: json
+title: Average Drive Time to Cincinnati Children's
+description: |-
+  # Average Drive Time to Cincinnati Children's
+
+  A census tract-level measure of drive time to Cincinnati Children's Hospital Medical Center is derived using 6-minute interval drive time isochrones obtained from [openroute service](https://classic-maps.openrouteservice.org/reach?n1=38.393339&n2=-95.339355&n3=5&b=0&i=0&j1=30&j2=15&k1=en-US&k2=km).
+  Each tract-level drive time is an area-weighted average of drive times.
+tags: ~
+urls:
+- https://github.com/geomarker-io/codec
+created: 20250901T025854Z
+api_version: 1
+user:
+  sesh:
+    r_version: R version 4.4.3 (2025-02-28)
+    platform: aarch64-apple-darwin24.2.0
+    date: 20331.0
+    loaded_packages:
+    - 1.0-19
+    - 1.1.4
+    - 3.0.0
+    - 3.2.1.1
+    - 0.9.71
