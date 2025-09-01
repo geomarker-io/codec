@@ -16,7 +16,7 @@ codec_tbls <- pins::pin_list(codec_board_local_dev())
 
 ```
 
-Community-level data are available as [CoDEC](https://geomarker.io/codec) tables in the online data catalog and included with the {[codec](https://github.com/geomarker.io/codec)} R package, version [`r packageVersion('codec')`](https://github.com/geomarker-io/codec/releases):
+Community-level data are available as [CoDEC tables](./reference/as_codec_tbl.html) in this online data catalog and included with the {[codec](https://github.com/geomarker-io/codec)} R package, version `r packageVersion('codec')`:
 
 
 ```{r}
