@@ -4,11 +4,8 @@ output:
   html_document:
     toc: true
     toc_depth: 1
-    toc_float:
-      collapsed: true
-      smooth_scroll: true
-    number_sections: false
 ---
+
 
 ```{r}
 #| echo: false
@@ -36,13 +33,13 @@ for (nm in codec_tbls) {
   df <- codec_read(nm, codec_board_local_dev())
   md <- attr(df, "description")
 
-  cat("\n\n# `", nm, "`\n\n", sep = "")
+  cat("\n\n# **`", nm, "`**\n\n", sep = "")
 
   cat(increase_md_headers(md))
 
   cat("\n\n### Glimpse\n\n", "`> tibble::glimpse(codec::codec_read(\"", nm, "\"))`\n\n", sep = "")
   gtxt <- paste(capture.output(tibble::glimpse(df)), collapse = "\n")
   cat("<pre>\n", gtxt, "\n</pre>\n\n", sep = "")
+  cat("&nbsp; &nbsp; &nbsp; &nbsp;")
 }
 ```
-
