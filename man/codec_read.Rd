@@ -4,20 +4,14 @@
 \alias{codec_read}
 \alias{codec_list}
 \alias{codec_board}
-\title{Read and list CoDEC tables in the CoDEC online data catalog}
+\title{CoDEC online data catalog}
 \usage{
-codec_read(
-  name,
-  board = codec_board(version = packageVersion("codec")),
-  cache = NULL,
-  use_cache_on_failure = rlang::is_interactive(),
-  headers = NULL
-)
+codec_read(name, board = codec_board())
 
 codec_list(board = codec_board())
 
 codec_board(
-  version = "v3.0.0-rc1",
+  version = paste0("v", packageVersion("codec")),
   cache = NULL,
   use_cache_on_failure = rlang::is_interactive(),
   headers = NULL
@@ -26,8 +20,11 @@ codec_board(
 \arguments{
 \item{name}{The name of the CoDEC table in the online CoDEC data catalog.}
 
-\item{board}{The CoDEC board to read from. Don't change this unless you want
-to read from an older version of the online data catalog.}
+\item{board}{a pins board object; create with \code{codec_board()} to read from earlier versions of the catalog
+or to change the caching behavior of the pins package}
+
+\item{version}{specify a version of the online data catalog using a commit SHA, tag, or branch of geomarker-io/codec;
+syncs with the version of the installed package by default}
 
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
@@ -40,8 +37,6 @@ but you'll get clear errors when the code is deployed.}
 
 \item{headers}{Named character vector for additional HTTP headers (such as for
 authentication). See \code{\link[pins:connect_auth_headers]{connect_auth_headers()}} for Posit Connect support.}
-
-\item{version}{specify a version of the online data catalog using a commit SHA, tag, or branch of geomarker-io/codec}
 }
 \value{
 For \code{codec_read()}, a codec_tbl object (see \code{as_codec_tbl()})
@@ -57,8 +52,8 @@ the source code for this package.
 \item Use \code{codec_read()} as a shortcut to read a CoDEC table
 into R as a codec_tbl object (see \code{?as_codec_tbl})
 \item Use \code{codec_list()} as a shortcut to list available CoDEC table pins
-\item Use \code{codec_board()} as a shortcut to create a pin board
-object to use with the pins package (see \code{?pins::pins})
+\item \code{codec_board()} can be used to create a pin board
+object (see \code{?pins::pins}) based on a specific version of the codec package
 }
 }
 \details{
@@ -76,7 +71,9 @@ head(d)
 attr(d, "title")
 message(attr(d, "description"))
 
-# change the defaults for codec_board() to read from older versions
+# change the defaults for codec_board() to read from older versions of the board
+codec_board() |>
+  pins::pin_versions("crime")
 codec_board("v3.0.0-rc1") |>
-  pins::pin_versions("property_code_enforcements")
+  pins::pin_versions("crime")
 }
