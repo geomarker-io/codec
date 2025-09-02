@@ -14,7 +14,7 @@ a simple features object with columns \code{cagis_address}, \code{cagis_address_
 CAGIS data (see \code{install_cagis_data()}) provides a list of all addresses in Hamilton County.
 Addresses are filtered for the following criteria:
 \itemize{
-\item use only addresses that have \code{STATUS} of \code{ASSIGNED} or \code{USING} and are not orphaned (\code{ORPHANFLG == "N"})
+\item use only addresses that have \code{STATUS} of \code{ASSIGNED}, \code{USING}, or \code{REGISTERED} and are not orphaned (\code{ORPHANFLG == "N"})
 \item omit addresses with \code{ADDRTYPE}s that are milemarkers (\code{MM}), parks (\code{PAR}), infrastructure projects (\code{PRJ}),
 cell towers (\code{CTW}), vacant or commercial lots (\code{LOT}), and other miscellaneous non-residential addresses (\code{MIS}, \code{RR}, \code{TBA})
 \item s2 cell is derived from LONGITUDE and LATITUDE fields in CAGIS address database

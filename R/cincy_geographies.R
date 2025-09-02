@@ -112,7 +112,7 @@ install_cagis_data <- function(
 #'
 #' CAGIS data (see `install_cagis_data()`) provides a list of all addresses in Hamilton County.
 #' Addresses are filtered for the following criteria:
-#' - use only addresses that have `STATUS` of `ASSIGNED` or `USING` and are not orphaned (`ORPHANFLG == "N"`)
+#' - use only addresses that have `STATUS` of `ASSIGNED`, `USING`, or `REGISTERED` and are not orphaned (`ORPHANFLG == "N"`)
 #' - omit addresses with `ADDRTYPE`s that are milemarkers (`MM`), parks (`PAR`), infrastructure projects (`PRJ`),
 #'   cell towers (`CTW`), vacant or commercial lots (`LOT`), and other miscellaneous non-residential addresses (`MIS`, `RR`, `TBA`)
 #' - s2 cell is derived from LONGITUDE and LATITUDE fields in CAGIS address database
@@ -125,7 +125,7 @@ cincy_addr_geo <- function() {
   install_cagis_data() |>
     sf::st_read(layer = "Addresses") |>
     tibble::as_tibble() |>
-    dplyr::filter(STATUS %in% c("ASSIGNED", "USING")) |>
+    dplyr::filter(STATUS %in% c("ASSIGNED", "USING", "REGISTERED")) |>
     dplyr::filter(ORPHANFLG == "N") |>
     dplyr::filter(
       !ADDRTYPE %in% c("MM", "PAR", "PRJ", "CTW", "LOT", "MIS", "RR", "TBA")
