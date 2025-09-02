@@ -37,7 +37,9 @@ codec_read <- function(
   board = codec_board()
 ) {
   stopifnot(length(name) == 1, inherits(name, "character"))
-  stopifnot(inherits(board, "pins_board_url"))
+  stopifnot(
+    inherits(board, "pins_board_url") | inherits(board, "pins_board_folder")
+  )
   codec_pins <- pins::pin_list(board)
   stopifnot(name %in% codec_pins)
   d <- pins::pin_read(board, name)
