@@ -3,34 +3,77 @@
 \name{codec_read}
 \alias{codec_read}
 \alias{codec_list}
-\title{CoDEC tables in the online data catalog}
+\alias{codec_board}
+\title{Read and list CoDEC tables in the CoDEC online data catalog}
 \usage{
-codec_read(name, board = codec_board())
+codec_read(
+  name,
+  board = codec_board(version = packageVersion("codec")),
+  cache = NULL,
+  use_cache_on_failure = rlang::is_interactive(),
+  headers = NULL
+)
 
 codec_list(board = codec_board())
+
+codec_board(
+  commitish = "pins",
+  cache = NULL,
+  use_cache_on_failure = rlang::is_interactive(),
+  headers = NULL
+)
 }
 \arguments{
-\item{name}{name of CoDEC table in the online CoDEC data catalog}
+\item{name}{The name of the CoDEC table in the online CoDEC data catalog.}
 
-\item{board}{codec board to read from}
+\item{board}{The CoDEC board to read from. Don't change this unless you want
+to read from an older version of the online data catalog.}
+
+\item{cache}{Cache path. Every board requires a local cache to avoid
+downloading files multiple times. The default stores in a standard
+cache location for your operating system, but you can override if needed.}
+
+\item{use_cache_on_failure}{If the pin fails to download, is it ok to
+use the last cached version? Defaults to \code{is_interactive()} so you'll
+be robust to poor internet connectivity when exploring interactively,
+but you'll get clear errors when the code is deployed.}
+
+\item{headers}{Named character vector for additional HTTP headers (such as for
+authentication). See \code{\link[pins:connect_auth_headers]{connect_auth_headers()}} for Posit Connect support.}
+
+\item{commitish}{specify a version of the online data catalog using a commit SHA, tag, or branch of geomarker-io/codec}
 }
 \value{
-for codec_read(); a codec_tbl object (see \code{as_codec_tbl()})
+For \code{codec_read()}, a codec_tbl object (see \code{as_codec_tbl()})
 
-for codec_list, a character vector of the names of available codec tables
+For \code{codec_list()}, a character vector CoDEC table names
+
+For \code{codec_board()}, a pins_board object
 }
 \description{
-This function uses the pins package to read from the online CoDEC data catalog,
-ensuring that metadata is present in the returned codec_tbl object.
+The CoDEC online data catalog is hosted on GitHub alongside
+the source code for this package.
+\itemize{
+\item Use \code{codec_read()} as a shortcut to read a CoDEC table
+into R as a codec_tbl object (see \code{?as_codec_tbl})
+\item Use \code{codec_list()} as a shortcut to list available CoDEC table pins
+\item Use \code{codec_board()} as a shortcut to create a pin board
+object to use with the pins package (see \code{?pins::pins})
 }
-\details{
-Read from the online data without installing this package directly
-using the pins package with \code{codec_board()}.
 }
 \examples{
+
+codec_list()
+
 d <- codec_read("traffic")
 head(d)
 attr(d, "title")
 message(attr(d, "description"))
-codec_list()
+
+library(pins)
+codec_board()
+pin_list(codec_board())
+pin_read(codec_board(), "property_code_enforcements") |>
+  head()
+pin_meta(codec_board(), "property_code_enforcements")
 }

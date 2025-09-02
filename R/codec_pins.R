@@ -1,58 +1,76 @@
-#' CoDEC pin board hosted on GitHub
+#' Read and list CoDEC tables in the CoDEC online data catalog
 #'
-#' A shortcut to create a pins board using the url of the CoDEC pins
-#' board manifest file on GitHub.
-#' Use this function with the pins package to get CoDEC data tables
-#' from the online CoDEC data catalog.
-#'
-#' @export
-#' @return a pins_board object
-#' @inheritParams pins::board_url
-#' @examples
-#' library(pins)
-#' pin_list(codec_board())
-#' pin_read(codec_board(), "property_code_enforcements")
-#' pin_meta(codec_board(), "property_code_enforcements")
-codec_board <- function(cache, use_cache_on_failure, headers)
-  pins::board_url(
-    "https://raw.githubusercontent.com/geomarker-io/codec/refs/heads/pins/assets/data/"
-  )
-
-#' CoDEC tables in the online data catalog
-#'
-#' This function uses the pins package to read from the online CoDEC data catalog,
-#' ensuring that metadata is present in the returned codec_tbl object.
-#'
-#' Read from the online data without installing this package directly
-#' using the pins package with `codec_board()`.
-#' @param name name of CoDEC table in the online CoDEC data catalog
-#' @param board codec board to read from
-#' @return for codec_read(); a codec_tbl object (see `as_codec_tbl()`)
+#' @param name The name of the CoDEC table in the online CoDEC data catalog.
+#' @param board The CoDEC board to read from. Don't change this unless you want
+#' to read from an older version of the online data catalog.
+#' @return For `codec_read()`, a codec_tbl object (see `as_codec_tbl()`)
 #' @export
 #' @examples
+#'
+#' codec_list()
+#'
 #' d <- codec_read("traffic")
 #' head(d)
 #' attr(d, "title")
 #' message(attr(d, "description"))
-codec_read <- function(name, board = codec_board()) {
+#'
+#' library(pins)
+#' codec_board()
+#' pin_list(codec_board())
+#' pin_read(codec_board(), "property_code_enforcements") |>
+#'   head()
+#' pin_meta(codec_board(), "property_code_enforcements")
+codec_read <- function(
+  name,
+  board = codec_board(version = packageVersion("codec")),
+  cache = NULL,
+  use_cache_on_failure = rlang::is_interactive(),
+  headers = NULL
+) {
   stopifnot(length(name) == 1, inherits(name, "character"))
-  codec_pins <- pins::pin_list(codec_board())
+  the_board <- codec_board(cache, use_cache_on_failure, headers)
+  codec_pins <- pins::pin_list(the_board)
   stopifnot(name %in% codec_pins)
-  d <- pins::pin_read(codec_board(), name)
-  md <- pins::pin_meta(codec_board(), name)
+  d <- pins::pin_read(the_board, name)
+  md <- pins::pin_meta(the_board, name)
   as_codec_tbl(d, name = md$name, description = md$description)
 }
 
 #' List CoDEC tables available in the online data catalog
 #' @rdname codec_read
-#' @returns for codec_list, a character vector of the names of available codec tables
+#' @returns For `codec_list()`, a character vector CoDEC table names
 #' @export
-#' @examples
-#' codec_list()
 codec_list <- function(board = codec_board()) {
   pins::pin_list(board)
 }
 
+#' CoDEC online data catalog
+#'
+#' The CoDEC online data catalog is hosted on GitHub alongside
+#' the source code for this package.
+#' - Use `codec_read()` as a shortcut to read a CoDEC table
+#' into R as a codec_tbl object (see `?as_codec_tbl`)
+#' - Use `codec_list()` as a shortcut to list available CoDEC table pins
+#' - Use `codec_board()` as a shortcut to create a pin board
+#' object to use with the pins package (see `?pins::pins`)
+#' @export
+#' @return For `codec_board()`, a pins_board object
+#' @rdname codec_read
+#' @inheritParams pins::board_url
+#' @param commitish specify a version of the online data catalog using a commit SHA, tag, or branch of geomarker-io/codec
+codec_board <- function(
+  commitish = "pins",
+  cache = NULL,
+  use_cache_on_failure = rlang::is_interactive(),
+  headers = NULL
+) {
+  codec_board_url <-
+    glue::glue(
+      "https://raw.githubusercontent.com/",
+      "geomarker-io/codec/{ commitish }/assets/data/"
+    )
+  pins::board_url(codec_board_url)
+}
 
 #' @rdname write_codec_pin
 codec_board_local_dev <- function() {
