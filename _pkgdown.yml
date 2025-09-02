@@ -2,11 +2,11 @@ url: http://geomarker.io/codec
 template:
   bootstrap: 5
   bslib:
-    bg: "#FFFFFF"
+    bg: "#ffffff"
     fg: "#396175"
-    primary: "#C28273"
-    info: "#EACEC5"
-    warning: "#E49865"
+    primary: "#c28273"
+    info: "#c28273"
+    warning: "#c28273"
     grid-gutter-width: "0.0rem"
     border-radius: 0.5rem
     btn-border-radius: 0.25rem

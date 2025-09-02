@@ -1,38 +1,45 @@
 acs_measures:
-  - acs_measures/20250828T023008Z-0ef1f/
-  - acs_measures/20250831T021158Z-8f122/
-  - acs_measures/20250831T023115Z-8f122/
-  - acs_measures/20250901T032818Z-8f122/
+- acs_measures/20250828T023008Z-0ef1f/
+- acs_measures/20250831T021158Z-8f122/
+- acs_measures/20250831T023115Z-8f122/
+- acs_measures/20250901T032818Z-8f122/
 crime:
-  - crime/20250829T181659Z-bf502/
-  - crime/20250831T023010Z-bf502/
-  - crime/20250901T033049Z-bf502/
+- crime/20250829T181659Z-bf502/
+- crime/20250831T023010Z-bf502/
+- crime/20250901T033049Z-bf502/
+- crime/20250902T005725Z-bf502/
 drivetime:
-  - drivetime/20250828T023328Z-69555/
-  - drivetime/20250831T023414Z-69555/
-  - drivetime/20250901T025854Z-69555/
-  - drivetime/20250901T033138Z-69555/
+- drivetime/20250828T023328Z-69555/
+- drivetime/20250831T023414Z-69555/
+- drivetime/20250901T025854Z-69555/
+- drivetime/20250901T033138Z-69555/
+- drivetime/20250902T010120Z-69555/
 environmental_justice_index:
-  - environmental_justice_index/20250828T021012Z-e4c31/
-  - environmental_justice_index/20250831T023444Z-e4c31/
-  - environmental_justice_index/20250901T033148Z-e4c31/
+- environmental_justice_index/20250828T021012Z-e4c31/
+- environmental_justice_index/20250831T023444Z-e4c31/
+- environmental_justice_index/20250901T033148Z-e4c31/
+- environmental_justice_index/20250902T010746Z-e4c31/
 landcover:
-  - landcover/20250828T024022Z-5a480/
-  - landcover/20250831T023527Z-5a480/
-  - landcover/20250831T152227Z-97558/
-  - landcover/20250831T152750Z-97558/
-  - landcover/20250901T033154Z-97558/
+- landcover/20250828T024022Z-5a480/
+- landcover/20250831T023527Z-5a480/
+- landcover/20250831T152227Z-97558/
+- landcover/20250831T152750Z-97558/
+- landcover/20250901T033154Z-97558/
+- landcover/20250902T010753Z-97558/
 parcel:
-  - parcel/20250828T024230Z-146a7/
-  - parcel/20250831T023639Z-25a36/
-  - parcel/20250831T024452Z-25a36/
-  - parcel/20250831T134113Z-25a36/
-  - parcel/20250901T033201Z-25a36/
+- parcel/20250828T024230Z-146a7/
+- parcel/20250831T023639Z-25a36/
+- parcel/20250831T024452Z-25a36/
+- parcel/20250831T134113Z-25a36/
+- parcel/20250901T033201Z-25a36/
+- parcel/20250902T010801Z-25a36/
 property_code_enforcements:
-  - property_code_enforcements/20250829T135720Z-390be/
-  - property_code_enforcements/20250831T023731Z-390be/
-  - property_code_enforcements/20250901T033227Z-390be/
+- property_code_enforcements/20250829T135720Z-390be/
+- property_code_enforcements/20250831T023731Z-390be/
+- property_code_enforcements/20250901T033227Z-390be/
+- property_code_enforcements/20250902T010819Z-390be/
 traffic:
-  - traffic/20250828T164046Z-32c9c/
-  - traffic/20250831T024013Z-32c9c/
-  - traffic/20250901T033447Z-32c9c/
+- traffic/20250828T164046Z-32c9c/
+- traffic/20250831T024013Z-32c9c/
+- traffic/20250901T033447Z-32c9c/
+- traffic/20250902T011043Z-32c9c/
