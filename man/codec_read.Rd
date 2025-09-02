@@ -11,7 +11,7 @@ codec_read(name, board = codec_board())
 codec_list(board = codec_board())
 
 codec_board(
-  version = paste0("v", packageVersion("codec")),
+  version = paste0("v", utils::packageVersion("codec")),
   cache = NULL,
   use_cache_on_failure = rlang::is_interactive(),
   headers = NULL

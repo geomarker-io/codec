@@ -61,7 +61,7 @@ codec_list <- function(board = codec_board()) {
 #' @inheritParams pins::board_url
 #' @export
 codec_board <- function(
-  version = paste0("v", packageVersion("codec")),
+  version = paste0("v", utils::packageVersion("codec")),
   cache = NULL,
   use_cache_on_failure = rlang::is_interactive(),
   headers = NULL
