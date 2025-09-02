@@ -18,7 +18,7 @@ codec_board <- function(cache, use_cache_on_failure, headers)
     "https://raw.githubusercontent.com/geomarker-io/codec/refs/heads/pins/assets/data/"
   )
 
-#' Read a CoDEC table from the online data catalog
+#' CoDEC tables in the online data catalog
 #'
 #' This function uses the pins package to read from the online CoDEC data catalog,
 #' ensuring that metadata is present in the returned codec_tbl object.
@@ -27,7 +27,7 @@ codec_board <- function(cache, use_cache_on_failure, headers)
 #' using the pins package with `codec_board()`.
 #' @param name name of CoDEC table in the online CoDEC data catalog
 #' @param board codec board to read from
-#' @return a codec_tbl object (see `as_codec_tbl()`)
+#' @return for codec_read(); a codec_tbl object (see `as_codec_tbl()`)
 #' @export
 #' @examples
 #' d <- codec_read("traffic")
@@ -41,6 +41,16 @@ codec_read <- function(name, board = codec_board()) {
   d <- pins::pin_read(codec_board(), name)
   md <- pins::pin_meta(codec_board(), name)
   as_codec_tbl(d, name = md$name, description = md$description)
+}
+
+#' List CoDEC tables available in the online data catalog
+#' @rdname codec_read
+#' @returns for codec_list, a character vector of the names of available codec tables
+#' @export
+#' @examples
+#' codec_list()
+codec_list <- function(board = codec_board()) {
+  pins::pin_list(board)
 }
 
 

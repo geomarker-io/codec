@@ -2,9 +2,12 @@
 % Please edit documentation in R/codec_pins.R
 \name{codec_read}
 \alias{codec_read}
-\title{Read a CoDEC table from the online data catalog}
+\alias{codec_list}
+\title{CoDEC tables in the online data catalog}
 \usage{
 codec_read(name, board = codec_board())
+
+codec_list(board = codec_board())
 }
 \arguments{
 \item{name}{name of CoDEC table in the online CoDEC data catalog}
@@ -12,7 +15,9 @@ codec_read(name, board = codec_board())
 \item{board}{codec board to read from}
 }
 \value{
-a codec_tbl object (see \code{as_codec_tbl()})
+for codec_read(); a codec_tbl object (see \code{as_codec_tbl()})
+
+for codec_list, a character vector of the names of available codec tables
 }
 \description{
 This function uses the pins package to read from the online CoDEC data catalog,
@@ -27,4 +32,5 @@ d <- codec_read("traffic")
 head(d)
 attr(d, "title")
 message(attr(d, "description"))
+codec_list()
 }

@@ -17,7 +17,6 @@ columns in a CoDEC table contain the spatiotemporal information that can be used
 Useful links:
 \itemize{
   \item \url{https://github.com/geomarker-io/codec}
-  \item \url{http://geomarker.io/codec/}
   \item Report bugs at \url{https://github.com/geomarker-io/codec/issues}
 }
 
