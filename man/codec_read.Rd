@@ -17,7 +17,7 @@ codec_read(
 codec_list(board = codec_board())
 
 codec_board(
-  commitish = "pins",
+  version = "v3.0.0-rc1",
   cache = NULL,
   use_cache_on_failure = rlang::is_interactive(),
   headers = NULL
@@ -41,7 +41,7 @@ but you'll get clear errors when the code is deployed.}
 \item{headers}{Named character vector for additional HTTP headers (such as for
 authentication). See \code{\link[pins:connect_auth_headers]{connect_auth_headers()}} for Posit Connect support.}
 
-\item{commitish}{specify a version of the online data catalog using a commit SHA, tag, or branch of geomarker-io/codec}
+\item{version}{specify a version of the online data catalog using a commit SHA, tag, or branch of geomarker-io/codec}
 }
 \value{
 For \code{codec_read()}, a codec_tbl object (see \code{as_codec_tbl()})
@@ -61,19 +61,22 @@ into R as a codec_tbl object (see \code{?as_codec_tbl})
 object to use with the pins package (see \code{?pins::pins})
 }
 }
+\details{
+The pin for each CoDEC table has versions (see \code{?pins::pin_versions}),
+but \code{codec_board()} can be used to specify a state of the online data catalog
+based on the version of the codec package. (See examples)
+}
 \examples{
-
+# list available CoDEC tables
 codec_list()
 
+# read a CoDEC table and inspect its metadata
 d <- codec_read("traffic")
 head(d)
 attr(d, "title")
 message(attr(d, "description"))
 
-library(pins)
-codec_board()
-pin_list(codec_board())
-pin_read(codec_board(), "property_code_enforcements") |>
-  head()
-pin_meta(codec_board(), "property_code_enforcements")
+# change the defaults for codec_board() to read from older versions
+codec_board("v3.0.0-rc1") |>
+  pins::pin_versions("property_code_enforcements")
 }

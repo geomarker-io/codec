@@ -6,20 +6,18 @@
 #' @return For `codec_read()`, a codec_tbl object (see `as_codec_tbl()`)
 #' @export
 #' @examples
-#'
+#' # list available CoDEC tables
 #' codec_list()
 #'
+#' # read a CoDEC table and inspect its metadata
 #' d <- codec_read("traffic")
 #' head(d)
 #' attr(d, "title")
 #' message(attr(d, "description"))
 #'
-#' library(pins)
-#' codec_board()
-#' pin_list(codec_board())
-#' pin_read(codec_board(), "property_code_enforcements") |>
-#'   head()
-#' pin_meta(codec_board(), "property_code_enforcements")
+#' # change the defaults for codec_board() to read from older versions
+#' codec_board("v3.0.0-rc1") |>
+#'   pins::pin_versions("property_code_enforcements")
 codec_read <- function(
   name,
   board = codec_board(version = packageVersion("codec")),
@@ -53,13 +51,17 @@ codec_list <- function(board = codec_board()) {
 #' - Use `codec_list()` as a shortcut to list available CoDEC table pins
 #' - Use `codec_board()` as a shortcut to create a pin board
 #' object to use with the pins package (see `?pins::pins`)
+#'
+#' The pin for each CoDEC table has versions (see `?pins::pin_versions`),
+#' but `codec_board()` can be used to specify a state of the online data catalog
+#' based on the version of the codec package. (See examples)
 #' @export
 #' @return For `codec_board()`, a pins_board object
 #' @rdname codec_read
 #' @inheritParams pins::board_url
-#' @param commitish specify a version of the online data catalog using a commit SHA, tag, or branch of geomarker-io/codec
+#' @param version specify a version of the online data catalog using a commit SHA, tag, or branch of geomarker-io/codec
 codec_board <- function(
-  commitish = "pins",
+  version = "v3.0.0-rc1",
   cache = NULL,
   use_cache_on_failure = rlang::is_interactive(),
   headers = NULL
@@ -67,7 +69,7 @@ codec_board <- function(
   codec_board_url <-
     glue::glue(
       "https://raw.githubusercontent.com/",
-      "geomarker-io/codec/{ commitish }/assets/data/"
+      "geomarker-io/codec/{ version }/assets/data/"
     )
   pins::board_url(codec_board_url)
 }
