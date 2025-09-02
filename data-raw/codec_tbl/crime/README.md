@@ -11,8 +11,10 @@ Tract-level measures are derived from the data packages stored in the [`xx_addre
 Jittered (within the same block) latitude and longitude corresponding to the location of each reported crime are available from each data source.
 Crimes are aggregated to the tract level by summing the number of crimes for each tract.
 For higher resolution crime data, see the [`xx_address` repository](https://github.com/geomarker-io/xx_address).
-When aggregating to tract, counts are zero when there were no crimes reported in a given tract during a given month.
-Counts are missing when outside the spatial or temporal extent for the respective source data:
+
+Because of how the data is available, values will be missing (`NA`) if either (1) there were zero instances in a tract-year-month _or_ (2) it is outside the spatial or temporal extent for the respective data source.
+In some cases, it may be appropriate to impute zero instances in place of missing counts; for example, if it is clear that the tract was measured the month before and after in the same year.
+More specifically:
 
 - `crime_incidents` and `reported_shootings` are geographically limited to the City of Cincinnati
 - `shotspotter` is limited to specific time periods for different target neighborhoods

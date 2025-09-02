@@ -83,7 +83,7 @@ d_crime_incidents <-
 
 out_st <- expand.grid(
   census_tract_id_2020 = cincy_census_geo("tract", "2020")$geoid,
-  year = 2017:2025,
+  year = 2017:2024,
   month = 1:12
 )
 
