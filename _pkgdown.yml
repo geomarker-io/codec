@@ -35,10 +35,10 @@ navbar:
 reference:
   - title: CoDEC data
     contents:
-      - codec_interpolate
+      - codec_read
       - as_codec_tbl
       - codec_board
-      - codec_read
+      - codec_interpolate
       - codec_as_sf
       - codec_latest_annual
   - title: cincy geographies
