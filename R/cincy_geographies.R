@@ -21,6 +21,8 @@ tiger_download <- function(x) {
 #' files into R
 #' @param geography which type of cincy census geography to return
 #' @param vintage a character vector of a year corresponding to the vintage of TIGER/Line data
+#' @param packaged logical; use the data included with the package instead of (down)loading
+#' from the source data?
 #' @details
 #' Compressed shapefiles are downloaded from TIGER into an R user data directory and will be cached
 #' for use across other R sessions (see `?dpkg::stow` for more details).
@@ -28,11 +30,12 @@ tiger_download <- function(x) {
 #' and a geometry column (`s2_geography`)
 #' @export
 #' @examples
-#' cincy_census_geo("tract", "2024")
+#' cincy_census_geo("tract", "2020")
 #' cincy_census_geo("bg", "2020")
 cincy_census_geo <- function(
   geography = c("tract", "bg"),
-  vintage = as.character(2024:2013)
+  vintage = as.character(2024:2013),
+  packaged = TRUE
 ) {
   geography <- rlang::arg_match(geography)
   vintage <- rlang::arg_match(vintage)
@@ -40,6 +43,18 @@ cincy_census_geo <- function(
     "TIGER{vintage}",
     "/{toupper(geography)}/tl_{vintage}_39_{geography}.zip"
   ))
+  if (packaged & geography == "tract" & vintage == "2020") {
+    message(
+      "using data included with package for cincy_census_geo(\"tract\", \"2020\")"
+    )
+    return(get("cincy_tract_geo_2020", asNamespace("codec"), inherits = FALSE))
+  }
+  if (packaged & geography == "bg" & vintage == "2020") {
+    message(
+      "using data included with package for cincy_census_geo(\"bg\", \"2020\")"
+    )
+    return(get("cincy_bg_geo_2020", asNamespace("codec"), inherits = FALSE))
+  }
   out <-
     sf::read_sf(
       glue::glue("/vsizip/", tiger_local),
@@ -59,8 +74,17 @@ cincy_census_geo <- function(
 #' @export
 #' @examples
 #' cincy_county_geo("2024")
-cincy_county_geo <- function(vintage = as.character(2024:2013)) {
+cincy_county_geo <- function(
+  vintage = as.character(2024:2013),
+  packaged = TRUE
+) {
   vintage <- rlang::arg_match(vintage)
+  if (packaged & vintage == "2020") {
+    message(
+      "using data included with package for cincy_county_geo(\"2020\")"
+    )
+    return(get("cincy_county_geo_2020", asNamespace("codec"), inherits = FALSE))
+  }
   tiger_local <- tiger_download(glue::glue(
     "TIGER{vintage}/COUNTY/tl_{vintage}_us_county.zip"
   ))
@@ -116,12 +140,20 @@ install_cagis_data <- function(
 #' - omit addresses with `ADDRTYPE`s that are milemarkers (`MM`), parks (`PAR`), infrastructure projects (`PRJ`),
 #'   cell towers (`CTW`), vacant or commercial lots (`LOT`), and other miscellaneous non-residential addresses (`MIS`, `RR`, `TBA`)
 #' - s2 cell is derived from LONGITUDE and LATITUDE fields in CAGIS address database
+#' @param packaged logical; use the data included with the package instead of (down)loading
+#' from the source data?
 #' @returns a simple features object with columns `cagis_address`, `cagis_address_place`, `cagis_address_type`,
 #' `cagis_s2`, `cagis_parcel_id`, `cagis_is_condo`, and a geometry column (`s2_geography`)
 #' @export
 #' @examples
 #' cincy_addr_geo()
-cincy_addr_geo <- function() {
+cincy_addr_geo <- function(packaged = TRUE) {
+  if (packaged) {
+    message(
+      "using data included with package for cincy_addr_geo()"
+    )
+    return(get("cincy_addr_geo_2025", asNamespace("codec"), inherits = FALSE))
+  }
   install_cagis_data() |>
     sf::st_read(layer = "Addresses") |>
     tibble::as_tibble() |>
@@ -149,18 +181,29 @@ cincy_addr_geo <- function() {
 #' By default, the statistical neighborhood approximations are instead returned,
 #' which are calculated by aggregating census tracts into 50 matching neighborhoods.
 #' @param geography which type of cincy neighborhood geography to return
+#' @param packaged logical; use the data included with the package instead of (down)loading
+#' from the source data?
 #' @returns a simple features object with a geographic identifier column (`geoid`)
 #' and a geometry column (`s2_geography`)
 #' @export
 #' @examples
-#' cincy_neighborhood_geo("statistical_neighborhood_approximations")
-#' cincy_neighborhood_geo("community_council")
+#' cincy_neighborhood_geo()
 cincy_neighborhood_geo <- function(
   geography = c("statistical_neighborhood_approximations", "community_council")
 ) {
   geography <- rlang::arg_match(geography)
   if (geography == "statistical_neighborhood_approximations") {
     noi <- c("Cincinnati_Statistical_Neighborhood_Approximations" = "SNA_NAME")
+    if (packaged) {
+      message(
+        "using data included with package for cincy_neighborhood_geo(\"statistical_neighborhood_approximations\")"
+      )
+      return(get(
+        "cincy_neighborhood_geo_sna",
+        asNamespace("codec"),
+        inherits = FALSE
+      ))
+    }
   }
   if (geography == "community_council") {
     noi <- c("Cincinnati_Community_Council_Neighborhoods" = "NEIGH")
