@@ -47,3 +47,10 @@ jobs:
           clean: false
           branch: gh-pages
           folder: docs
+      - name: Deploy PR preview to github pages
+        if: github.event_name == 'pull_request'
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: docs
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
