@@ -79,47 +79,10 @@ and others that import individual layers.</p></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">install_cagis_data</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/home/runner/.local/share/R/codec/CAGISOpenDataQ1_2025.gdb"</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="fu">install_cagis_data</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_layers.html" class="external-link">st_layers</a></span><span class="op">(</span><span class="fu">install_cagis_data</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">name</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>GDAL Error 1: Error occurred in ./ogr/ogrsf_frmts/openfilegdb/filegdbtable.cpp at line 900</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Addresses"                                         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2] "Auditor_Book_and_Page"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3] "Auditor_Book_and_Page__ATTACH"                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "Buildings_Footprints"                              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "Cincinnati_Benchmarks"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "Cincinnati_City_Boundary"                          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "Cincinnati_City_Corporation_Line"                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "Cincinnati_Community_Council_Neighborhoods"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "Cincinnati_Historic_Districts"                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10] "Cincinnati_Owned_Properties"                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "Cincinnati_Statistical_Neighborhood_Approximations"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12] "Cincinnati_Tax_Increment_Finance_Districts"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "Cincinnati_Zoning"                                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14] "Condo_Attributes"                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15] "Condo_Polygons"                                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "Countywide_Zoning"                                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17] "Driveways"                                         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [18] "Fences"                                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "FEMA_FIRM"                                         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [20] "FEMA_Floodway"                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21] "Hamilton_County_Boundary"                          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [22] "Hamilton_County_Benchmarks"                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [23] "Monuments"                                         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [24] "Municipalites_and_Townships"                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25] "Parcel_Polygons"                                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [26] "Parcel_Merged_Consolidations"                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [27] "Parks_and_Green_Spaces"                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [28] "Right_of_Way"                                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [29] "Rivers_and_Lakes"                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [30] "Road_Pavement"                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31] "Section_Lines"                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [32] "Sidewalks"                                         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [33] "Stream_Network"                                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [34] "Street_Centerlines"                                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [35] "Subdivisions"                                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [36] "Voter_Polling_Locations"                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [37] "Voter_Precincts"                                   </span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
