@@ -43,7 +43,6 @@ reference:
   - title: cincy geographies
     contents:
       - cincy_census_geo
-      - cincy_county_geo
       - cincy_neighborhood_geo
       - cincy_city_geo
       - install_cagis_data
