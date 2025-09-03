@@ -63,7 +63,20 @@ See the description metadata for the actual latest years used for each CoDEC tab
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">codec_latest_annual</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">codec_latest_annual</span>, <span class="st">"description"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # CoDEC latest annual</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CoDEC data is harmonized as the most recently available annual (or annual average of monthly) values at the census tract 2020 geography.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The year represents the year this table was assembled and mainly used as a placeholder so this object can be used with codec_*() functions.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The actual latest years used for each CoDEC table are:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> acs_measures-latest_annual_2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> crime-latest_annual_2024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> drivetime-latest_annual_2024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> environmental_justice_index-latest_annual_2022</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> landcover-latest_annual_2019</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> parcel-latest_annual_2024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> property_code_enforcements-latest_annual_2025</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> traffic-latest_annual_2020</span>
+<span class="r-in"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">codec_latest_annual</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 226</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 66</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ census_tract_id_2020                           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "39061000200"<span style="color: #949494;">, </span>"3906100…</span>
@@ -132,19 +145,6 @@ See the description metadata for the actual latest years used for each CoDEC tab
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ aadtm_tractor_trailer                          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 26837985<span style="color: #949494;">, </span>1227620<span style="color: #949494;">, </span>0<span style="color: #949494;">, </span>0…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ aadtm_passenger                                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 329708957<span style="color: #949494;">, </span>20693798<span style="color: #949494;">, </span>0<span style="color: #949494;">,</span>…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ year                                           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2025<span style="color: #949494;">, </span>2025<span style="color: #949494;">, </span>2025<span style="color: #949494;">, </span>2025<span style="color: #949494;">,</span>…</span>
-<span class="r-in"><span><span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">codec_latest_annual</span>, <span class="st">"description"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # CoDEC latest annual</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CoDEC data is harmonized as the most recently available annual (or annual average of monthly) values at the census tract 2020 geography.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The year represents the year this table was assembled and mainly used as a placeholder so this object can be used with codec_*() functions.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The actual latest years used for each CoDEC table are:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> acs_measures-latest_annual_2023</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> crime-latest_annual_2024</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> drivetime-latest_annual_2024</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> environmental_justice_index-latest_annual_2022</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> landcover-latest_annual_2019</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> parcel-latest_annual_2024</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> property_code_enforcements-latest_annual_2025</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> traffic-latest_annual_2020</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
