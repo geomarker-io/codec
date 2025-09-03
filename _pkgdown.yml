@@ -40,6 +40,7 @@ reference:
       - codec_board
       - codec_read
       - codec_as_sf
+      - codec_latest_annual
   - title: cincy geographies
     contents:
       - cincy_census_geo
