@@ -10,5 +10,7 @@ cincy_city_geo()
 cincy_city_geo()
 }
 \examples{
+\dontrun{
 cincy_city_geo()
+}
 }

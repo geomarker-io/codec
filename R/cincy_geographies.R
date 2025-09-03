@@ -73,7 +73,7 @@ cincy_census_geo <- function(
 #' @rdname cincy_census_geo
 #' @export
 #' @examples
-#' cincy_county_geo("2024")
+#' cincy_county_geo("2020")
 cincy_county_geo <- function(
   vintage = as.character(2024:2013),
   packaged = TRUE
@@ -112,8 +112,10 @@ cincy_county_geo <- function(
 #' [check](https://www.cagis.org/Opendata/Quarterly_GIS_Data) for something more recent if the file cannot be found
 #' @export
 #' @examples
+#' \dontrun{
 #' install_cagis_data()
 #' sf::st_layers(install_cagis_data())$name
+#' }
 install_cagis_data <- function(
   cagis_data_url = "https://www.cagis.org/Opendata/Quarterly_GIS_Data/CAGISOpenDataQ1_2025.gdb.zip"
 ) {
@@ -222,7 +224,9 @@ cincy_neighborhood_geo <- function(
 #' @export
 #' @rdname cincy_neighorhood_geo
 #' @examples
+#' \dontrun{
 #' cincy_city_geo()
+#' }
 cincy_city_geo <- function() {
   cagis_db <- install_cagis_data()
   out <- sf::st_read(cagis_db, layer = "Cincinnati_City_Boundary", quiet = TRUE)
@@ -243,7 +247,7 @@ cincy_city_geo <- function() {
 #' @returns a simple features object with a geographic identifier column (`geoid`)
 #' and a geometry column (`s2_geography`)
 #' @examples
-#' cincy_zcta_geo()
+#' cincy_zcta_geo("2020")
 cincy_zcta_geo <- function(vintage = as.character(2024:2013), packaged = TRUE) {
   vintage <- rlang::arg_match(vintage)
 
