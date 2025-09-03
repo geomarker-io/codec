@@ -21,12 +21,9 @@ Suggests:
     roxygen2,
     rmarkdown,
     dpkg,
-    dplyr,
-    tibble,
-    knitr,
-    s2
+    knitr
 Config/testthat/edition: 3
-URL: https://github.com/geomarker-io/codec
+URL: https://geomarker.io/codec
 BugReports: https://github.com/geomarker-io/codec/issues
 Imports: 
     rlang,
@@ -35,8 +32,11 @@ Imports:
     glue,
     here,
     pins,
+    tibble,
     sf,
-    withr
+    dplyr,
+    withr,
+    s2
 Depends: 
     R (>= 3.5)
 LazyData: true
