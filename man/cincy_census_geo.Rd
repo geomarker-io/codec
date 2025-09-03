@@ -2,7 +2,6 @@
 % Please edit documentation in R/cincy_geographies.R
 \name{cincy_census_geo}
 \alias{cincy_census_geo}
-\alias{cincy_county_geo}
 \title{Cincy census tracts and block groups}
 \usage{
 cincy_census_geo(
@@ -10,8 +9,6 @@ cincy_census_geo(
   vintage = as.character(2024:2013),
   packaged = TRUE
 )
-
-cincy_county_geo(vintage = as.character(2024:2013), packaged = TRUE)
 }
 \arguments{
 \item{geography}{which type of cincy census geography to return}
@@ -37,5 +34,4 @@ for use across other R sessions (see \code{?dpkg::stow} for more details).
 \examples{
 cincy_census_geo("tract", "2020")
 cincy_census_geo("bg", "2020")
-cincy_county_geo("2020")
 }

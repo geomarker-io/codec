@@ -44,15 +44,9 @@ cincy_census_geo <- function(
     "/{toupper(geography)}/tl_{vintage}_39_{geography}.zip"
   ))
   if (packaged & geography == "tract" & vintage == "2020") {
-    message(
-      "using data included with package for cincy_census_geo(\"tract\", \"2020\")"
-    )
     return(get("cincy_tract_geo_2020", asNamespace("codec"), inherits = FALSE))
   }
   if (packaged & geography == "bg" & vintage == "2020") {
-    message(
-      "using data included with package for cincy_census_geo(\"bg\", \"2020\")"
-    )
     return(get("cincy_bg_geo_2020", asNamespace("codec"), inherits = FALSE))
   }
   out <-
@@ -67,35 +61,6 @@ cincy_census_geo <- function(
   out <- sf::st_drop_geometry(out)
   out <- sf::st_as_sf(out)
   return(out)
-}
-
-#' Cincy county
-#' @rdname cincy_census_geo
-#' @export
-#' @examples
-#' cincy_county_geo("2020")
-cincy_county_geo <- function(
-  vintage = as.character(2024:2013),
-  packaged = TRUE
-) {
-  vintage <- rlang::arg_match(vintage)
-  if (packaged & vintage == "2020") {
-    message(
-      "using data included with package for cincy_county_geo(\"2020\")"
-    )
-    return(get("cincy_county_geo_2020", asNamespace("codec"), inherits = FALSE))
-  }
-  tiger_local <- tiger_download(glue::glue(
-    "TIGER{vintage}/COUNTY/tl_{vintage}_us_county.zip"
-  ))
-  out <-
-    sf::read_sf(
-      glue::glue("/vsizip/", tiger_local),
-      query = glue::glue(
-        "SELECT GEOID FROM tl_{vintage}_us_county WHERE GEOID = '39061'"
-      )
-    )
-  return(sf::st_as_s2(out$geometry))
 }
 
 #' Install CAGIS GIS database
@@ -151,9 +116,6 @@ install_cagis_data <- function(
 #' cincy_addr_geo()
 cincy_addr_geo <- function(packaged = TRUE) {
   if (packaged) {
-    message(
-      "using data included with package for cincy_addr_geo()"
-    )
     return(get("cincy_addr_geo_2025", asNamespace("codec"), inherits = FALSE))
   }
   install_cagis_data() |>
@@ -198,9 +160,6 @@ cincy_neighborhood_geo <- function(
   if (geography == "statistical_neighborhood_approximations") {
     noi <- c("Cincinnati_Statistical_Neighborhood_Approximations" = "SNA_NAME")
     if (packaged) {
-      message(
-        "using data included with package for cincy_neighborhood_geo(\"statistical_neighborhood_approximations\")"
-      )
       return(get(
         "cincy_neighborhood_geo_sna",
         asNamespace("codec"),
@@ -252,9 +211,6 @@ cincy_zcta_geo <- function(vintage = as.character(2024:2013), packaged = TRUE) {
   vintage <- rlang::arg_match(vintage)
 
   if (vintage == "2020" & packaged) {
-    message(
-      "using data included with package for cincy_zcta_geo(\"2020\")"
-    )
     return(get(
       "cincy_zcta_geo_2020",
       asNamespace("codec"),
