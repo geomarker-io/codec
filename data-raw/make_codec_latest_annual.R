@@ -77,6 +77,6 @@ codec_latest_annual <-
 
 usethis::use_data(
   codec_latest_annual,
-  internal = TRUE,
+  internal = FALSE,
   overwrite = TRUE
 )

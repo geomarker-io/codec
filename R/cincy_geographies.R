@@ -189,7 +189,8 @@ cincy_addr_geo <- function(packaged = TRUE) {
 #' @examples
 #' cincy_neighborhood_geo()
 cincy_neighborhood_geo <- function(
-  geography = c("statistical_neighborhood_approximations", "community_council")
+  geography = c("statistical_neighborhood_approximations", "community_council"),
+  packaged = TRUE
 ) {
   geography <- rlang::arg_match(geography)
   if (geography == "statistical_neighborhood_approximations") {
@@ -236,13 +237,26 @@ cincy_city_geo <- function() {
 #' [TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
 #' files into R
 #' @param vintage a character vector of a year corresponding to the vintage of TIGER/Line data
+#' @param packaged logical; use the data included with the package instead of (down)loading
+#' from the source data?
 #' @export
 #' @returns a simple features object with a geographic identifier column (`geoid`)
 #' and a geometry column (`s2_geography`)
 #' @examples
 #' cincy_zcta_geo()
-cincy_zcta_geo <- function(vintage = as.character(2024:2013)) {
+cincy_zcta_geo <- function(vintage = as.character(2024:2013), packaged = TRUE) {
   vintage <- rlang::arg_match(vintage)
+
+  if (vintage == "2020" & packaged) {
+    message(
+      "using data included with package for cincy_zcta_geo(\"2020\")"
+    )
+    return(get(
+      "cincy_zcta_geo_2020",
+      asNamespace("codec"),
+      inherits = FALSE
+    ))
+  }
   is_vintage_old <- vintage %in% as.character(2013:2019)
   tiger_url <- glue::glue(
     "TIGER{vintage}/",
