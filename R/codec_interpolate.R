@@ -134,7 +134,14 @@ codec_interpolate <- function(from, to, weights = c("pop", "homes", "area")) {
   return(out)
 }
 
-cincy_block_weights <- function() {
+cincy_block_weights <- function(packaged = TRUE) {
+  if (packaged) {
+    return(get(
+      "cincy_block_weights_local",
+      asNamespace("codec"),
+      inherits = FALSE
+    ))
+  }
   tiger_local <- tiger_download(
     "TIGER2020/TABBLOCK20/tl_2020_39_tabblock20.zip"
   )
