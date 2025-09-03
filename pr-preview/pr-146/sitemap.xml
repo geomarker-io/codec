@@ -1,0 +1,25 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>http://geomarker.io/codec/404.html</loc></url>
+<url><loc>http://geomarker.io/codec/LICENSE.html</loc></url>
+<url><loc>http://geomarker.io/codec/articles/data.html</loc></url>
+<url><loc>http://geomarker.io/codec/articles/harmonization.html</loc></url>
+<url><loc>http://geomarker.io/codec/articles/index.html</loc></url>
+<url><loc>http://geomarker.io/codec/authors.html</loc></url>
+<url><loc>http://geomarker.io/codec/index.html</loc></url>
+<url><loc>http://geomarker.io/codec/reference/as_codec_tbl.html</loc></url>
+<url><loc>http://geomarker.io/codec/reference/cincy_addr_geo.html</loc></url>
+<url><loc>http://geomarker.io/codec/reference/cincy_census_geo.html</loc></url>
+<url><loc>http://geomarker.io/codec/reference/cincy_neighborhood_geo.html</loc></url>
+<url><loc>http://geomarker.io/codec/reference/cincy_neighorhood_geo.html</loc></url>
+<url><loc>http://geomarker.io/codec/reference/cincy_zcta_geo.html</loc></url>
+<url><loc>http://geomarker.io/codec/reference/codec-package.html</loc></url>
+<url><loc>http://geomarker.io/codec/reference/codec_as_sf.html</loc></url>
+<url><loc>http://geomarker.io/codec/reference/codec_colors.html</loc></url>
+<url><loc>http://geomarker.io/codec/reference/codec_interpolate.html</loc></url>
+<url><loc>http://geomarker.io/codec/reference/codec_read.html</loc></url>
+<url><loc>http://geomarker.io/codec/reference/index.html</loc></url>
+<url><loc>http://geomarker.io/codec/reference/install_cagis_data.html</loc></url>
+<url><loc>http://geomarker.io/codec/reference/tiger_download.html</loc></url>
+<url><loc>http://geomarker.io/codec/reference/write_codec_pin.html</loc></url>
+</urlset>
+
