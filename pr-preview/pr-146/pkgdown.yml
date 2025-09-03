@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   articles/data: data.html
   articles/harmonization: harmonization.html
-last_built: 2025-09-03T14:59Z
+last_built: 2025-09-03T16:25Z
 urls:
   reference: http://geomarker.io/codec/reference
   article: http://geomarker.io/codec/articles
