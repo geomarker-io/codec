@@ -72,7 +72,7 @@ codec_interpolate <- function(from, to, weights = c("pop", "homes", "area")) {
   from_sf <-
     from |>
     codec_as_sf() |>
-    dplyr::slice_sample(n = 1, by = codec_tract_id_name) |>
+    dplyr::slice_sample(n = 1, by = tidyselect::all_of(codec_tract_id_name)) |>
     dplyr::select(geoid = !!codec_tract_id_name) |>
     sf::st_transform(5072)
   if (
