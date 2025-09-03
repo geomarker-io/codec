@@ -18,7 +18,7 @@ can be used with functions that take a codec_tbl object (see \code{?as_codec_tbl
 See the description metadata for the actual latest years used for each CoDEC table.
 }
 \examples{
-tibble::glimpse(codec_latest_annual)
 glue::glue(attr(codec_latest_annual, "description"))
+tibble::glimpse(codec_latest_annual)
 }
 \keyword{datasets}
