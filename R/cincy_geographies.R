@@ -211,11 +211,18 @@ cincy_zcta_geo <- function(vintage = as.character(2024:2013), packaged = TRUE) {
   vintage <- rlang::arg_match(vintage)
 
   if (vintage == "2020" & packaged) {
-    return(get(
+    out <- get(
       "cincy_zcta_geo_2020",
       asNamespace("codec"),
       inherits = FALSE
-    ))
+    )
+    # older internal data stored the geometry column as `geometry`
+    # ensure a consistent `s2_geography` column and sf class
+    if ("geometry" %in% names(out) && !"s2_geography" %in% names(out)) {
+      out$s2_geography <- sf::st_as_s2(sf::st_geometry(out))
+      out <- sf::st_drop_geometry(out)
+    }
+    return(sf::st_as_sf(out, sf_column_name = "s2_geography"))
   }
   is_vintage_old <- vintage %in% as.character(2013:2019)
   tiger_url <- glue::glue(
@@ -242,7 +249,7 @@ cincy_zcta_geo <- function(vintage = as.character(2024:2013), packaged = TRUE) {
   names(out) <- gsub("[0-9]", "", tolower(names(out)))
   out$s2_geography <- sf::st_as_s2(out$geometry)
   out <- sf::st_drop_geometry(out)
-  out <- sf::st_as_sf(out)
+  out <- sf::st_as_sf(out, sf_column_name = "s2_geography")
   return(out)
 }
 
