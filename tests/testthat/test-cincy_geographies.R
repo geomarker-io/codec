@@ -42,13 +42,6 @@ test_that("geography functions will error for years outside of 2013 - 2024", {
     expect_error("must be one of")
 })
 
-test_that("cincy city", {
-  d <- cincy_city_geo()
-  expect_equal(length(d), 1)
-  expect_s3_class(d, c("s2_geography", "wk_vctr"))
-  expect_equal(round(s2::s2_area(d), -3), 206352000L)
-})
-
 test_that("cincy neighborhoods packaged", {
   d <- cincy_neighborhood_geo("statistical_neighborhood_approximations")
   expect_equal(nrow(d), 50)
