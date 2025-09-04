@@ -26,7 +26,7 @@ navbar:
       href: articles/harmonization.html
     explore:
       text: Explore
-      href: https://grapph.shinyapps.io/codec_shiny
+      href: https://cole-brokamp-codec-shiny.share.connect.posit.cloud/
       target: _blank
     data:
       text: Data
