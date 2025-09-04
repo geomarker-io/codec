@@ -116,7 +116,9 @@ install_cagis_data <- function(
 #' cincy_addr_geo()
 cincy_addr_geo <- function(packaged = TRUE) {
   if (packaged) {
-    return(get("cincy_addr_geo_2025", asNamespace("codec"), inherits = FALSE))
+    out <- get("cincy_addr_geo_2025", asNamespace("codec"), inherits = FALSE) |>
+      sf::st_as_sf(sf_column_name = "s2_geography")
+    return(out)
   }
   install_cagis_data() |>
     sf::st_read(layer = "Addresses") |>
@@ -135,7 +137,7 @@ cincy_addr_geo <- function(packaged = TRUE) {
       cagis_is_condo = CONDOFLG %in% c("Y")
     ) |>
     dplyr::mutate(s2_geography = s2::s2_cell_to_lnglat(cagis_s2)) |>
-    sf::st_as_sf()
+    sf::st_as_sf(sf_column_name = "s2_geography")
 }
 
 #' Cincy neighborhood geographies
@@ -175,7 +177,7 @@ cincy_neighborhood_geo <- function(
     geoid = sf::st_drop_geometry(d)[, noi],
     s2_geography = sf::st_as_s2(sf::st_cast(sf::st_zm(d$SHAPE), "MULTIPOLYGON"))
   ) |>
-    sf::st_as_sf()
+    sf::st_as_sf(sf_column_name = "s2_geography")
   return(out)
 }
 
