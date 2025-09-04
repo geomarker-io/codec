@@ -70,8 +70,26 @@ and data tables using 2020 tract identifiers use the TIGER/Line 2020 tract shape
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">codec_as_sf</span><span class="op">(</span><span class="fu"><a href="codec_read.html">codec_read</a></span><span class="op">(</span><span class="st">"property_code_enforcements"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in as_tibble(x, .name_repair = "minimal"):</span> All columns in a tibble must be vectors.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Column `s2_geography` is a `sfc_MULTIPOLYGON/sfc` object.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 2034 features and 3 fields</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: MULTIPOLYGON</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -84.8203 ymin: 39.02153 xmax: -84.25633 ymax: 39.31206</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2,034 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    census_tract_id_2020                s2_geography  year n_property_code_enfo…¹</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;MULTIPOLYGON [°]&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 39061005200          (((-84.44284 39.14481, -84…  <span style="text-decoration: underline;">2</span>017                     64</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 39061005200          (((-84.44284 39.14481, -84…  <span style="text-decoration: underline;">2</span>018                     71</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 39061005200          (((-84.44284 39.14481, -84…  <span style="text-decoration: underline;">2</span>019                     71</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 39061005200          (((-84.44284 39.14481, -84…  <span style="text-decoration: underline;">2</span>020                     54</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 39061005200          (((-84.44284 39.14481, -84…  <span style="text-decoration: underline;">2</span>021                     60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 39061005200          (((-84.44284 39.14481, -84…  <span style="text-decoration: underline;">2</span>022                     83</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 39061005200          (((-84.44284 39.14481, -84…  <span style="text-decoration: underline;">2</span>023                    413</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 39061005200          (((-84.44284 39.14481, -84…  <span style="text-decoration: underline;">2</span>024                     87</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 39061005200          (((-84.44284 39.14481, -84…  <span style="text-decoration: underline;">2</span>025                      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 39061026200          (((-84.82018 39.12086, -84…  <span style="text-decoration: underline;">2</span>017                      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 2,024 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ abbreviated name: ¹​n_property_code_enforcements</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
