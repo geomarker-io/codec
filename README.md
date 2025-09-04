@@ -25,3 +25,14 @@ install.packages("codec", repos = c("https://geomarker-io.r-universe.dev", "http
 ### Usage
 
 See https://geomarker.io/codec/reference/index.html for reference pages on included functions.
+
+### Codebase overview for developers
+
+{codec} is a regular R package, so most functionality lives under `R/` and is documented in `man/` and on the pkgdown site. A few other directories are useful when getting up to speed:
+
+- `inst/codec_catalog/` contains a Shiny app that lists available data packages and allows downloads.
+- `inst/codec_data/` holds scripts that fetch outside datasets and convert them into CoDEC-compliant packages.
+- `tests/testthat/` includes unit tests for geography helpers and interpolation utilities.
+- `justfile` defines recipes to build the pkgdown site, release data packages, and export the catalog.
+
+Reviewing these components is a good way to learn how new CoDEC datasets or features fit into the package.
