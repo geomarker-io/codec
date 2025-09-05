@@ -22,9 +22,10 @@ The geodatabase contains many
 updated quarterly. (Historical geodatabases are not available here.)
 }
 \examples{
-options(timeout = max(2500, getOption("timeout")), download.file.method = "libcurl")
+\dontrun{
 install_cagis_data()
 sf::st_layers(install_cagis_data())$name
+}
 }
 \seealso{
 This function is called by \code{cincy_neighborhood_geo()}, \code{cincy_city_geo()}

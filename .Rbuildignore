@@ -11,3 +11,5 @@
 index.md
 justfile
 ^vignettes/articles$
+^assets$
+^data-raw$

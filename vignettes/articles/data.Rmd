@@ -1,21 +1,89 @@
 ---
 title: "Data"
+output:
+  html_document:
+    toc: true
+    toc_depth: 1
+    toc_float: true
 ---
 
-Several publicly available and community-maintained data sources have been adapted to integrate with the CoDEC specifications and are stored online in public repositories.
-Click the latest release badge for more information about the data package, including its source code and metadata.
+```{css}
+#| echo: false
+h2 {
+  background: #396175;
+  color: #ffffff;
+  padding: 16px 16px;
+  border-radius: 0.5rem;
+}
 
-| | |
-|:-----:|:----|
-| Parcel Characteristics |[![latest github release for parcel dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=parcel-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=parcel&expanded=false)|
-| Property Code Enforcements |[![latest github release for property code enforcements dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=property_code_enforcements-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=property_code_enforcements&expanded=false)|
-| Crime |[![latest github release for xx_address dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=xx_address-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=xx_address&expanded=false)|
-| Average Drive Time to Cincinnati Children's |[![latest github release for drivetime dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=drivetime-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/CODECtools/releases?q=drivetime&expanded=false)|
-| Environmental Justice Index |[![latest github release for environmental_justice_index dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=environmental_justice_index-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=environmental_justice_index&expanded=false)|
-| Landcover, Built Environment, and Greenness |[![latest github release for landcover dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=landcover-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=landcover&expanded=false)|
-| American Community Survey Measures |[![latest github release for acs_measures dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=acs_measures-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=acs_measures&expanded=false)|
-| Average Annual Daily Truck and Total Traffic Counts |[![latest github release for traffic dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=traffic-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=traffic&expanded=false)|
-| Voter Participation Rates |[![latest github release for voter_participation dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=voter_participation-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=voter_participation_rates&expanded=false)|
-| Green |[![latest github release for green dpkg](https://img.shields.io/github/v/release/geomarker-io/codec?sort=date&filter=green-*&display_name=tag&label=%5B%E2%98%B0%5D&labelColor=%238CB4C3&color=%23396175)](https://github.com/geomarker-io/codec/releases?q=green&expanded=false)|
+#dl-btn {
+  background-color: #c28273;
+  color: #ffffff;
+  padding: 8px 8px;
+  border-radius: 0.25rem;
+  display: inline-block;
+}
+```
 
-Retrieve these by name and version in R (see `?get_codec_dpkg`) or use the interactive <a href="codec_catalog_site/index.html" target="_blank" rel="noopener noreferrer"> CoDEC data catalog </a> to browse and download excel files.
+```{r}
+#| echo: false
+#| output: false
+#| message: false
+devtools::load_all()
+codec_tbls <- pins::pin_list(codec_board_local_dev())
+```
+
+```{r}
+#| echo: false
+download_btn <- function(b64, filename, mime = "text/csv") {
+  sprintf(
+    '<a id="dl-btn" download="%s" href="data:%s;base64,%s">Download csv ⬇️ </a>',
+    filename,
+    mime,
+    b64
+  )
+}
+csv_b64 <- function(x) {
+  csv_con <- rawConnection(raw(), open = "wb")
+  write.csv(x, csv_con, row.names = FALSE)
+  csv_raw <- rawConnectionValue(csv_con)
+  close(csv_con)
+  csv_b64 <- base64enc::base64encode(csv_raw)
+}
+```
+
+Community-level data are available as **CoDEC tables** (see `as_codec_tbl()`) included with the [codec](https://github.com/geomarker-io/codec) package for R (see `codec_read()`).
+
+```{r}
+#| echo: false
+#| results: asis
+for (nm in codec_tbls) {
+  df <- codec_read(nm, codec_board_local_dev())
+  cat(attr(df, "description"), "\n\n")
+
+  cat(glue::glue("## Metadata\n\n"))
+  cat("<details>")
+  cat(glue::glue("<summary>This CoDEC table has { format(nrow(df), big.mark = ',') } rows and { ncol(df) } columns</summary>"))
+  cat("\n\n")
+  tibble::tibble(`column name` = names(df),
+		 class = sapply(df, class),
+		 example = sapply(df, \(x) sample(na.omit(x), 1))) |>
+    knitr::kable(format = "pipe") |>
+    as.character() |>
+    paste(collapse = "\n") |>
+    cat("\n\n")
+    cat("</details>")
+    cat("\n\n\n\n")
+
+  cat(glue::glue("## Download\n\n"))
+  cat("\n\n")
+  cat(glue::glue("In R:\n\n ```\ncodec::codec_read(\"{ nm }\")\n\n```\n\n\n\n"))
+  cat("Manually:\n\n")
+  cat(download_btn(csv_b64(df), glue::glue("codec_v{packageVersion('codec')}-{nm}.csv")))
+  cat("\n\n")
+  cat("\n\n")
+  cat("&nbsp;\n\n")
+  cat("&nbsp;\n\n")
+}
+```
+

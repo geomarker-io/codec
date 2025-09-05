@@ -1,6 +1,6 @@
 Package: codec
 Title: Community Data Explorer for Cincinnati
-Version: 2.5.0
+Version: 3.0.0
 Authors@R: c(
     person("Cole", "Brokamp",
            email = "cole.brokamp@gmail.com",
@@ -17,23 +17,26 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Suggests: 
     testthat (>= 3.0.0),
+    devtools,
     roxygen2,
     rmarkdown,
-    dplyr,
-    tibble,
-    s2
+    dpkg,
+    knitr
 Config/testthat/edition: 3
-URL: https://github.com/geomarker-io/codec,
-    http://geomarker.io/codec/
+URL: https://geomarker.io/codec
 BugReports: https://github.com/geomarker-io/codec/issues
 Imports: 
     rlang,
     tidyselect,
     stringr,
     glue,
-    dpkg,
+    here,
+    pins,
+    tibble,
     sf,
-    withr
+    dplyr,
+    withr,
+    s2
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5)
 LazyData: true

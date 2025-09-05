@@ -4,10 +4,13 @@
 \alias{cincy_zcta_geo}
 \title{Cincy ZIP Code Tabulation Areas}
 \usage{
-cincy_zcta_geo(vintage = as.character(2024:2013))
+cincy_zcta_geo(vintage = as.character(2024:2013), packaged = TRUE)
 }
 \arguments{
 \item{vintage}{a character vector of a year corresponding to the vintage of TIGER/Line data}
+
+\item{packaged}{logical; use the data included with the package instead of (down)loading
+from the source data?}
 }
 \value{
 a simple features object with a geographic identifier column (\code{geoid})
@@ -20,6 +23,5 @@ geographies from the online Census
 files into R
 }
 \examples{
-cincy_zcta_geo()
-cincy_zcta_geo("2018")
+cincy_zcta_geo("2020")
 }

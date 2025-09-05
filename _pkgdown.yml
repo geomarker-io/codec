@@ -1,0 +1,54 @@
+url: http://geomarker.io/codec
+template:
+  bootstrap: 5
+  bslib:
+    bg: "#ffffff"
+    fg: "#396175"
+    primary: "#c28273"
+    info: "#c28273"
+    warning: "#c28273"
+    grid-gutter-width: "0.0rem"
+    border-radius: 0.5rem
+    btn-border-radius: 0.25rem
+    code_font: { google: "Source Code Pro" }
+navbar:
+  structure:
+    left: [about, harmonization, data, explore, reference]
+  components:
+    reference:
+      text: R Package
+      href: reference/index.html
+    about:
+      text: About
+      href: index.html
+    harmonization:
+      text: Harmonization
+      href: articles/harmonization.html
+    explore:
+      text: Explore
+      href: https://cole-brokamp-codec-shiny.share.connect.posit.cloud/
+      target: _blank
+    data:
+      text: Data
+      href: articles/data.html
+
+reference:
+  - title: CoDEC data
+    contents:
+      - codec_read
+      - as_codec_tbl
+      - codec_board
+      - codec_interpolate
+      - codec_as_sf
+      - codec_latest_annual
+  - title: cincy geographies
+    contents:
+      - cincy_census_geo
+      - cincy_neighborhood_geo
+      - cincy_city_geo
+      - install_cagis_data
+      - cincy_zcta_geo
+      - cincy_addr_geo
+  - title: CoDEC developer tools
+    contents:
+      - codec_colors

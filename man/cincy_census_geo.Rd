@@ -2,20 +2,21 @@
 % Please edit documentation in R/cincy_geographies.R
 \name{cincy_census_geo}
 \alias{cincy_census_geo}
-\alias{cincy_county_geo}
 \title{Cincy census tracts and block groups}
 \usage{
 cincy_census_geo(
   geography = c("tract", "bg"),
-  vintage = as.character(2024:2013)
+  vintage = as.character(2024:2013),
+  packaged = TRUE
 )
-
-cincy_county_geo(vintage = as.character(2024:2013))
 }
 \arguments{
 \item{geography}{which type of cincy census geography to return}
 
 \item{vintage}{a character vector of a year corresponding to the vintage of TIGER/Line data}
+
+\item{packaged}{logical; use the data included with the package instead of (down)loading
+from the source data?}
 }
 \value{
 a simple features object with a geographic identifier column (\code{geoid})
@@ -31,7 +32,6 @@ Compressed shapefiles are downloaded from TIGER into an R user data directory an
 for use across other R sessions (see \code{?dpkg::stow} for more details).
 }
 \examples{
-cincy_census_geo("tract", "2024")
+cincy_census_geo("tract", "2020")
 cincy_census_geo("bg", "2020")
-cincy_county_geo("2024")
 }

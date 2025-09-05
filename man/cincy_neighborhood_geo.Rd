@@ -5,11 +5,15 @@
 \title{Cincy neighborhood geographies}
 \usage{
 cincy_neighborhood_geo(
-  geography = c("statistical_neighborhood_approximations", "community_council")
+  geography = c("statistical_neighborhood_approximations", "community_council"),
+  packaged = TRUE
 )
 }
 \arguments{
 \item{geography}{which type of cincy neighborhood geography to return}
+
+\item{packaged}{logical; use the data included with the package instead of (down)loading
+from the source data?}
 }
 \value{
 a simple features object with a geographic identifier column (\code{geoid})
@@ -22,6 +26,5 @@ By default, the statistical neighborhood approximations are instead returned,
 which are calculated by aggregating census tracts into 50 matching neighborhoods.
 }
 \examples{
-cincy_neighborhood_geo("statistical_neighborhood_approximations")
-cincy_neighborhood_geo("community_council")
+cincy_neighborhood_geo()
 }

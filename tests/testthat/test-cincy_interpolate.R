@@ -1,12 +1,11 @@
 test_that("codec_as_sf", {
-  d <- codec_as_sf(get_codec_dpkg("acs_measures-v0.1.0"))
+  d <- codec_as_sf(codec_read("acs_measures"))
   expect_s3_class(d, c("sf", "tbl_df"))
   expect_s3_class(d$s2_geography, "sfc")
-  expect_true("geoid" %in% names(d))
+  expect_true("census_tract_id_2020" %in% names(d))
 })
 
 test_that("cincy_block_weights", {
-  skip_on_ci()
   d <- cincy_block_weights()
   expect_s3_class(d, c("sf", "tbl_df"))
   expect_s3_class(d$s2_geography, "sfc")
@@ -14,26 +13,39 @@ test_that("cincy_block_weights", {
 })
 
 test_that("codec_interpolate", {
-  skip_on_ci()
-
-  codec_interpolate(get_codec_dpkg("acs_measures-v0.1.0"), to = cincy_zcta_geo("2020"), weights = "pop") |>
+  codec_interpolate(
+    codec_read("acs_measures"),
+    to = cincy_zcta_geo("2020"),
+    weights = "pop"
+  ) |>
     expect_s3_class("tbl_df") |>
     nrow() |>
     expect_equal(54L)
 
-  codec_interpolate(get_codec_dpkg("acs_measures-v0.1.0"), to = cincy_neighborhood_geo(), weights = "homes") |>
+  codec_interpolate(
+    codec_read("acs_measures"),
+    to = cincy_neighborhood_geo(),
+    weights = "homes"
+  ) |>
     expect_s3_class("tbl_df") |>
     nrow() |>
     expect_equal(51L)
 
-  codec_interpolate(get_codec_dpkg("acs_measures-v0.1.0"), to = cincy_census_geo("bg", "2020"), weights = "area") |>
+  codec_interpolate(
+    codec_read("acs_measures"),
+    to = cincy_census_geo("bg", "2020"),
+    weights = "area"
+  ) |>
     expect_s3_class("tbl_df") |>
     nrow() |>
     expect_equal(678L)
 
-  codec_interpolate(get_codec_dpkg("acs_measures-v0.1.0"), to = cincy_census_geo("tract", "2019"), weights = "area") |>
+  codec_interpolate(
+    codec_read("acs_measures"),
+    to = cincy_census_geo("tract", "2019"),
+    weights = "area"
+  ) |>
     expect_s3_class("tbl_df") |>
     nrow() |>
     expect_equal(222L)
-
 })
