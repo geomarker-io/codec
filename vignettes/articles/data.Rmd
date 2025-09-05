@@ -15,6 +15,14 @@ h2 {
   padding: 16px 16px;
   border-radius: 0.5rem;
 }
+
+#dl-btn {
+  background-color: #c28273;
+  color: #ffffff;
+  padding: 8px 8px;
+  border-radius: 0.25rem;
+  display: inline-block;
+}
 ```
 
 ```{r}
@@ -25,6 +33,25 @@ devtools::load_all()
 codec_tbls <- pins::pin_list(codec_board_local_dev())
 ```
 
+```{r}
+#| echo: false
+download_btn <- function(b64, filename, mime = "text/csv") {
+  sprintf(
+    '<a id="dl-btn" download="%s" href="data:%s;base64,%s">Download csv ⬇️ </a>',
+    filename,
+    mime,
+    b64
+  )
+}
+csv_b64 <- function(x) {
+  csv_con <- rawConnection(raw(), open = "wb")
+  write.csv(x, csv_con, row.names = FALSE)
+  csv_raw <- rawConnectionValue(csv_con)
+  close(csv_con)
+  csv_b64 <- base64enc::base64encode(csv_raw)
+}
+```
+
 Community-level data are available as **CoDEC tables** (see `as_codec_tbl()`) included with the [codec](https://github.com/geomarker-io/codec) package for R (see `codec_read()`).
 
 ```{r}
@@ -33,7 +60,11 @@ Community-level data are available as **CoDEC tables** (see `as_codec_tbl()`) in
 for (nm in codec_tbls) {
   df <- codec_read(nm, codec_board_local_dev())
   cat(attr(df, "description"), "\n\n")
-  cat(glue::glue("\n\n## `{ nm }`\n\n This CoDEC table has { format(nrow(df), big.mark = ',') } rows and { ncol(df) } columns:\n\n\n\n"))
+
+  cat(glue::glue("## Metadata\n\n"))
+  cat("<details>")
+  cat(glue::glue("<summary>This CoDEC table has { format(nrow(df), big.mark = ',') } rows and { ncol(df) } columns</summary>"))
+  cat("\n\n")
   tibble::tibble(`column name` = names(df),
 		 class = sapply(df, class),
 		 example = sapply(df, \(x) sample(na.omit(x), 1))) |>
@@ -41,6 +72,18 @@ for (nm in codec_tbls) {
     as.character() |>
     paste(collapse = "\n") |>
     cat("\n\n")
+    cat("</details>")
+    cat("\n\n\n\n")
+
+  cat(glue::glue("## Download\n\n"))
+  cat("\n\n")
+  cat(glue::glue("In R:\n\n ```\ncodec::codec_read(\"{ nm }\")\n\n```\n\n\n\n"))
+  cat("Manually:\n\n")
+  cat(download_btn(csv_b64(df), glue::glue("codec_v{packageVersion('codec')}-{nm}.csv")))
+  cat("\n\n")
+  cat("\n\n")
+  cat("&nbsp;\n\n")
+  cat("&nbsp;\n\n")
 }
 ```
 
