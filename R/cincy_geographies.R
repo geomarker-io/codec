@@ -102,18 +102,20 @@ install_cagis_data <- function(
 #' Cincy address geographies
 #'
 #' CAGIS data (see `install_cagis_data()`) provides a list of all addresses in Hamilton County.
-#' Addresses are filtered for the following criteria:
-#' - use only addresses that have `STATUS` of `ASSIGNED`, `USING`, or `REGISTERED` and are not orphaned (`ORPHANFLG == "N"`)
-#' - omit addresses with `ADDRTYPE`s that are milemarkers (`MM`), parks (`PAR`), infrastructure projects (`PRJ`),
-#'   cell towers (`CTW`), vacant or commercial lots (`LOT`), and other miscellaneous non-residential addresses (`MIS`, `RR`, `TBA`)
-#' - s2 cell is derived from LONGITUDE and LATITUDE fields in CAGIS address database
+#' The s2 cell is derived from LONGITUDE and LATITUDE fields in CAGIS address database.
+#' @details
+#' This function previously excluded addresses with type milemarker (`MM`), park (`PAR`),
+#' infrastructure project (`PRJ`), cell tower (`CTW`), vacant or commercial lot (`LOT`),
+#' and other miscellaneous non-residential addresses (`MIS`, `RR`, `TBA`).
+#' Now that they are included, see the examples for how to filter these out.
 #' @param packaged logical; use the data included with the package instead of (down)loading
 #' from the source data?
-#' @returns a simple features object with columns `cagis_address`, `cagis_address_place`, `cagis_address_type`,
+#' @return a simple features object with columns `cagis_address`, `cagis_address_place`, `cagis_address_type`,
 #' `cagis_s2`, `cagis_parcel_id`, `cagis_is_condo`, and a geometry column (`s2_geography`)
 #' @export
 #' @examples
-#' cincy_addr_geo()
+#' cincy_addr_geo() |>
+#'   dplyr::filter(!cagis_address_type %in% c("MM", "PAR", "PRJ", "CTW", "LOT", "MIS", "RR", "TBA"))
 cincy_addr_geo <- function(packaged = TRUE) {
   if (packaged) {
     out <- get("cincy_addr_geo_2025", asNamespace("codec"), inherits = FALSE) |>
@@ -123,18 +125,16 @@ cincy_addr_geo <- function(packaged = TRUE) {
   install_cagis_data() |>
     sf::st_read(layer = "Addresses") |>
     tibble::as_tibble() |>
-    dplyr::filter(STATUS %in% c("ASSIGNED", "USING", "REGISTERED")) |>
-    dplyr::filter(ORPHANFLG == "N") |>
-    dplyr::filter(
-      !ADDRTYPE %in% c("MM", "PAR", "PRJ", "CTW", "LOT", "MIS", "RR", "TBA")
-    ) |>
-    dplyr::transmute(
+    dplyr::mutate(
       cagis_address = FULLMAILADR,
+      cagis_address_status = STATUS,
+      cagis_orphan_flag = ORPHANFLG,
       cagis_address_place = BLDGPLACE,
       cagis_address_type = ADDRTYPE,
       cagis_s2 = s2::as_s2_cell(s2::s2_geog_point(LONGITUDE, LATITUDE)),
       cagis_parcel_id = PARCELID,
-      cagis_is_condo = CONDOFLG %in% c("Y")
+      cagis_is_condo = CONDOFLG %in% c("Y"),
+      .keep = "none"
     ) |>
     dplyr::mutate(s2_geography = s2::s2_cell_to_lnglat(cagis_s2)) |>
     sf::st_as_sf(sf_column_name = "s2_geography")
