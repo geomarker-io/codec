@@ -16,14 +16,15 @@ a simple features object with columns \code{cagis_address}, \code{cagis_address_
 }
 \description{
 CAGIS data (see \code{install_cagis_data()}) provides a list of all addresses in Hamilton County.
-Addresses are filtered for the following criteria:
-\itemize{
-\item use only addresses that have \code{STATUS} of \code{ASSIGNED}, \code{USING}, or \code{REGISTERED} and are not orphaned (\code{ORPHANFLG == "N"})
-\item omit addresses with \code{ADDRTYPE}s that are milemarkers (\code{MM}), parks (\code{PAR}), infrastructure projects (\code{PRJ}),
-cell towers (\code{CTW}), vacant or commercial lots (\code{LOT}), and other miscellaneous non-residential addresses (\code{MIS}, \code{RR}, \code{TBA})
-\item s2 cell is derived from LONGITUDE and LATITUDE fields in CAGIS address database
+The s2 cell is derived from LONGITUDE and LATITUDE fields in CAGIS address database.
 }
+\details{
+This function previously excluded addresses with type milemarker (\code{MM}), park (\code{PAR}),
+infrastructure project (\code{PRJ}), cell tower (\code{CTW}), vacant or commercial lot (\code{LOT}),
+and other miscellaneous non-residential addresses (\code{MIS}, \code{RR}, \code{TBA}).
+Now that they are included, see the examples for how to filter these out.
 }
 \examples{
-cincy_addr_geo()
+cincy_addr_geo() |>
+  dplyr::filter(!cagis_address_type \%in\% c("MM", "PAR", "PRJ", "CTW", "LOT", "MIS", "RR", "TBA"))
 }
