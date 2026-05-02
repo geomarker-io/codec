@@ -16,6 +16,8 @@ codec_colors <- function(n = NULL) {
     "orange" = "#E49865",
     "red" = "#C28273"
   )
-  if (!is.null(n)) return(codec_col[n])
+  if (!is.null(n)) {
+    return(codec_col[n])
+  }
   return(codec_col)
 }

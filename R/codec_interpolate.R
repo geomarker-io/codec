@@ -65,8 +65,9 @@ get_codec_tract_id_name <- function(x) {
 #' codec_interpolate(codec_read("property_code_enforcements"),
 #'                   cincy_census_geo("tract", "2019"))
 codec_interpolate <- function(from, to, weights = c("pop", "homes", "area")) {
-  if (!inherits(from, "codec_tbl"))
+  if (!inherits(from, "codec_tbl")) {
     rlang::abort("from must be a CoDEC data table")
+  }
   codec_tract_id_name <- get_codec_tract_id_name(from)
   weights <- rlang::arg_match(weights)
   from_sf <-

@@ -13,8 +13,9 @@ get_acs_5yr_data <- function(
   county = "061",
   year = "2023"
 ) {
-  if (Sys.getenv("CENSUS_API_KEY") == "")
+  if (Sys.getenv("CENSUS_API_KEY") == "") {
     stop("set CENSUS_API_KEY enviroment variable")
+  }
   cli::cli_alert_info(glue::glue(
     "getting {paste(acs_variables, collapse = ', ')}; defined as:"
   ))

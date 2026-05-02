@@ -30,7 +30,9 @@
 #'     "# Number of Things\n Number of things were averaged by census tract using the survey from 2024"
 #'   )
 as_codec_tbl <- function(x, name, description = character()) {
-  if (inherits(x, "codec_tbl")) return(x)
+  if (inherits(x, "codec_tbl")) {
+    return(x)
+  }
   codec_check_census_tract_id(x)
   codec_check_date(x)
   name <- codec_check_label(name, "name", required = TRUE)
