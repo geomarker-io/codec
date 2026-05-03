@@ -12,7 +12,7 @@ codec_explorer_base_url <- function() {
     return(env_url)
   }
 
-  "https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud"
+  "https://019defb5-c409-5cd4-dfe9-7930f5ce4fe3.share.connect.posit.cloud/"
 }
 
 codec_explorer_defaults <- function() {

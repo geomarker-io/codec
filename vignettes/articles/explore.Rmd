@@ -1,0 +1,113 @@
+---
+title: "Explore"
+output:
+  html_document:
+    toc: false
+---
+
+```{css}
+#| echo: false
+body.template-article .container.main-container {
+  max-width: 100%;
+  width: 100%;
+  padding-left: clamp(0.35rem, 1vw, 0.9rem);
+  padding-right: clamp(0.35rem, 1vw, 0.9rem);
+}
+
+body.template-article main {
+  max-width: none;
+}
+
+body.template-article .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+body.template-article main > .row > [class*="col-"] {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+body.template-article .page-header {
+  margin-bottom: 0.75rem;
+}
+
+.quarto-title-block,
+.article-meta {
+  display: none;
+}
+
+.explore-shell {
+  width: 100%;
+}
+
+.explore-lede {
+  max-width: none;
+  margin: 0 0 0.9rem 0;
+  font-size: 1rem;
+}
+
+.explore-link {
+  color: #396175;
+  font-weight: 600;
+}
+
+.explore-frame {
+  display: block;
+  width: 100%;
+  height: calc(100vh - 11rem);
+  min-height: 820px;
+  border: 1px solid rgba(57, 97, 117, 0.18);
+  border-radius: 0.5rem;
+  background: #ffffff;
+  box-shadow: 0 18px 50px rgba(57, 97, 117, 0.08);
+}
+
+@media (max-width: 991.98px) {
+  .explore-frame {
+    height: calc(100vh - 12rem);
+    min-height: 760px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  body.template-article .container.main-container {
+    padding-left: 0.35rem;
+    padding-right: 0.35rem;
+  }
+
+  .explore-lede {
+    font-size: 0.95rem;
+  }
+
+  .explore-frame {
+    height: calc(100vh - 10.5rem);
+    min-height: 680px;
+    border-radius: 0.35rem;
+  }
+}
+```
+
+```{r}
+#| echo: false
+#| results: asis
+#| message: false
+devtools::load_all()
+explorer_url <- codec:::codec_explorer_url()
+```
+
+<div class="explore-shell">
+<p class="explore-lede">
+The explorer below is embedded from Posit Connect Cloud.
+If it does not load in your browser, open it directly:
+<a class="explore-link" href="`r explorer_url`" target="_blank" rel="noopener noreferrer">launch the full explorer</a>.
+</p>
+
+<iframe
+  class="explore-frame"
+  src="`r explorer_url`"
+  title="CoDEC Explorer"
+  loading="lazy"
+  referrerpolicy="strict-origin-when-cross-origin"
+></iframe>
+</div>
