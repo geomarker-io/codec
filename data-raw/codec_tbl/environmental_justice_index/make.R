@@ -3,20 +3,22 @@ codec_name <- "environmental_justice_index"
 
 library(dplyr, warn.conflicts = FALSE)
 
-
 tf <- tempfile(fileext = ".zip")
-download.file("https://eji.cdc.gov/Documents/Data/2022/DBS/Ohio.zip", tf)
+download.file(
+  "https://eji.cdc.gov/Documents/Data/2024/2024_DBS/EJI_2024_Ohio_GDB.zip",
+  tf
+)
 unzip(tf, exdir = tempdir())
 
 rd <-
-  sf::st_read(fs::path_temp("Ohio.gdb")) |>
+  sf::st_read(fs::path_temp("EJI_2024_Ohio", "EJI_2024_Ohio.gdb")) |>
   tibble::as_tibble()
 
 out <-
   rd |>
   filter(substr(GEOID, 1, 5) == "39061") |>
   select(
-    census_tract_id_2010 = GEOID,
+    census_tract_id_2020 = GEOID,
     prcnt_area_within_1mi_epa_npl_site = E_NPL,
     prcnt_area_within_1mi_epa_tri_site = E_TRI,
     prcnt_area_within_1m_epa_tsd_site = E_TSD,
@@ -32,7 +34,7 @@ out <-
     prcnt_area_huc12_watershed = E_IMPWTR
   )
 
-out$year <- 2022L
+out$year <- 2024L
 
 out |>
   as_codec_tbl(
