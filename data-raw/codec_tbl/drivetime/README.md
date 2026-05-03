@@ -6,4 +6,4 @@ A census tract-level measure of drive time to Cincinnati Children's Hospital Med
 
 ## Data
 
-Each tract-level drive time is an area-weighted average of intersecting 6-minute interval drive time isochrones.
+Each tract-level drive time is an area-weighted average of intersecting 6-minute interval drive time isochrones calculated for the packaged 2020 census tract geographies.
