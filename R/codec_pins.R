@@ -88,25 +88,23 @@ codec_board_remote <- function(
 ) {
   board_paths <- c("inst/board", "assets/data")
   for (board_path in board_paths) {
-    codec_board_url <-
-      glue::glue(
-        "https://raw.githubusercontent.com/",
-        "geomarker-io/codec/{ version }/{ board_path }/"
-      )
-    board <- pins::board_url(
-      as.character(codec_board_url),
-      cache = cache,
-      use_cache_on_failure = use_cache_on_failure,
-      headers = headers
-    )
-    has_manifest <- tryCatch(
+    board <- tryCatch(
       {
-        pins::pin_list(board)
-        TRUE
+        codec_board_url <-
+          glue::glue(
+            "https://raw.githubusercontent.com/",
+            "geomarker-io/codec/{ version }/{ board_path }/"
+          )
+        pins::board_url(
+          as.character(codec_board_url),
+          cache = cache,
+          use_cache_on_failure = use_cache_on_failure,
+          headers = headers
+        )
       },
-      error = function(...) FALSE
+      error = function(...) NULL
     )
-    if (has_manifest) {
+    if (!is.null(board)) {
       return(board)
     }
   }
