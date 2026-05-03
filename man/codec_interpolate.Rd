@@ -9,26 +9,28 @@ codec_interpolate(from, to, weights = c("pop", "homes", "area"))
 \arguments{
 \item{from}{a CoDEC data package}
 
-\item{to}{A simple features object returned by one of the \verb{cincy_*_geo()} functions
-(i.e., \code{cincy_census_geo()}, \code{cincy_neighborhood_geo()}, or cincy_zcta_geo()`)}
+\item{to}{A simple features object returned by one of the
+\verb{cincy_*_geo()} functions (for example \code{cincy_census_geo()},
+\code{cincy_neighborhood_geo()}, or \code{cincy_zcta_geo()})}
 
 \item{weights}{which census block-level weights to use; see details}
 }
 \value{
-a tibble with a new geographic identifier column for the \code{to} target geography (\code{geoid})
-in addition to the (interpolated) columns in \code{from}
+a tibble with a new geographic identifier column for the \code{to}
+target geography (\code{geoid}) in addition to the interpolated columns in \code{from}
 }
 \description{
-Census block-level weights are used to spatially interpolate CoDEC data packages from the census tract-level
-to other Cincy geographies.
+Census block-level weights are used to spatially interpolate CoDEC data
+packages from the census tract-level to other Cincy geographies.
 }
 \details{
-Block-level total population (\code{pop}), total number of homes (\code{homes}), or total land area (\code{area})
-from the 2020 Census can be chosen to use for the weights.
+Block-level total population (\code{pop}), total number of homes (\code{homes}), or
+total land area (\code{area}) from the 2020 Census can be chosen to use for the
+weights.
 Geospatial intersection happens after transforming geographies to epsg:5072.
 See \code{codec_as_sf()} for adding geography to a CoDEC data package.
-Variables beginning with "n_" are interpolated using a weighted sum;
-all other variables are interpolated using a weighted mean.
+Variables beginning with "n_" are interpolated using a weighted sum; all
+other variables are interpolated using a weighted mean.
 }
 \examples{
 codec_interpolate(codec_read("acs_measures"),

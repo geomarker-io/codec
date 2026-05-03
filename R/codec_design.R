@@ -1,5 +1,6 @@
 #' CoDEC colors
-#' @param n a numeric vector of color numbers or character vector of color names; if NULL returns named vector of available colors
+#' @param n a numeric vector of color numbers or character vector of color
+#' names; if NULL returns named vector of available colors
 #' @export
 #' @examples
 #' plot(1:8, rep(1, 8), col = codec_colors(1:8),

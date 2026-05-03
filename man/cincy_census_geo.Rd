@@ -13,23 +13,24 @@ cincy_census_geo(
 \arguments{
 \item{geography}{which type of cincy census geography to return}
 
-\item{vintage}{a character vector of a year corresponding to the vintage of TIGER/Line data}
+\item{vintage}{a character vector of a year corresponding to the
+vintage of TIGER/Line data}
 
-\item{packaged}{logical; use the data included with the package instead of (down)loading
-from the source data?}
+\item{packaged}{logical; use the data included with the package instead
+of (down)loading from the source data?}
 }
 \value{
-a simple features object with a geographic identifier column (\code{geoid})
-and a geometry column (\code{s2_geography})
+a simple features object with a geographic identifier column
+(\code{geoid}) and a geometry column (\code{s2_geography})
 }
 \description{
 Read tract and block group ("bg") geographies from the online Census
-\href{https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html}{TIGER/Line}
-files into R
+TIGER/Line files into R.
 }
 \details{
-Compressed shapefiles are downloaded from TIGER into an R user data directory and will be cached
-for use across other R sessions (see \code{?dpkg::stow} for more details).
+Compressed shapefiles are downloaded from TIGER into an R user data
+directory and will be cached for use across other R sessions (see
+\code{?dpkg::stow} for more details).
 }
 \examples{
 cincy_census_geo("tract", "2020")

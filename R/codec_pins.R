@@ -1,20 +1,21 @@
 #' CoDEC online data catalog
 #'
-#' The CoDEC online data catalog is hosted on GitHub alongside
-#' the source code for this package.
+#' The CoDEC online data catalog is hosted on GitHub alongside the source
+#' code for this package.
 #' - Use `codec_read()` as a shortcut to read a CoDEC table
-#' into R as a codec_tbl object (see `?as_codec_tbl`)
+#'   into R as a `codec_tbl` object (see `?as_codec_tbl`)
 #' - Use `codec_list()` as a shortcut to list available CoDEC table pins
-#' - `codec_board()` can be used to create a pin board
-#' object (see `?pins::pins`) based on a specific version of the codec package
+#' - `codec_board()` can be used to create a pin board object
+#'   (see `?pins::pins`) based on a specific version of the codec package
 #'
 #' The pin for each CoDEC table has versions (see `?pins::pin_versions`),
-#' but `codec_board()` can be used to specify a state of the online data catalog
-#' based on the version of the codec package. (See examples)
+#' but `codec_board()` can be used to specify a state of the online data
+#' catalog based on the version of the codec package. (See examples)
 #' @export
-#' @param name The name of the CoDEC table in the online CoDEC data catalog.
-#' @param board a pins board object; create with `codec_board()` to read from earlier versions of the catalog
-#' or to change the caching behavior of the pins package
+#' @param name the name of the CoDEC table in the online CoDEC data catalog.
+#' @param board a pins board object; create with `codec_board()` to read
+#' from earlier versions of the catalog or to change the caching behavior
+#' of the pins package
 #' @return For `codec_read()`, a codec_tbl object (see `as_codec_tbl()`)
 #' @export
 #' @examples
@@ -27,7 +28,8 @@
 #' attr(d, "title")
 #' message(attr(d, "description"))
 #'
-#' # change the defaults for codec_board() to read from older versions of the board
+#' # change the defaults for `codec_board()` to read from older
+#' # versions of the board
 #' codec_board() |>
 #'   pins::pin_versions("crime")
 #' codec_board("v3.0.0-rc1") |>
@@ -56,8 +58,9 @@ codec_list <- function(board = codec_board()) {
 
 #' @rdname codec_read
 #' @return For `codec_board()`, a pins_board object
-#' @param version specify a version of the online data catalog using a commit SHA, tag, or branch of geomarker-io/codec;
-#' syncs with the version of the installed package by default
+#' @param version specify a version of the online data catalog using a
+#' commit SHA, tag, or branch of geomarker-io/codec; syncs with the version
+#' of the installed package by default
 #' @inheritParams pins::board_url
 #' @export
 codec_board <- function(
@@ -82,7 +85,8 @@ codec_board_local_dev <- function() {
 
 #' Write a CoDEC data table to the local CoDEC board directory
 #'
-#' This function is used by developers creating and updating CoDEC data tables.
+#' This function is used by developers creating and updating CoDEC data
+#' tables.
 #' @param x a codec_tbl object created with as_codec_tbl()
 #' @keywords internal
 write_codec_pin <- function(x) {

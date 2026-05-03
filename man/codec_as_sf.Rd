@@ -14,13 +14,15 @@ a simple features object with a geometry column (\code{s2_geography})
 in addition to the columns in \code{x}
 }
 \description{
-The name of the census tract column in the CoDEC data table is used to add
-the appropriate census tract s2 geography column.
+The name of the census tract column in the CoDEC data table is used to
+add the appropriate census tract s2 geography column.
 }
 \details{
-Tract identifers do not change across decennial censuses, but the digital representation of their boundaries
-may be improved over time.  Here, data tables using 2010 tract identifers use the TIGER/Line 2019 tract shapefiles
-and data tables using 2020 tract identifiers use the TIGER/Line 2020 tract shapefiles
+Tract identifiers do not change across decennial censuses, but
+the digital representation of their boundaries may be improved over time.
+Here, data tables using 2010 tract identifiers use the TIGER/Line 2019
+tract shapefiles and data tables using 2020 tract identifiers use the
+TIGER/Line 2020 tract shapefiles.
 }
 \examples{
 codec_as_sf(codec_read("property_code_enforcements"))

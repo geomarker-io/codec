@@ -1,11 +1,13 @@
 #' Coerce a CoDEC data table into a simple features object
 #'
-#' The name of the census tract column in the CoDEC data table is used to add
-#' the appropriate census tract s2 geography column.
+#' The name of the census tract column in the CoDEC data table is used to
+#' add the appropriate census tract s2 geography column.
 #' @param x a CoDEC data table
-#' @details Tract identifers do not change across decennial censuses, but the digital representation of their boundaries
-#' may be improved over time.  Here, data tables using 2010 tract identifers use the TIGER/Line 2019 tract shapefiles
-#' and data tables using 2020 tract identifiers use the TIGER/Line 2020 tract shapefiles
+#' @details Tract identifiers do not change across decennial censuses, but
+#' the digital representation of their boundaries may be improved over time.
+#' Here, data tables using 2010 tract identifiers use the TIGER/Line 2019
+#' tract shapefiles and data tables using 2020 tract identifiers use the
+#' TIGER/Line 2020 tract shapefiles.
 #' @returns a simple features object with a geometry column (`s2_geography`)
 #' in addition to the columns in `x`
 #' @export
@@ -43,21 +45,23 @@ get_codec_tract_id_name <- function(x) {
 
 #' Spatially interpolate community-level data
 #'
-#' Census block-level weights are used to spatially interpolate CoDEC data packages from the census tract-level
-#' to other Cincy geographies.
+#' Census block-level weights are used to spatially interpolate CoDEC data
+#' packages from the census tract-level to other Cincy geographies.
 #' @param from a CoDEC data package
-#' @param to A simple features object returned by one of the `cincy_*_geo()` functions
-#' (i.e., `cincy_census_geo()`, `cincy_neighborhood_geo()`, or cincy_zcta_geo()`)
+#' @param to A simple features object returned by one of the
+#' `cincy_*_geo()` functions (for example `cincy_census_geo()`,
+#' `cincy_neighborhood_geo()`, or `cincy_zcta_geo()`)
 #' @param weights which census block-level weights to use; see details
-#' @returns a tibble with a new geographic identifier column for the `to` target geography (`geoid`)
-#' in addition to the (interpolated) columns in `from`
+#' @returns a tibble with a new geographic identifier column for the `to`
+#' target geography (`geoid`) in addition to the interpolated columns in `from`
 #' @details
-#' Block-level total population (`pop`), total number of homes (`homes`), or total land area (`area`)
-#' from the 2020 Census can be chosen to use for the weights.
+#' Block-level total population (`pop`), total number of homes (`homes`), or
+#' total land area (`area`) from the 2020 Census can be chosen to use for the
+#' weights.
 #' Geospatial intersection happens after transforming geographies to epsg:5072.
 #' See `codec_as_sf()` for adding geography to a CoDEC data package.
-#' Variables beginning with "n_" are interpolated using a weighted sum;
-#' all other variables are interpolated using a weighted mean.
+#' Variables beginning with "n_" are interpolated using a weighted sum; all
+#' other variables are interpolated using a weighted mean.
 #' @export
 #' @examples
 #' codec_interpolate(codec_read("acs_measures"),

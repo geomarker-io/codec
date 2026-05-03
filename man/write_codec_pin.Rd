@@ -13,6 +13,7 @@ write_codec_pin(x)
 \item{x}{a codec_tbl object created with as_codec_tbl()}
 }
 \description{
-This function is used by developers creating and updating CoDEC data tables.
+This function is used by developers creating and updating CoDEC data
+tables.
 }
 \keyword{internal}

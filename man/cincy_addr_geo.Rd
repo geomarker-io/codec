@@ -7,24 +7,34 @@
 cincy_addr_geo(packaged = TRUE)
 }
 \arguments{
-\item{packaged}{logical; use the data included with the package instead of (down)loading
-from the source data?}
+\item{packaged}{logical; use the data included with the package instead
+of (down)loading from the source data?}
 }
 \value{
-a simple features object with columns \code{cagis_address}, \code{cagis_address_place}, \code{cagis_address_type},
-\code{cagis_s2}, \code{cagis_parcel_id}, \code{cagis_is_condo}, and a geometry column (\code{s2_geography})
+a simple features object with columns \code{cagis_address},
+\code{cagis_address_place}, \code{cagis_address_type}, \code{cagis_s2},
+\code{cagis_parcel_id}, \code{cagis_is_condo}, and a geometry column
+(\code{s2_geography})
 }
 \description{
-CAGIS data (see \code{install_cagis_data()}) provides a list of all addresses in Hamilton County.
-The s2 cell is derived from LONGITUDE and LATITUDE fields in CAGIS address database.
+CAGIS data (see \code{install_cagis_data()}) provides a list of all addresses
+in Hamilton County.
+The s2 cell is derived from LONGITUDE and LATITUDE fields in the CAGIS
+address database.
 }
 \details{
-This function previously excluded addresses with type milemarker (\code{MM}), park (\code{PAR}),
-infrastructure project (\code{PRJ}), cell tower (\code{CTW}), vacant or commercial lot (\code{LOT}),
-and other miscellaneous non-residential addresses (\code{MIS}, \code{RR}, \code{TBA}).
+This function previously excluded addresses with type milemarker (\code{MM}),
+park (\code{PAR}), infrastructure project (\code{PRJ}), cell tower (\code{CTW}),
+vacant or commercial lot (\code{LOT}), and other miscellaneous non-residential
+addresses (\code{MIS}, \code{RR}, \code{TBA}).
 Now that they are included, see the examples for how to filter these out.
 }
 \examples{
 cincy_addr_geo() |>
-  dplyr::filter(!cagis_address_type \%in\% c("MM", "PAR", "PRJ", "CTW", "LOT", "MIS", "RR", "TBA"))
+  dplyr::filter(
+    !cagis_address_type \%in\% c(
+      "MM", "PAR", "PRJ", "CTW",
+      "LOT", "MIS", "RR", "TBA"
+    )
+  )
 }

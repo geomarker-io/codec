@@ -17,17 +17,18 @@ tiger_download <- function(x) {
 #' Cincy census tracts and block groups
 #'
 #' Read tract and block group ("bg") geographies from the online Census
-#' [TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
-#' files into R
+#' TIGER/Line files into R.
 #' @param geography which type of cincy census geography to return
-#' @param vintage a character vector of a year corresponding to the vintage of TIGER/Line data
-#' @param packaged logical; use the data included with the package instead of (down)loading
-#' from the source data?
+#' @param vintage a character vector of a year corresponding to the
+#' vintage of TIGER/Line data
+#' @param packaged logical; use the data included with the package instead
+#' of (down)loading from the source data?
 #' @details
-#' Compressed shapefiles are downloaded from TIGER into an R user data directory and will be cached
-#' for use across other R sessions (see `?dpkg::stow` for more details).
-#' @returns a simple features object with a geographic identifier column (`geoid`)
-#' and a geometry column (`s2_geography`)
+#' Compressed shapefiles are downloaded from TIGER into an R user data
+#' directory and will be cached for use across other R sessions (see
+#' `?dpkg::stow` for more details).
+#' @returns a simple features object with a geographic identifier column
+#' (`geoid`) and a geometry column (`s2_geography`)
 #' @export
 #' @examples
 #' cincy_census_geo("tract", "2020")
@@ -68,13 +69,13 @@ cincy_census_geo <- function(
 #' This installs the CAGIS Open Data GIS database (`.gdb`) into the data
 #' directory for the codec package. Once downloaded, it will be reused
 #' across R sessions on the same computer.
-#' The geodatabase contains many
-#' [layers](https://www.cagis.org/Opendata/Quarterly_GIS_Data/OpenData_Layer_List.txt) that are
-#' updated quarterly. (Historical geodatabases are not available here.)
-#' @seealso This function is called by `cincy_neighborhood_geo()`, `cincy_city_geo()`
-#' and others that import individual layers.
-#' @param cagis_data_url the url to the CAGIS Open Data .gdb.zip file; this changes quarterly, so
-#' [check](https://www.cagis.org/Opendata/Quarterly_GIS_Data) for something more recent if the file cannot be found
+#' The geodatabase contains many layers that are updated quarterly.
+#' Historical geodatabases are not available here.
+#' @seealso This function is called by `cincy_neighborhood_geo()` and
+#' `cincy_city_geo()`, plus other functions that import individual layers.
+#' @param cagis_data_url the url to the CAGIS Open Data .gdb.zip file; this
+#' changes quarterly, so check the CAGIS Open Data page for something more
+#' recent if the file cannot be found.
 #' @export
 #' @examples
 #' \dontrun{
@@ -101,21 +102,31 @@ install_cagis_data <- function(
 
 #' Cincy address geographies
 #'
-#' CAGIS data (see `install_cagis_data()`) provides a list of all addresses in Hamilton County.
-#' The s2 cell is derived from LONGITUDE and LATITUDE fields in CAGIS address database.
+#' CAGIS data (see `install_cagis_data()`) provides a list of all addresses
+#' in Hamilton County.
+#' The s2 cell is derived from LONGITUDE and LATITUDE fields in the CAGIS
+#' address database.
 #' @details
-#' This function previously excluded addresses with type milemarker (`MM`), park (`PAR`),
-#' infrastructure project (`PRJ`), cell tower (`CTW`), vacant or commercial lot (`LOT`),
-#' and other miscellaneous non-residential addresses (`MIS`, `RR`, `TBA`).
+#' This function previously excluded addresses with type milemarker (`MM`),
+#' park (`PAR`), infrastructure project (`PRJ`), cell tower (`CTW`),
+#' vacant or commercial lot (`LOT`), and other miscellaneous non-residential
+#' addresses (`MIS`, `RR`, `TBA`).
 #' Now that they are included, see the examples for how to filter these out.
-#' @param packaged logical; use the data included with the package instead of (down)loading
-#' from the source data?
-#' @return a simple features object with columns `cagis_address`, `cagis_address_place`, `cagis_address_type`,
-#' `cagis_s2`, `cagis_parcel_id`, `cagis_is_condo`, and a geometry column (`s2_geography`)
+#' @param packaged logical; use the data included with the package instead
+#' of (down)loading from the source data?
+#' @return a simple features object with columns `cagis_address`,
+#' `cagis_address_place`, `cagis_address_type`, `cagis_s2`,
+#' `cagis_parcel_id`, `cagis_is_condo`, and a geometry column
+#' (`s2_geography`)
 #' @export
 #' @examples
 #' cincy_addr_geo() |>
-#'   dplyr::filter(!cagis_address_type %in% c("MM", "PAR", "PRJ", "CTW", "LOT", "MIS", "RR", "TBA"))
+#'   dplyr::filter(
+#'     !cagis_address_type %in% c(
+#'       "MM", "PAR", "PRJ", "CTW",
+#'       "LOT", "MIS", "RR", "TBA"
+#'     )
+#'   )
 cincy_addr_geo <- function(packaged = TRUE) {
   if (packaged) {
     out <- get("cincy_addr_geo_2025", asNamespace("codec"), inherits = FALSE) |>
@@ -142,15 +153,17 @@ cincy_addr_geo <- function(packaged = TRUE) {
 
 #' Cincy neighborhood geographies
 #'
-#' CAGIS data (see `install_cagis_data()`) provides community council boundaries, but these boundaries can
-#' overlap and do not align with census geographies or ZIP codes.
-#' By default, the statistical neighborhood approximations are instead returned,
-#' which are calculated by aggregating census tracts into 50 matching neighborhoods.
+#' CAGIS data (see `install_cagis_data()`) provides community council
+#' boundaries, but these boundaries can overlap and do not align with
+#' census geographies or ZIP codes.
+#' By default, the statistical neighborhood approximations are instead
+#' returned, which are calculated by aggregating census tracts into 50
+#' matching neighborhoods.
 #' @param geography which type of cincy neighborhood geography to return
-#' @param packaged logical; use the data included with the package instead of (down)loading
-#' from the source data?
-#' @returns a simple features object with a geographic identifier column (`geoid`)
-#' and a geometry column (`s2_geography`)
+#' @param packaged logical; use the data included with the package instead
+#' of (down)loading from the source data?
+#' @returns a simple features object with a geographic identifier column
+#' (`geoid`) and a geometry column (`s2_geography`)
 #' @export
 #' @examples
 #' cincy_neighborhood_geo()
@@ -196,17 +209,15 @@ cincy_city_geo <- function() {
 
 #' Cincy ZIP Code Tabulation Areas
 #'
-#' Read [ZIP Code Tabulation Areas
-#' (ZCTAs)](https://www.census.gov/programs-surveys/geography/guidance/geo-areas/zctas.html)
-#' geographies from the online Census
-#' [TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
-#' files into R
-#' @param vintage a character vector of a year corresponding to the vintage of TIGER/Line data
-#' @param packaged logical; use the data included with the package instead of (down)loading
-#' from the source data?
+#' Read ZIP Code Tabulation Areas (ZCTAs) geographies from the online Census
+#' TIGER/Line files into R.
+#' @param vintage a character vector of a year corresponding to the
+#' vintage of TIGER/Line data
+#' @param packaged logical; use the data included with the package instead
+#' of (down)loading from the source data?
 #' @export
-#' @returns a simple features object with a geographic identifier column (`geoid`)
-#' and a geometry column (`s2_geography`)
+#' @returns a simple features object with a geographic identifier column
+#' (`geoid`) and a geometry column (`s2_geography`)
 #' @examples
 #' cincy_zcta_geo("2020")
 cincy_zcta_geo <- function(vintage = as.character(2024:2013), packaged = TRUE) {
