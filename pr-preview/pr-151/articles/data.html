@@ -82,10 +82,26 @@ h2 {
   border-radius: 0.25rem;
   display: inline-block;
 }
+
+#explore-btn {
+  background-color: #396175;
+  color: #ffffff;
+  padding: 8px 10px;
+  border-radius: 0.25rem;
+  display: inline-block;
+  text-decoration: none;
+}
 </style>
 <p>Community-level data are available as <strong>CoDEC tables</strong>
 (see <code><a href="../reference/as_codec_tbl.html">as_codec_tbl()</a></code>) included with the <a href="https://github.com/geomarker-io/codec" class="external-link">codec</a> package for R
 (see <code><a href="../reference/codec_read.html">codec_read()</a></code>).</p>
+<p>The latest annual harmonized view across CoDEC tables is available in
+the interactive explorer:</p>
+<p><a id="explore-btn" href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_poverty&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">Open
+the latest annual explorer</a></p>
+<p>Variable-level metadata below now include direct links into the
+explorer when that field is part of
+<code>codec_latest_annual</code>.</p>
 <div class="section level2">
 <h2 id="american-community-survey-measures">American Community Survey Measures<a class="anchor" aria-label="anchor" href="#american-community-survey-measures"></a>
 </h2>
@@ -143,135 +159,161 @@ by the census bureau.</p>
 This CoDEC table has 226 rows and 24 columns
 </summary><table class="table">
 <colgroup>
-<col width="68%">
-<col width="14%">
-<col width="17%">
+<col width="16%">
+<col width="3%">
+<col width="4%">
+<col width="76%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">column name</th>
 <th align="left">class</th>
 <th align="left">example</th>
+<th align="left">explore</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">n_households</td>
 <td align="left">integer</td>
 <td align="left">1342</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=n_households&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">census_tract_id_2020</td>
 <td align="left">character</td>
 <td align="left">39061022102</td>
+<td align="left"></td>
 </tr>
 <tr class="odd">
 <td align="left">n_households_children</td>
 <td align="left">integer</td>
 <td align="left">363</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=n_households_children&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">n_housing_units</td>
 <td align="left">integer</td>
 <td align="left">2696</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=n_housing_units&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">prop_poverty</td>
 <td align="left">numeric</td>
 <td align="left">0.1272</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_poverty&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">prop_recieved_public_assistance_income</td>
 <td align="left">numeric</td>
 <td align="left">0.1615</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_recieved_public_assistance_income&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">prop_family_households_with_single_householder</td>
 <td align="left">numeric</td>
 <td align="left">0.6432</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_family_households_with_single_householder&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">prop_employment_among_civilian_workforce</td>
 <td align="left">numeric</td>
 <td align="left">0.8091</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_employment_among_civilian_workforce&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">prop_housing_units_occupied_by_renters</td>
 <td align="left">numeric</td>
 <td align="left">0.2789</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_housing_units_occupied_by_renters&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">prop_median_rent_to_income_ratio_among_renters</td>
 <td align="left">numeric</td>
 <td align="left">29</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_median_rent_to_income_ratio_among_renters&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">prop_housing_units_vacant</td>
 <td align="left">numeric</td>
 <td align="left">0.0185</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_housing_units_vacant&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">prop_white_and_not_hispanic_or_latino</td>
 <td align="left">numeric</td>
 <td align="left">0.7164</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_white_and_not_hispanic_or_latino&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">prop_black_and_not_hispanic_or_latino</td>
 <td align="left">numeric</td>
 <td align="left">0.5478</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_black_and_not_hispanic_or_latino&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">prop_white_and_hispanic_or_latino</td>
 <td align="left">numeric</td>
 <td align="left">0</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_white_and_hispanic_or_latino&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">prop_black_and_hispanic_or_latino</td>
 <td align="left">numeric</td>
 <td align="left">0</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_black_and_hispanic_or_latino&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">n_persons_under_18</td>
 <td align="left">integer</td>
 <td align="left">802</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=n_persons_under_18&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">prop_health_insurance</td>
 <td align="left">numeric</td>
 <td align="left">0.8784</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_health_insurance&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">prop_rent_burdened</td>
 <td align="left">numeric</td>
 <td align="left">0.5286</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_rent_burdened&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">prop_housing_conditions</td>
 <td align="left">numeric</td>
 <td align="left">0.2287</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_housing_conditions&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">prop_built_prior_1980</td>
 <td align="left">numeric</td>
 <td align="left">0.3562</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_built_prior_1980&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">prop_limited_english_speaking</td>
 <td align="left">numeric</td>
 <td align="left">0</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_limited_english_speaking&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">prop_adults_hs_edu</td>
 <td align="left">numeric</td>
 <td align="left">0.9824</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_adults_hs_edu&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">year</td>
 <td align="left">integer</td>
 <td align="left">2024</td>
+<td align="left"></td>
 </tr>
 <tr class="even">
 <td align="left">median_home_value</td>
 <td align="left">integer</td>
 <td align="left">166300</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=median_home_value&amp;y=prop_poverty&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 </tbody>
 </table></details>
@@ -339,47 +381,56 @@ This CoDEC table has 21,696 rows and 8 columns
 <th align="left">column name</th>
 <th align="left">class</th>
 <th align="left">example</th>
+<th align="left">explore</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">census_tract_id_2020</td>
 <td align="left">character</td>
 <td align="left">39061020811</td>
+<td align="left"></td>
 </tr>
 <tr class="even">
 <td align="left">year</td>
 <td align="left">integer</td>
 <td align="left">2017</td>
+<td align="left"></td>
 </tr>
 <tr class="odd">
 <td align="left">month</td>
 <td align="left">integer</td>
 <td align="left">7</td>
+<td align="left"></td>
 </tr>
 <tr class="even">
 <td align="left">n_crime_incidents_property</td>
 <td align="left">integer</td>
 <td align="left">7</td>
+<td align="left"></td>
 </tr>
 <tr class="odd">
 <td align="left">n_crime_incidents_violent</td>
 <td align="left">integer</td>
 <td align="left">1</td>
+<td align="left"></td>
 </tr>
 <tr class="even">
 <td align="left">n_crime_incidents_other</td>
 <td align="left">integer</td>
 <td align="left">2</td>
+<td align="left"></td>
 </tr>
 <tr class="odd">
 <td align="left">n_shots_fired</td>
 <td align="left">integer</td>
 <td align="left">10</td>
+<td align="left"></td>
 </tr>
 <tr class="even">
 <td align="left">n_reported_shootings</td>
 <td align="left">integer</td>
 <td align="left">1</td>
+<td align="left"></td>
 </tr>
 </tbody>
 </table></details>
@@ -420,26 +471,36 @@ packaged 2020 census tract geographies.</p>
 <details><summary>
 This CoDEC table has 226 rows and 3 columns
 </summary><table class="table">
+<colgroup>
+<col width="9%">
+<col width="4%">
+<col width="5%">
+<col width="81%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">column name</th>
 <th align="left">class</th>
 <th align="left">example</th>
+<th align="left">explore</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">census_tract_id_2020</td>
 <td align="left">character</td>
 <td align="left">39061026800</td>
+<td align="left"></td>
 </tr>
 <tr class="even">
 <td align="left">drive_time_avg</td>
 <td align="left">numeric</td>
 <td align="left">15.8</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=drive_time_avg&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">year</td>
 <td align="left">integer</td>
 <td align="left">2024</td>
+<td align="left"></td>
 </tr>
 </tbody>
 </table></details>
@@ -498,86 +559,108 @@ geographies and identifiers are used in the EJI data</li>
 <details><summary>
 This CoDEC table has 226 rows and 15 columns
 </summary><table class="table">
+<colgroup>
+<col width="14%">
+<col width="3%">
+<col width="4%">
+<col width="77%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">column name</th>
 <th align="left">class</th>
 <th align="left">example</th>
+<th align="left">explore</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">census_tract_id_2020</td>
 <td align="left">character</td>
 <td align="left">39061026600</td>
+<td align="left"></td>
 </tr>
 <tr class="even">
 <td align="left">prcnt_area_within_1mi_epa_npl_site</td>
 <td align="left">numeric</td>
 <td align="left">0</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1mi_epa_npl_site&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">prcnt_area_within_1mi_epa_tri_site</td>
 <td align="left">numeric</td>
 <td align="left">82.7213</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1mi_epa_tri_site&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">prcnt_area_within_1m_epa_tsd_site</td>
 <td align="left">numeric</td>
 <td align="left">100</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1m_epa_tsd_site&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">prcnt_area_within_1mi_epa_rmp_site</td>
 <td align="left">numeric</td>
 <td align="left">3.1943</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1mi_epa_rmp_site&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">prcnt_area_within_1mi_coal_mine</td>
 <td align="left">integer</td>
 <td align="left">0</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1mi_coal_mine&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">prcnt_area_within_1mi_lead_mine</td>
 <td align="left">integer</td>
 <td align="left">0</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1mi_lead_mine&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">prcnt_area_within_1_mi_greenspace</td>
 <td align="left">numeric</td>
 <td align="left">100</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1_mi_greenspace&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">prcnt_homes_built_before_1980</td>
 <td align="left">numeric</td>
 <td align="left">57.3</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_homes_built_before_1980&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">walkability_index_epa</td>
 <td align="left">numeric</td>
 <td align="left">7.2</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=walkability_index_epa&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">prcnt_area_within_1mi_railroad</td>
 <td align="left">numeric</td>
 <td align="left">100</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1mi_railroad&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">prcnt_area_within_1mi_high_volume_road</td>
 <td align="left">numeric</td>
 <td align="left">0</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1mi_high_volume_road&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">prcnt_area_within_1mi_airport</td>
 <td align="left">numeric</td>
 <td align="left">0</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1mi_airport&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">prcnt_area_huc12_watershed</td>
 <td align="left">numeric</td>
 <td align="left">0.321</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_huc12_watershed&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">year</td>
 <td align="left">integer</td>
 <td align="left">2024</td>
+<td align="left"></td>
 </tr>
 </tbody>
 </table></details>
@@ -620,26 +703,36 @@ GeoTIFF (COG) using <code>gdal_translate</code>.</p>
 <details><summary>
 This CoDEC table has 904 rows and 3 columns
 </summary><table class="table">
+<colgroup>
+<col width="8%">
+<col width="4%">
+<col width="5%">
+<col width="81%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">column name</th>
 <th align="left">class</th>
 <th align="left">example</th>
+<th align="left">explore</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">census_tract_id_2020</td>
 <td align="left">character</td>
 <td align="left">39061004603</td>
+<td align="left"></td>
 </tr>
 <tr class="even">
 <td align="left">year</td>
 <td align="left">integer</td>
 <td align="left">2022</td>
+<td align="left"></td>
 </tr>
 <tr class="odd">
 <td align="left">mean_pct_impervious</td>
 <td align="left">numeric</td>
 <td align="left">63.0404</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=mean_pct_impervious&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 </tbody>
 </table></details>
@@ -706,96 +799,120 @@ about their sources.</p>
 <details><summary>
 This CoDEC table has 222 rows and 17 columns
 </summary><table class="table">
+<colgroup>
+<col width="13%">
+<col width="3%">
+<col width="4%">
+<col width="77%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">column name</th>
 <th align="left">class</th>
 <th align="left">example</th>
+<th align="left">explore</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">census_tract_id_2010</td>
 <td align="left">character</td>
 <td align="left">39061024001</td>
+<td align="left"></td>
 </tr>
 <tr class="even">
 <td align="left">fraction_apartment</td>
 <td align="left">numeric</td>
 <td align="left">0.01</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=fraction_apartment&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">fraction_assisted_housing</td>
 <td align="left">numeric</td>
 <td align="left">0.03</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=fraction_assisted_housing&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">market_total_value</td>
 <td align="left">integer</td>
 <td align="left">67380</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=market_total_value&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">acreage</td>
 <td align="left">numeric</td>
 <td align="left">0.117</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=acreage&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">year_built</td>
 <td align="left">numeric</td>
 <td align="left">1890</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=year_built&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">n_total_rooms</td>
 <td align="left">integer</td>
 <td align="left">6</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=n_total_rooms&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">n_bedrooms</td>
 <td align="left">numeric</td>
 <td align="left">3</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=n_bedrooms&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">n_full_bathrooms</td>
 <td align="left">integer</td>
 <td align="left">1</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=n_full_bathrooms&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">n_half_bathrooms</td>
 <td align="left">integer</td>
 <td align="left">0</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=n_half_bathrooms&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">online_market_total_value</td>
 <td align="left">integer</td>
 <td align="left">213245</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=online_market_total_value&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">year</td>
 <td align="left">integer</td>
 <td align="left">2024</td>
+<td align="left"></td>
 </tr>
 <tr class="odd">
 <td align="left">fraction_condominium</td>
 <td align="left">numeric</td>
 <td align="left">0.05</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=fraction_condominium&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">fraction_single_family_dwelling</td>
 <td align="left">numeric</td>
 <td align="left">0.8</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=fraction_single_family_dwelling&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">fraction_two_to_three_family_dwelling</td>
 <td align="left">numeric</td>
 <td align="left">0.06</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=fraction_two_to_three_family_dwelling&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">fraction_homestead</td>
 <td align="left">numeric</td>
 <td align="left">0.2</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=fraction_homestead&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">fraction_other</td>
 <td align="left">numeric</td>
 <td align="left">0</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=fraction_other&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 </tbody>
 </table></details>
@@ -836,26 +953,36 @@ census tract boundaries and totaling them per year (2017 - present).</p>
 <details><summary>
 This CoDEC table has 2,034 rows and 3 columns
 </summary><table class="table">
+<colgroup>
+<col width="11%">
+<col width="3%">
+<col width="4%">
+<col width="79%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">column name</th>
 <th align="left">class</th>
 <th align="left">example</th>
+<th align="left">explore</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">census_tract_id_2020</td>
 <td align="left">character</td>
 <td align="left">39061026800</td>
+<td align="left"></td>
 </tr>
 <tr class="even">
 <td align="left">year</td>
 <td align="left">integer</td>
 <td align="left">2019</td>
+<td align="left"></td>
 </tr>
 <tr class="odd">
 <td align="left">n_property_code_enforcements</td>
 <td align="left">integer</td>
 <td align="left">0</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=n_property_code_enforcements&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 </tbody>
 </table></details>
@@ -907,36 +1034,48 @@ for all intersecting roads, weighted by their intersecting lengths.</p>
 <details><summary>
 This CoDEC table has 226 rows and 5 columns
 </summary><table class="table">
+<colgroup>
+<col width="9%">
+<col width="4%">
+<col width="5%">
+<col width="80%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">column name</th>
 <th align="left">class</th>
 <th align="left">example</th>
+<th align="left">explore</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">census_tract_id_2020</td>
 <td align="left">character</td>
 <td align="left">39061026800</td>
+<td align="left"></td>
 </tr>
 <tr class="even">
 <td align="left">aadtm_trucks_buses</td>
 <td align="left">numeric</td>
 <td align="left">16711617.9611</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=aadtm_trucks_buses&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">aadtm_tractor_trailer</td>
 <td align="left">numeric</td>
 <td align="left">35998046.0958</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=aadtm_tractor_trailer&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="even">
 <td align="left">aadtm_passenger</td>
 <td align="left">numeric</td>
 <td align="left">0</td>
+<td align="left"><a href="https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=aadtm_passenger&amp;y=median_home_value&amp;geography=tract_2020&amp;view=bivariate&amp;focus=map" target="_blank" class="external-link">open</a></td>
 </tr>
 <tr class="odd">
 <td align="left">year</td>
 <td align="left">integer</td>
 <td align="left">2020</td>
+<td align="left"></td>
 </tr>
 </tbody>
 </table></details>

@@ -6,6 +6,15 @@ included with the [codec](https://github.com/geomarker-io/codec) package
 for R (see
 [`codec_read()`](http://geomarker.io/codec/reference/codec_read.md)).
 
+The latest annual harmonized view across CoDEC tables is available in
+the interactive explorer:
+
+[Open the latest annual
+explorer](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_poverty&y=median_home_value&geography=tract_2020&view=bivariate&focus=map)
+
+Variable-level metadata below now include direct links into the explorer
+when that field is part of `codec_latest_annual`.
+
 ## American Community Survey Measures
 
 ### About
@@ -47,32 +56,32 @@ by the census bureau.
 
 This CoDEC table has 226 rows and 24 columns
 
-| column name                                    | class     | example     |
-|:-----------------------------------------------|:----------|:------------|
-| n_households                                   | integer   | 1342        |
-| census_tract_id_2020                           | character | 39061022102 |
-| n_households_children                          | integer   | 363         |
-| n_housing_units                                | integer   | 2696        |
-| prop_poverty                                   | numeric   | 0.1272      |
-| prop_recieved_public_assistance_income         | numeric   | 0.1615      |
-| prop_family_households_with_single_householder | numeric   | 0.6432      |
-| prop_employment_among_civilian_workforce       | numeric   | 0.8091      |
-| prop_housing_units_occupied_by_renters         | numeric   | 0.2789      |
-| prop_median_rent_to_income_ratio_among_renters | numeric   | 29          |
-| prop_housing_units_vacant                      | numeric   | 0.0185      |
-| prop_white_and_not_hispanic_or_latino          | numeric   | 0.7164      |
-| prop_black_and_not_hispanic_or_latino          | numeric   | 0.5478      |
-| prop_white_and_hispanic_or_latino              | numeric   | 0           |
-| prop_black_and_hispanic_or_latino              | numeric   | 0           |
-| n_persons_under_18                             | integer   | 802         |
-| prop_health_insurance                          | numeric   | 0.8784      |
-| prop_rent_burdened                             | numeric   | 0.5286      |
-| prop_housing_conditions                        | numeric   | 0.2287      |
-| prop_built_prior_1980                          | numeric   | 0.3562      |
-| prop_limited_english_speaking                  | numeric   | 0           |
-| prop_adults_hs_edu                             | numeric   | 0.9824      |
-| year                                           | integer   | 2024        |
-| median_home_value                              | integer   | 166300      |
+| column name | class | example | explore |
+|:---|:---|:---|:---|
+| n_households | integer | 1342 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=n_households&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| census_tract_id_2020 | character | 39061022102 |  |
+| n_households_children | integer | 363 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=n_households_children&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| n_housing_units | integer | 2696 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=n_housing_units&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prop_poverty | numeric | 0.1272 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_poverty&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prop_recieved_public_assistance_income | numeric | 0.1615 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_recieved_public_assistance_income&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prop_family_households_with_single_householder | numeric | 0.6432 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_family_households_with_single_householder&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prop_employment_among_civilian_workforce | numeric | 0.8091 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_employment_among_civilian_workforce&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prop_housing_units_occupied_by_renters | numeric | 0.2789 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_housing_units_occupied_by_renters&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prop_median_rent_to_income_ratio_among_renters | numeric | 29 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_median_rent_to_income_ratio_among_renters&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prop_housing_units_vacant | numeric | 0.0185 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_housing_units_vacant&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prop_white_and_not_hispanic_or_latino | numeric | 0.7164 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_white_and_not_hispanic_or_latino&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prop_black_and_not_hispanic_or_latino | numeric | 0.5478 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_black_and_not_hispanic_or_latino&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prop_white_and_hispanic_or_latino | numeric | 0 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_white_and_hispanic_or_latino&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prop_black_and_hispanic_or_latino | numeric | 0 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_black_and_hispanic_or_latino&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| n_persons_under_18 | integer | 802 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=n_persons_under_18&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prop_health_insurance | numeric | 0.8784 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_health_insurance&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prop_rent_burdened | numeric | 0.5286 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_rent_burdened&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prop_housing_conditions | numeric | 0.2287 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_housing_conditions&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prop_built_prior_1980 | numeric | 0.3562 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_built_prior_1980&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prop_limited_english_speaking | numeric | 0 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_limited_english_speaking&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prop_adults_hs_edu | numeric | 0.9824 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prop_adults_hs_edu&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| year | integer | 2024 |  |
+| median_home_value | integer | 166300 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=median_home_value&y=prop_poverty&geography=tract_2020&view=bivariate&focus=map) |
 
 ### Download
 
@@ -131,16 +140,16 @@ measured the month before and after in the same year. More specifically:
 
 This CoDEC table has 21,696 rows and 8 columns
 
-| column name                | class     | example     |
-|:---------------------------|:----------|:------------|
-| census_tract_id_2020       | character | 39061020811 |
-| year                       | integer   | 2017        |
-| month                      | integer   | 7           |
-| n_crime_incidents_property | integer   | 7           |
-| n_crime_incidents_violent  | integer   | 1           |
-| n_crime_incidents_other    | integer   | 2           |
-| n_shots_fired              | integer   | 10          |
-| n_reported_shootings       | integer   | 1           |
+| column name                | class     | example     | explore |
+|:---------------------------|:----------|:------------|:--------|
+| census_tract_id_2020       | character | 39061020811 |         |
+| year                       | integer   | 2017        |         |
+| month                      | integer   | 7           |         |
+| n_crime_incidents_property | integer   | 7           |         |
+| n_crime_incidents_violent  | integer   | 1           |         |
+| n_crime_incidents_other    | integer   | 2           |         |
+| n_shots_fired              | integer   | 10          |         |
+| n_reported_shootings       | integer   | 1           |         |
 
 ### Download
 
@@ -177,11 +186,11 @@ census tract geographies.
 
 This CoDEC table has 226 rows and 3 columns
 
-| column name          | class     | example     |
-|:---------------------|:----------|:------------|
-| census_tract_id_2020 | character | 39061026800 |
-| drive_time_avg       | numeric   | 15.8        |
-| year                 | integer   | 2024        |
+| column name | class | example | explore |
+|:---|:---|:---|:---|
+| census_tract_id_2020 | character | 39061026800 |  |
+| drive_time_avg | numeric | 15.8 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=drive_time_avg&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| year | integer | 2024 |  |
 
 ### Download
 
@@ -234,23 +243,23 @@ actually older. Find the full documentation of the EJI in PDF form here:
 
 This CoDEC table has 226 rows and 15 columns
 
-| column name                            | class     | example     |
-|:---------------------------------------|:----------|:------------|
-| census_tract_id_2020                   | character | 39061026600 |
-| prcnt_area_within_1mi_epa_npl_site     | numeric   | 0           |
-| prcnt_area_within_1mi_epa_tri_site     | numeric   | 82.7213     |
-| prcnt_area_within_1m_epa_tsd_site      | numeric   | 100         |
-| prcnt_area_within_1mi_epa_rmp_site     | numeric   | 3.1943      |
-| prcnt_area_within_1mi_coal_mine        | integer   | 0           |
-| prcnt_area_within_1mi_lead_mine        | integer   | 0           |
-| prcnt_area_within_1_mi_greenspace      | numeric   | 100         |
-| prcnt_homes_built_before_1980          | numeric   | 57.3        |
-| walkability_index_epa                  | numeric   | 7.2         |
-| prcnt_area_within_1mi_railroad         | numeric   | 100         |
-| prcnt_area_within_1mi_high_volume_road | numeric   | 0           |
-| prcnt_area_within_1mi_airport          | numeric   | 0           |
-| prcnt_area_huc12_watershed             | numeric   | 0.321       |
-| year                                   | integer   | 2024        |
+| column name | class | example | explore |
+|:---|:---|:---|:---|
+| census_tract_id_2020 | character | 39061026600 |  |
+| prcnt_area_within_1mi_epa_npl_site | numeric | 0 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1mi_epa_npl_site&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prcnt_area_within_1mi_epa_tri_site | numeric | 82.7213 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1mi_epa_tri_site&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prcnt_area_within_1m_epa_tsd_site | numeric | 100 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1m_epa_tsd_site&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prcnt_area_within_1mi_epa_rmp_site | numeric | 3.1943 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1mi_epa_rmp_site&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prcnt_area_within_1mi_coal_mine | integer | 0 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1mi_coal_mine&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prcnt_area_within_1mi_lead_mine | integer | 0 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1mi_lead_mine&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prcnt_area_within_1_mi_greenspace | numeric | 100 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1_mi_greenspace&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prcnt_homes_built_before_1980 | numeric | 57.3 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_homes_built_before_1980&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| walkability_index_epa | numeric | 7.2 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=walkability_index_epa&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prcnt_area_within_1mi_railroad | numeric | 100 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1mi_railroad&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prcnt_area_within_1mi_high_volume_road | numeric | 0 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1mi_high_volume_road&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prcnt_area_within_1mi_airport | numeric | 0 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_within_1mi_airport&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| prcnt_area_huc12_watershed | numeric | 0.321 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=prcnt_area_huc12_watershed&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| year | integer | 2024 |  |
 
 ### Download
 
@@ -290,11 +299,11 @@ and converted from GeoTIFF to cloud-optimized GeoTIFF (COG) using
 
 This CoDEC table has 904 rows and 3 columns
 
-| column name          | class     | example     |
-|:---------------------|:----------|:------------|
-| census_tract_id_2020 | character | 39061004603 |
-| year                 | integer   | 2022        |
-| mean_pct_impervious  | numeric   | 63.0404     |
+| column name | class | example | explore |
+|:---|:---|:---|:---|
+| census_tract_id_2020 | character | 39061004603 |  |
+| year | integer | 2022 |  |
+| mean_pct_impervious | numeric | 63.0404 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=mean_pct_impervious&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
 
 ### Download
 
@@ -349,25 +358,25 @@ Parcel land use types were grouped into more general categories:
 
 This CoDEC table has 222 rows and 17 columns
 
-| column name                           | class     | example     |
-|:--------------------------------------|:----------|:------------|
-| census_tract_id_2010                  | character | 39061024001 |
-| fraction_apartment                    | numeric   | 0.01        |
-| fraction_assisted_housing             | numeric   | 0.03        |
-| market_total_value                    | integer   | 67380       |
-| acreage                               | numeric   | 0.117       |
-| year_built                            | numeric   | 1890        |
-| n_total_rooms                         | integer   | 6           |
-| n_bedrooms                            | numeric   | 3           |
-| n_full_bathrooms                      | integer   | 1           |
-| n_half_bathrooms                      | integer   | 0           |
-| online_market_total_value             | integer   | 213245      |
-| year                                  | integer   | 2024        |
-| fraction_condominium                  | numeric   | 0.05        |
-| fraction_single_family_dwelling       | numeric   | 0.8         |
-| fraction_two_to_three_family_dwelling | numeric   | 0.06        |
-| fraction_homestead                    | numeric   | 0.2         |
-| fraction_other                        | numeric   | 0           |
+| column name | class | example | explore |
+|:---|:---|:---|:---|
+| census_tract_id_2010 | character | 39061024001 |  |
+| fraction_apartment | numeric | 0.01 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=fraction_apartment&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| fraction_assisted_housing | numeric | 0.03 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=fraction_assisted_housing&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| market_total_value | integer | 67380 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=market_total_value&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| acreage | numeric | 0.117 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=acreage&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| year_built | numeric | 1890 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=year_built&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| n_total_rooms | integer | 6 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=n_total_rooms&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| n_bedrooms | numeric | 3 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=n_bedrooms&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| n_full_bathrooms | integer | 1 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=n_full_bathrooms&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| n_half_bathrooms | integer | 0 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=n_half_bathrooms&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| online_market_total_value | integer | 213245 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=online_market_total_value&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| year | integer | 2024 |  |
+| fraction_condominium | numeric | 0.05 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=fraction_condominium&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| fraction_single_family_dwelling | numeric | 0.8 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=fraction_single_family_dwelling&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| fraction_two_to_three_family_dwelling | numeric | 0.06 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=fraction_two_to_three_family_dwelling&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| fraction_homestead | numeric | 0.2 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=fraction_homestead&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| fraction_other | numeric | 0 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=fraction_other&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
 
 ### Download
 
@@ -404,11 +413,11 @@ boundaries and totaling them per year (2017 - present).
 
 This CoDEC table has 2,034 rows and 3 columns
 
-| column name                  | class     | example     |
-|:-----------------------------|:----------|:------------|
-| census_tract_id_2020         | character | 39061026800 |
-| year                         | integer   | 2019        |
-| n_property_code_enforcements | integer   | 0           |
+| column name | class | example | explore |
+|:---|:---|:---|:---|
+| census_tract_id_2020 | character | 39061026800 |  |
+| year | integer | 2019 |  |
+| n_property_code_enforcements | integer | 0 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=n_property_code_enforcements&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
 
 ### Download
 
@@ -457,13 +466,13 @@ all intersecting roads, weighted by their intersecting lengths.
 
 This CoDEC table has 226 rows and 5 columns
 
-| column name           | class     | example       |
-|:----------------------|:----------|:--------------|
-| census_tract_id_2020  | character | 39061026800   |
-| aadtm_trucks_buses    | numeric   | 16711617.9611 |
-| aadtm_tractor_trailer | numeric   | 35998046.0958 |
-| aadtm_passenger       | numeric   | 0             |
-| year                  | integer   | 2020          |
+| column name | class | example | explore |
+|:---|:---|:---|:---|
+| census_tract_id_2020 | character | 39061026800 |  |
+| aadtm_trucks_buses | numeric | 16711617.9611 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=aadtm_trucks_buses&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| aadtm_tractor_trailer | numeric | 35998046.0958 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=aadtm_tractor_trailer&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| aadtm_passenger | numeric | 0 | [open](https://019d3edf-7a64-545d-7539-fdd676fba3f0.share.connect.posit.cloud?x=aadtm_passenger&y=median_home_value&geography=tract_2020&view=bivariate&focus=map) |
+| year | integer | 2020 |  |
 
 ### Download
 
