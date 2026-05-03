@@ -6,7 +6,13 @@
 \alias{codec_board}
 \title{CoDEC online data catalog}
 \usage{
-codec_read(name, board = codec_board())
+codec_read(
+  name,
+  board = codec_board(),
+  to = NULL,
+  weights = c("pop", "homes", "area"),
+  include_geography = FALSE
+)
 
 codec_list(board = codec_board())
 
@@ -18,13 +24,25 @@ codec_board(
 )
 }
 \arguments{
-\item{name}{The name of the CoDEC table in the online CoDEC data catalog.}
+\item{name}{the name of the CoDEC table in the CoDEC data catalog.}
 
-\item{board}{a pins board object; create with \code{codec_board()} to read from earlier versions of the catalog
-or to change the caching behavior of the pins package}
+\item{board}{a pins board object; create with \code{codec_board()} to read
+from the bundled catalog or earlier versions of the catalog, or to
+change the caching behavior of the pins package}
 
-\item{version}{specify a version of the online data catalog using a commit SHA, tag, or branch of geomarker-io/codec;
-syncs with the version of the installed package by default}
+\item{to}{optional target geography for interpolation; supply the output
+of \code{cincy_census_geo()}, \code{cincy_neighborhood_geo()}, or \code{cincy_zcta_geo()}
+to interpolate the table while reading}
+
+\item{weights}{which census block-level weights to use when \code{to} is
+supplied; passed to \code{codec_interpolate()}}
+
+\item{include_geography}{logical; include the \code{s2_geography} column in
+the result? Defaults to \code{FALSE}}
+
+\item{version}{specify a version of the online data catalog using a
+commit SHA, tag, or branch of geomarker-io/codec; uses the bundled board
+for the installed package version by default}
 
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
@@ -39,27 +57,28 @@ but you'll get clear errors when the code is deployed.}
 authentication). See \code{\link[pins:connect_auth_headers]{connect_auth_headers()}} for Posit Connect support.}
 }
 \value{
-For \code{codec_read()}, a codec_tbl object (see \code{as_codec_tbl()})
+For \code{codec_read()}, a \code{codec_tbl} by default, or an interpolated
+tibble / simple-features tibble when \code{to} or \code{include_geography} is used
 
 For \code{codec_list()}, a character vector CoDEC table names
 
 For \code{codec_board()}, a pins_board object
 }
 \description{
-The CoDEC online data catalog is hosted on GitHub alongside
-the source code for this package.
+The CoDEC data catalog is shipped with the package and older versions
+can be read from GitHub alongside the source code for this package.
 \itemize{
 \item Use \code{codec_read()} as a shortcut to read a CoDEC table
-into R as a codec_tbl object (see \code{?as_codec_tbl})
+into R as a \code{codec_tbl} object (see \code{?as_codec_tbl})
 \item Use \code{codec_list()} as a shortcut to list available CoDEC table pins
-\item \code{codec_board()} can be used to create a pin board
-object (see \code{?pins::pins}) based on a specific version of the codec package
+\item \code{codec_board()} can be used to create a pin board object
+(see \code{?pins::pins}) based on a specific version of the codec package
 }
 }
 \details{
 The pin for each CoDEC table has versions (see \code{?pins::pin_versions}),
-but \code{codec_board()} can be used to specify a state of the online data catalog
-based on the version of the codec package. (See examples)
+but \code{codec_board()} can be used to specify a state of the online data
+catalog based on the version of the codec package. (See examples)
 }
 \examples{
 # list available CoDEC tables
@@ -71,7 +90,11 @@ head(d)
 attr(d, "title")
 message(attr(d, "description"))
 
-# change the defaults for codec_board() to read from older versions of the board
+# interpolate while reading
+codec_read("acs_measures", to = cincy_neighborhood_geo())
+codec_read("acs_measures", include_geography = TRUE)
+
+# inspect the bundled board or read from an older online version
 codec_board() |>
   pins::pin_versions("crime")
 codec_board("v3.0.0-rc1") |>

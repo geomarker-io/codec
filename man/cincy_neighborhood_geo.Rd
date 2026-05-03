@@ -12,18 +12,20 @@ cincy_neighborhood_geo(
 \arguments{
 \item{geography}{which type of cincy neighborhood geography to return}
 
-\item{packaged}{logical; use the data included with the package instead of (down)loading
-from the source data?}
+\item{packaged}{logical; use the data included with the package instead
+of (down)loading from the source data?}
 }
 \value{
-a simple features object with a geographic identifier column (\code{geoid})
-and a geometry column (\code{s2_geography})
+a simple features object with a geographic identifier column
+(\code{geoid}) and a geometry column (\code{s2_geography})
 }
 \description{
-CAGIS data (see \code{install_cagis_data()}) provides community council boundaries, but these boundaries can
-overlap and do not align with census geographies or ZIP codes.
-By default, the statistical neighborhood approximations are instead returned,
-which are calculated by aggregating census tracts into 50 matching neighborhoods.
+CAGIS data (see \code{install_cagis_data()}) provides community council
+boundaries, but these boundaries can overlap and do not align with
+census geographies or ZIP codes.
+By default, the statistical neighborhood approximations are instead
+returned, which are calculated by aggregating census tracts into 50
+matching neighborhoods.
 }
 \examples{
 cincy_neighborhood_geo()

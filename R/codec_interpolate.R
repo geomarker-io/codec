@@ -1,11 +1,13 @@
 #' Coerce a CoDEC data table into a simple features object
 #'
-#' The name of the census tract column in the CoDEC data table is used to add
-#' the appropriate census tract s2 geography column.
+#' The name of the census tract column in the CoDEC data table is used to
+#' add the appropriate census tract s2 geography column.
 #' @param x a CoDEC data table
-#' @details Tract identifers do not change across decennial censuses, but the digital representation of their boundaries
-#' may be improved over time.  Here, data tables using 2010 tract identifers use the TIGER/Line 2019 tract shapefiles
-#' and data tables using 2020 tract identifiers use the TIGER/Line 2020 tract shapefiles
+#' @details Tract identifiers do not change across decennial censuses, but
+#' the digital representation of their boundaries may be improved over time.
+#' Here, data tables using 2010 tract identifiers use the TIGER/Line 2019
+#' tract shapefiles and data tables using 2020 tract identifiers use the
+#' TIGER/Line 2020 tract shapefiles.
 #' @returns a simple features object with a geometry column (`s2_geography`)
 #' in addition to the columns in `x`
 #' @export
@@ -31,33 +33,37 @@ codec_as_sf <- function(x) {
 }
 
 get_codec_tract_id_name <- function(x) {
-  if (!inherits(x, "codec_tbl")) {
-    rlang::abort("x must be a CoDEC data package")
+  codec_tract_id_names <- paste0("census_tract_id", c("_2010", "_2020"))
+  codec_tract_id_name <- codec_tract_id_names[
+    codec_tract_id_names %in% names(x)
+  ]
+  if (length(codec_tract_id_name) != 1) {
+    rlang::abort(
+      "x must contain exactly one census tract id column named `census_tract_id_2010` or `census_tract_id_2020`"
+    )
   }
-  ifelse(
-    any(grepl("census_tract_id_2010", names(x), fixed = TRUE)),
-    "census_tract_id_2010",
-    "census_tract_id_2020"
-  )
+  codec_tract_id_name
 }
 
 #' Spatially interpolate community-level data
 #'
-#' Census block-level weights are used to spatially interpolate CoDEC data packages from the census tract-level
-#' to other Cincy geographies.
+#' Census block-level weights are used to spatially interpolate CoDEC data
+#' packages from the census tract-level to other Cincy geographies.
 #' @param from a CoDEC data package
-#' @param to A simple features object returned by one of the `cincy_*_geo()` functions
-#' (i.e., `cincy_census_geo()`, `cincy_neighborhood_geo()`, or cincy_zcta_geo()`)
+#' @param to A simple features object returned by one of the
+#' `cincy_*_geo()` functions (for example `cincy_census_geo()`,
+#' `cincy_neighborhood_geo()`, or `cincy_zcta_geo()`)
 #' @param weights which census block-level weights to use; see details
-#' @returns a tibble with a new geographic identifier column for the `to` target geography (`geoid`)
-#' in addition to the (interpolated) columns in `from`
+#' @returns a tibble with a new geographic identifier column for the `to`
+#' target geography (`geoid`) in addition to the interpolated columns in `from`
 #' @details
-#' Block-level total population (`pop`), total number of homes (`homes`), or total land area (`area`)
-#' from the 2020 Census can be chosen to use for the weights.
+#' Block-level total population (`pop`), total number of homes (`homes`), or
+#' total land area (`area`) from the 2020 Census can be chosen to use for the
+#' weights.
 #' Geospatial intersection happens after transforming geographies to epsg:5072.
 #' See `codec_as_sf()` for adding geography to a CoDEC data package.
-#' Variables beginning with "n_" are interpolated using a weighted sum;
-#' all other variables are interpolated using a weighted mean.
+#' Variables beginning with "n_" are interpolated using a weighted sum; all
+#' other variables are interpolated using a weighted mean.
 #' @export
 #' @examples
 #' codec_interpolate(codec_read("acs_measures"),
@@ -65,24 +71,15 @@ get_codec_tract_id_name <- function(x) {
 #' codec_interpolate(codec_read("property_code_enforcements"),
 #'                   cincy_census_geo("tract", "2019"))
 codec_interpolate <- function(from, to, weights = c("pop", "homes", "area")) {
-  if (!inherits(from, "codec_tbl"))
-    rlang::abort("from must be a CoDEC data table")
-  codec_tract_id_name <- get_codec_tract_id_name(from)
   weights <- rlang::arg_match(weights)
-  from_sf <-
-    from |>
-    codec_as_sf() |>
-    dplyr::slice_sample(n = 1, by = tidyselect::all_of(codec_tract_id_name)) |>
-    dplyr::select(geoid = !!codec_tract_id_name) |>
-    sf::st_transform(5072)
-  if (
-    !grepl("^cincy_(census|neighborhood|zcta)_geo\\(", deparse(substitute(to)))
-  ) {
-    rlang::abort(
-      "`to` must be supplied via `cincy_census_geo()`, `cincy_neighborhood_geo()`, or `cincy_zcta_geo()`"
-    )
+  if (inherits(from, "codec_tbl")) {
+    from <- codec_as_sf(from)
+  } else if (!inherits(from, "sf")) {
+    rlang::abort("from must be a CoDEC data table or sf object")
   }
-  to_sf <- sf::st_transform(to, 5072)
+
+  from_sf <- codec_interpolate_source_sf(from)
+  to_sf <- codec_interpolate_target_sf(to)
 
   bw <-
     cincy_block_weights() |>
@@ -111,8 +108,10 @@ codec_interpolate <- function(from, to, weights = c("pop", "homes", "area")) {
     suppressWarnings()
 
   out <-
-    from |>
-    dplyr::rename("geoid.1" := {{ codec_tract_id_name }}) |>
+    sf::st_drop_geometry(from) |>
+    dplyr::rename(
+      "geoid.1" := tidyselect::all_of(get_codec_tract_id_name(from))
+    ) |>
     dplyr::left_join(interpolation_weights, by = "geoid.1") |>
     dplyr::group_by(geoid, year, dplyr::across(dplyr::any_of("month"))) |>
     dplyr::summarize(
@@ -132,6 +131,33 @@ codec_interpolate <- function(from, to, weights = c("pop", "homes", "area")) {
     dplyr::ungroup()
 
   return(out)
+}
+
+codec_interpolate_source_sf <- function(from) {
+  codec_tract_id_name <- get_codec_tract_id_name(from)
+  if (!inherits(from, "sf") || !"s2_geography" %in% names(from)) {
+    rlang::abort(
+      "from must be an sf object with an `s2_geography` column, such as the output of `codec_as_sf()`"
+    )
+  }
+  from |>
+    dplyr::slice_sample(n = 1, by = tidyselect::all_of(codec_tract_id_name)) |>
+    dplyr::select(geoid = tidyselect::all_of(codec_tract_id_name)) |>
+    sf::st_transform(5072)
+}
+
+codec_interpolate_target_sf <- function(to) {
+  if (!inherits(to, "sf")) {
+    rlang::abort(
+      "`to` must be an sf object returned by `cincy_census_geo()`, `cincy_neighborhood_geo()`, or `cincy_zcta_geo()`"
+    )
+  }
+  if (!all(c("geoid", "s2_geography") %in% names(to))) {
+    rlang::abort(
+      "`to` must contain `geoid` and `s2_geography` columns, like the output of `cincy_census_geo()`, `cincy_neighborhood_geo()`, or `cincy_zcta_geo()`"
+    )
+  }
+  sf::st_transform(to, 5072)
 }
 
 cincy_block_weights <- function(packaged = TRUE) {

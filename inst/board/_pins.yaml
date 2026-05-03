@@ -3,6 +3,7 @@ acs_measures:
 - acs_measures/20250831T021158Z-8f122/
 - acs_measures/20250831T023115Z-8f122/
 - acs_measures/20250901T032818Z-8f122/
+- acs_measures/20260503T001200Z-62ad0/
 crime:
 - crime/20250829T181659Z-bf502/
 - crime/20250831T023010Z-bf502/
@@ -15,11 +16,13 @@ drivetime:
 - drivetime/20250901T025854Z-69555/
 - drivetime/20250901T033138Z-69555/
 - drivetime/20250902T010120Z-69555/
+- drivetime/20260503T002359Z-31248/
 environmental_justice_index:
 - environmental_justice_index/20250828T021012Z-e4c31/
 - environmental_justice_index/20250831T023444Z-e4c31/
 - environmental_justice_index/20250901T033148Z-e4c31/
 - environmental_justice_index/20250902T010746Z-e4c31/
+- environmental_justice_index/20260503T003413Z-0dc9e/
 landcover:
 - landcover/20250828T024022Z-5a480/
 - landcover/20250831T023527Z-5a480/
@@ -27,6 +30,7 @@ landcover:
 - landcover/20250831T152750Z-97558/
 - landcover/20250901T033154Z-97558/
 - landcover/20250902T010753Z-97558/
+- landcover/20260503T004925Z-b235f/
 parcel:
 - parcel/20250828T024230Z-146a7/
 - parcel/20250831T023639Z-25a36/
@@ -44,3 +48,4 @@ traffic:
 - traffic/20250831T024013Z-32c9c/
 - traffic/20250901T033447Z-32c9c/
 - traffic/20250902T011043Z-32c9c/
+- traffic/20260503T010145Z-32c9c/

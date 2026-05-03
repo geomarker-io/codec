@@ -1,5 +1,6 @@
 #' CoDEC colors
-#' @param n a numeric vector of color numbers or character vector of color names; if NULL returns named vector of available colors
+#' @param n a numeric vector of color numbers or character vector of color
+#' names; if NULL returns named vector of available colors
 #' @export
 #' @examples
 #' plot(1:8, rep(1, 8), col = codec_colors(1:8),
@@ -16,6 +17,8 @@ codec_colors <- function(n = NULL) {
     "orange" = "#E49865",
     "red" = "#C28273"
   )
-  if (!is.null(n)) return(codec_col[n])
+  if (!is.null(n)) {
+    return(codec_col[n])
+  }
   return(codec_col)
 }

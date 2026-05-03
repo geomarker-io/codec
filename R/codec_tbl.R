@@ -1,18 +1,22 @@
 #' Convert a data frame, name, and description into a CoDEC table
 #'
 #' **CoDEC Specifications:**
-#' 1. The data must include a [census tract](https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf)
-#' identifier column (i.e., `census_tract_id_2010`, or `census_tract_id_2020`).
-#' The column must contain 11-digit
-#' [GEOID](https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html)
-#' identifiers for every census tract in Hamilton County, OH.
-#' 2. Data must be structured in a tidy format such that each row is an observation
-#' for a specific census tract at a specific year (and month). This means that the data
-#' includes a year column (`year`), an integer year representing the vintage of the data (e.g. `2021`).
-#' The data can optionally include a month column (`month`), an integer month of the year.
-#' 3. The name must only contain lower case alphanumeric characters, `-`, or `_`
-#' 4. The description should be markdown text and the first line must contain the title of
-#' the CoDEC data table as a level one header (e.g., `# My Community Data`). Titles must be less than 80 characters.
+#' 1. The data must include a census tract identifier column (i.e.,
+#'    `census_tract_id_2010` or `census_tract_id_2020`).
+#'    The column must contain 11-digit GEOID identifiers for every census
+#'    tract in Hamilton County, OH.
+#' 2. Data must be structured in a tidy format such that each row is an
+#'    observation for a specific census tract at a specific year (and month).
+#'    This means that the data includes a year column (`year`), an integer
+#'    year representing the vintage of the data (e.g. `2021`).
+#'    The data can optionally include a month column (`month`), an integer
+#'    month of the year.
+#' 3. The name must only contain lower case alphanumeric characters, `-`,
+#'    or `_`
+#' 4. The description should be markdown text and the first line must
+#'    contain the title of the CoDEC data table as a level one header
+#'    (e.g., `# My Community Data`). Titles must be less than 80
+#'    characters.
 #'
 #' @param x data.frame or tibble meeting CoDEC data specifications above
 #' @param name name of CoDEC table
@@ -27,10 +31,16 @@
 #' ) |>
 #'   as_codec_tbl(
 #'     name = "n_things",
-#'     "# Number of Things\n Number of things were averaged by census tract using the survey from 2024"
+#'     paste0(
+#'       "# Number of Things\n",
+#'       "Number of things were averaged by census tract ",
+#'       "using the survey from 2024"
+#'     )
 #'   )
 as_codec_tbl <- function(x, name, description = character()) {
-  if (inherits(x, "codec_tbl")) return(x)
+  if (inherits(x, "codec_tbl")) {
+    return(x)
+  }
   codec_check_census_tract_id(x)
   codec_check_date(x)
   name <- codec_check_label(name, "name", required = TRUE)

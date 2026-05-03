@@ -7,7 +7,8 @@
 codec_colors(n = NULL)
 }
 \arguments{
-\item{n}{a numeric vector of color numbers or character vector of color names; if NULL returns named vector of available colors}
+\item{n}{a numeric vector of color numbers or character vector of color
+names; if NULL returns named vector of available colors}
 }
 \description{
 CoDEC colors

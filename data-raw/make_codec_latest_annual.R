@@ -2,9 +2,12 @@ devtools::load_all()
 library(dplyr, warn.conflicts = FALSE)
 
 # average values harmonized to 2020 tracts from all months in the latest year
-# if second_latest is true, when the most recent year has less than 12 monthly values, the second latest year will be used instead
+# if second_latest is true, when the most recent year has less than 12 monthly
+# values, the second latest year will be used instead
 codec_harmonize_latest_annual <- function(x, second_latest = FALSE) {
-  if (!inherits(x, "codec_tbl")) rlang::abort("x must be a codec_tbl object")
+  if (!inherits(x, "codec_tbl")) {
+    rlang::abort("x must be a codec_tbl object")
+  }
   x_2020_tract <- codec_interpolate(x, cincy_census_geo("tract", "2020"))
   latest_year <- max(x_2020_tract$year)
   x_latest <-
@@ -48,20 +51,20 @@ codec_harmonize_latest_annual <- function(x, second_latest = FALSE) {
 d <-
   purrr::map(
     pins::pin_list(codec_board_local_dev()),
-    \(x)
+    \(x) {
       codec_harmonize_latest_annual(
         codec_read(x, codec_board_local_dev()),
         second_latest = TRUE
-      ),
+      )
+    },
     .progress = "harmonizing CoDEC tables to latest annual for 2020 tracts"
   )
-
 
 codec_latest_annual <-
   d |>
   purrr::map(~ tibble::as_tibble(select(., -year))) |>
   purrr::reduce(left_join, by = "census_tract_id_2020") |>
-  mutate(year = 2025L) |>
+  mutate(year = 2026L) |>
   as_codec_tbl(
     name = "codec_latest_annual",
     description = glue::glue(

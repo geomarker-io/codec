@@ -19,18 +19,22 @@ a codec_tbl object
 \description{
 \strong{CoDEC Specifications:}
 \enumerate{
-\item The data must include a \href{https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf}{census tract}
-identifier column (i.e., \code{census_tract_id_2010}, or \code{census_tract_id_2020}).
-The column must contain 11-digit
-\href{https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html}{GEOID}
-identifiers for every census tract in Hamilton County, OH.
-\item Data must be structured in a tidy format such that each row is an observation
-for a specific census tract at a specific year (and month). This means that the data
-includes a year column (\code{year}), an integer year representing the vintage of the data (e.g. \code{2021}).
-The data can optionally include a month column (\code{month}), an integer month of the year.
-\item The name must only contain lower case alphanumeric characters, \code{-}, or \verb{_}
-\item The description should be markdown text and the first line must contain the title of
-the CoDEC data table as a level one header (e.g., \verb{# My Community Data}). Titles must be less than 80 characters.
+\item The data must include a census tract identifier column (i.e.,
+\code{census_tract_id_2010} or \code{census_tract_id_2020}).
+The column must contain 11-digit GEOID identifiers for every census
+tract in Hamilton County, OH.
+\item Data must be structured in a tidy format such that each row is an
+observation for a specific census tract at a specific year (and month).
+This means that the data includes a year column (\code{year}), an integer
+year representing the vintage of the data (e.g. \code{2021}).
+The data can optionally include a month column (\code{month}), an integer
+month of the year.
+\item The name must only contain lower case alphanumeric characters, \code{-},
+or \verb{_}
+\item The description should be markdown text and the first line must
+contain the title of the CoDEC data table as a level one header
+(e.g., \verb{# My Community Data}). Titles must be less than 80
+characters.
 }
 }
 \examples{
@@ -41,6 +45,10 @@ tibble::tibble(
 ) |>
   as_codec_tbl(
     name = "n_things",
-    "# Number of Things\n Number of things were averaged by census tract using the survey from 2024"
+    paste0(
+      "# Number of Things\n",
+      "Number of things were averaged by census tract ",
+      "using the survey from 2024"
+    )
   )
 }

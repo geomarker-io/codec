@@ -7,20 +7,19 @@
 cincy_zcta_geo(vintage = as.character(2024:2013), packaged = TRUE)
 }
 \arguments{
-\item{vintage}{a character vector of a year corresponding to the vintage of TIGER/Line data}
+\item{vintage}{a character vector of a year corresponding to the
+vintage of TIGER/Line data}
 
-\item{packaged}{logical; use the data included with the package instead of (down)loading
-from the source data?}
+\item{packaged}{logical; use the data included with the package instead
+of (down)loading from the source data?}
 }
 \value{
-a simple features object with a geographic identifier column (\code{geoid})
-and a geometry column (\code{s2_geography})
+a simple features object with a geographic identifier column
+(\code{geoid}) and a geometry column (\code{s2_geography})
 }
 \description{
-Read \href{https://www.census.gov/programs-surveys/geography/guidance/geo-areas/zctas.html}{ZIP Code Tabulation Areas (ZCTAs)}
-geographies from the online Census
-\href{https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html}{TIGER/Line}
-files into R
+Read ZIP Code Tabulation Areas (ZCTAs) geographies from the online Census
+TIGER/Line files into R.
 }
 \examples{
 cincy_zcta_geo("2020")
