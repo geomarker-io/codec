@@ -23,6 +23,15 @@ h2 {
   border-radius: 0.25rem;
   display: inline-block;
 }
+
+#explore-btn {
+  background-color: #396175;
+  color: #ffffff;
+  padding: 8px 10px;
+  border-radius: 0.25rem;
+  display: inline-block;
+  text-decoration: none;
+}
 ```
 
 ```{r}
@@ -31,6 +40,7 @@ h2 {
 #| message: false
 devtools::load_all()
 codec_tbls <- pins::pin_list(codec_board())
+latest_annual_fields <- codec:::codec_latest_annual_fields()
 ```
 
 ```{r}
@@ -50,9 +60,41 @@ csv_b64 <- function(x) {
   close(csv_con)
   csv_b64 <- base64enc::base64encode(csv_raw)
 }
+example_value <- function(x) {
+  x <- stats::na.omit(x)
+  if (!length(x)) {
+    return(NA_character_)
+  }
+  as.character(sample(x, 1))
+}
+explore_link <- function(field) {
+  if (!(field %in% latest_annual_fields$field)) {
+    return("")
+  }
+  partner <- codec:::codec_explorer_partner_field(field)
+  sprintf(
+    '<a href="%s" target="_blank">open</a>',
+    codec:::codec_explorer_url(x = field, y = partner)
+  )
+}
 ```
 
 Community-level data are available as **CoDEC tables** (see `as_codec_tbl()`) included with the [codec](https://github.com/geomarker-io/codec) package for R (see `codec_read()`).
+
+The latest annual harmonized view across CoDEC tables is available in the interactive explorer:
+
+```{r}
+#| echo: false
+#| results: asis
+cat(
+  sprintf(
+    '<a id="explore-btn" href="%s" target="_blank">Open the latest annual explorer</a>',
+    codec:::codec_explorer_url()
+  )
+)
+```
+
+Variable-level metadata below now include direct links into the explorer when that field is part of `codec_latest_annual`.
 
 ```{r}
 #| echo: false
@@ -65,10 +107,13 @@ for (nm in codec_tbls) {
   cat("<details>")
   cat(glue::glue("<summary>This CoDEC table has { format(nrow(df), big.mark = ',') } rows and { ncol(df) } columns</summary>"))
   cat("\n\n")
-  tibble::tibble(`column name` = names(df),
-		 class = sapply(df, class),
-		 example = sapply(df, \(x) sample(na.omit(x), 1))) |>
-    knitr::kable(format = "pipe") |>
+  tibble::tibble(
+    `column name` = names(df),
+    class = sapply(df, class),
+    example = sapply(df, example_value),
+    explore = sapply(names(df), explore_link)
+  ) |>
+    knitr::kable(format = "pipe", escape = FALSE) |>
     as.character() |>
     paste(collapse = "\n") |>
     cat("\n\n")
