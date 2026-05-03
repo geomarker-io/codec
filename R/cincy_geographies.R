@@ -25,8 +25,7 @@ tiger_download <- function(x) {
 #' of (down)loading from the source data?
 #' @details
 #' Compressed shapefiles are downloaded from TIGER into an R user data
-#' directory and will be cached for use across other R sessions (see
-#' `?dpkg::stow` for more details).
+#' directory and will be cached for use across other R sessions.
 #' @returns a simple features object with a geographic identifier column
 #' (`geoid`) and a geometry column (`s2_geography`)
 #' @export

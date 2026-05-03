@@ -97,6 +97,6 @@ codec_read("acs_measures", include_geography = TRUE)
 # inspect the bundled board or read from an older online version
 codec_board() |>
   pins::pin_versions("crime")
-codec_board("v3.0.0-rc1") |>
+codec_board("v3.0.0") |>
   pins::pin_versions("crime")
 }

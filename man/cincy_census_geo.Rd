@@ -29,8 +29,7 @@ TIGER/Line files into R.
 }
 \details{
 Compressed shapefiles are downloaded from TIGER into an R user data
-directory and will be cached for use across other R sessions (see
-\code{?dpkg::stow} for more details).
+directory and will be cached for use across other R sessions.
 }
 \examples{
 cincy_census_geo("tract", "2020")

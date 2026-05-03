@@ -30,8 +30,7 @@ Suggests:
     rmarkdown,
     dpkg,
     knitr,
-    shiny,
-    writexl
+    shiny
 Config/testthat/edition: 3
 URL: https://geomarker.io/codec
 BugReports: https://github.com/geomarker-io/codec/issues
