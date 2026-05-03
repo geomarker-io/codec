@@ -37,9 +37,7 @@ and a geometry column (`s2_geography`)
 ## Details
 
 Compressed shapefiles are downloaded from TIGER into an R user data
-directory and will be cached for use across other R sessions (see
-[`?dpkg::stow`](http://geomarker.io/codec/reference/stow.md) for more
-details).
+directory and will be cached for use across other R sessions.
 
 ## Examples
 
