@@ -5,7 +5,7 @@
 \alias{codec_latest_annual}
 \title{CoDEC latest annual}
 \format{
-An object of class \code{codec_tbl} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 226 rows and 66 columns.
+An object of class \code{codec_tbl} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 226 rows and 63 columns.
 }
 \usage{
 codec_latest_annual
