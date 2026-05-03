@@ -6,7 +6,13 @@
 \alias{codec_board}
 \title{CoDEC online data catalog}
 \usage{
-codec_read(name, board = codec_board())
+codec_read(
+  name,
+  board = codec_board(),
+  to = NULL,
+  weights = c("pop", "homes", "area"),
+  include_geography = FALSE
+)
 
 codec_list(board = codec_board())
 
@@ -23,6 +29,16 @@ codec_board(
 \item{board}{a pins board object; create with \code{codec_board()} to read
 from the bundled catalog or earlier versions of the catalog, or to
 change the caching behavior of the pins package}
+
+\item{to}{optional target geography for interpolation; supply the output
+of \code{cincy_census_geo()}, \code{cincy_neighborhood_geo()}, or \code{cincy_zcta_geo()}
+to interpolate the table while reading}
+
+\item{weights}{which census block-level weights to use when \code{to} is
+supplied; passed to \code{codec_interpolate()}}
+
+\item{include_geography}{logical; include the \code{s2_geography} column in
+the result? Defaults to \code{FALSE}}
 
 \item{version}{specify a version of the online data catalog using a
 commit SHA, tag, or branch of geomarker-io/codec; uses the bundled board
@@ -41,7 +57,8 @@ but you'll get clear errors when the code is deployed.}
 authentication). See \code{\link[pins:connect_auth_headers]{connect_auth_headers()}} for Posit Connect support.}
 }
 \value{
-For \code{codec_read()}, a codec_tbl object (see \code{as_codec_tbl()})
+For \code{codec_read()}, a \code{codec_tbl} by default, or an interpolated
+tibble / simple-features tibble when \code{to} or \code{include_geography} is used
 
 For \code{codec_list()}, a character vector CoDEC table names
 
@@ -72,6 +89,10 @@ d <- codec_read("traffic")
 head(d)
 attr(d, "title")
 message(attr(d, "description"))
+
+# interpolate while reading
+codec_read("acs_measures", to = cincy_neighborhood_geo())
+codec_read("acs_measures", include_geography = TRUE)
 
 # inspect the bundled board or read from an older online version
 codec_board() |>

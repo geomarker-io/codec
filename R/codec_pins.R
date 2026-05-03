@@ -16,7 +16,15 @@
 #' @param board a pins board object; create with `codec_board()` to read
 #' from the bundled catalog or earlier versions of the catalog, or to
 #' change the caching behavior of the pins package
-#' @return For `codec_read()`, a codec_tbl object (see `as_codec_tbl()`)
+#' @param to optional target geography for interpolation; supply the output
+#' of `cincy_census_geo()`, `cincy_neighborhood_geo()`, or `cincy_zcta_geo()`
+#' to interpolate the table while reading
+#' @param weights which census block-level weights to use when `to` is
+#' supplied; passed to `codec_interpolate()`
+#' @param include_geography logical; include the `s2_geography` column in
+#' the result? Defaults to `FALSE`
+#' @return For `codec_read()`, a `codec_tbl` by default, or an interpolated
+#' tibble / simple-features tibble when `to` or `include_geography` is used
 #' @export
 #' @examples
 #' # list available CoDEC tables
@@ -28,6 +36,10 @@
 #' attr(d, "title")
 #' message(attr(d, "description"))
 #'
+#' # interpolate while reading
+#' codec_read("acs_measures", to = cincy_neighborhood_geo())
+#' codec_read("acs_measures", include_geography = TRUE)
+#'
 #' # inspect the bundled board or read from an older online version
 #' codec_board() |>
 #'   pins::pin_versions("crime")
@@ -35,17 +47,34 @@
 #'   pins::pin_versions("crime")
 codec_read <- function(
   name,
-  board = codec_board()
+  board = codec_board(),
+  to = NULL,
+  weights = c("pop", "homes", "area"),
+  include_geography = FALSE
 ) {
   stopifnot(length(name) == 1, inherits(name, "character"))
   stopifnot(
     inherits(board, "pins_board_url") | inherits(board, "pins_board_folder")
   )
+  stopifnot(is.logical(include_geography), length(include_geography) == 1)
   codec_pins <- pins::pin_list(board)
   stopifnot(name %in% codec_pins)
   d <- pins::pin_read(board, name)
   md <- pins::pin_meta(board, name)
-  as_codec_tbl(d, name = md$name, description = md$description)
+  d <- as_codec_tbl(d, name = md$name, description = md$description)
+
+  if (is.null(to)) {
+    if (isTRUE(include_geography)) {
+      return(codec_as_sf(d))
+    }
+    return(d)
+  }
+
+  out <- codec_interpolate(codec_as_sf(d), to = to, weights = weights)
+  if (isTRUE(include_geography)) {
+    return(dplyr::right_join(to, out, by = "geoid"))
+  }
+  out
 }
 
 #' @rdname codec_read
