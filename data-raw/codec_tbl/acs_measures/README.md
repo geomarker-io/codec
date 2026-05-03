@@ -2,7 +2,7 @@
 
 ## About
 
-Select population, socioeconomic, and housing measures derived from the 2023 5-yr U.S. Census American Community Survey (ACS) and were selected to cover three domains:
+Select population, socioeconomic, and housing measures derived from the 2024 5-yr U.S. Census American Community Survey (ACS) and were selected to cover three domains:
 
 - **Population**: number of kids, number of households (with kids), single-parent households, racial and ethnic composition, limited English speaking households
 - **Socioeconomic**: education, income, poverty, employment, health insurance, public income assistance

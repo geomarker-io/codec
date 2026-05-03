@@ -4,14 +4,14 @@ codec_name <- "acs_measures"
 library(dplyr, warn.conflicts = FALSE)
 
 all_acs5_variables <-
-  dpkg::stow("https://api.census.gov/data/2023/acs/acs5/variables.json") |>
+  dpkg::stow("https://api.census.gov/data/2025/acs/acs5/variables.json") |>
   jsonlite::read_json()
 
 get_acs_5yr_data <- function(
   acs_variables,
   state = "39",
   county = "061",
-  year = "2023"
+  year = "2024"
 ) {
   if (Sys.getenv("CENSUS_API_KEY") == "") {
     stop("set CENSUS_API_KEY enviroment variable")
@@ -235,7 +235,7 @@ out$edu <-
 out_tbl <- purrr::reduce(out, dplyr::left_join, by = "census_tract_id_2020")
 
 out_tbl |>
-  dplyr::mutate(year = 2023L) |>
+  dplyr::mutate(year = 2024L) |>
   as_codec_tbl(
     name = codec_name,
     description = paste(
