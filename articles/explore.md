@@ -1,0 +1,62 @@
+# Explore
+
+The explorer below is embedded from Posit Connect Cloud. If it does not
+load in your browser, open it directly: [launch the full
+explorer](https://019defb5-c409-5cd4-dfe9-7930f5ce4fe3.share.connect.posit.cloud/?x=prop_poverty&y=median_home_value&geography=tract_2020&view=bivariate&focus=map).
+
+Community Data Explorer for Cincinnati
+
+CoDEC Latest Annual Explorer
+
+CoDEC version 3.1.0.9000
+
+Geography
+
+tract 2020 zcta 2020 neighborhood
+statistical_neighborhood_approximations neighborhood community_council
+
+Map view
+
+Bivariate X variable Y variable
+
+Reset
+
+X
+
+Dataset
+
+acs_measures drivetime environmental_justice_index landcover parcel
+property_code_enforcements public_safety traffic
+
+Variable
+
+median_home_value n_households n_households_children n_housing_units
+n_persons_under_18 prop_adults_hs_edu prop_black_and_hispanic_or_latino
+prop_black_and_not_hispanic_or_latino prop_built_prior_1980
+prop_employment_among_civilian_workforce
+prop_family_households_with_single_householder prop_health_insurance
+prop_housing_conditions prop_housing_units_occupied_by_renters
+prop_housing_units_vacant prop_limited_english_speaking
+prop_median_rent_to_income_ratio_among_renters prop_poverty
+prop_recieved_public_assistance_income prop_rent_burdened
+prop_white_and_hispanic_or_latino prop_white_and_not_hispanic_or_latino
+
+Y
+
+Dataset
+
+acs_measures drivetime environmental_justice_index landcover parcel
+property_code_enforcements public_safety traffic
+
+Variable
+
+median_home_value n_households n_households_children n_housing_units
+n_persons_under_18 prop_adults_hs_edu prop_black_and_hispanic_or_latino
+prop_black_and_not_hispanic_or_latino prop_built_prior_1980
+prop_employment_among_civilian_workforce
+prop_family_households_with_single_householder prop_health_insurance
+prop_housing_conditions prop_housing_units_occupied_by_renters
+prop_housing_units_vacant prop_limited_english_speaking
+prop_median_rent_to_income_ratio_among_renters prop_poverty
+prop_recieved_public_assistance_income prop_rent_burdened
+prop_white_and_hispanic_or_latino prop_white_and_not_hispanic_or_latino
