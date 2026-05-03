@@ -18,15 +18,15 @@ codec_board(
 )
 }
 \arguments{
-\item{name}{the name of the CoDEC table in the online CoDEC data catalog.}
+\item{name}{the name of the CoDEC table in the CoDEC data catalog.}
 
 \item{board}{a pins board object; create with \code{codec_board()} to read
-from earlier versions of the catalog or to change the caching behavior
-of the pins package}
+from the bundled catalog or earlier versions of the catalog, or to
+change the caching behavior of the pins package}
 
 \item{version}{specify a version of the online data catalog using a
-commit SHA, tag, or branch of geomarker-io/codec; syncs with the version
-of the installed package by default}
+commit SHA, tag, or branch of geomarker-io/codec; uses the bundled board
+for the installed package version by default}
 
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
@@ -48,8 +48,8 @@ For \code{codec_list()}, a character vector CoDEC table names
 For \code{codec_board()}, a pins_board object
 }
 \description{
-The CoDEC online data catalog is hosted on GitHub alongside the source
-code for this package.
+The CoDEC data catalog is shipped with the package and older versions
+can be read from GitHub alongside the source code for this package.
 \itemize{
 \item Use \code{codec_read()} as a shortcut to read a CoDEC table
 into R as a \code{codec_tbl} object (see \code{?as_codec_tbl})
@@ -73,8 +73,7 @@ head(d)
 attr(d, "title")
 message(attr(d, "description"))
 
-# change the defaults for `codec_board()` to read from older
-# versions of the board
+# inspect the bundled board or read from an older online version
 codec_board() |>
   pins::pin_versions("crime")
 codec_board("v3.0.0-rc1") |>

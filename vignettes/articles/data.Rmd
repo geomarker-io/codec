@@ -30,7 +30,7 @@ h2 {
 #| output: false
 #| message: false
 devtools::load_all()
-codec_tbls <- pins::pin_list(codec_board_local_dev())
+codec_tbls <- pins::pin_list(codec_board())
 ```
 
 ```{r}
@@ -58,7 +58,7 @@ Community-level data are available as **CoDEC tables** (see `as_codec_tbl()`) in
 #| echo: false
 #| results: asis
 for (nm in codec_tbls) {
-  df <- codec_read(nm, codec_board_local_dev())
+  df <- codec_read(nm)
   cat(attr(df, "description"), "\n\n")
 
   cat(glue::glue("## Metadata\n\n"))
@@ -86,4 +86,3 @@ for (nm in codec_tbls) {
   cat("&nbsp;\n\n")
 }
 ```
-

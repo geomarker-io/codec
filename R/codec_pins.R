@@ -1,7 +1,7 @@
 #' CoDEC online data catalog
 #'
-#' The CoDEC online data catalog is hosted on GitHub alongside the source
-#' code for this package.
+#' The CoDEC data catalog is shipped with the package and older versions
+#' can be read from GitHub alongside the source code for this package.
 #' - Use `codec_read()` as a shortcut to read a CoDEC table
 #'   into R as a `codec_tbl` object (see `?as_codec_tbl`)
 #' - Use `codec_list()` as a shortcut to list available CoDEC table pins
@@ -12,10 +12,10 @@
 #' but `codec_board()` can be used to specify a state of the online data
 #' catalog based on the version of the codec package. (See examples)
 #' @export
-#' @param name the name of the CoDEC table in the online CoDEC data catalog.
+#' @param name the name of the CoDEC table in the CoDEC data catalog.
 #' @param board a pins board object; create with `codec_board()` to read
-#' from earlier versions of the catalog or to change the caching behavior
-#' of the pins package
+#' from the bundled catalog or earlier versions of the catalog, or to
+#' change the caching behavior of the pins package
 #' @return For `codec_read()`, a codec_tbl object (see `as_codec_tbl()`)
 #' @export
 #' @examples
@@ -28,8 +28,7 @@
 #' attr(d, "title")
 #' message(attr(d, "description"))
 #'
-#' # change the defaults for `codec_board()` to read from older
-#' # versions of the board
+#' # inspect the bundled board or read from an older online version
 #' codec_board() |>
 #'   pins::pin_versions("crime")
 #' codec_board("v3.0.0-rc1") |>
@@ -59,8 +58,8 @@ codec_list <- function(board = codec_board()) {
 #' @rdname codec_read
 #' @return For `codec_board()`, a pins_board object
 #' @param version specify a version of the online data catalog using a
-#' commit SHA, tag, or branch of geomarker-io/codec; syncs with the version
-#' of the installed package by default
+#' commit SHA, tag, or branch of geomarker-io/codec; uses the bundled board
+#' for the installed package version by default
 #' @inheritParams pins::board_url
 #' @export
 codec_board <- function(
@@ -69,17 +68,70 @@ codec_board <- function(
   use_cache_on_failure = rlang::is_interactive(),
   headers = NULL
 ) {
-  codec_board_url <-
-    glue::glue(
-      "https://raw.githubusercontent.com/",
-      "geomarker-io/codec/{ version }/assets/data/"
+  current_version <- paste0("v", utils::packageVersion("codec"))
+  if (identical(as.character(version), current_version)) {
+    return(codec_board_local())
+  }
+  codec_board_remote(
+    version = version,
+    cache = cache,
+    use_cache_on_failure = use_cache_on_failure,
+    headers = headers
+  )
+}
+
+codec_board_remote <- function(
+  version,
+  cache = NULL,
+  use_cache_on_failure = rlang::is_interactive(),
+  headers = NULL
+) {
+  board_paths <- c("inst/board", "assets/data")
+  for (board_path in board_paths) {
+    codec_board_url <-
+      glue::glue(
+        "https://raw.githubusercontent.com/",
+        "geomarker-io/codec/{ version }/{ board_path }/"
+      )
+    board <- pins::board_url(
+      as.character(codec_board_url),
+      cache = cache,
+      use_cache_on_failure = use_cache_on_failure,
+      headers = headers
     )
-  pins::board_url(as.character(codec_board_url))
+    has_manifest <- tryCatch(
+      {
+        pins::pin_list(board)
+        TRUE
+      },
+      error = function(...) FALSE
+    )
+    if (has_manifest) {
+      return(board)
+    }
+  }
+  rlang::abort(glue::glue(
+    "No CoDEC board found online for version `{version}`."
+  ))
+}
+
+codec_board_local <- function() {
+  installed_path <- system.file("board", package = "codec")
+  if (nzchar(installed_path)) {
+    return(pins::board_folder(installed_path))
+  }
+
+  repo_path <- here::here("inst/board")
+  if (file.exists(file.path(repo_path, "_pins.yaml"))) {
+    return(pins::board_folder(repo_path))
+  }
+
+  rlang::abort("Local CoDEC board not found.")
 }
 
 #' @rdname write_codec_pin
 codec_board_local_dev <- function() {
-  pins::board_folder(here::here("assets/data"))
+  codec_board_local()
 }
 
 
