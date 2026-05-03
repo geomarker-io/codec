@@ -3,7 +3,8 @@
 CAGIS data (see
 [`install_cagis_data()`](http://geomarker.io/codec/reference/install_cagis_data.md))
 provides a list of all addresses in Hamilton County. The s2 cell is
-derived from LONGITUDE and LATITUDE fields in CAGIS address database.
+derived from LONGITUDE and LATITUDE fields in the CAGIS address
+database.
 
 ## Usage
 
@@ -37,7 +38,12 @@ examples for how to filter these out.
 
 ``` r
 cincy_addr_geo() |>
-  dplyr::filter(!cagis_address_type %in% c("MM", "PAR", "PRJ", "CTW", "LOT", "MIS", "RR", "TBA"))
+  dplyr::filter(
+    !cagis_address_type %in% c(
+      "MM", "PAR", "PRJ", "CTW",
+      "LOT", "MIS", "RR", "TBA"
+    )
+  )
 #> Simple feature collection with 328745 features and 8 fields (with 1286 geometries empty)
 #> Geometry type: POINT
 #> Dimension:     XY

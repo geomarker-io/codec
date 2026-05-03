@@ -1,10 +1,7 @@
 # Cincy ZIP Code Tabulation Areas
 
-Read [ZIP Code Tabulation Areas
-(ZCTAs)](https://www.census.gov/programs-surveys/geography/guidance/geo-areas/zctas.html)
-geographies from the online Census
-[TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
-files into R
+Read ZIP Code Tabulation Areas (ZCTAs) geographies from the online
+Census TIGER/Line files into R.
 
 ## Usage
 

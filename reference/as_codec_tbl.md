@@ -2,12 +2,10 @@
 
 **CoDEC Specifications:**
 
-1.  The data must include a [census
-    tract](https://www2.census.gov/geo/pdfs/education/CensusTracts.pdf)
-    identifier column (i.e., `census_tract_id_2010`, or
-    `census_tract_id_2020`). The column must contain 11-digit
-    [GEOID](https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html)
-    identifiers for every census tract in Hamilton County, OH.
+1.  The data must include a census tract identifier column (i.e.,
+    `census_tract_id_2010` or `census_tract_id_2020`). The column must
+    contain 11-digit GEOID identifiers for every census tract in
+    Hamilton County, OH.
 
 2.  Data must be structured in a tidy format such that each row is an
     observation for a specific census tract at a specific year (and
@@ -58,7 +56,11 @@ tibble::tibble(
 ) |>
   as_codec_tbl(
     name = "n_things",
-    "# Number of Things\n Number of things were averaged by census tract using the survey from 2024"
+    paste0(
+      "# Number of Things\n",
+      "Number of things were averaged by census tract ",
+      "using the survey from 2024"
+    )
   )
 #> # A tibble: 226 × 3
 #>    census_tract_id_2020 n_things  year

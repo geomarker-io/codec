@@ -1,10 +1,12 @@
 # About the CoDEC package
 
 The CoDEC data package specifications provide a set of patterns designed
-to make sharing tabular community-level data easier. Examples of this
-type of data include the pediatric hospitalization rate per month per
-census tract, the total number of gunshots per season per neighborhood,
-and the housing code enforcement density per year per ZIP code.
+to make sharing tabular community-level data easier.
+
+Examples of this type of data include the pediatric hospitalization rate
+per month per census tract, the total number of gunshots per season per
+neighborhood, and the housing code enforcement density per year per ZIP
+code.
 
 Data is specified as average values or total counts for census tract
 geographies during a specific year (or year and month). The required

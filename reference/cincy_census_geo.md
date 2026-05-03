@@ -1,8 +1,7 @@
 # Cincy census tracts and block groups
 
 Read tract and block group ("bg") geographies from the online Census
-[TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
-files into R
+TIGER/Line files into R.
 
 ## Usage
 

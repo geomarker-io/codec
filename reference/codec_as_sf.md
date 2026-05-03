@@ -22,11 +22,11 @@ addition to the columns in `x`
 
 ## Details
 
-Tract identifers do not change across decennial censuses, but the
+Tract identifiers do not change across decennial censuses, but the
 digital representation of their boundaries may be improved over time.
-Here, data tables using 2010 tract identifers use the TIGER/Line 2019
+Here, data tables using 2010 tract identifiers use the TIGER/Line 2019
 tract shapefiles and data tables using 2020 tract identifiers use the
-TIGER/Line 2020 tract shapefiles
+TIGER/Line 2020 tract shapefiles.
 
 ## Examples
 
