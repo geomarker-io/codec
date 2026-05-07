@@ -164,7 +164,8 @@ codec_latest_annual_fields <- function() {
       ),
       source_description = dplyr::case_when(
         !is.na(source_description) ~ source_description,
-        source_table == "public_safety" ~ "Crime and shooting measures included in the harmonized annual explorer.",
+        source_table ==
+          "public_safety" ~ "Crime and shooting measures included in the harmonized annual explorer.",
         TRUE ~ "Field included in the harmonized annual explorer but not directly traced to a single source table."
       ),
       choice_label = ifelse(
@@ -238,3 +239,14 @@ codec_explorer_normalize_geography <- function(geography) {
 
   geography
 }
+
+utils::globalVariables(c(
+  "source_table",
+  "source_title",
+  "source_description",
+  "codec_latest_annual",
+  "field",
+  "source_title",
+  "label",
+  "source_table"
+))
