@@ -52,6 +52,13 @@ Additionally, data summaries may be
 [suppressed](https://www.census.gov/programs-surveys/acs/technical-documentation/data-suppression.html)
 by the census bureau.
 
+#### Source Rights and Licenses
+
+ACS estimates are produced by the U.S. Census Bureau. As U.S. federal
+government data, these source data can be redistributed and used to
+create derived CoDEC measures with Census source attribution and the ACS
+release year retained.
+
 ### Metadata
 
 This CoDEC table has 226 rows and 24 columns
@@ -182,6 +189,15 @@ Each tract-level drive time is an area-weighted average of intersecting
 6-minute interval drive time isochrones calculated for the packaged 2020
 census tract geographies.
 
+#### Source Rights and Licenses
+
+Drive-time isochrones are derived from openrouteservice outputs. The
+openrouteservice Terms of Service state that API results are licensed
+under `CC-BY-4.0`. Source terms: [openrouteservice Terms of
+Service](https://openrouteservice.org/terms-of-service/). CoDEC can
+redistribute the derived tract-level measure when attribution to
+openrouteservice/HeiGIT and OpenStreetMap contributors is retained.
+
 ### Metadata
 
 This CoDEC table has 226 rows and 3 columns
@@ -239,6 +255,14 @@ actually older. Find the full documentation of the EJI in PDF form here:
 - Although this is the 2022 release, 2010 vintage census tract
   geographies and identifiers are used in the EJI data
 
+#### Source Rights and Licenses
+
+The Environmental Justice Index is produced by CDC/ATSDR. As a U.S.
+federal government product, the EJI can be redistributed and used to
+create derived CoDEC measures; because the index incorporates several
+federal and third-party source systems, CoDEC retains the EJI release
+year, documentation URL, access date, and source attribution.
+
 ### Metadata
 
 This CoDEC table has 226 rows and 15 columns
@@ -294,6 +318,13 @@ These files were downloaded from the [Annual NLCD Product
 Suite](https://www.usgs.gov/centers/eros/science/annual-nlcd-product-suite)
 and converted from GeoTIFF to cloud-optimized GeoTIFF (COG) using
 `gdal_translate`.
+
+#### Source Rights and Licenses
+
+Annual NLCD products are produced by USGS. As U.S. federal government
+data, NLCD products can be redistributed and used to create derived
+CoDEC measures with USGS credit; CoDEC also preserves the Harvard
+Dataverse DOI, access URL, and access date for the COG mirror used here.
 
 ### Metadata
 
@@ -461,6 +492,13 @@ unit) and 8-13 (combo).
 
 For each 2020 census tract geography, sum the class-specific AADTM for
 all intersecting roads, weighted by their intersecting lengths.
+
+#### Source Rights and Licenses
+
+HPMS data are produced by FHWA / USDOT. As U.S. federal government data,
+HPMS can be redistributed and used to create derived CoDEC measures with
+HPMS source attribution, publication year, access URL, and access date
+retained.
 
 ### Metadata
 
