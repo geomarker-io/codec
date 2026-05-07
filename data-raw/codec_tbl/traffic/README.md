@@ -17,3 +17,8 @@ Only roads with `F_SYSTEM` classification of 1 ("interstate") or 2 ("principal a
 Passenger vehicles (FHWA 1-3) are calculated as the total minus FHWA class 4-7 (single unit) and 8-13 (combo).
 
 For each 2020 census tract geography, sum the class-specific AADTM for all intersecting roads, weighted by their intersecting lengths.
+
+### Source Rights and Licenses
+
+HPMS data are produced by FHWA / USDOT.
+As U.S. federal government data, HPMS can be redistributed and used to create derived CoDEC measures with HPMS source attribution, publication year, access URL, and access date retained.

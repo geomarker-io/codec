@@ -24,3 +24,8 @@ Generally, each of the derived ACS measures are expressed in one of three ways:
 ### Missing Data
 
 Additionally, data summaries may be [suppressed ](https://www.census.gov/programs-surveys/acs/technical-documentation/data-suppression.html) by the census bureau.
+
+### Source Rights and Licenses
+
+ACS estimates are produced by the U.S. Census Bureau.
+As U.S. federal government data, these source data can be redistributed and used to create derived CoDEC measures with Census source attribution and the ACS release year retained.

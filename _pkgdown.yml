@@ -30,7 +30,6 @@ navbar:
     data:
       text: Data
       href: articles/data.html
-
 reference:
   - title: CoDEC data
     contents:

@@ -2,9 +2,9 @@
 
 ## About
 
-Census tract-level measures of crime incidents (including property crimes, violent crimes, other crimes, gunshots, and reported shootings) in Hamilton County, Ohio.
+Census tract-level measures of crime incidents (including property crimes, violent crimes, other crimes, and reported shootings) in the City of Cincinnati (not all of Hamilton County, Ohio).
 
-Tract-level measures are derived from the data packages stored in the [`xx_address` repository](https://github.com/geomarker-io/xx_address), including [`crime_incidents-v0.1.2`](https://github.com/geomarker-io/xx_address/releases/tag/crime_incidents-v0.1.2), [`shotspotter-v0.1.2`](https://github.com/geomarker-io/xx_address/releases/tag/shotspotter-v0.1.2), and [`reported_shootings-v0.1.0`](https://github.com/geomarker-io/xx_address/releases/tag/reported_shootings-v0.1.0). View the metadata for each of these data packages for more information about their sources.
+Tract-level measures are derived from the data packages stored in the [`xx_address` repository](https://github.com/geomarker-io/xx_address), including [`crime_incidents-v0.1.2`](https://github.com/geomarker-io/xx_address/releases/tag/crime_incidents-v0.1.2) and [`reported_shootings-v0.1.0`](https://github.com/geomarker-io/xx_address/releases/tag/reported_shootings-v0.1.0). View the metadata for each of these data packages for more information about their sources.
 
 ## Data
 
@@ -18,3 +18,9 @@ More specifically:
 
 - `crime_incidents` and `reported_shootings` are geographically limited to the City of Cincinnati
 - `shotspotter` is limited to specific time periods for different target neighborhoods
+
+### Source Rights and Licenses
+
+PDI Crime Incidents and CPD Reported Shootings are published through the City of Cincinnati Open Data Portal with `licenseId` of `PUBLIC_DOMAIN` and attribution to the City of Cincinnati.
+Source records: [PDI Crime Incidents](https://data.cincinnati-oh.gov/api/views/k59e-2pvf) and [CPD Reported Shootings](https://data.cincinnati-oh.gov/api/views/sfea-4ksu).
+The source metadata also states that public safety datasets are anonymized and redacted before publication, including skewed latitude/longitude coordinates; CoDEC preserves the source dataset identifiers, access dates, attribution, and redaction disclaimer.

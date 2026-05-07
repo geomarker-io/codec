@@ -7,3 +7,10 @@ A census tract-level measure of drive time to Cincinnati Children's Hospital Med
 ## Data
 
 Each tract-level drive time is an area-weighted average of intersecting 6-minute interval drive time isochrones calculated for the packaged 2020 census tract geographies.
+
+### Source Rights and Licenses
+
+Drive-time isochrones are derived from openrouteservice outputs.
+The openrouteservice Terms of Service state that API results are licensed under `CC-BY-4.0`.
+Source terms: [openrouteservice Terms of Service](https://openrouteservice.org/terms-of-service/).
+CoDEC can redistribute the derived tract-level measure when attribution to openrouteservice/HeiGIT and OpenStreetMap contributors is retained.

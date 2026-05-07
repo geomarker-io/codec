@@ -14,3 +14,8 @@ Find the full documentation of the EJI in PDF form here: https://www.atsdr.cdc.g
 - Data fields representing "estimates" (i.e., not "percentile" or "summed ranks") selected if not available elsewhere (e.g., not American Community Survey estimates)
 - Field names were renamed to be longer and more descriptive
 - Although this is the 2022 release, 2010 vintage census tract geographies and identifiers are used in the EJI data
+
+### Source Rights and Licenses
+
+The Environmental Justice Index is produced by CDC/ATSDR.
+As a U.S. federal government product, the EJI can be redistributed and used to create derived CoDEC measures; because the index incorporates several federal and third-party source systems, CoDEC retains the EJI release year, documentation URL, access date, and source attribution.
