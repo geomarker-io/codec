@@ -130,15 +130,24 @@ codec_latest_annual_fields <- function() {
 
   source_lookup <-
     lapply(codec_list(board), function(name) {
-      table <- codec_read(name, board = board)
+      table <- pins::pin_read(board, name)
+      meta <- pins::pin_meta(board, name)
       tibble::tibble(
         field = setdiff(
           names(table),
           c("census_tract_id_2010", "census_tract_id_2020", "year", "month")
         ),
         source_table = name,
-        source_title = attr(table, "title"),
-        source_description = attr(table, "description")
+        source_title = if (length(meta$title) == 0) {
+          NA_character_
+        } else {
+          meta$title
+        },
+        source_description = if (length(meta$description) == 0) {
+          NA_character_
+        } else {
+          meta$description
+        }
       )
     }) |>
     dplyr::bind_rows() |>
