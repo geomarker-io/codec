@@ -1,0 +1,11 @@
+.git
+.github
+.Rhistory
+.RData
+.Rproj.user
+.DS_Store
+docs
+pkgdown
+data-raw
+tests
+vignettes
