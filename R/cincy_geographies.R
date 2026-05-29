@@ -1,9 +1,9 @@
 #' download tiger files
-#' @param x filename relative to ftp://ftp2.census.gov/geo/tiger/
+#' @param x filename relative to https://www2.census.gov/geo/tiger/
 #' @keywords internal
 tiger_download <- function(x) {
   withr::local_options(timeout = 2500)
-  tiger_url <- paste0("ftp://ftp2.census.gov/geo/tiger/", x)
+  tiger_url <- paste0("https://www2.census.gov/geo/tiger/", x)
   dest <- file.path(tools::R_user_dir("codec", "cache"), x)
   dir.create(dirname(dest), showWarnings = FALSE, recursive = TRUE)
   if (!file.exists(dest)) {
@@ -39,16 +39,16 @@ cincy_census_geo <- function(
 ) {
   geography <- rlang::arg_match(geography)
   vintage <- rlang::arg_match(vintage)
-  tiger_local <- tiger_download(glue::glue(
-    "TIGER{vintage}",
-    "/{toupper(geography)}/tl_{vintage}_39_{geography}.zip"
-  ))
   if (packaged & geography == "tract" & vintage == "2020") {
     return(get("cincy_tract_geo_2020", asNamespace("codec"), inherits = FALSE))
   }
   if (packaged & geography == "bg" & vintage == "2020") {
     return(get("cincy_bg_geo_2020", asNamespace("codec"), inherits = FALSE))
   }
+  tiger_local <- tiger_download(glue::glue(
+    "TIGER{vintage}",
+    "/{toupper(geography)}/tl_{vintage}_39_{geography}.zip"
+  ))
   out <-
     sf::read_sf(
       glue::glue("/vsizip/", tiger_local),

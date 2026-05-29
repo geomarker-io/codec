@@ -28,6 +28,17 @@ test_that("cincy census geo can utilize packaged data", {
   expect_true(is.character(d$geoid))
 })
 
+test_that("packaged census geo does not download source files", {
+  testthat::local_mocked_bindings(
+    tiger_download = function(...) {
+      stop("packaged census geo should not download source files", call. = FALSE)
+    }
+  )
+
+  expect_no_error(cincy_census_geo("tract", "2020", packaged = TRUE))
+  expect_no_error(cincy_census_geo("bg", "2020", packaged = TRUE))
+})
+
 test_that("cincy census geo can downloaded from source", {
   withr::local_envvar(list(R_USER_CACHE_DIR = tempdir()))
   d <- cincy_census_geo("tract", "2020", packaged = FALSE)
