@@ -1,0 +1,53 @@
+%%{init: { "fontFamily": "arial" } }%%
+
+flowchart TD
+
+classDef red fill:#C28273,color:#f6edde,stroke:#333,stroke-width:1px;
+classDef orange fill:#E49865,stroke:#333,stroke-width:1px;
+classDef pink fill:#EACEC5,stroke:#333,stroke-width:1px;
+classDef grey-blue fill:#CBD6D5,stroke:#333,stroke-width:1px;
+classDef light-blue fill:#8CB4C3,stroke:#333,stroke-width:1px;
+classDef darkish-blue fill:#58829C,stroke:#333,stroke-width:1px;
+classDef dark-blue fill:#396175,color:#f6edde,stroke:#333,stroke-width:1px;
+classDef white fill:#f6edde,stroke:#333,stroke-width:1px;
+
+
+subgraph organization-data ["Organizational Data"]
+org[(Community)]:::pink
+healthcare[(Healthcare)]:::pink
+gov[(Government)]:::pink
+end
+class organization-data red
+
+auto[["Automated interpolation"]]:::light-blue
+
+acs[("Built, \n natural, \n& social \nenvironment")]:::orange
+acs --- auto --> d
+
+limited(Sharing 'limited' data):::orange
+healthcare -.- limited -.-> d
+
+support(Data support):::grey-blue
+org -.- support -.-> d
+
+degauss[["Decentralized geocoding \nand spatiotemporal \naggregation tools"]]:::light-blue
+gov --- degauss --> d
+
+
+d[("Harmonized \ndata packages \n& data API")]:::light-blue
+
+d --- data-catalog[["Interactive \n data catalog \n & web app"]]:::light-blue
+d --- r-bindings[["R, python \nbindings"]]:::light-blue
+d -.- c2d2("PowerBI bindings &\n other data catalogs \n(e.g., C2D2 + Denodo)"):::white
+
+subgraph users ["Data Consumers"]
+comm(("Community \nMember")):::grey-blue
+research(("Research \nInvestigator")):::grey-blue
+qi(("Improvement \nAnalyst")):::grey-blue
+end
+class users dark-blue
+
+data-catalog -.-> comm
+c2d2 -.-> qi
+r-bindings -.-> research
+
