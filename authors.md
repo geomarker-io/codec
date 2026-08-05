@@ -11,7 +11,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/geomarker-io/codec/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/geomarker-io/codec/blob/v3.1.0/DESCRIPTION)
 
 Brokamp C, Manning E, Vancil A (2026). *codec: Community Data Explorer
 for Cincinnati*. R package version 3.1.0.9000,
